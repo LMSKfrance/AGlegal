@@ -1,20 +1,26 @@
-/* Figma AG Legal: white bg, bottom border gray-200, 80px horizontal padding */
+/* Figma AG Legal – 1:1 with frames: 8886-12126 (Desktop), 8278-524/590/606 (Tablet/Mobile) */
 .header {
     background: var(--white);
     border-bottom: 0.5px solid var(--header-border-color);
     padding: var(--header-padding-y) 0;
+    min-height: var(--header-height);
+    box-sizing: border-box;
 }
 
+/* Inner container: Figma horizontal padding per breakpoint (80 / 48 / 40 / 24) */
 .container {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    min-height: calc(var(--header-height) - 2 * var(--header-padding-y));
+    padding-left: var(--header-padding-x);
+    padding-right: var(--header-padding-x);
 }
 
 .btn_wrapper {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: var(--header-btn-gap);
 }
 
 /* Header primary CTA: outline AG Blue (Figma Button stroke) */
@@ -22,8 +28,8 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    height: 44px;
-    padding: 0 16px;
+    height: var(--header-btn-height);
+    padding: 0 var(--header-btn-padding-x);
     font-family: var(--font-inter);
     font-weight: 500;
     font-size: 14px;
@@ -47,8 +53,8 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    height: 44px;
-    padding: 0 16px;
+    height: var(--header-btn-height);
+    padding: 0 var(--header-btn-padding-x);
     font-family: var(--font-inter);
     font-weight: 500;
     font-size: 14px;
@@ -68,8 +74,8 @@
 
 .hamburger {
     position: relative;
-    width: 50px;
-    height: 50px;
+    width: var(--header-hamburger-size);
+    height: var(--header-hamburger-size);
     cursor: pointer;
 }
 

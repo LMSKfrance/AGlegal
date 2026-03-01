@@ -5,6 +5,13 @@
     color: var(--ag-blue-800);
 }
 
+/* AG Legal wordmark: scale to fit header/footer (aspect 105×60) */
+.logo_svg {
+    height: 32px;
+    width: auto;
+    display: block;
+}
+
 .divider {
     width: 1px;
     height: 24px;

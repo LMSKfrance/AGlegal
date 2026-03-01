@@ -21,17 +21,20 @@ const Header = () => {
 
         <div className={styles.btn_wrapper}>
           <Link href="/" className={cn(styles.button_outline)} aria-label="Language">
-            EN
+            ქარ
           </Link>
           <Link href="/contact" className={cn(styles.button_secondary)}>
             Contact us
           </Link>
 
-          <div onClick={handleMenu} className={styles.hamburger}>
+          <div className={styles.hamburger} aria-expanded={menuOpen}>
             <input
               type="checkbox"
               className={styles.checkbox}
               id="hamburger-checkbox"
+              checked={menuOpen}
+              onChange={handleMenu}
+              aria-label="Toggle menu"
             />
             <div>
               <span></span>
