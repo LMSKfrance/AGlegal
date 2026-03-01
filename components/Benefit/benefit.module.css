@@ -1,0 +1,33 @@
+.benefit {
+    padding: 48px;
+    border: 1px solid var(--gray-200);
+    border-radius: 12px;
+}
+
+.icon_wrapper {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background-color: var(--gray-100);
+    border: 1px solid var(--gray-200);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.icon_wrapper svg {
+    fill: var(--success-800);
+}
+
+.title_wrapper {
+    margin-top: 32px;
+}
+
+.title {
+    font-weight: 500;
+}
+
+.description {
+    margin-top: 8px;
+    color: var(--gray-500);
+}

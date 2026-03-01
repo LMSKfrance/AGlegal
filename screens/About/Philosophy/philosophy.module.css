@@ -1,0 +1,23 @@
+.title_wrapper {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.description {
+    margin-top: 24px;
+    color: var(--gray-950);
+}
+
+.values {
+    margin-top: 64px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 48px;
+}
+
+@media (max-width: 768px) {
+    .values {
+        grid-template-columns: 1fr;
+    }
+}

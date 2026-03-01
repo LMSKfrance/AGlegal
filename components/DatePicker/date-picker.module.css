@@ -1,0 +1,33 @@
+.container {
+    width: 100%;
+    display: grid;
+    gap: 8px;
+}
+
+.label {
+    font-weight: 500;
+}
+
+.date_picker {
+    width: 100%;
+    padding: 14px 12px;
+    border: 1px solid var(--gray-200);
+    background-color: var(--gray-100);
+    border-radius: 10px;
+    color: var(--gray-950);
+    font-weight: 500;
+    transition: border-color 0.2s;
+}
+
+.date_picker::placeholder {
+    color: var(--gray-500);
+}
+
+.date_picker:hover {
+    border-color: var(--gray-400);
+}
+
+.date_picker:focus {
+    outline: none;
+    border-color: var(--success-800);
+}

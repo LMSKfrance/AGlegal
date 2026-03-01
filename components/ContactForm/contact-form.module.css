@@ -1,0 +1,15 @@
+.form {
+    display: grid;
+    gap: 24px;
+}
+
+.form_group_fields {
+    display: flex;
+    gap: 24px;
+}
+
+@media (max-width: 480px) {
+    .form_group_fields {
+        flex-direction: column;
+    }
+}

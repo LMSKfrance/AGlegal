@@ -1,0 +1,82 @@
+.service {
+    min-width: 600px;
+    max-width: 600px;
+    width: 100%;
+    padding: 16px;
+    border: 1px solid var(--gray-200);
+    border-radius: 12px;
+    display: flex;
+    transition: background-color 0.2s;
+    cursor: pointer;
+}
+
+.service:hover {
+    background-color: var(--gray-100);
+}
+
+.service:hover .circle svg {
+    transform: rotate(45deg);
+}
+
+.service_content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 24px;
+    gap: 32px;
+}
+
+.service_image {
+    position: relative;
+    height: 280px;
+    max-width: 230px;
+    width: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.service_title {
+    color: var(--black);
+    font-weight: 500;
+}
+
+.service_description {
+    margin-top: 8px;
+    color: var(--gray-500);
+}
+
+.button {
+    color: var(--black);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.circle {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background-color: var(--success-800);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.circle svg {
+    stroke: var(--white);
+    transition: transform 0.2s;
+}
+
+@media (max-width: 480px) {
+    .service {
+        flex-direction: column;
+        min-width: 100%;
+        max-width: 100%;
+    }
+
+    .service_image {
+        max-width: 100%;
+        height: 280px;
+    }
+}

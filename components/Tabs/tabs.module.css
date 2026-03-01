@@ -1,0 +1,30 @@
+.tabs {
+    padding: 8px;
+    background-color: var(--gray-100);
+    border: 1px solid var(--gray-200);
+    border-radius: 12px;
+    display: flex;
+}
+
+.tab {
+    padding: 12px 24px;
+    border-radius: 10px;
+    background-color: transparent;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tab.active {
+    background-color: var(--success-800);
+    color: var(--white);
+}
+
+@media (max-width: 480px) {
+    .tabs {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

@@ -1,0 +1,218 @@
+/* Figma AG Legal Footer: white bg, newsletter + divider + links row + copyright */
+
+.footer {
+  background: var(--white);
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+}
+
+.newsletter_wrapper {
+  display: flex;
+  flex-direction: column;
+  margin-left: auto;
+  max-width: 500px;
+  width: 100%;
+}
+
+.newsletter_title {
+  font-family: var(--footer-newsletter-title-font);
+  font-size: var(--footer-newsletter-title-size);
+  line-height: 1.2;
+  font-weight: 700;
+  color: var(--black);
+  margin: 0;
+}
+
+.input_wrapper {
+  margin-top: 16px;
+  display: flex;
+  gap: 8px;
+}
+
+.newsletter_button {
+  flex-shrink: 0;
+  height: 56px;
+  padding: 0 24px;
+  font-family: var(--font-inter);
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: -0.18px;
+  text-transform: uppercase;
+  color: var(--white);
+  background: var(--ag-blue-800);
+  border: none;
+  border-radius: 96px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.newsletter_button:hover {
+  background: var(--ag-blue-900);
+}
+
+.divider {
+  width: 100%;
+  height: 1px;
+  background-color: var(--gray-200);
+}
+
+.footer_wrapper {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  gap: 48px;
+}
+
+.links_row {
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  align-items: start;
+  gap: 48px;
+  justify-content: start;
+}
+
+.footer_nav,
+.footer_socials {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.footer_link {
+  font-family: var(--font-inter);
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 500;
+  color: var(--black);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.footer_link:hover {
+  color: var(--ag-blue-800);
+}
+
+.download_button {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  text-align: left;
+}
+
+.download_button:hover .download_text {
+  color: var(--ag-blue-800);
+}
+
+.download_circle {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: var(--ag-blue-800);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.download_circle svg {
+  stroke: var(--white);
+}
+
+.download_text_wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.download_text {
+  font-family: var(--font-inter);
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 500;
+  color: var(--black);
+  transition: color 0.2s;
+}
+
+.size_text {
+  font-family: var(--font-inter);
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--gray-400);
+}
+
+.texts_wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.terms_wrapper {
+  display: flex;
+  gap: 24px;
+}
+
+.copyright_text,
+.terms_text {
+  font-family: var(--font-inter);
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--gray-500);
+  margin: 0;
+}
+
+.terms_text {
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.terms_text:hover {
+  color: var(--ag-blue-800);
+}
+
+@media (max-width: 1024px) {
+  .links_row {
+    grid-template-columns: auto auto;
+  }
+
+  .download_button {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    gap: 48px;
+  }
+
+  .footer_wrapper {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+
+  .links_row {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
+
+@media (max-width: 480px) {
+  .input_wrapper {
+    flex-direction: column;
+  }
+
+  .texts_wrapper {
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-start;
+  }
+}

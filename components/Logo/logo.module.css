@@ -1,0 +1,23 @@
+.logo_wrapper {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    color: var(--ag-blue-800);
+}
+
+.divider {
+    width: 1px;
+    height: 24px;
+    background-color: var(--gray-200);
+}
+
+.logo_name {
+    font-size: 18px;
+    font-weight: 700;
+    font-family: var(--font-cormorant-garamond);
+}
+
+/* Footer variant: icon and text gray-900 (Figma) */
+.logo_footer {
+    color: var(--gray-900);
+}

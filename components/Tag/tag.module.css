@@ -1,0 +1,23 @@
+.tag {
+    padding: 8px 16px;
+    background-color: var(--gray-100);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.tag:hover {
+    background-color: var(--gray-200);
+}
+
+.tag_title {
+    color: var(--gray-500);
+}
+
+.tag.active {
+    background-color: var(--success-800);
+}
+
+.tag.active .tag_title {
+    color: var(--white);
+}

@@ -1,0 +1,20 @@
+.benefits {
+    margin-top: 64px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 48px;
+}
+
+@media (max-width: 768px) {
+    .title {
+        font-size: 40px;
+        line-height: 52px;
+        letter-spacing: -0.54px;
+    }
+}
+
+@media (max-width: 480px) {
+    .benefits {
+        grid-template-columns: 1fr;
+    }
+}

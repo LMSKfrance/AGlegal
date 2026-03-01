@@ -1,0 +1,26 @@
+.tabs {
+  background-color: var(--gray-100);
+  border: 1px solid var(--gray-200);
+  border-radius: 12px;
+  padding: 8px;
+}
+
+/* Horizontal (default/responsive) */
+.tabs-horizontal {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+/* Vertical (non-responsive / stacked) */
+.tabs-vertical {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* ─── Panel ──────────────────────────────────────────────────── */
+.panel {
+  margin-top: 16px;
+}

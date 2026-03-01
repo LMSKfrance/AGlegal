@@ -1,0 +1,42 @@
+.title {
+    text-align: center;
+}
+
+.members {
+    margin-top: 64px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 48px;
+}
+
+@media (max-width: 1280px) {
+    .title {
+        font-size: 64px;
+        line-height: 72px;
+        letter-spacing: -0.96px;
+    }
+}
+
+@media (max-width: 768px) {
+    .title {
+        font-size: 56px;
+        line-height: 64px;
+        letter-spacing: -0.8px;
+    }
+
+    .members {
+        margin-top: 48px;
+    }
+}
+
+@media (max-width: 480px) {
+    .title {
+        font-size: 48px;
+        line-height: 56px;
+        letter-spacing: -0.64px;
+    }
+
+    .members {
+        grid-template-columns: 1fr;
+    }
+}

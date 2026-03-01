@@ -1,0 +1,17 @@
+.office {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+}
+
+.office_image {
+    position: relative;
+    width: 129px;
+    height: 54px;
+    border-radius: 56px;
+    overflow: hidden;
+}
+
+.office_name {
+    font-weight: 500;
+}

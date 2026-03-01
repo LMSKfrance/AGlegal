@@ -1,0 +1,103 @@
+/* ─── Shared ──────────────────────────────────────────────────── */
+.wrapper {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.wrapper.disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* Hidden native input */
+.input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.label-text {
+  font-size: 14px;
+  color: var(--gray-700);
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+/* ─── Checkbox control ───────────────────────────────────────── */
+.control {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid var(--gray-300);
+  background-color: var(--white);
+  transition: background-color 0.15s, border-color 0.15s, box-shadow 0.15s;
+}
+
+/* Checkbox shape */
+.checkbox .control {
+  border-radius: 4px;
+}
+
+/* Radio shape */
+.radio .control {
+  border-radius: 50%;
+}
+
+/* Sizes */
+.size-l  .control { width: 20px; height: 20px; }
+.size-m  .control { width: 18px; height: 18px; }
+.size-s  .control { width: 16px; height: 16px; }
+.size-xs .control { width: 14px; height: 14px; }
+
+/* ─── Hover ──────────────────────────────────────────────────── */
+.wrapper:not(.disabled):hover .control {
+  border-color: var(--ag-blue-500);
+}
+
+/* ─── Checked state ──────────────────────────────────────────── */
+.wrapper.checked .control {
+  background-color: var(--ag-blue-500);
+  border-color: var(--ag-blue-500);
+}
+
+/* ─── Focus ring ─────────────────────────────────────────────── */
+.input:focus-visible + .control,
+.wrapper:focus-within .control {
+  box-shadow: 0 0 0 2px var(--purple-400);
+}
+
+/* ─── Check icon ─────────────────────────────────────────────── */
+.check-icon {
+  display: none;
+  color: var(--white);
+}
+
+.wrapper.checked .check-icon {
+  display: block;
+}
+
+/* ─── Radio dot ──────────────────────────────────────────────── */
+.radio-dot {
+  display: none;
+  border-radius: 50%;
+  background-color: var(--white);
+}
+
+.size-l  .radio-dot { width: 8px;  height: 8px;  }
+.size-m  .radio-dot { width: 7px;  height: 7px;  }
+.size-s  .radio-dot { width: 6px;  height: 6px;  }
+.size-xs .radio-dot { width: 5px;  height: 5px;  }
+
+.wrapper.checked .radio-dot {
+  display: block;
+}
+
+/* ─── Error state ────────────────────────────────────────────── */
+.wrapper.error .control {
+  border-color: var(--red-400);
+}

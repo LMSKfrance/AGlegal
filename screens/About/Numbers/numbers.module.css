@@ -1,0 +1,39 @@
+.title_wrapper {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.description {
+    margin-top: 24px;
+    color: var(--gray-950);
+}
+
+.numbers {
+    margin-top: 64px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 48px;
+}
+
+.small_numbers {
+    display: grid;
+    gap: 48px;
+}
+
+@media (max-width: 768px) {
+    .title {
+        font-size: 40px;
+        line-height: 52px;
+        letter-spacing: -0.54px;
+    }
+
+    .numbers {
+        grid-template-columns: 1fr;
+        gap: 32px;
+    }
+
+    .small_numbers {
+        gap: 32px;
+    }
+}

@@ -1,0 +1,39 @@
+.news {
+    margin-top: 64px;
+    display: grid;
+    grid-template-columns: 1fr 0.5fr;
+    align-items: start;
+    gap: 48px;
+}
+
+.articles {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+}
+
+.side_articles {
+    position: sticky;
+    top: 48px;
+    border: 1px solid var(--gray-200);
+    border-radius: 12px;
+}
+
+.side_articles_header {
+    padding: 32px;
+}
+
+.tags {
+    padding: 32px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+@media (max-width: 768px) {
+    .news {
+        margin-top: 48px;
+        grid-template-columns: 1fr;
+    }
+}

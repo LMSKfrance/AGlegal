@@ -1,0 +1,28 @@
+.tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 24px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  transition: background-color 0.15s, color 0.15s;
+  white-space: nowrap;
+}
+
+.active {
+  background-color: var(--ag-blue-800);
+  color: var(--white);
+}
+
+.inactive {
+  background-color: transparent;
+  color: var(--gray-500);
+}
+
+.inactive:hover {
+  background-color: var(--gray-100);
+  color: var(--gray-700);
+}

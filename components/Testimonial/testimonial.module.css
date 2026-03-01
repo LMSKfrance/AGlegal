@@ -1,0 +1,37 @@
+.testimonial {
+    max-width: 616px;
+    width: 100%;
+    padding: 32px;
+    border: 1px solid var(--gray-100);
+    border-radius: 12px;
+}
+
+.testimonial_icon svg {
+    width: 44px;
+    height: 44px;
+    fill: var(--gray-300);
+}
+
+.testimonial_quote {
+    margin-top: 32px;
+    font-weight: 400;
+}
+
+.testimonial_author {
+    margin-top: 32px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.testimonial_author_image {
+    position: relative;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.testimonial_author_position {
+    color: var(--gray-500);
+}

@@ -1,0 +1,91 @@
+/* ─── Base ───────────────────────────────────────────────────── */
+.card {
+  border: 1px solid var(--gray-200);
+  overflow: hidden;
+}
+
+.card-row {
+  display: flex;
+  flex-direction: row;
+  padding: 16px;
+  border-radius: 12px;
+  gap: 0;
+}
+
+.card-column {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  border-radius: 24px;
+}
+
+/* ─── Image slot ─────────────────────────────────────────────── */
+.image-wrapper {
+  position: relative;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.card-row .image-wrapper {
+  width: 280px;
+  min-height: 220px;
+  border-radius: 10px;
+}
+
+.card-column .image-wrapper {
+  width: 100%;
+  height: 220px;
+  border-radius: 20px;
+}
+
+.image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ─── Content ────────────────────────────────────────────────── */
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  padding: 24px;
+  flex: 1;
+}
+
+.meta {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.category {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ag-blue-800);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--black);
+  margin: 0;
+}
+
+.description {
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--gray-500);
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* ─── Footer ─────────────────────────────────────────────────── */
+.footer {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: auto;
+}

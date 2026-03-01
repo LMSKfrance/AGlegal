@@ -1,0 +1,36 @@
+.section {
+    position: relative;
+    display: flex;
+}
+
+.image_wrapper {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 70%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.form {
+    position: relative;
+    margin-left: 80px;
+}
+
+@media (max-width: 1280px) {
+    .form {
+        margin-left: 64px;
+    }
+}
+
+@media (max-width: 768px) {
+    .form {
+        margin-left: 48px;
+    }
+}
+
+@media (max-width: 480px) {
+    .form {
+        margin-left: 0;
+    }
+}

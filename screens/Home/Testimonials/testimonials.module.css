@@ -1,0 +1,21 @@
+.testimonials {
+    margin-top: 64px;
+}
+
+.marquee {
+    margin-top: 48px;
+}
+
+.marquee_wrapper {
+    margin-right: 48px;
+    display: flex;
+    gap: 48px;
+}
+
+@media (max-width: 768px) {
+    .title {
+        font-size: 40px;
+        line-height: 52px;
+        letter-spacing: -0.54px;
+    }
+}

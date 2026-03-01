@@ -1,0 +1,1579 @@
+/*!***********************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./components/Articles/articles.module.css ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************/
+.articles_news__X4DKa {
+    margin-top: 64px;
+    display: grid;
+    grid-template-columns: 1fr 0.5fr;
+    align-items: start;
+    gap: 48px;
+}
+
+.articles_articles__Oyifv {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+}
+
+.articles_side_articles__XixZP {
+    position: sticky;
+    top: 48px;
+    border: 1px solid var(--gray-200);
+    border-radius: 12px;
+}
+
+.articles_side_articles_header__Q08XW {
+    padding: 32px;
+}
+
+.articles_tags__AkPS9 {
+    padding: 32px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+@media (max-width: 768px) {
+    .articles_news__X4DKa {
+        margin-top: 48px;
+        grid-template-columns: 1fr;
+    }
+}
+
+/*!*********************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./components/Article/article.module.css ***!
+  \*********************************************************************************************************************************************************************************************************************************************************************************/
+.article_article__eU0Su {
+    padding: 32px;
+    border: 1px solid var(--gray-200);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.article_article__eU0Su:hover {
+    background-color: var(--gray-100);
+}
+
+.article_article_image__Vt10h {
+    position: relative;
+    width: 100%;
+    height: 375px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.article_article_details__fEHF_ {
+    display: flex;
+    gap: 16px;
+}
+
+.article_article_divider__BV1n5 {
+    width: 1px;
+    background-color: var(--gray-200);
+}
+
+.article_article_date__PgPtn,
+.article_article_time__R1U_R {
+    color: var(--gray-500);
+}
+
+.article_article_title__EFFbi {
+    color: var(--black);
+    font-weight: 500;
+}
+
+.article_article_description__bDbTs {
+    margin-top: 8px;
+    color: var(--gray-950);
+}
+
+.article_side_article___b1iC {
+    padding: 32px;
+    border-top: 1px solid var(--gray-200);
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.article_side_article___b1iC:hover {
+    background-color: var(--gray-100);
+}
+
+.article_side_article_title__knftp {
+    color: var(--black);
+    font-weight: 500;
+}
+
+.article_side_article_description__UwElB {
+    margin-top: 16px;
+    color: var(--gray-500);
+}
+
+@media (max-width: 480px) {
+    .article_article_image__Vt10h {
+        height: 300px;
+    }
+}
+
+/*!*************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./components/Tag/tag.module.css ***!
+  \*************************************************************************************************************************************************************************************************************************************************************************/
+.tag_tag__bM1zb {
+    padding: 8px 16px;
+    background-color: var(--gray-100);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.tag_tag__bM1zb:hover {
+    background-color: var(--gray-200);
+}
+
+.tag_tag_title__cPSq1 {
+    color: var(--gray-500);
+}
+
+.tag_tag__bM1zb.tag_active__UpsSE {
+    background-color: var(--success-800);
+}
+
+.tag_tag__bM1zb.tag_active__UpsSE .tag_tag_title__cPSq1 {
+    color: var(--white);
+}
+
+/*!*******************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./components/Header/header.module.css ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************************/
+/* Figma AG Legal: white bg, bottom border gray-200, 80px horizontal padding */
+.header_header__us6ao {
+    background: var(--white);
+    border-bottom: 0.5px solid var(--header-border-color);
+    padding: var(--header-padding-y) 0;
+}
+
+.header_container__oQHiA {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header_btn_wrapper__aQWn4 {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+/* Header primary CTA: outline AG Blue (Figma Button stroke) */
+.header_button_outline__7WzT5 {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 44px;
+    padding: 0 16px;
+    font-family: var(--font-inter);
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: -0.08px;
+    text-transform: uppercase;
+    color: var(--ag-blue-800);
+    background: transparent;
+    border: 1px solid var(--ag-blue-800);
+    border-radius: 56px;
+    transition: background 0.2s, color 0.2s;
+}
+
+.header_button_outline__7WzT5:hover {
+    background: var(--ag-blue-800);
+    color: var(--white);
+}
+
+/* Header secondary CTA: gray-100 bg (Figma Secondary Light) */
+.header_button_secondary__H1mcb {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 44px;
+    padding: 0 16px;
+    font-family: var(--font-inter);
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: -0.08px;
+    text-transform: uppercase;
+    color: var(--gray-900);
+    background: var(--gray-100);
+    border: none;
+    border-radius: 56px;
+    transition: background 0.2s;
+}
+
+.header_button_secondary__H1mcb:hover {
+    background: var(--gray-200);
+}
+
+.header_hamburger__6kubG {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+}
+
+.header_checkbox__e8LOH {
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    cursor: pointer;
+    z-index: 2;
+    -webkit-touch-callout: none;
+    position: absolute;
+    opacity: 0;
+}
+
+.header_hamburger__6kubG div {
+    margin: auto;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    width: 22px;
+    height: 12px;
+}
+
+.header_hamburger__6kubG span {
+    position: absolute;
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: var(--gray-900);
+    border-radius: 1px;
+    transition: all 0.2s cubic-bezier(0.1, 0.82, 0.76, 0.965);
+}
+
+.header_hamburger__6kubG span:first-of-type {
+    top: 0;
+}
+
+.header_hamburger__6kubG span:last-of-type {
+    bottom: 0;
+}
+
+/* Hover effect only when checkbox is not checked */
+.header_hamburger__6kubG:not(:has(:checked)):hover span:first-of-type {
+    width: 26px;
+}
+
+.header_hamburger__6kubG:not(:has(:checked)):hover span:last-of-type {
+    width: 12px;
+}
+
+.header_overlay__UX00G {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(8px);
+    z-index: 1;
+    display: none;
+}
+
+.header_overlay_active__3CwX3 {
+    display: block;
+}
+
+@media (max-width: 480px) {
+    .header_button_outline__7WzT5,
+    .header_button_secondary__H1mcb {
+        display: none;
+    }
+}
+
+/*!***************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./components/Logo/logo.module.css ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************/
+.logo_logo_wrapper___Nyyl {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    color: var(--ag-blue-800);
+}
+
+.logo_divider__cbNsG {
+    width: 1px;
+    height: 24px;
+    background-color: var(--gray-200);
+}
+
+.logo_logo_name__Yua1x {
+    font-size: 18px;
+    font-weight: 700;
+    font-family: var(--font-cormorant-garamond);
+}
+
+/* Footer variant: icon and text gray-900 (Figma) */
+.logo_logo_footer__93UMw {
+    color: var(--gray-900);
+}
+
+/*!**********************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./components/Header/Menu/menu.module.css ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************************/
+.menu_menu__2vz52 {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 632px;
+    height: 100%;
+    background-color: #fff;
+    z-index: 2;
+    transform: translateX(100%);
+    transition: transform 0.3s cubic-bezier(0.1, 0.82, 0.76, 0.965);
+    padding: 48px;
+    display: flex;
+    flex-direction: column;
+}
+
+.menu_menu_active__QuJe6 {
+    transform: translateX(0);
+}
+
+.menu_close_button__0Pvg9 {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+}
+
+.menu_close_button__0Pvg9 svg {
+    stroke: var(--black);
+    transition: transform 0.3s ease;
+}
+
+.menu_close_button__0Pvg9:hover svg {
+    transform: rotate(90deg);
+}
+
+.menu_menu_title__6nNTy {
+    margin-top: 48px;
+    text-transform: uppercase;
+    color: var(--gray-500);
+}
+
+.menu_footer_title__86Q6u {
+    margin-top: auto;
+    text-transform: uppercase;
+    color: var(--gray-500);
+}
+
+.menu_nav_links__jijpc {
+    margin-top: 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+}
+
+.menu_nav_link__uLAsI {
+    position: relative;
+    text-decoration: none;
+    color: var(--text-color, #000);
+    transition: color 0.3s ease;
+}
+
+.menu_nav_link__uLAsI:hover {
+    color: var(--success-800);
+}
+
+.menu_nav_link__uLAsI::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--success-800);
+    transition: width 0.3s ease;
+}
+
+.menu_nav_link__uLAsI:hover::after {
+    width: 100%;
+}
+
+.menu_socials__C4_gN {
+    margin-top: 16px;
+    display: flex;
+    gap: 16px;
+}
+
+.menu_social__hVePz svg {
+    fill: var(--success-800);
+}
+
+@media (max-width: 480px) {
+    .menu_menu__2vz52 {
+        width: 100%;
+        padding: 24px;
+    }
+}
+
+/*!*******************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./components/Footer/footer.module.css ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************************/
+/* Figma AG Legal Footer: white bg, newsletter + divider + links row + copyright */
+
+.footer_footer__unmqs {
+  background: var(--white);
+}
+
+.footer_container__K9h0P {
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+}
+
+.footer_newsletter_wrapper__K8c_3 {
+  display: flex;
+  flex-direction: column;
+  margin-left: auto;
+  max-width: 500px;
+  width: 100%;
+}
+
+.footer_newsletter_title__KH_Vo {
+  font-family: var(--footer-newsletter-title-font);
+  font-size: var(--footer-newsletter-title-size);
+  line-height: 1.2;
+  font-weight: 700;
+  color: var(--black);
+  margin: 0;
+}
+
+.footer_input_wrapper__4yxhI {
+  margin-top: 16px;
+  display: flex;
+  gap: 8px;
+}
+
+.footer_newsletter_button__LRorm {
+  flex-shrink: 0;
+  height: 56px;
+  padding: 0 24px;
+  font-family: var(--font-inter);
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: -0.18px;
+  text-transform: uppercase;
+  color: var(--white);
+  background: var(--ag-blue-800);
+  border: none;
+  border-radius: 96px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.footer_newsletter_button__LRorm:hover {
+  background: var(--ag-blue-900);
+}
+
+.footer_divider__biIAM {
+  width: 100%;
+  height: 1px;
+  background-color: var(--gray-200);
+}
+
+.footer_footer_wrapper__JrgAI {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  gap: 48px;
+}
+
+.footer_links_row__PlGcu {
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  align-items: start;
+  gap: 48px;
+  justify-content: start;
+}
+
+.footer_footer_nav__OSJVe,
+.footer_footer_socials__iilym {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.footer_footer_link__z3GeE {
+  font-family: var(--font-inter);
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 500;
+  color: var(--black);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.footer_footer_link__z3GeE:hover {
+  color: var(--ag-blue-800);
+}
+
+.footer_download_button__b9UHO {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  text-align: left;
+}
+
+.footer_download_button__b9UHO:hover .footer_download_text__DLJ6h {
+  color: var(--ag-blue-800);
+}
+
+.footer_download_circle__E_C1S {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: var(--ag-blue-800);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.footer_download_circle__E_C1S svg {
+  stroke: var(--white);
+}
+
+.footer_download_text_wrapper__up8Pp {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.footer_download_text__DLJ6h {
+  font-family: var(--font-inter);
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 500;
+  color: var(--black);
+  transition: color 0.2s;
+}
+
+.footer_size_text__BLzIY {
+  font-family: var(--font-inter);
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--gray-400);
+}
+
+.footer_texts_wrapper__v04hl {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.footer_terms_wrapper__crRKs {
+  display: flex;
+  gap: 24px;
+}
+
+.footer_copyright_text__bf3Yb,
+.footer_terms_text__gT_DH {
+  font-family: var(--font-inter);
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--gray-500);
+  margin: 0;
+}
+
+.footer_terms_text__gT_DH {
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.footer_terms_text__gT_DH:hover {
+  color: var(--ag-blue-800);
+}
+
+@media (max-width: 1024px) {
+  .footer_links_row__PlGcu {
+    grid-template-columns: auto auto;
+  }
+
+  .footer_download_button__b9UHO {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 768px) {
+  .footer_container__K9h0P {
+    gap: 48px;
+  }
+
+  .footer_footer_wrapper__JrgAI {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+
+  .footer_links_row__PlGcu {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer_input_wrapper__4yxhI {
+    flex-direction: column;
+  }
+
+  .footer_texts_wrapper__v04hl {
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-start;
+  }
+}
+
+/*!**************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./components/TextField/text-field.module.css ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************/
+.text-field_container__ozcdv {
+    width: 100%;
+    display: grid;
+    gap: 8px;
+}
+
+.text-field_label__wHsWE {
+    font-weight: 500;
+}
+
+.text-field_input__sk_eD {
+    width: 100%;
+    padding: 16px;
+    border: 1px solid var(--gray-200);
+    border-radius: 56px;
+    color: var(--gray-950);
+    font-weight: 500;
+    transition: border-color 0.2s;
+}
+
+.text-field_input__sk_eD:hover {
+    border-color: var(--gray-400);
+}
+
+.text-field_input__sk_eD:focus {
+    outline: none;
+    border-color: var(--success-800);
+}
+
+.text-field_input__sk_eD.text-field_medium__vhTsg {
+    padding: 14px 12px;
+    border-radius: 10px;
+    background-color: var(--gray-100);
+}
+
+/*!*******************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./screens/Home/About/about.module.css ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************************/
+.about_title_wrapper__MFPn4 {
+    display: flex;
+    justify-content: space-between;
+}
+
+.about_description__BKUOI {
+    color: var(--gray-950);
+    max-width: 600px;
+    width: 100%;
+}
+
+.about_video_wrapper__ZKObj {
+    margin-top: 64px;
+    position: relative;
+    height: 532px;
+    width: 100%;
+}
+
+.about_play_button__VQa4W {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: var(--success-800);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+}
+
+.about_play_button__VQa4W svg {
+    fill: var(--white);
+}
+
+@media (max-width: 768px) {
+    .about_title_wrapper__MFPn4 {
+        flex-direction: column;
+        gap: 24px;
+    }
+
+    .about_title__9Ai5B {
+        font-size: 40px;
+        line-height: 52px;
+        letter-spacing: -0.54px;
+    }
+}
+
+/*!****************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./components/VideoModal/video-modal.module.css ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************************/
+.video-modal_modal_overlay__2hYWg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 99;
+}
+
+.video-modal_modal_content__d2w3u {
+    max-width: 800px;
+    width: 90%;
+}
+
+.video-modal_youtube_embed_wrapper__MazcD {
+    position: relative;
+    padding-top: 56.25%; /* Aspect ratio 16:9 */
+    overflow: hidden;
+    height: 0;
+}
+
+.video-modal_youtube_embed__WCa_e {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.video-modal_close_button__4S0h_ {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 24px;
+    right: 32px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 100;
+}
+
+.video-modal_close_button__4S0h_:hover svg {
+    transform: rotate(90deg);
+}
+
+.video-modal_close_button__4S0h_ svg {
+    stroke: var(--white);
+    transition: transform 0.3s ease;
+}
+
+/*!*************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./screens/Home/Benefits/benefits.module.css ***!
+  \*************************************************************************************************************************************************************************************************************************************************************************************/
+.benefits_benefits__Pc83M {
+    margin-top: 64px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 48px;
+}
+
+@media (max-width: 768px) {
+    .benefits_title__naAmw {
+        font-size: 40px;
+        line-height: 52px;
+        letter-spacing: -0.54px;
+    }
+}
+
+@media (max-width: 480px) {
+    .benefits_benefits__Pc83M {
+        grid-template-columns: 1fr;
+    }
+}
+
+/*!*********************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./components/Benefit/benefit.module.css ***!
+  \*********************************************************************************************************************************************************************************************************************************************************************************/
+.benefit_benefit__VQVdi {
+    padding: 48px;
+    border: 1px solid var(--gray-200);
+    border-radius: 12px;
+}
+
+.benefit_icon_wrapper__dBHUT {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background-color: var(--gray-100);
+    border: 1px solid var(--gray-200);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.benefit_icon_wrapper__dBHUT svg {
+    fill: var(--success-800);
+}
+
+.benefit_title_wrapper__7BJDA {
+    margin-top: 32px;
+}
+
+.benefit_title__CSFGx {
+    font-weight: 500;
+}
+
+.benefit_description__Pa4ym {
+    margin-top: 8px;
+    color: var(--gray-500);
+}
+
+/*!*****************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./screens/Home/Hero/hero.module.css ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************/
+.hero_section__TYGQQ {
+    height: 100vh;
+    display: flex;
+}
+
+.hero_container__35bkZ {
+    display: grid;
+    grid-template-columns: 1fr 0.7fr;
+    align-items: center;
+    gap: 64px;
+}
+
+.hero_content__GuZBl {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+}
+
+.hero_divider__hcDF_ {
+    width: 100%;
+    height: 1px;
+    background: var(--gray-200);
+}
+
+.hero_btn_wrapper__6HFuF {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.hero_description___y3AP {
+    color: var(--gray-950);
+    max-width: 400px;
+}
+
+.hero_image_wrapper__iAA3K {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    max-width: 600px;
+    width: 100%;
+}
+
+@media (max-width: 1280px) {
+    .hero_title__PBUjt {
+        font-size: 64px;
+        line-height: 72px;
+        letter-spacing: -0.96px;
+    }
+
+    .hero_btn_wrapper__6HFuF {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 32px;
+    }
+
+    .hero_image_wrapper__iAA3K {
+        max-width: 500px;
+    }
+}
+
+@media (max-width: 1028px) {
+    .hero_container__35bkZ {
+        grid-template-columns: 1fr;
+    }
+
+    .hero_image_wrapper__iAA3K {
+        position: relative;
+        height: 500px;
+        max-width: 100%;
+    }
+
+    .hero_image__g7tdR {
+        border-radius: 12px;
+    }
+
+    .hero_title__PBUjt {
+        font-size: 56px;
+        line-height: 64px;
+        letter-spacing: -0.8px;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero_section__TYGQQ {
+        height: auto;
+    }
+
+    .hero_title__PBUjt {
+        font-size: 48px;
+        line-height: 56px;
+        letter-spacing: -0.64px;
+    }
+
+    .hero_image_wrapper__iAA3K {
+        height: 400px;
+    }
+}
+
+/*!*****************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./screens/Home/News/news.module.css ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************/
+.news_title_wrapper___pdUv {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.news_description__OTZ0Z {
+    margin-top: 24px;
+    color: var(--gray-950);
+}
+
+@media (max-width: 768px) {
+    .news_title__Yx__d {
+        font-size: 40px;
+        line-height: 52px;
+        letter-spacing: -0.54px;
+    }
+}
+
+/*!***********************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./screens/Home/Offices/offices.module.css ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************/
+.offices_marquees__vkVBQ {
+    margin-top: 64px;
+}
+
+.offices_marquee__zoRwM {
+    border-top: 0.5px solid var(--gray-200);
+    border-bottom: 0.5px solid var(--gray-200);
+}
+
+.offices_marquee__zoRwM:nth-child(even) {
+    border-top: none;
+}
+
+.offices_marquee_wrapper__O9xYh {
+    padding: 32px 0;
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    margin-right: 32px;
+}
+
+@media (max-width: 768px) {
+    .offices_title__6a6Wv {
+        font-size: 40px;
+        line-height: 52px;
+        letter-spacing: -0.54px;
+    }
+
+    .offices_marquees__vkVBQ {
+        margin-top: 48px;
+    }
+}
+
+/*!*******************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./components/Office/office.module.css ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************************/
+.office_office__LcPko {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+}
+
+.office_office_image__QCg0I {
+    position: relative;
+    width: 129px;
+    height: 54px;
+    border-radius: 56px;
+    overflow: hidden;
+}
+
+.office_office_name__ZnMI4 {
+    font-weight: 500;
+}
+
+/*!***********************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./screens/Home/Process/process.module.css ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************/
+.process_container__q_GLS {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.process_title_wrapper__14xO9 {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.process_description__NBFHS {
+    margin-top: 24px;
+    color: var(--gray-950);
+}
+
+.process_tabs__XhtOu {
+    margin-top: 64px;
+}
+
+.process_content__zpKGd {
+    margin-top: 64px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 64px;
+}
+
+.process_image_wrapper__0HtsJ {
+    position: relative;
+    height: 379px;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.process_figure_content___8WbS {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 48px;
+}
+
+.process_figure_title__CMOB_ {
+    font-weight: 500;
+}
+
+.process_figure_description__FMATl {
+    margin-top: 8px;
+    color: var(--gray-500);
+}
+
+.process_figure_number__dBh_j {
+    background: linear-gradient(to bottom, #d1d5db, #f3f4f6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+}
+
+@media (max-width: 768px) {
+    .process_title__J7TqB {
+        font-size: 40px;
+        line-height: 52px;
+        letter-spacing: -0.54px;
+    }
+
+    .process_tabs__XhtOu {
+        margin-top: 48px;
+    }
+
+    .process_content__zpKGd {
+        margin-top: 48px;
+        gap: 48px;
+    }
+}
+
+@media (max-width: 480px) {
+    .process_content__zpKGd {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+}
+
+/*!***************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./components/Tabs/tabs.module.css ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************/
+.tabs_tabs__V2epF {
+    padding: 8px;
+    background-color: var(--gray-100);
+    border: 1px solid var(--gray-200);
+    border-radius: 12px;
+    display: flex;
+}
+
+.tabs_tab__jMZRY {
+    padding: 12px 24px;
+    border-radius: 10px;
+    background-color: transparent;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tabs_tab__jMZRY.tabs_active__zQVlq {
+    background-color: var(--success-800);
+    color: var(--white);
+}
+
+@media (max-width: 480px) {
+    .tabs_tabs__V2epF {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/*!*************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./screens/Home/Services/services.module.css ***!
+  \*************************************************************************************************************************************************************************************************************************************************************************************/
+.services_title_wrapper__vAt7Y {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.services_description__u_1xg {
+    margin-top: 24px;
+    color: var(--gray-950);
+}
+
+.services_services__zW2_6 {
+    margin-top: 64px;
+    display: flex;
+    gap: 48px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.services_services__zW2_6::-webkit-scrollbar {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .services_services__zW2_6 {
+        margin-top: 48px;
+    }
+
+    .services_title__9CC6w {
+        font-size: 40px;
+        line-height: 52px;
+        letter-spacing: -0.54px;
+    }
+
+    .services_container__F9dYR {
+        padding: 0;
+    }
+
+    .services_title_wrapper__vAt7Y,
+    .services_services__zW2_6 {
+        padding: 0 48px;
+    }
+}
+
+@media (max-width: 480px) {
+    .services_title_wrapper__vAt7Y,
+    .services_services__zW2_6 {
+        padding: 0 24px;
+    }
+
+    .services_services__zW2_6 {
+        gap: 32px;
+    }
+
+    .services_service__1XWcx {
+        min-width: 100%;
+        max-width: 100%;
+    }
+}
+
+/*!*********************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./components/Service/service.module.css ***!
+  \*********************************************************************************************************************************************************************************************************************************************************************************/
+.service_service__Qzk_2 {
+    min-width: 600px;
+    max-width: 600px;
+    width: 100%;
+    padding: 16px;
+    border: 1px solid var(--gray-200);
+    border-radius: 12px;
+    display: flex;
+    transition: background-color 0.2s;
+    cursor: pointer;
+}
+
+.service_service__Qzk_2:hover {
+    background-color: var(--gray-100);
+}
+
+.service_service__Qzk_2:hover .service_circle__pdtDS svg {
+    transform: rotate(45deg);
+}
+
+.service_service_content__h70Vl {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 24px;
+    gap: 32px;
+}
+
+.service_service_image___HeNe {
+    position: relative;
+    height: 280px;
+    max-width: 230px;
+    width: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.service_service_title__K30ht {
+    color: var(--black);
+    font-weight: 500;
+}
+
+.service_service_description__urM8_ {
+    margin-top: 8px;
+    color: var(--gray-500);
+}
+
+.service_button__SxB7D {
+    color: var(--black);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.service_circle__pdtDS {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background-color: var(--success-800);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.service_circle__pdtDS svg {
+    stroke: var(--white);
+    transition: transform 0.2s;
+}
+
+@media (max-width: 480px) {
+    .service_service__Qzk_2 {
+        flex-direction: column;
+        min-width: 100%;
+        max-width: 100%;
+    }
+
+    .service_service_image___HeNe {
+        max-width: 100%;
+        height: 280px;
+    }
+}
+
+/*!*********************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./screens/Home/Testimonials/testimonials.module.css ***!
+  \*********************************************************************************************************************************************************************************************************************************************************************************************/
+.testimonials_testimonials__pyc0X {
+    margin-top: 64px;
+}
+
+.testimonials_marquee__bWlWq {
+    margin-top: 48px;
+}
+
+.testimonials_marquee_wrapper__usLhZ {
+    margin-right: 48px;
+    display: flex;
+    gap: 48px;
+}
+
+@media (max-width: 768px) {
+    .testimonials_title__mkjgz {
+        font-size: 40px;
+        line-height: 52px;
+        letter-spacing: -0.54px;
+    }
+}
+
+/*!*****************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./components/Testimonial/testimonial.module.css ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************************/
+.testimonial_testimonial__bTq9y {
+    max-width: 616px;
+    width: 100%;
+    padding: 32px;
+    border: 1px solid var(--gray-100);
+    border-radius: 12px;
+}
+
+.testimonial_testimonial_icon__tipJ2 svg {
+    width: 44px;
+    height: 44px;
+    fill: var(--gray-300);
+}
+
+.testimonial_testimonial_quote__D17zP {
+    margin-top: 32px;
+    font-weight: 400;
+}
+
+.testimonial_testimonial_author__jxk0g {
+    margin-top: 32px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.testimonial_testimonial_author_image__zwgvW {
+    position: relative;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.testimonial_testimonial_author_position__APadN {
+    color: var(--gray-500);
+}
+
+/*!********************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./screens/Universal/CTA/cta.module.css ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************/
+.cta_cta_wrapper__zHhcC {
+    background-color: var(--success-800);
+    padding: 64px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.cta_subtitle__k7iP_ {
+    color: var(--white);
+    text-transform: uppercase;
+}
+
+.cta_title__TMC8V {
+    margin-top: 16px;
+    color: var(--white);
+}
+
+@media (max-width: 768px) {
+    .cta_cta_wrapper__zHhcC {
+        padding: 48px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 32px;
+    }
+
+    .cta_title__TMC8V {
+        font-size: 32px;
+        line-height: 40px;
+        letter-spacing: -0.48px;
+    }
+}
+
+/*!********************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./screens/Universal/FAQ/faq.module.css ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************/
+.faq_faqs__frmY2 {
+    margin-top: 64px;
+    border: 1px solid var(--gray-200);
+    border-radius: 12px;
+}
+
+@media (max-width: 768px) {
+    .faq_faqs__frmY2 {
+        margin-top: 48px;
+    }
+
+    .faq_title__Nvabs {
+        font-size: 40px;
+        line-height: 52px;
+        letter-spacing: -0.54px;
+    }
+}
+
+/*!**********************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./components/FaqItem/faq-item.module.css ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************************/
+.faq-item_faq__N5g64 {
+    padding: 32px;
+    cursor: pointer;
+}
+
+.faq-item_faq_header__yKGg7 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+}
+
+.faq-item_faq_header__yKGg7 svg {
+    stroke: var(--black);
+    transition: transform 0.3s;
+    flex-shrink: 0;
+}
+
+.faq-item_faq_header__yKGg7.faq-item_open__mXukL svg {
+    transform: rotate(45deg);
+}
+
+.faq-item_faq_question__n6_37 {
+    font-weight: 500;
+}
+
+.faq-item_faq_body__zf0mo {
+    margin-top: 16px;
+}
+
+.faq-item_faq_answer__tpWps {
+    color: var(--gray-950);
+    max-width: 800px;
+}
+
+/*!**********************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./screens/Universal/Team/team.module.css ***!
+  \**********************************************************************************************************************************************************************************************************************************************************************************/
+.team_title_wrapper__vsNf1 {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.team_description__sm6Xo {
+    margin-top: 24px;
+    color: var(--gray-950);
+}
+
+.team_members__MNBMB {
+    margin-top: 64px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 48px;
+}
+
+@media (max-width: 768px) {
+    .team_title__jfI5Y {
+        font-size: 40px;
+        line-height: 52px;
+        letter-spacing: -0.54px;
+    }
+
+    .team_members__MNBMB {
+        margin-top: 48px;
+    }
+}
+
+@media (max-width: 480px) {
+    .team_members__MNBMB {
+        grid-template-columns: 1fr;
+    }
+}
+
+/*!*******************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./components/Member/member.module.css ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************************/
+.member_member__KgSVa {
+    padding: 16px;
+    border: 1px solid var(--gray-200);
+    border-radius: 12px;
+}
+
+.member_member_image__jJaoK {
+    position: relative;
+    width: 100%;
+    height: 341px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.member_member_content__EcLrH {
+    padding: 24px 16px 16px;
+}
+
+.member_member_name__5qRom {
+    font-weight: 500;
+}
+
+.member_member_description__cK2w3 {
+    margin-top: 12px;
+    color: var(--gray-500);
+}
+
+.member_member_socials__MjSXk {
+    margin-top: 24px;
+    display: flex;
+    gap: 16px;
+}
+
+.member_member_social__jajcw {
+    width: 44px;
+    height: 44px;
+    border-radius: 6px;
+    background-color: var(--gray-100);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.member_member_social__jajcw svg {
+    fill: var(--gray-950);
+    transition: fill 0.3s;
+}
+
+.member_member_social__jajcw:hover svg {
+    fill: var(--success-800);
+}
+
+@media (max-width: 768px) {
+    .member_member_image__jJaoK {
+        height: 300px;
+    }
+}
+

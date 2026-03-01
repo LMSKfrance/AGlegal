@@ -1,0 +1,93 @@
+/* ─── Row ─────────────────────────────────────────────────────── */
+.row {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.row.disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* ─── Track ──────────────────────────────────────────────────── */
+.track {
+  position: relative;
+  flex-shrink: 0;
+  border-radius: 9999px;
+  background-color: var(--slate-100);
+  border: 1px solid var(--slate-200);
+  transition: background-color 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+
+/* Sizes */
+.size-l  .track { width: 52px; height: 28px; }
+.size-m  .track { width: 44px; height: 24px; }
+.size-s  .track { width: 36px; height: 20px; }
+.size-xs .track { width: 28px; height: 16px; }
+
+/* ─── Thumb ──────────────────────────────────────────────────── */
+.thumb {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  border-radius: 50%;
+  background-color: var(--white);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  transition: left 0.2s;
+}
+
+.size-l  .thumb { width: 22px; height: 22px; left: 2px; }
+.size-m  .thumb { width: 18px; height: 18px; left: 2px; }
+.size-s  .thumb { width: 14px; height: 14px; left: 2px; }
+.size-xs .thumb { width: 10px; height: 10px; left: 2px; }
+
+/* ─── ON state ───────────────────────────────────────────────── */
+.row.on .track {
+  background-color: var(--ag-blue-500);
+  border-color: var(--ag-blue-500);
+}
+
+.size-l.on  .thumb { left: calc(52px - 22px - 4px); }
+.size-m.on  .thumb { left: calc(44px - 18px - 4px); }
+.size-s.on  .thumb { left: calc(36px - 14px - 4px); }
+.size-xs.on .thumb { left: calc(28px - 10px - 4px); }
+
+/* ─── Hover ──────────────────────────────────────────────────── */
+.row:not(.disabled):hover .track {
+  background-color: var(--slate-200);
+}
+
+.row.on:not(.disabled):hover .track {
+  background-color: var(--ag-blue-600);
+  border-color: var(--ag-blue-600);
+}
+
+/* ─── Focus ring ─────────────────────────────────────────────── */
+.input:focus-visible ~ .row .track,
+.row:focus-within .track {
+  box-shadow: 0 0 0 2px var(--purple-400);
+}
+
+/* ─── Hidden native input ────────────────────────────────────── */
+.input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* ─── Label text ─────────────────────────────────────────────── */
+.label-text {
+  font-size: 14px;
+  color: var(--gray-700);
+  font-weight: 500;
+}
+
+/* ─── Wrapper ────────────────────────────────────────────────── */
+.wrapper {
+  display: inline-flex;
+  position: relative;
+}

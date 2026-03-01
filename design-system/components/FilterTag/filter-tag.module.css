@@ -1,0 +1,26 @@
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.active {
+  background-color: var(--ag-blue-800);
+  color: var(--white);
+}
+
+.inactive {
+  background-color: var(--gray-100);
+  color: var(--gray-500);
+}
+
+.inactive:hover {
+  background-color: var(--gray-200);
+  color: var(--gray-700);
+}

@@ -1,0 +1,99 @@
+.menu {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 632px;
+    height: 100%;
+    background-color: #fff;
+    z-index: 2;
+    transform: translateX(100%);
+    transition: transform 0.3s cubic-bezier(0.1, 0.82, 0.76, 0.965);
+    padding: 48px;
+    display: flex;
+    flex-direction: column;
+}
+
+.menu_active {
+    transform: translateX(0);
+}
+
+.close_button {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+}
+
+.close_button svg {
+    stroke: var(--black);
+    transition: transform 0.3s ease;
+}
+
+.close_button:hover svg {
+    transform: rotate(90deg);
+}
+
+.menu_title {
+    margin-top: 48px;
+    text-transform: uppercase;
+    color: var(--gray-500);
+}
+
+.footer_title {
+    margin-top: auto;
+    text-transform: uppercase;
+    color: var(--gray-500);
+}
+
+.nav_links {
+    margin-top: 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+}
+
+.nav_link {
+    position: relative;
+    text-decoration: none;
+    color: var(--text-color, #000);
+    transition: color 0.3s ease;
+}
+
+.nav_link:hover {
+    color: var(--success-800);
+}
+
+.nav_link::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--success-800);
+    transition: width 0.3s ease;
+}
+
+.nav_link:hover::after {
+    width: 100%;
+}
+
+.socials {
+    margin-top: 16px;
+    display: flex;
+    gap: 16px;
+}
+
+.social svg {
+    fill: var(--success-800);
+}
+
+@media (max-width: 480px) {
+    .menu {
+        width: 100%;
+        padding: 24px;
+    }
+}

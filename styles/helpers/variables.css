@@ -1,0 +1,193 @@
+:root {
+  --white: #ffffff;
+  --black: #000000;
+  --background: #050606;
+
+  /* ─── Gray ──────────────────────────────────────────── */
+  --gray-50: #f9fafb;
+  --gray-100: #f3f4f6;
+  --gray-200: #e5e7eb;
+  --gray-300: #d1d5db;
+  --gray-400: #9ca3af;
+  --gray-500: #6b7280;
+  --gray-600: #4b5563;
+  --gray-700: #374151;
+  --gray-800: #1f2937;
+  --gray-900: #111827;
+  --gray-950: #030712;
+
+  /* ─── Slate ──────────────────────────────────────────── */
+  --slate-50: #f8fafc;
+  --slate-100: #f1f5f9;
+  --slate-200: #e2e8f0;
+  --slate-300: #cbd5e1;
+  --slate-400: #94a3b8;
+  --slate-500: #64748b;
+  --slate-600: #475569;
+  --slate-700: #334155;
+  --slate-800: #1e293b;
+  --slate-900: #0f172a;
+  --slate-950: #020617;
+
+  /* ─── Neutral ─────────────────────────────────────────── */
+  --neutral-50: #f5f5f5;
+  --neutral-100: #e5e5e5;
+  --neutral-200: #d1d1d1;
+  --neutral-300: #b2b2b2;
+  --neutral-400: #7f7f7f;
+  --neutral-500: #4c4c4c;
+  --neutral-600: #333333;
+  --neutral-700: #111111;
+  --neutral-800: #0a0a0a;
+  --neutral-900: #191919;
+  --neutral-950: #000000;
+
+  /* ─── Beige ───────────────────────────────────────────── */
+  --beige-50: #ffffff;
+  --beige-100: #fdf8f3;
+  --beige-200: #f8f3e8;
+  --beige-300: #f0e3d0;
+  --beige-400: #e7d3b8;
+  --beige-500: #d6c19d;
+  --beige-600: #bbaa7a;
+  --beige-700: #a18d5d;
+  --beige-800: #8b7d4e;
+  --beige-900: #6e6340;
+  --beige-950: #5b4f35;
+
+  /* ─── AG Blue (Brand) ─────────────────────────────────── */
+  --ag-blue-50: #daedff;
+  --ag-blue-100: #c6ecff;
+  --ag-blue-200: #a5e7ff;
+  --ag-blue-300: #70dfff;
+  --ag-blue-400: #34ceff;
+  --ag-blue-500: #0cb5e2;
+  --ag-blue-600: #0093ce;
+  --ag-blue-700: #0070c1;
+  --ag-blue-800: #0055b8;
+  --ag-blue-900: #0043b1;
+  --ag-blue-950: #001e9a;
+
+  /* ─── Orange ──────────────────────────────────────────── */
+  --orange-50: #fff7ed;
+  --orange-100: #ffedd5;
+  --orange-200: #fed7aa;
+  --orange-300: #fdba74;
+  --orange-400: #fb923c;
+  --orange-500: #f97316;
+  --orange-600: #ea580c;
+  --orange-700: #c2410c;
+  --orange-800: #9a3412;
+  --orange-900: #7c2d12;
+  --orange-950: #431407;
+
+  /* ─── Purple ──────────────────────────────────────────── */
+  --purple-50: #faf5ff;
+  --purple-100: #f3e8ff;
+  --purple-200: #e9d5ff;
+  --purple-300: #d8b4fe;
+  --purple-400: #c084fc;
+  --purple-500: #a855f7;
+  --purple-600: #9333ea;
+  --purple-700: #7e22ce;
+  --purple-800: #6b21a8;
+  --purple-900: #581c87;
+  --purple-950: #3b0764;
+
+  /* ─── Cyan ────────────────────────────────────────────── */
+  --cyan-50: #ecfeff;
+  --cyan-100: #cffafe;
+  --cyan-200: #a5f3fc;
+  --cyan-300: #67e8f9;
+  --cyan-400: #22d3ee;
+  --cyan-500: #06b6d4;
+  --cyan-600: #0891b2;
+  --cyan-700: #0e7490;
+  --cyan-800: #155e75;
+  --cyan-900: #164e63;
+  --cyan-950: #083344;
+
+  /* ─── Yellow (Warning) ────────────────────────────────── */
+  --yellow-50: #fefce8;
+  --yellow-100: #fef9c3;
+  --yellow-200: #fef08a;
+  --yellow-300: #fde047;
+  --yellow-400: #facc15;
+  --yellow-500: #eab308;
+  --yellow-600: #ca8a04;
+  --yellow-700: #a16207;
+  --yellow-800: #854d0e;
+  --yellow-900: #713f12;
+  --yellow-950: #422006;
+
+  /* ─── Red (Danger) ────────────────────────────────────── */
+  --red-50: #fef2f2;
+  --red-100: #fee2e2;
+  --red-200: #fecaca;
+  --red-300: #fca5a5;
+  --red-400: #f87171;
+  --red-500: #ef4444;
+  --red-600: #dc2626;
+  --red-700: #b91c1c;
+  --red-800: #991b1b;
+  --red-900: #7f1d1d;
+  --red-950: #450a0a;
+
+  /* ─── Semantic aliases (backwards-compatible) ─────────── */
+  --success-50: var(--ag-blue-50);
+  --success-100: var(--ag-blue-100);
+  --success-200: var(--ag-blue-200);
+  --success-300: var(--ag-blue-300);
+  --success-400: var(--ag-blue-400);
+  --success-500: var(--ag-blue-500);
+  --success-600: var(--ag-blue-600);
+  --success-700: var(--ag-blue-700);
+  --success-800: var(--ag-blue-800);
+  --success-900: var(--ag-blue-900);
+  --success-950: var(--ag-blue-950);
+
+  --warning-50: var(--yellow-50);
+  --warning-100: var(--yellow-100);
+  --warning-200: var(--yellow-200);
+  --warning-300: var(--yellow-300);
+  --warning-400: var(--yellow-400);
+  --warning-500: var(--yellow-500);
+  --warning-600: var(--yellow-600);
+  --warning-700: var(--yellow-700);
+  --warning-800: var(--yellow-800);
+  --warning-900: var(--yellow-900);
+  --warning-950: var(--yellow-950);
+
+  --danger-50: var(--red-50);
+  --danger-100: var(--red-100);
+  --danger-200: var(--red-200);
+  --danger-300: var(--red-300);
+  --danger-400: var(--red-400);
+  --danger-500: var(--red-500);
+  --danger-600: var(--red-600);
+  --danger-700: var(--red-700);
+  --danger-800: var(--red-800);
+  --danger-900: var(--red-900);
+  --danger-950: var(--red-950);
+
+  --blue-50: var(--ag-blue-50);
+  --blue-100: var(--ag-blue-100);
+  --blue-200: var(--ag-blue-200);
+  --blue-300: var(--ag-blue-300);
+  --blue-400: var(--ag-blue-400);
+  --blue-500: var(--ag-blue-500);
+  --blue-600: var(--ag-blue-600);
+  --blue-700: var(--ag-blue-700);
+  --blue-800: var(--ag-blue-800);
+  --blue-900: var(--ag-blue-900);
+  --blue-950: var(--ag-blue-950);
+
+  /* ─── Layout (Header / Footer from Figma AG Legal) ─────── */
+  --header-padding-x: 80px;
+  --header-padding-y: 24px;
+  --header-border-color: var(--gray-200);
+  --header-height: 108px;
+  --footer-newsletter-title-size: 24px;
+  --footer-newsletter-title-font: var(--font-plus-jakarta-sans);
+  --footer-link-column-gap: 24px;
+}
