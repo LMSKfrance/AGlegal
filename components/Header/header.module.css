@@ -137,8 +137,9 @@
     height: 100%;
     background-color: rgba(0, 0, 0, 0.4);
     backdrop-filter: blur(8px);
-    z-index: 1;
+    z-index: var(--menu-z-overlay);
     display: none;
+    cursor: pointer;
 }
 
 .overlay_active {

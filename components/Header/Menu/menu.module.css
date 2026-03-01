@@ -1,99 +1,179 @@
+/* Figma AG Legal Burger Menu 8329-3603 – all screen sizes */
+
 .menu {
-    position: fixed;
-    top: 0;
-    right: 0;
-    width: 632px;
-    height: 100%;
-    background-color: #fff;
-    z-index: 2;
-    transform: translateX(100%);
-    transition: transform 0.3s cubic-bezier(0.1, 0.82, 0.76, 0.965);
-    padding: 48px;
-    display: flex;
-    flex-direction: column;
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: var(--menu-width);
+  max-width: 100%;
+  height: 100%;
+  height: 100dvh;
+  background-color: var(--white);
+  z-index: var(--menu-z-panel);
+  transform: translateX(100%);
+  transition: transform 0.3s cubic-bezier(0.1, 0.82, 0.76, 0.965);
+  padding: var(--menu-padding);
+  display: flex;
+  flex-direction: column;
+  box-shadow: -4px 0 24px rgba(0, 0, 0, 0.08);
 }
 
 .menu_active {
-    transform: translateX(0);
+  transform: translateX(0);
 }
 
 .close_button {
-    width: 44px;
-    height: 44px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-left: auto;
+  width: var(--menu-close-size);
+  height: var(--menu-close-size);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  color: var(--gray-900);
+  transition: color 0.2s;
+}
+
+.close_button:hover {
+  color: var(--ag-blue-800);
 }
 
 .close_button svg {
-    stroke: var(--black);
-    transition: transform 0.3s ease;
+  stroke: currentColor;
+  transition: transform 0.3s ease;
 }
 
 .close_button:hover svg {
-    transform: rotate(90deg);
+  transform: rotate(90deg);
 }
 
 .menu_title {
-    margin-top: 48px;
-    text-transform: uppercase;
-    color: var(--gray-500);
-}
-
-.footer_title {
-    margin-top: auto;
-    text-transform: uppercase;
-    color: var(--gray-500);
+  margin-top: 48px;
+  text-transform: uppercase;
+  color: var(--gray-500);
+  font-family: var(--font-inter);
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0.8px;
 }
 
 .nav_links {
-    margin-top: 32px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 24px;
+  margin-top: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--menu-nav-gap);
 }
 
 .nav_link {
-    position: relative;
-    text-decoration: none;
-    color: var(--text-color, #000);
-    transition: color 0.3s ease;
+  position: relative;
+  text-decoration: none;
+  color: var(--gray-900);
+  font-family: var(--font-plus-jakarta-sans);
+  font-size: 24px;
+  line-height: 32px;
+  letter-spacing: -0.1px;
+  font-weight: 700;
+  transition: color 0.2s ease;
 }
 
 .nav_link:hover {
-    color: var(--success-800);
+  color: var(--ag-blue-800);
 }
 
 .nav_link::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background-color: var(--success-800);
-    transition: width 0.3s ease;
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--ag-blue-800);
+  transition: width 0.2s ease;
 }
 
 .nav_link:hover::after {
-    width: 100%;
+  width: 100%;
+}
+
+.footer_title {
+  margin-top: auto;
+  padding-top: 48px;
+  text-transform: uppercase;
+  color: var(--gray-500);
+  font-family: var(--font-inter);
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0.8px;
 }
 
 .socials {
-    margin-top: 16px;
-    display: flex;
-    gap: 16px;
+  margin-top: 16px;
+  display: flex;
+  gap: 16px;
+}
+
+.social {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gray-900);
+  transition: color 0.2s;
+}
+
+.social:hover {
+  color: var(--ag-blue-800);
 }
 
 .social svg {
-    fill: var(--success-800);
+  fill: currentColor;
+}
+
+/* Responsive: tighter spacing on small screens */
+@media (max-width: 768px) {
+  .menu_title {
+    margin-top: 32px;
+  }
+
+  .nav_links {
+    margin-top: 24px;
+    gap: 20px;
+  }
+
+  .nav_link {
+    font-size: 20px;
+    line-height: 28px;
+  }
+
+  .footer_title {
+    padding-top: 32px;
+  }
 }
 
 @media (max-width: 480px) {
-    .menu {
-        width: 100%;
-        padding: 24px;
-    }
+  .menu_title {
+    margin-top: 24px;
+  }
+
+  .nav_links {
+    margin-top: 20px;
+    gap: 16px;
+  }
+
+  .nav_link {
+    font-size: 18px;
+    line-height: 24px;
+  }
+
+  .footer_title {
+    padding-top: 24px;
+  }
+
+  .socials {
+    margin-top: 12px;
+    gap: 12px;
+  }
 }

@@ -758,6 +758,13 @@ html {
   --header-btn-height: 44px;
   --header-btn-padding-x: 16px;
   --header-hamburger-size: 50px;
+  /* Burger menu – Figma 8329-3603 (all screen sizes) */
+  --menu-padding: 48px;
+  --menu-width: 632px;
+  --menu-close-size: 44px;
+  --menu-nav-gap: 24px;
+  --menu-z-overlay: 10;
+  --menu-z-panel: 20;
   --footer-newsletter-title-size: 24px;
   --footer-newsletter-title-font: var(--font-plus-jakarta-sans);
   --footer-link-column-gap: 24px;
@@ -767,12 +774,16 @@ html {
 @media (max-width: 1024px) {
   :root {
     --header-padding-x: 48px;
+    --menu-padding: 48px;
+    --menu-width: 480px;
   }
 }
 
 @media (max-width: 768px) {
   :root {
     --header-padding-x: 40px;
+    --menu-padding: 40px;
+    --menu-width: 100%;
   }
 }
 
@@ -781,6 +792,7 @@ html {
     --header-padding-x: 24px;
     --header-padding-y: 20px;
     --header-height: 88px;
+    --menu-padding: 24px;
   }
 }
 

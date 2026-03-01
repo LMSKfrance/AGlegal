@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useEffect, useRef } from "react";
 import cn from "classnames";
 import styles from "./menu.module.css";
 import icons from "@/constants/icons";
@@ -12,34 +14,65 @@ type MenuProps = {
 
 const Menu = ({ menuOpen, handleMenu }: MenuProps) => {
   const { nav_links } = mock;
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+
+  /* Body scroll lock when menu open (Figma 8329-3603) */
+  useEffect(() => {
+    if (menuOpen) {
+      const prev = document.body.style.overflow;
+      document.body.style.overflow = "hidden";
+      closeButtonRef.current?.focus();
+      return () => {
+        document.body.style.overflow = prev;
+      };
+    }
+  }, [menuOpen]);
 
   return (
-    <div className={cn(styles.menu, { [styles.menu_active]: menuOpen })}>
-      <button onClick={handleMenu} className={styles.close_button}>
+    <div
+      className={cn(styles.menu, { [styles.menu_active]: menuOpen })}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Navigation menu"
+      aria-hidden={!menuOpen}
+    >
+      <button
+        ref={closeButtonRef}
+        type="button"
+        onClick={handleMenu}
+        className={styles.close_button}
+        aria-label="Close menu"
+      >
         {icons.Close}
       </button>
 
-      <div className={cn("subheading-small", styles.menu_title)}>Menu</div>
+      <p className={styles.menu_title}>Menu</p>
 
-      <div className={styles.nav_links}>
+      <nav className={styles.nav_links} aria-label="Main navigation">
         {nav_links.map((link) => (
           <Link
             key={link.id}
             href={link.url}
-            className={cn("heading-6", styles.nav_link)}
+            className={styles.nav_link}
+            onClick={handleMenu}
           >
             {link.title}
           </Link>
         ))}
-      </div>
+      </nav>
 
-      <div className={cn("subheading-small", styles.footer_title)}>
-        Follow us
-      </div>
+      <p className={styles.footer_title}>Follow us</p>
 
-      <div className={styles.socials}>
+      <div className={styles.socials} role="list">
         {mock.socials.map((social) => (
-          <a key={social.id} href={social.url} className={cn(styles.social)}>
+          <a
+            key={social.id}
+            href={social.url}
+            target="_blank"
+            rel="noreferrer noopener"
+            className={styles.social}
+            aria-label={social.title}
+          >
             {social.icon}
           </a>
         ))}
