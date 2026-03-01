@@ -2389,115 +2389,108 @@
 /*!*******************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./screens/Home/About/about.module.css ***!
   \*******************************************************************************************************************************************************************************************************************************************************************************/
+/* About section – Figma 8278-778: image + white AG SVG overlay */
+
+.about_section__lgXaQ {
+  overflow: hidden;
+}
+
 .about_title_wrapper__MFPn4 {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 .about_description__BKUOI {
-    color: var(--gray-950);
-    max-width: 600px;
-    width: 100%;
+  color: var(--gray-950);
+  max-width: 600px;
+  width: 100%;
 }
 
-.about_video_wrapper__ZKObj {
-    margin-top: 64px;
-    position: relative;
-    height: 532px;
-    width: 100%;
+/* Full-width image block (Figma 8278-778): image + SVG overlay.
+   Keep same aspect as SVG (1440×330) so image height never exceeds overlay. */
+.about_media_block__QFpfR {
+  margin-top: 64px;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1440 / 330;
+  min-height: 0; /* let aspect-ratio define height so image and SVG match */
 }
 
-.about_play_button__VQa4W {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    background-color: var(--success-800);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    cursor: pointer;
+.about_media_image__di2Dx {
+  position: absolute;
+  inset: 0;
+  background: var(--gray-200);
 }
 
-.about_play_button__VQa4W svg {
-    fill: var(--white);
+.about_image__VVeHJ {
+  object-fit: cover;
+}
+
+/* White AG overlay – Figma SVG */
+.about_media_overlay__I9cgq {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.about_media_overlay__I9cgq svg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 @media (max-width: 768px) {
-    .about_title_wrapper__MFPn4 {
-        flex-direction: column;
-        gap: 24px;
-    }
+  .about_title_wrapper__MFPn4 {
+    flex-direction: column;
+    gap: 24px;
+  }
 
-    .about_title__9Ai5B {
-        font-size: 40px;
-        line-height: 52px;
-        letter-spacing: -0.54px;
-    }
+  .about_title__9Ai5B {
+    font-size: 40px;
+    line-height: 52px;
+    letter-spacing: -0.54px;
+  }
+
+  .about_media_block__QFpfR {
+    margin-top: 48px;
+  }
 }
 
-/*!****************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./components/VideoModal/video-modal.module.css ***!
-  \****************************************************************************************************************************************************************************************************************************************************************************************/
-.video-modal_modal_overlay__2hYWg {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 99;
+/* Small screen – Figma 8278-795 */
+@media (max-width: 480px) {
+  .about_title_wrapper__MFPn4 {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .about_title__9Ai5B {
+    font-size: 32px;
+    line-height: 40px;
+    letter-spacing: -0.48px;
+  }
+
+  .about_description__BKUOI {
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .about_media_block__QFpfR {
+    margin-top: 24px;
+  }
 }
 
-.video-modal_modal_content__d2w3u {
-    max-width: 800px;
-    width: 90%;
-}
+@media (max-width: 390px) {
+  .about_title__9Ai5B {
+    font-size: 28px;
+    line-height: 36px;
+  }
 
-.video-modal_youtube_embed_wrapper__MazcD {
-    position: relative;
-    padding-top: 56.25%; /* Aspect ratio 16:9 */
-    overflow: hidden;
-    height: 0;
-}
-
-.video-modal_youtube_embed__WCa_e {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border: none;
-}
-
-.video-modal_close_button__4S0h_ {
-    width: 44px;
-    height: 44px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    top: 24px;
-    right: 32px;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    z-index: 100;
-}
-
-.video-modal_close_button__4S0h_:hover svg {
-    transform: rotate(90deg);
-}
-
-.video-modal_close_button__4S0h_ svg {
-    stroke: var(--white);
-    transition: transform 0.3s ease;
+  .about_media_block__QFpfR {
+    margin-top: 20px;
+  }
 }
 
 /*!*************************************************************************************************************************************************************************************************************************************************************************************!*\

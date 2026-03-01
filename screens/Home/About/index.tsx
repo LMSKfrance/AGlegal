@@ -7,8 +7,7 @@ import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import icons from "@/constants/icons";
-import VideoModal from "@/components/VideoModal";
+import AgOverlaySvg from "./AgOverlaySvg";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -16,11 +15,7 @@ const About = () => {
   const container = React.useRef<HTMLDivElement>(null);
   const title = React.useRef<HTMLHeadingElement>(null);
   const description = React.useRef<HTMLParagraphElement>(null);
-  const videoWrapper = React.useRef<HTMLDivElement>(null);
-
-  const [modalOpen, setModalOpen] = React.useState(false);
-
-  const toggleModal = () => setModalOpen(!modalOpen);
+  const mediaRef = React.useRef<HTMLDivElement>(null);
 
   useGSAP(
     () => {
@@ -28,7 +23,7 @@ const About = () => {
         container.current &&
         title.current &&
         description.current &&
-        videoWrapper.current
+        mediaRef.current
       ) {
         const chars = title.current.textContent
           ?.split("")
@@ -74,8 +69,8 @@ const About = () => {
           );
 
           timeline.fromTo(
-            videoWrapper.current,
-            { opacity: 0, scale: 0.95 },
+            mediaRef.current,
+            { opacity: 0, scale: 0.98 },
             {
               opacity: 1,
               scale: 1,
@@ -91,7 +86,7 @@ const About = () => {
   );
 
   return (
-    <div ref={container} id="get-started" className={cn("section")}>
+    <div ref={container} id="get-started" className={cn("section", styles.section)}>
       <div className={cn("container")}>
         <div className={styles.title_wrapper}>
           <h2 ref={title} className={cn("heading-3", styles.title)}>
@@ -101,7 +96,7 @@ const About = () => {
             ref={description}
             className={cn("paragraph-large", styles.description)}
           >
-            With over 20 years of experience, Lexa Firm is committed to
+            With over 20 years of experience, AG Legal is committed to
             delivering exceptional legal services. Our team of skilled attorneys
             specializes in diverse practice areas to meet the unique needs of
             individuals and businesses.
@@ -109,25 +104,22 @@ const About = () => {
         </div>
       </div>
 
-      <div ref={videoWrapper} className={styles.video_wrapper}>
-        <Image
-          src="/images/lexa-firm-video.jpg"
-          layout="fill"
-          objectFit="cover"
-          alt="Lexa Firm Video"
-          priority
-        />
-
-        <button
-          className={styles.play_button}
-          onClick={toggleModal}
-          aria-label="Play Video"
-        >
-          {icons.Play}
-        </button>
+      {/* Figma 8278-778: image with white AG SVG overlay */}
+      <div ref={mediaRef} className={styles.media_block}>
+        <div className={styles.media_image}>
+          <Image
+            src="/images/lexa-firm-video.jpg"
+            fill
+            sizes="100vw"
+            alt="AG Legal – Who we are"
+            priority
+            className={styles.image}
+          />
+        </div>
+        <div className={styles.media_overlay} aria-hidden>
+          <AgOverlaySvg />
+        </div>
       </div>
-
-      {modalOpen && <VideoModal toggleModal={toggleModal} />}
     </div>
   );
 };

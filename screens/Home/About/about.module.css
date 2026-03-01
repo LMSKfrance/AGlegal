@@ -1,49 +1,103 @@
+/* About section – Figma 8278-778: image + white AG SVG overlay */
+
+.section {
+  overflow: hidden;
+}
+
 .title_wrapper {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 .description {
-    color: var(--gray-950);
-    max-width: 600px;
-    width: 100%;
+  color: var(--gray-950);
+  max-width: 600px;
+  width: 100%;
 }
 
-.video_wrapper {
-    margin-top: 64px;
-    position: relative;
-    height: 532px;
-    width: 100%;
+/* Full-width image block (Figma 8278-778): image + SVG overlay.
+   Keep same aspect as SVG (1440×330) so image height never exceeds overlay. */
+.media_block {
+  margin-top: 64px;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1440 / 330;
+  min-height: 0; /* let aspect-ratio define height so image and SVG match */
 }
 
-.play_button {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    background-color: var(--success-800);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    cursor: pointer;
+.media_image {
+  position: absolute;
+  inset: 0;
+  background: var(--gray-200);
 }
 
-.play_button svg {
-    fill: var(--white);
+.image {
+  object-fit: cover;
+}
+
+/* White AG overlay – Figma SVG */
+.media_overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.media_overlay svg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 @media (max-width: 768px) {
-    .title_wrapper {
-        flex-direction: column;
-        gap: 24px;
-    }
+  .title_wrapper {
+    flex-direction: column;
+    gap: 24px;
+  }
 
-    .title {
-        font-size: 40px;
-        line-height: 52px;
-        letter-spacing: -0.54px;
-    }
+  .title {
+    font-size: 40px;
+    line-height: 52px;
+    letter-spacing: -0.54px;
+  }
+
+  .media_block {
+    margin-top: 48px;
+  }
+}
+
+/* Small screen – Figma 8278-795 */
+@media (max-width: 480px) {
+  .title_wrapper {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .title {
+    font-size: 32px;
+    line-height: 40px;
+    letter-spacing: -0.48px;
+  }
+
+  .description {
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .media_block {
+    margin-top: 24px;
+  }
+}
+
+@media (max-width: 390px) {
+  .title {
+    font-size: 28px;
+    line-height: 36px;
+  }
+
+  .media_block {
+    margin-top: 20px;
+  }
 }
