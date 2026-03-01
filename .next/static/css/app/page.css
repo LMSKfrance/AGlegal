@@ -149,23 +149,29 @@
 /*!*******************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./components/Header/header.module.css ***!
   \*******************************************************************************************************************************************************************************************************************************************************************************/
-/* Figma AG Legal: white bg, bottom border gray-200, 80px horizontal padding */
+/* Figma AG Legal – 1:1 with frames: 8886-12126 (Desktop), 8278-524/590/606 (Tablet/Mobile) */
 .header_header__us6ao {
     background: var(--white);
     border-bottom: 0.5px solid var(--header-border-color);
     padding: var(--header-padding-y) 0;
+    min-height: var(--header-height);
+    box-sizing: border-box;
 }
 
+/* Inner container: Figma horizontal padding per breakpoint (80 / 48 / 40 / 24) */
 .header_container__oQHiA {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    min-height: calc(var(--header-height) - 2 * var(--header-padding-y));
+    padding-left: var(--header-padding-x);
+    padding-right: var(--header-padding-x);
 }
 
 .header_btn_wrapper__aQWn4 {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: var(--header-btn-gap);
 }
 
 /* Header primary CTA: outline AG Blue (Figma Button stroke) */
@@ -173,8 +179,8 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    height: 44px;
-    padding: 0 16px;
+    height: var(--header-btn-height);
+    padding: 0 var(--header-btn-padding-x);
     font-family: var(--font-inter);
     font-weight: 500;
     font-size: 14px;
@@ -198,8 +204,8 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    height: 44px;
-    padding: 0 16px;
+    height: var(--header-btn-height);
+    padding: 0 var(--header-btn-padding-x);
     font-family: var(--font-inter);
     font-weight: 500;
     font-size: 14px;
@@ -219,8 +225,8 @@
 
 .header_hamburger__6kubG {
     position: relative;
-    width: 50px;
-    height: 50px;
+    width: var(--header-hamburger-size);
+    height: var(--header-hamburger-size);
     cursor: pointer;
 }
 
@@ -305,6 +311,13 @@
     align-items: center;
     gap: 20px;
     color: var(--ag-blue-800);
+}
+
+/* AG Legal wordmark: scale to fit header/footer (aspect 105×60) */
+.logo_logo_svg__xwgP3 {
+    height: 32px;
+    width: auto;
+    display: block;
 }
 
 .logo_divider__cbNsG {
@@ -500,6 +513,16 @@
   gap: 48px;
 }
 
+/* Figma 8324-7948: footer logo_mini (gray-900) */
+.footer_footer_logo__KTRIz {
+  color: var(--gray-900);
+  display: inline-block;
+}
+
+.footer_footer_logo__KTRIz:hover {
+  color: var(--ag-blue-800);
+}
+
 .footer_links_row__PlGcu {
   display: grid;
   grid-template-columns: auto auto 1fr;
@@ -647,6 +670,1601 @@
     gap: 16px;
     align-items: flex-start;
   }
+}
+
+/*!*********************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./design-system/components/Button/button.module.css ***!
+  \*********************************************************************************************************************************************************************************************************************************************************************************************/
+/* ─── Base ───────────────────────────────────────────────────── */
+.button_btn___fUJE {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-weight: 500;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s, color 0.2s, opacity 0.2s;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.button_btn___fUJE:disabled,
+.button_btn___fUJE[aria-disabled="true"] {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* ─── Sizes ──────────────────────────────────────────────────── */
+.button_size-m__R2Tw_ {
+  padding: 12px 20px;
+  font-size: 14px;
+  line-height: 20px;
+  border-radius: 8px;
+}
+
+.button_size-s__lnTWV {
+  padding: 10px 16px;
+  font-size: 14px;
+  line-height: 20px;
+  border-radius: 6px;
+}
+
+.button_size-xs__eqZVf {
+  padding: 8px 12px;
+  font-size: 12px;
+  line-height: 16px;
+  border-radius: 6px;
+}
+
+/* ─── Primary · Dark ─────────────────────────────────────────── */
+.button_primary-dark__VSRtt {
+  background-color: var(--ag-blue-500);
+  color: var(--white);
+  border-color: var(--ag-blue-500);
+}
+
+.button_primary-dark__VSRtt:hover:not(:disabled) {
+  background-color: var(--ag-blue-600);
+  border-color: var(--ag-blue-600);
+}
+
+.button_primary-dark__VSRtt:disabled,
+.button_primary-dark__VSRtt[aria-disabled="true"] {
+  background-color: var(--ag-blue-800);
+  border-color: var(--ag-blue-800);
+}
+
+/* ─── Primary · Light ────────────────────────────────────────── */
+.button_primary-light__UWcDr {
+  background-color: var(--ag-blue-900);
+  color: var(--white);
+  border-color: var(--ag-blue-900);
+}
+
+.button_primary-light__UWcDr:hover:not(:disabled) {
+  background-color: var(--ag-blue-950);
+  border-color: var(--ag-blue-950);
+}
+
+.button_primary-light__UWcDr:disabled,
+.button_primary-light__UWcDr[aria-disabled="true"] {
+  background-color: var(--ag-blue-800);
+  border-color: var(--ag-blue-800);
+}
+
+/* ─── Secondary ──────────────────────────────────────────────── */
+.button_secondary__sPLK9 {
+  background-color: var(--gray-100);
+  color: var(--gray-900);
+  border-color: var(--gray-100);
+}
+
+.button_secondary__sPLK9:hover:not(:disabled) {
+  background-color: var(--gray-200);
+  border-color: var(--gray-200);
+}
+
+.button_secondary__sPLK9:disabled,
+.button_secondary__sPLK9[aria-disabled="true"] {
+  background-color: var(--gray-100);
+  color: var(--gray-400);
+}
+
+/* ─── Outline ────────────────────────────────────────────────── */
+.button_outline__bQyqH {
+  background-color: transparent;
+  color: var(--gray-900);
+  border-color: var(--gray-200);
+}
+
+.button_outline__bQyqH:hover:not(:disabled) {
+  background-color: var(--gray-100);
+  border-color: var(--gray-200);
+}
+
+.button_outline__bQyqH:disabled,
+.button_outline__bQyqH[aria-disabled="true"] {
+  color: var(--gray-400);
+  border-color: var(--gray-200);
+}
+
+/* ─── Ghost ──────────────────────────────────────────────────── */
+.button_ghost__08e2L {
+  background-color: transparent;
+  color: var(--gray-900);
+  border-color: transparent;
+}
+
+.button_ghost__08e2L:hover:not(:disabled) {
+  background-color: var(--gray-100);
+}
+
+.button_ghost__08e2L:disabled,
+.button_ghost__08e2L[aria-disabled="true"] {
+  color: var(--gray-400);
+}
+
+/* ─── Icon slots ─────────────────────────────────────────────── */
+.button_icon__IXs8D {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  width: 1em;
+  height: 1em;
+}
+
+.button_size-m__R2Tw_ .button_icon__IXs8D { width: 16px; height: 16px; }
+.button_size-s__lnTWV .button_icon__IXs8D { width: 16px; height: 16px; }
+.button_size-xs__eqZVf .button_icon__IXs8D { width: 14px; height: 14px; }
+
+/* ─── Full-width modifier ────────────────────────────────────── */
+.button_full-width__17Ebi {
+  width: 100%;
+}
+
+/*!****************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./design-system/components/TextField/text-field.module.css ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************************************/
+/* ─── Wrapper ────────────────────────────────────────────────── */
+.text-field_wrapper__eyVkd {
+  display: grid;
+  gap: 6px;
+  width: 100%;
+}
+
+.text-field_label__xrbzy {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--gray-700);
+}
+
+.text-field_hint__IdFZT {
+  font-size: 12px;
+  color: var(--gray-500);
+}
+
+.text-field_hint-error__DGOU1 {
+  color: var(--red-500);
+}
+
+/* ─── Input ──────────────────────────────────────────────────── */
+.text-field_input-wrapper__qq3hC {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.text-field_input__zVcrZ {
+  width: 100%;
+  border: 1px solid var(--gray-200);
+  border-radius: 8px;
+  color: var(--gray-900);
+  background-color: var(--white);
+  font-size: 14px;
+  font-weight: 400;
+  transition: border-color 0.15s, background-color 0.15s;
+  outline: none;
+}
+
+.text-field_input__zVcrZ::placeholder {
+  color: var(--gray-400);
+}
+
+/* ─── Sizes ──────────────────────────────────────────────────── */
+.text-field_size-l__HyCSR  .text-field_input__zVcrZ { padding: 14px 16px; font-size: 16px; border-radius: 10px; }
+.text-field_size-m__x6_1f  .text-field_input__zVcrZ { padding: 10px 14px; font-size: 14px; }
+.text-field_size-s__BgiQ7  .text-field_input__zVcrZ { padding: 8px 12px;  font-size: 13px; border-radius: 6px; }
+
+/* Icon padding adjustments */
+.text-field_has-left-icon__GOMdZ  .text-field_input__zVcrZ { padding-left: 40px; }
+.text-field_has-right-icon__sW41h .text-field_input__zVcrZ { padding-right: 40px; }
+
+/* ─── Icon slots ─────────────────────────────────────────────── */
+.text-field_icon-left__1nbpO,
+.text-field_icon-right__CeEI1 {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  color: var(--gray-400);
+  pointer-events: none;
+}
+
+.text-field_icon-left__1nbpO  { left: 14px; }
+.text-field_icon-right__CeEI1 { right: 14px; }
+
+/* ─── States ─────────────────────────────────────────────────── */
+
+/* Hover */
+.text-field_input__zVcrZ:hover:not(:disabled):not(:focus) {
+  border-color: var(--gray-300);
+}
+
+/* Focus */
+.text-field_input__zVcrZ:focus {
+  border-color: var(--purple-400);
+  background-color: var(--white);
+}
+
+/* Disabled */
+.text-field_input__zVcrZ:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* ─── Variant: Secondary ─────────────────────────────────────── */
+.text-field_secondary__UrRN2 .text-field_input__zVcrZ {
+  background-color: var(--gray-100);
+  border-color: var(--gray-200);
+}
+
+.text-field_secondary__UrRN2 .text-field_input__zVcrZ:focus {
+  background-color: var(--purple-100);
+  border-color: var(--purple-400);
+}
+
+/* ─── State: Error ───────────────────────────────────────────── */
+.text-field_state-error__jDUjT .text-field_input__zVcrZ {
+  border-color: var(--red-400);
+}
+
+.text-field_state-error__jDUjT.text-field_secondary__UrRN2 .text-field_input__zVcrZ {
+  background-color: var(--red-100);
+}
+
+.text-field_state-error__jDUjT .text-field_input__zVcrZ:focus {
+  border-color: var(--red-400);
+}
+
+/*!**************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./design-system/components/TextArea/text-area.module.css ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************************/
+/* ─── Wrapper ────────────────────────────────────────────────── */
+.text-area_wrapper__f8juT {
+  display: grid;
+  gap: 6px;
+  width: 100%;
+}
+
+.text-area_label__6CjMw {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--gray-700);
+}
+
+.text-area_hint__tx6Tf {
+  font-size: 12px;
+  color: var(--gray-500);
+}
+
+.text-area_hint-error__7WlCT {
+  color: var(--red-500);
+}
+
+/* ─── Textarea ───────────────────────────────────────────────── */
+.text-area_textarea__bVxt6 {
+  width: 100%;
+  resize: vertical;
+  border: 1px solid var(--gray-200);
+  border-radius: 8px;
+  color: var(--gray-900);
+  background-color: var(--white);
+  font-size: 14px;
+  font-weight: 400;
+  font-family: inherit;
+  transition: border-color 0.15s, background-color 0.15s;
+  outline: none;
+  min-height: 100px;
+}
+
+.text-area_textarea__bVxt6::placeholder {
+  color: var(--gray-400);
+}
+
+/* ─── Sizes ──────────────────────────────────────────────────── */
+.text-area_size-l__XaW40 .text-area_textarea__bVxt6 { padding: 14px 16px; font-size: 16px; border-radius: 10px; }
+.text-area_size-m__iYrXp .text-area_textarea__bVxt6 { padding: 10px 14px; font-size: 14px; }
+.text-area_size-s__M9D0X .text-area_textarea__bVxt6 { padding: 8px 12px;  font-size: 13px; border-radius: 6px; }
+
+/* ─── States ─────────────────────────────────────────────────── */
+.text-area_textarea__bVxt6:hover:not(:disabled):not(:focus) {
+  border-color: var(--gray-300);
+}
+
+.text-area_textarea__bVxt6:focus {
+  border-color: var(--purple-400);
+}
+
+.text-area_textarea__bVxt6:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* ─── Variant: Secondary ─────────────────────────────────────── */
+.text-area_secondary__VwUvS .text-area_textarea__bVxt6 {
+  background-color: var(--gray-100);
+  border-color: var(--gray-200);
+}
+
+.text-area_secondary__VwUvS .text-area_textarea__bVxt6:focus {
+  background-color: var(--purple-100);
+  border-color: var(--purple-400);
+}
+
+/* ─── State: Error ───────────────────────────────────────────── */
+.text-area_state-error__XQGW9 .text-area_textarea__bVxt6 {
+  border-color: var(--red-400);
+}
+
+.text-area_state-error__XQGW9.text-area_secondary__VwUvS .text-area_textarea__bVxt6 {
+  background-color: var(--red-100);
+}
+
+.text-area_state-error__XQGW9 .text-area_textarea__bVxt6:focus {
+  border-color: var(--red-400);
+}
+
+/*!*************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./design-system/components/Dropdown/dropdown.module.css ***!
+  \*************************************************************************************************************************************************************************************************************************************************************************************************/
+/* ─── Wrapper ────────────────────────────────────────────────── */
+.dropdown_wrapper__bpETE {
+  display: grid;
+  gap: 6px;
+  width: 100%;
+  position: relative;
+}
+
+.dropdown_label__n7C_u {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--gray-700);
+}
+
+/* ─── Trigger ────────────────────────────────────────────────── */
+.dropdown_trigger__spr5_ {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 10px 14px;
+  background-color: var(--white);
+  border: 1px solid var(--slate-200);
+  border-radius: 8px;
+  font-size: 14px;
+  color: var(--gray-900);
+  cursor: pointer;
+  transition: border-color 0.15s, background-color 0.15s;
+  text-align: left;
+}
+
+.dropdown_trigger__spr5_:hover {
+  border-color: var(--gray-300);
+}
+
+.dropdown_trigger__spr5_.dropdown_open__6h3l7 {
+  border-color: var(--slate-200);
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.dropdown_trigger-icon__Brxo4 {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  color: var(--gray-500);
+  transition: transform 0.2s;
+  flex-shrink: 0;
+}
+
+.dropdown_trigger-icon__Brxo4.dropdown_rotated__73FmF {
+  transform: rotate(180deg);
+}
+
+.dropdown_prefix-icon__DFxIc {
+  display: flex;
+  align-items: center;
+  color: var(--gray-500);
+  flex-shrink: 0;
+}
+
+.dropdown_placeholder__EByOT {
+  color: var(--gray-400);
+}
+
+/* ─── Menu ───────────────────────────────────────────────────── */
+.dropdown_menu__vA6_T {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  background-color: var(--white);
+  border: 1px solid var(--slate-200);
+  border-top: none;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  max-height: 240px;
+  overflow-y: auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.dropdown_menu-top__L3dix {
+  top: auto;
+  bottom: 100%;
+  border-top: 1px solid var(--slate-200);
+  border-bottom: none;
+  border-radius: 8px 8px 0 0;
+}
+
+/* ─── Option ─────────────────────────────────────────────────── */
+.dropdown_option__TDEz6 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 14px;
+  color: var(--gray-900);
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  transition: background-color 0.1s;
+}
+
+.dropdown_option__TDEz6:hover {
+  background-color: var(--gray-50);
+}
+
+.dropdown_option__TDEz6.dropdown_selected__fwgHd {
+  background-color: var(--ag-blue-50);
+  color: var(--ag-blue-700);
+  font-weight: 500;
+}
+
+.dropdown_option-check__xEpU9 {
+  margin-left: auto;
+  color: var(--ag-blue-600);
+  display: flex;
+  align-items: center;
+}
+
+/*!*********************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./design-system/components/Toggle/toggle.module.css ***!
+  \*********************************************************************************************************************************************************************************************************************************************************************************************/
+/* ─── Row ─────────────────────────────────────────────────────── */
+.toggle_row__bPYh1 {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.toggle_row__bPYh1.toggle_disabled__e6KO8 {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* ─── Track ──────────────────────────────────────────────────── */
+.toggle_track__sUIMQ {
+  position: relative;
+  flex-shrink: 0;
+  border-radius: 9999px;
+  background-color: var(--slate-100);
+  border: 1px solid var(--slate-200);
+  transition: background-color 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+
+/* Sizes */
+.toggle_size-l__jDSC4  .toggle_track__sUIMQ { width: 52px; height: 28px; }
+.toggle_size-m__8dlSX  .toggle_track__sUIMQ { width: 44px; height: 24px; }
+.toggle_size-s__6f0Wa  .toggle_track__sUIMQ { width: 36px; height: 20px; }
+.toggle_size-xs__vfj2q .toggle_track__sUIMQ { width: 28px; height: 16px; }
+
+/* ─── Thumb ──────────────────────────────────────────────────── */
+.toggle_thumb__EeLNk {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  border-radius: 50%;
+  background-color: var(--white);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  transition: left 0.2s;
+}
+
+.toggle_size-l__jDSC4  .toggle_thumb__EeLNk { width: 22px; height: 22px; left: 2px; }
+.toggle_size-m__8dlSX  .toggle_thumb__EeLNk { width: 18px; height: 18px; left: 2px; }
+.toggle_size-s__6f0Wa  .toggle_thumb__EeLNk { width: 14px; height: 14px; left: 2px; }
+.toggle_size-xs__vfj2q .toggle_thumb__EeLNk { width: 10px; height: 10px; left: 2px; }
+
+/* ─── ON state ───────────────────────────────────────────────── */
+.toggle_row__bPYh1.toggle_on__kSO4_ .toggle_track__sUIMQ {
+  background-color: var(--ag-blue-500);
+  border-color: var(--ag-blue-500);
+}
+
+.toggle_size-l__jDSC4.toggle_on__kSO4_  .toggle_thumb__EeLNk { left: calc(52px - 22px - 4px); }
+.toggle_size-m__8dlSX.toggle_on__kSO4_  .toggle_thumb__EeLNk { left: calc(44px - 18px - 4px); }
+.toggle_size-s__6f0Wa.toggle_on__kSO4_  .toggle_thumb__EeLNk { left: calc(36px - 14px - 4px); }
+.toggle_size-xs__vfj2q.toggle_on__kSO4_ .toggle_thumb__EeLNk { left: calc(28px - 10px - 4px); }
+
+/* ─── Hover ──────────────────────────────────────────────────── */
+.toggle_row__bPYh1:not(.toggle_disabled__e6KO8):hover .toggle_track__sUIMQ {
+  background-color: var(--slate-200);
+}
+
+.toggle_row__bPYh1.toggle_on__kSO4_:not(.toggle_disabled__e6KO8):hover .toggle_track__sUIMQ {
+  background-color: var(--ag-blue-600);
+  border-color: var(--ag-blue-600);
+}
+
+/* ─── Focus ring ─────────────────────────────────────────────── */
+.toggle_input__KMqvT:focus-visible ~ .toggle_row__bPYh1 .toggle_track__sUIMQ,
+.toggle_row__bPYh1:focus-within .toggle_track__sUIMQ {
+  box-shadow: 0 0 0 2px var(--purple-400);
+}
+
+/* ─── Hidden native input ────────────────────────────────────── */
+.toggle_input__KMqvT {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* ─── Label text ─────────────────────────────────────────────── */
+.toggle_label-text__Tq74W {
+  font-size: 14px;
+  color: var(--gray-700);
+  font-weight: 500;
+}
+
+/* ─── Wrapper ────────────────────────────────────────────────── */
+.toggle_wrapper__C3r_6 {
+  display: inline-flex;
+  position: relative;
+}
+
+/*!*************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./design-system/components/Checkbox/checkbox.module.css ***!
+  \*************************************************************************************************************************************************************************************************************************************************************************************************/
+/* ─── Shared ──────────────────────────────────────────────────── */
+.checkbox_wrapper__GTZ4x {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.checkbox_wrapper__GTZ4x.checkbox_disabled__QsruZ {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* Hidden native input */
+.checkbox_input__ynBS9 {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.checkbox_label-text__V_h4D {
+  font-size: 14px;
+  color: var(--gray-700);
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+/* ─── Checkbox control ───────────────────────────────────────── */
+.checkbox_control__EXVa0 {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid var(--gray-300);
+  background-color: var(--white);
+  transition: background-color 0.15s, border-color 0.15s, box-shadow 0.15s;
+}
+
+/* Checkbox shape */
+.checkbox_checkbox__wJoms .checkbox_control__EXVa0 {
+  border-radius: 4px;
+}
+
+/* Radio shape */
+.checkbox_radio__bdrMO .checkbox_control__EXVa0 {
+  border-radius: 50%;
+}
+
+/* Sizes */
+.checkbox_size-l__2Naou  .checkbox_control__EXVa0 { width: 20px; height: 20px; }
+.checkbox_size-m__UqCMP  .checkbox_control__EXVa0 { width: 18px; height: 18px; }
+.checkbox_size-s__Ep_NR  .checkbox_control__EXVa0 { width: 16px; height: 16px; }
+.checkbox_size-xs__cBIP_ .checkbox_control__EXVa0 { width: 14px; height: 14px; }
+
+/* ─── Hover ──────────────────────────────────────────────────── */
+.checkbox_wrapper__GTZ4x:not(.checkbox_disabled__QsruZ):hover .checkbox_control__EXVa0 {
+  border-color: var(--ag-blue-500);
+}
+
+/* ─── Checked state ──────────────────────────────────────────── */
+.checkbox_wrapper__GTZ4x.checkbox_checked__MnLzE .checkbox_control__EXVa0 {
+  background-color: var(--ag-blue-500);
+  border-color: var(--ag-blue-500);
+}
+
+/* ─── Focus ring ─────────────────────────────────────────────── */
+.checkbox_input__ynBS9:focus-visible + .checkbox_control__EXVa0,
+.checkbox_wrapper__GTZ4x:focus-within .checkbox_control__EXVa0 {
+  box-shadow: 0 0 0 2px var(--purple-400);
+}
+
+/* ─── Check icon ─────────────────────────────────────────────── */
+.checkbox_check-icon__uX4hF {
+  display: none;
+  color: var(--white);
+}
+
+.checkbox_wrapper__GTZ4x.checkbox_checked__MnLzE .checkbox_check-icon__uX4hF {
+  display: block;
+}
+
+/* ─── Radio dot ──────────────────────────────────────────────── */
+.checkbox_radio-dot__jKUUS {
+  display: none;
+  border-radius: 50%;
+  background-color: var(--white);
+}
+
+.checkbox_size-l__2Naou  .checkbox_radio-dot__jKUUS { width: 8px;  height: 8px;  }
+.checkbox_size-m__UqCMP  .checkbox_radio-dot__jKUUS { width: 7px;  height: 7px;  }
+.checkbox_size-s__Ep_NR  .checkbox_radio-dot__jKUUS { width: 6px;  height: 6px;  }
+.checkbox_size-xs__cBIP_ .checkbox_radio-dot__jKUUS { width: 5px;  height: 5px;  }
+
+.checkbox_wrapper__GTZ4x.checkbox_checked__MnLzE .checkbox_radio-dot__jKUUS {
+  display: block;
+}
+
+/* ─── Error state ────────────────────────────────────────────── */
+.checkbox_wrapper__GTZ4x.checkbox_error__DRyM4 .checkbox_control__EXVa0 {
+  border-color: var(--red-400);
+}
+
+/*!***************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./design-system/components/Tab/tab.module.css ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************************/
+.tab_tab__H1W_d {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 24px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  transition: background-color 0.15s, color 0.15s;
+  white-space: nowrap;
+}
+
+.tab_active__T5oh8 {
+  background-color: var(--ag-blue-800);
+  color: var(--white);
+}
+
+.tab_inactive__ggPtK {
+  background-color: transparent;
+  color: var(--gray-500);
+}
+
+.tab_inactive__ggPtK:hover {
+  background-color: var(--gray-100);
+  color: var(--gray-700);
+}
+
+/*!*****************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./design-system/components/Tabs/tabs.module.css ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************************/
+.tabs_tabs__Wi_ld {
+  background-color: var(--gray-100);
+  border: 1px solid var(--gray-200);
+  border-radius: 12px;
+  padding: 8px;
+}
+
+/* Horizontal (default/responsive) */
+.tabs_tabs-horizontal__YQn_D {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+/* Vertical (non-responsive / stacked) */
+.tabs_tabs-vertical___bCP1 {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* ─── Panel ──────────────────────────────────────────────────── */
+.tabs_panel__q3CVl {
+  margin-top: 16px;
+}
+
+/*!****************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./design-system/components/FilterTag/filter-tag.module.css ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************************************/
+.filter-tag_tag__dIS_r {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.filter-tag_active__ERM6r {
+  background-color: var(--ag-blue-800);
+  color: var(--white);
+}
+
+.filter-tag_inactive__MYTM5 {
+  background-color: var(--gray-100);
+  color: var(--gray-500);
+}
+
+.filter-tag_inactive__MYTM5:hover {
+  background-color: var(--gray-200);
+  color: var(--gray-700);
+}
+
+/*!********************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./design-system/components/ServiceCard/service-card.module.css ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************************/
+/* ─── Base ───────────────────────────────────────────────────── */
+.service-card_card___Yc2B {
+  border: 1px solid var(--gray-200);
+  overflow: hidden;
+}
+
+.service-card_card-row__OhvVZ {
+  display: flex;
+  flex-direction: row;
+  padding: 16px;
+  border-radius: 12px;
+  gap: 0;
+}
+
+.service-card_card-column__9eNgy {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  border-radius: 24px;
+}
+
+/* ─── Image slot ─────────────────────────────────────────────── */
+.service-card_image-wrapper__pCdGn {
+  position: relative;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.service-card_card-row__OhvVZ .service-card_image-wrapper__pCdGn {
+  width: 280px;
+  min-height: 220px;
+  border-radius: 10px;
+}
+
+.service-card_card-column__9eNgy .service-card_image-wrapper__pCdGn {
+  width: 100%;
+  height: 220px;
+  border-radius: 20px;
+}
+
+.service-card_image-wrapper__pCdGn img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ─── Content ────────────────────────────────────────────────── */
+.service-card_content__jYTws {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  padding: 24px;
+  flex: 1;
+}
+
+.service-card_meta__dr9Ar {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.service-card_category__kIn56 {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ag-blue-800);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.service-card_title__LiiUz {
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--black);
+  margin: 0;
+}
+
+.service-card_description__i6BhB {
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--gray-500);
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* ─── Footer ─────────────────────────────────────────────────── */
+.service-card_footer__8tmsm {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: auto;
+}
+
+/*!************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./design-system/components/CTACard/cta-card.module.css ***!
+  \************************************************************************************************************************************************************************************************************************************************************************************************/
+/* ─── Base ───────────────────────────────────────────────────── */
+.cta-card_card___8r9A {
+  background-color: var(--ag-blue-800);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.cta-card_card-row__Gj10o {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 64px;
+  gap: 32px;
+}
+
+.cta-card_card-column__sjiN0 {
+  display: flex;
+  flex-direction: column;
+  padding: 48px;
+  gap: 32px;
+}
+
+/* ─── Content ────────────────────────────────────────────────── */
+.cta-card_content__h30dj {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.cta-card_eyebrow__oJcFc {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.cta-card_eyebrow-dot__Swk1s {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--white);
+  opacity: 0.6;
+  flex-shrink: 0;
+}
+
+.cta-card_eyebrow-text__um79h {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--white);
+  opacity: 0.7;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.cta-card_card-row__Gj10o .cta-card_title__ORXqm {
+  font-size: 40px;
+  font-weight: 700;
+  color: var(--white);
+  margin: 0;
+  line-height: 1.2;
+  max-width: 560px;
+}
+
+.cta-card_card-column__sjiN0 .cta-card_title__ORXqm {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--white);
+  margin: 0;
+  line-height: 1.2;
+}
+
+/* ─── Action slot ────────────────────────────────────────────── */
+.cta-card_action__Nh6x3 {
+  flex-shrink: 0;
+}
+
+/*!********************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./design-system/components/FeatureCard/feature-card.module.css ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************************/
+.feature-card_card__1l4J6 {
+  border: 1px solid var(--gray-200);
+  border-radius: 12px;
+}
+
+.feature-card_card-row__AGvJm {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 32px;
+  gap: 32px;
+}
+
+.feature-card_card-column___IeoA {
+  display: flex;
+  flex-direction: column;
+  padding: 32px;
+  gap: 32px;
+}
+
+/* ─── Icon ───────────────────────────────────────────────────── */
+.feature-card_icon-wrapper__QCT1P {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 28px;
+  background-color: var(--gray-100);
+  border: 1px solid var(--gray-200);
+  flex-shrink: 0;
+  color: var(--ag-blue-800);
+}
+
+/* ─── Content ────────────────────────────────────────────────── */
+.feature-card_content__qmj8_ {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.feature-card_title__4w_rI {
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--black);
+  margin: 0;
+}
+
+.feature-card_description___OACm {
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--gray-500);
+  margin: 0;
+  line-height: 1.6;
+}
+
+/*!**************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./design-system/components/PhilosophyCard/philosophy-card.module.css ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************************************/
+.philosophy-card_card__tst9q {
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.philosophy-card_inner__7mQuQ {
+  background-color: var(--black);
+  padding: 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.philosophy-card_badge__qsGbX {
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--white);
+  border-radius: 24px;
+  padding: 8px 16px;
+  align-self: flex-start;
+}
+
+.philosophy-card_badge-text__deoTT {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--black);
+}
+
+.philosophy-card_content__Zr7Ew {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 6px;
+}
+
+.philosophy-card_title__i3ECQ {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--white);
+  margin: 0;
+}
+
+.philosophy-card_description__etmHQ {
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--white);
+  opacity: 0.8;
+  margin: 0;
+  line-height: 1.6;
+}
+
+/*!**************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./design-system/components/StepCard/step-card.module.css ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************************/
+.step-card_card-row__nQV5Y {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 64px;
+}
+
+.step-card_card-column__RRQQ3 {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+
+/* ─── Visual area ────────────────────────────────────────────── */
+.step-card_visual__S2d_I {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.step-card_card-row__nQV5Y .step-card_visual__S2d_I {
+  width: 280px;
+  min-height: 200px;
+}
+
+.step-card_card-column__RRQQ3 .step-card_visual__S2d_I {
+  width: 100%;
+  height: 200px;
+}
+
+.step-card_visual__S2d_I img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ─── Content ────────────────────────────────────────────────── */
+.step-card_content__7uLIC {
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+  flex: 1;
+}
+
+.step-card_meta__WJU_R {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.step-card_title__la_5D {
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--black);
+  margin: 0;
+}
+
+.step-card_description__Zbb_M {
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--gray-500);
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* ─── Step number ────────────────────────────────────────────── */
+.step-card_step-number__pk4jX {
+  font-size: 72px;
+  font-weight: 700;
+  color: var(--gray-100);
+  line-height: 1;
+  user-select: none;
+}
+
+/*!******************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./design-system/components/ReviewCard/review-card.module.css ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************************************/
+.review-card_card__4hcZr {
+  border: 1px solid var(--gray-200);
+  border-radius: 12px;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+/* ─── Quote ──────────────────────────────────────────────────── */
+.review-card_quote-section__19OOq {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.review-card_quote-icon__isPJi {
+  color: var(--gray-300);
+  display: flex;
+}
+
+.review-card_quote-text__2QlQN {
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--gray-900);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* ─── Author ─────────────────────────────────────────────────── */
+.review-card_author__dAMtx {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.review-card_avatar__mXC5q {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: var(--gray-100);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.review-card_avatar__mXC5q img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.review-card_author-info__OF8HX {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.review-card_author-name__kGeC6 {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--black);
+}
+
+.review-card_author-company__piJoL {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--gray-500);
+}
+
+/*!******************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./design-system/components/TeamMember/team-member.module.css ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************************************/
+.team-member_card__1mZfi {
+  border: 1px solid var(--gray-200);
+  border-radius: 12px;
+  overflow: hidden;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* ─── Photo ──────────────────────────────────────────────────── */
+.team-member_photo__hktCQ {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: 12px;
+  background-color: var(--gray-100);
+  overflow: hidden;
+  position: relative;
+}
+
+.team-member_photo__hktCQ img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ─── Info ───────────────────────────────────────────────────── */
+.team-member_info__LrMiL {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 24px;
+}
+
+.team-member_names__rQpTJ {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.team-member_name___oQWO {
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--black);
+  margin: 0;
+}
+
+.team-member_role__2CzZk {
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--gray-900);
+}
+
+.team-member_bio__0NkWj {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--gray-500);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ─── Social links ───────────────────────────────────────────── */
+.team-member_social__uWT3E {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.team-member_social-link__ipWJE {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  background-color: var(--gray-100);
+  color: var(--gray-700);
+  text-decoration: none;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.team-member_social-link__ipWJE:hover {
+  background-color: var(--ag-blue-50);
+  color: var(--ag-blue-700);
+}
+
+/*!******************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./design-system/components/NumberCard/number-card.module.css ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************************************/
+.number-card_card__yk4A0 {
+  border: 1px solid var(--gray-200);
+  border-radius: 12px;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.number-card_value__TKpBI {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--black);
+  margin: 0;
+}
+
+.number-card_label__Ee6Is {
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--gray-500);
+  margin: 0;
+}
+
+/*!************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./design-system/components/ExpertiseCard/expertise-card.module.css ***!
+  \************************************************************************************************************************************************************************************************************************************************************************************************************/
+.expertise-card_card__V2jQG {
+  border: 1px solid var(--gray-200);
+  border-radius: 12px;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.expertise-card_icon-wrapper__Z8T35 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 28px;
+  background-color: var(--gray-100);
+  border: 1px solid var(--gray-200);
+  color: var(--ag-blue-800);
+}
+
+.expertise-card_content__fvsQf {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.expertise-card_title__3Xa2B {
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--black);
+  margin: 0;
+}
+
+.expertise-card_description__T1cgx {
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--gray-500);
+  margin: 0;
+  line-height: 1.6;
+}
+
+/*!**************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./design-system/components/NewsCard/news-card.module.css ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************************/
+/* ─── Full card ──────────────────────────────────────────────── */
+.news-card_card__u_IY3 {
+  border: 1px solid var(--gray-200);
+  border-radius: 12px;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.news-card_thumbnail__neGo9 {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 10px;
+  background-color: var(--gray-100);
+  overflow: hidden;
+}
+
+.news-card_thumbnail__neGo9 img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.news-card_meta__jzG_3 {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.news-card_meta-text__46H2R {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--gray-500);
+}
+
+.news-card_meta-divider__k_NcA {
+  width: 1px;
+  height: 12px;
+  background-color: var(--gray-200);
+  flex-shrink: 0;
+}
+
+.news-card_content__OGuac {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.news-card_title__ez6AV {
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--black);
+  margin: 0;
+}
+
+.news-card_excerpt__tm_sE {
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--gray-950);
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* ─── Small card ─────────────────────────────────────────────── */
+.news-card_card-small___YuuB {
+  border: 1px solid var(--gray-200);
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.news-card_card-small___YuuB .news-card_title__ez6AV {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--black);
+  margin: 0;
+}
+
+.news-card_card-small___YuuB .news-card_date__2uUqY {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--gray-500);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/*!***************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./design-system/components/Tag/tag.module.css ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************************/
+.tag_tag__9nnb_ {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 16px;
+  border-radius: 24px;
+  background-color: var(--ag-blue-100);
+  border: 1px solid var(--ag-blue-400);
+}
+
+.tag_dot__vQFy5 {
+  width: 6px;
+  height: 6px;
+  border-radius: 4px;
+  background-color: var(--ag-blue-800);
+  flex-shrink: 0;
+}
+
+.tag_label__eMPFC {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ag-blue-800);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/*!************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./design-system/components/FaqItem/faq-item.module.css ***!
+  \************************************************************************************************************************************************************************************************************************************************************************************************/
+.faq-item_item__LufE7 {
+  border-bottom: 1px solid var(--gray-200);
+}
+
+.faq-item_trigger__XZaEd {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 48px;
+  padding: 32px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+}
+
+.faq-item_question__ydF1O {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--black);
+  flex: 1;
+}
+
+.faq-item_icon__TolLp {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  color: var(--black);
+  transition: transform 0.25s;
+  margin-top: 2px;
+}
+
+.faq-item_icon-open__NehH9 {
+  transform: rotate(45deg);
+}
+
+/* ─── Answer panel ───────────────────────────────────────────── */
+.faq-item_answer__ZqqCK {
+  overflow: hidden;
+  transition: max-height 0.3s ease, opacity 0.3s ease;
+  max-height: 0;
+  opacity: 0;
+}
+
+.faq-item_answer-open__Vc5eo {
+  max-height: 600px;
+  opacity: 1;
+}
+
+.faq-item_answer-inner___zRSw {
+  padding: 0 32px 32px;
+}
+
+.faq-item_answer-text__D2ufh {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--gray-950);
+  line-height: 1.7;
+  margin: 0;
+}
+
+/*!******************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./design-system/components/PlayButton/play-button.module.css ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************************************/
+.play-button_btn__NB_8i {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--ag-blue-800);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.2s;
+  flex-shrink: 0;
+}
+
+.play-button_btn__NB_8i:hover {
+  background-color: var(--ag-blue-900);
+  transform: scale(1.05);
+}
+
+.play-button_btn__NB_8i:active {
+  transform: scale(0.97);
+}
+
+/* Sizes */
+.play-button_size-sm__gpy1U { width: 48px; height: 48px; }
+.play-button_size-md__IedBS { width: 64px; height: 64px; }
+.play-button_size-lg__Buutr { width: 80px; height: 80px; }
+
+.play-button_icon__Kphdf {
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /*!**************************************************************************************************************************************************************************************************************************************************************************************!*\
@@ -988,63 +2606,6 @@
 }
 
 /*!***********************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./screens/Home/Offices/offices.module.css ***!
-  \***********************************************************************************************************************************************************************************************************************************************************************************/
-.offices_marquees__vkVBQ {
-    margin-top: 64px;
-}
-
-.offices_marquee__zoRwM {
-    border-top: 0.5px solid var(--gray-200);
-    border-bottom: 0.5px solid var(--gray-200);
-}
-
-.offices_marquee__zoRwM:nth-child(even) {
-    border-top: none;
-}
-
-.offices_marquee_wrapper__O9xYh {
-    padding: 32px 0;
-    display: flex;
-    align-items: center;
-    gap: 32px;
-    margin-right: 32px;
-}
-
-@media (max-width: 768px) {
-    .offices_title__6a6Wv {
-        font-size: 40px;
-        line-height: 52px;
-        letter-spacing: -0.54px;
-    }
-
-    .offices_marquees__vkVBQ {
-        margin-top: 48px;
-    }
-}
-
-/*!*******************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./components/Office/office.module.css ***!
-  \*******************************************************************************************************************************************************************************************************************************************************************************/
-.office_office__LcPko {
-    display: flex;
-    align-items: center;
-    gap: 32px;
-}
-
-.office_office_image__QCg0I {
-    position: relative;
-    width: 129px;
-    height: 54px;
-    border-radius: 56px;
-    overflow: hidden;
-}
-
-.office_office_name__ZnMI4 {
-    font-weight: 500;
-}
-
-/*!***********************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./screens/Home/Process/process.module.css ***!
   \***********************************************************************************************************************************************************************************************************************************************************************************/
 .process_container__q_GLS {
@@ -1314,72 +2875,6 @@
     }
 }
 
-/*!*********************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./screens/Home/Testimonials/testimonials.module.css ***!
-  \*********************************************************************************************************************************************************************************************************************************************************************************************/
-.testimonials_testimonials__pyc0X {
-    margin-top: 64px;
-}
-
-.testimonials_marquee__bWlWq {
-    margin-top: 48px;
-}
-
-.testimonials_marquee_wrapper__usLhZ {
-    margin-right: 48px;
-    display: flex;
-    gap: 48px;
-}
-
-@media (max-width: 768px) {
-    .testimonials_title__mkjgz {
-        font-size: 40px;
-        line-height: 52px;
-        letter-spacing: -0.54px;
-    }
-}
-
-/*!*****************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./components/Testimonial/testimonial.module.css ***!
-  \*****************************************************************************************************************************************************************************************************************************************************************************************/
-.testimonial_testimonial__bTq9y {
-    max-width: 616px;
-    width: 100%;
-    padding: 32px;
-    border: 1px solid var(--gray-100);
-    border-radius: 12px;
-}
-
-.testimonial_testimonial_icon__tipJ2 svg {
-    width: 44px;
-    height: 44px;
-    fill: var(--gray-300);
-}
-
-.testimonial_testimonial_quote__D17zP {
-    margin-top: 32px;
-    font-weight: 400;
-}
-
-.testimonial_testimonial_author__jxk0g {
-    margin-top: 32px;
-    display: flex;
-    align-items: center;
-    gap: 16px;
-}
-
-.testimonial_testimonial_author_image__zwgvW {
-    position: relative;
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    overflow: hidden;
-}
-
-.testimonial_testimonial_author_position__APadN {
-    color: var(--gray-500);
-}
-
 /*!********************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./screens/Universal/CTA/cta.module.css ***!
   \********************************************************************************************************************************************************************************************************************************************************************************/
@@ -1415,65 +2910,6 @@
         line-height: 40px;
         letter-spacing: -0.48px;
     }
-}
-
-/*!********************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./screens/Universal/FAQ/faq.module.css ***!
-  \********************************************************************************************************************************************************************************************************************************************************************************/
-.faq_faqs__frmY2 {
-    margin-top: 64px;
-    border: 1px solid var(--gray-200);
-    border-radius: 12px;
-}
-
-@media (max-width: 768px) {
-    .faq_faqs__frmY2 {
-        margin-top: 48px;
-    }
-
-    .faq_title__Nvabs {
-        font-size: 40px;
-        line-height: 52px;
-        letter-spacing: -0.54px;
-    }
-}
-
-/*!**********************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./components/FaqItem/faq-item.module.css ***!
-  \**********************************************************************************************************************************************************************************************************************************************************************************/
-.faq-item_faq__N5g64 {
-    padding: 32px;
-    cursor: pointer;
-}
-
-.faq-item_faq_header__yKGg7 {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 24px;
-}
-
-.faq-item_faq_header__yKGg7 svg {
-    stroke: var(--black);
-    transition: transform 0.3s;
-    flex-shrink: 0;
-}
-
-.faq-item_faq_header__yKGg7.faq-item_open__mXukL svg {
-    transform: rotate(45deg);
-}
-
-.faq-item_faq_question__n6_37 {
-    font-weight: 500;
-}
-
-.faq-item_faq_body__zf0mo {
-    margin-top: 16px;
-}
-
-.faq-item_faq_answer__tpWps {
-    color: var(--gray-950);
-    max-width: 800px;
 }
 
 /*!**********************************************************************************************************************************************************************************************************************************************************************************!*\

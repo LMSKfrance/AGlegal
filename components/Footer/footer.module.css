@@ -68,6 +68,16 @@
   gap: 48px;
 }
 
+/* Figma 8324-7948: footer logo_mini (gray-900) */
+.footer_logo {
+  color: var(--gray-900);
+  display: inline-block;
+}
+
+.footer_logo:hover {
+  color: var(--ag-blue-800);
+}
+
 .links_row {
   display: grid;
   grid-template-columns: auto auto 1fr;

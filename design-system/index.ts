@@ -5,6 +5,8 @@
 export { default as Header } from "../components/Header";
 export { default as Footer } from "../components/Footer";
 export { default as Logo } from "../components/Logo";
+export { default as LogoMini } from "./components/LogoMini";
+export type { LogoMiniProps } from "./components/LogoMini";
 
 // ─────────────────────────────────────────────────────────────
 // Primitives (form elements & controls)

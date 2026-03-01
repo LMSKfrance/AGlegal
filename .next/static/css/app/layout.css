@@ -749,13 +749,39 @@ html {
   --blue-950: var(--ag-blue-950);
 
   /* ─── Layout (Header / Footer from Figma AG Legal) ─────── */
+  /* Desktop 1440: 80px horizontal, 24px vertical, height 108px */
   --header-padding-x: 80px;
   --header-padding-y: 24px;
   --header-border-color: var(--gray-200);
   --header-height: 108px;
+  --header-btn-gap: 16px;
+  --header-btn-height: 44px;
+  --header-btn-padding-x: 16px;
+  --header-hamburger-size: 50px;
   --footer-newsletter-title-size: 24px;
   --footer-newsletter-title-font: var(--font-plus-jakarta-sans);
   --footer-link-column-gap: 24px;
+}
+
+/* Header 1:1 Figma – padding per frame (Desktop 1440 / Tablet 1024 / Tablet 768 / Mobile 480) */
+@media (max-width: 1024px) {
+  :root {
+    --header-padding-x: 48px;
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --header-padding-x: 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --header-padding-x: 24px;
+    --header-padding-y: 20px;
+    --header-height: 88px;
+  }
 }
 
 /*!**********************************************************************************************************************************************************************************************************************************************************************!*\

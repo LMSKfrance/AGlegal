@@ -1,6 +1,6 @@
 import cn from "classnames";
 import styles from "./footer.module.css";
-import Logo from "../Logo";
+import { LogoMini } from "@/design-system";
 import Link from "next/link";
 import TextField from "../TextField";
 import icons from "@/constants/icons";
@@ -27,7 +27,7 @@ const Footer = () => {
         <div className={styles.divider} />
 
         <div className={styles.footer_wrapper}>
-          <Logo variant="footer" />
+          <LogoMini className={styles.footer_logo} />
 
           <div className={styles.links_row}>
             <nav className={styles.footer_nav} aria-label="Footer navigation">
