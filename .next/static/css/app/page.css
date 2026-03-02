@@ -2348,44 +2348,6 @@
   justify-content: center;
 }
 
-/*!**************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./components/TextField/text-field.module.css ***!
-  \**************************************************************************************************************************************************************************************************************************************************************************************/
-.text-field_container__ozcdv {
-    width: 100%;
-    display: grid;
-    gap: 8px;
-}
-
-.text-field_label__wHsWE {
-    font-weight: 500;
-}
-
-.text-field_input__sk_eD {
-    width: 100%;
-    padding: 16px;
-    border: 1px solid var(--gray-200);
-    border-radius: 56px;
-    color: var(--gray-950);
-    font-weight: 500;
-    transition: border-color 0.2s;
-}
-
-.text-field_input__sk_eD:hover {
-    border-color: var(--gray-400);
-}
-
-.text-field_input__sk_eD:focus {
-    outline: none;
-    border-color: var(--success-800);
-}
-
-.text-field_input__sk_eD.text-field_medium__vhTsg {
-    padding: 14px 12px;
-    border-radius: 10px;
-    background-color: var(--gray-100);
-}
-
 /*!*******************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./screens/Home/About/about.module.css ***!
   \*******************************************************************************************************************************************************************************************************************************************************************************/
@@ -3040,13 +3002,38 @@
 /*!********************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./screens/Universal/CTA/cta.module.css ***!
   \********************************************************************************************************************************************************************************************************************************************************************************/
+/* ─── Wrapper ────────────────────────────────────────────────── */
 .cta_cta_wrapper__zHhcC {
-    background-color: var(--success-800);
+    background-color: var(--ag-blue-800);
     padding: 64px;
     border-radius: 12px;
+    overflow: hidden;
+}
+
+/* ─── Content ────────────────────────────────────────────────── */
+.cta_content__bNR_w {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 32px;
+}
+
+.cta_text__gr0Of {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* ─── Eyebrow (logo + label) ─────────────────────────────────── */
+.cta_eyebrow__yHd4x {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.cta_logo_icon__mZy43 {
+    color: var(--white);
+    flex-shrink: 0;
 }
 
 .cta_subtitle__k7iP_ {
@@ -3055,22 +3042,34 @@
 }
 
 .cta_title__TMC8V {
-    margin-top: 16px;
     color: var(--white);
+    margin: 0;
 }
 
+/* ─── Tablet (≤768px) ────────────────────────────────────────── */
 @media (max-width: 768px) {
     .cta_cta_wrapper__zHhcC {
         padding: 48px;
+    }
+
+    .cta_content__bNR_w {
         flex-direction: column;
         align-items: flex-start;
-        gap: 32px;
     }
 
     .cta_title__TMC8V {
         font-size: 32px;
         line-height: 40px;
         letter-spacing: -0.48px;
+    }
+}
+
+/* ─── Phone (≤480px) ─────────────────────────────────────────── */
+@media (max-width: 480px) {
+    .cta_title__TMC8V {
+        font-size: 28px;
+        line-height: 36px;
+        letter-spacing: -0.4px;
     }
 }
 

@@ -12,7 +12,7 @@ const Footer = () => {
   return (
     <footer className={cn("section", styles.footer)}>
       <div className={cn("container", styles.container)}>
-        <div className={styles.newsletter_wrapper}>
+        {/* <div className={styles.newsletter_wrapper}>
           <h2 className={styles.newsletter_title}>
             Subscribe to our newsletter
           </h2>
@@ -24,7 +24,7 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className={styles.divider} />
+        <div className={styles.divider} /> */}
 
         <div className={styles.footer_wrapper}>
           <LogoMini className={styles.footer_logo} />
