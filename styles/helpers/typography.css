@@ -165,3 +165,31 @@
     line-height: 16px;
     letter-spacing: 0px;
 }
+
+/* Georgian locale – Noto Sans Georgian for all text */
+html.locale-ka .hero,
+html.locale-ka .hero-2,
+html.locale-ka .heading-1,
+html.locale-ka .heading-2,
+html.locale-ka .heading-3,
+html.locale-ka .heading-4,
+html.locale-ka .heading-5,
+html.locale-ka .heading-6,
+html.locale-ka .subheading-x-large,
+html.locale-ka .subheading-large,
+html.locale-ka .subheading-medium,
+html.locale-ka .subheading-small,
+html.locale-ka .subheading-x-small,
+html.locale-ka .paragraph-2x-large,
+html.locale-ka .paragraph-x-large,
+html.locale-ka .paragraph-large,
+html.locale-ka .paragraph-medium,
+html.locale-ka .paragraph-small,
+html.locale-ka .paragraph-x-small,
+html.locale-ka .label-large,
+html.locale-ka .label-medium,
+html.locale-ka .label-small,
+html.locale-ka .label-x-small,
+html.locale-ka body {
+    font-family: var(--font-noto-sans-georgian) !important;
+}

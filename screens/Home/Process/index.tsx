@@ -5,7 +5,7 @@ import cn from "classnames";
 import styles from "./process.module.css";
 import Image from "next/image";
 import Tabs from "@/components/Tabs";
-import mock from "@/constants/mock";
+import { useLanguage } from "@/contexts/LanguageContext";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
@@ -45,7 +45,8 @@ const ProcessSlide = ({ content }: { content: TabContent }) => (
 );
 
 const Process = () => {
-  const { tabs } = mock;
+  const { locale, t } = useLanguage();
+  const { tabs } = t;
 
   const [activeTab, setActiveTab] = React.useState(1);
   const [displayTab, setDisplayTab] = React.useState(1);
@@ -127,8 +128,8 @@ const Process = () => {
   useGSAP(
     () => {
       if (container.current && title.current && description.current) {
-        const fullText = title.current.textContent || "";
-        const chars = fullText
+        const titleText = `${t.ui.process.title}.`;
+        const chars = titleText
           .split("")
           .map(
             (char, i, arr) =>
@@ -200,7 +201,7 @@ const Process = () => {
         }
       }
     },
-    { scope: container },
+    { scope: container, dependencies: [locale] },
   );
 
   React.useEffect(() => {
@@ -271,15 +272,13 @@ const Process = () => {
       <div className={cn("container", styles.container)}>
         <div className={styles.title_wrapper}>
           <h3 ref={title} className={cn("heading-3", styles.title)}>
-            Our working process<span className={styles.blue}>.</span>
+            {t.ui.process.title}<span className={styles.blue}>.</span>
           </h3>
           <p
             ref={description}
             className={cn("paragraph-large", styles.description)}
           >
-            We follow a streamlined process to ensure your legal matters are
-            handled efficiently and effectively, keeping you informed every step
-            of the way.
+            {t.ui.process.description}
           </p>
         </div>
 

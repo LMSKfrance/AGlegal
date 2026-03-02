@@ -4,7 +4,7 @@ import React from "react";
 import cn from "classnames";
 import styles from "./faq.module.css";
 import FaqItem from "@/components/FaqItem";
-import mock from "@/constants/mock";
+import { useLanguage } from "@/contexts/LanguageContext";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
@@ -12,7 +12,9 @@ import { useGSAP } from "@gsap/react";
 gsap.registerPlugin(ScrollTrigger);
 
 const FAQ = () => {
-  const { faqs } = mock;
+  const { locale, t } = useLanguage();
+  const { faqs } = t;
+  const TITLE_TEXT = t.ui.faq.title;
 
   const [open, setOpen] = React.useState<number | null>(null);
 
@@ -21,21 +23,14 @@ const FAQ = () => {
   };
 
   const container = React.useRef<HTMLDivElement>(null);
-  const title = React.useRef<HTMLHeadingElement>(null);
+  const title = React.useRef<HTMLDivElement>(null);
   const faqsRef = React.useRef<(HTMLDivElement | null)[]>([]);
 
   useGSAP(
     () => {
       if (container.current && title.current) {
-        const chars = title.current.textContent
-          ?.split("")
-          .map((char) => `<span>${char}</span>`)
-          .join("");
-
-        if (chars) {
-          title.current.innerHTML = chars;
-          const spans = title.current.querySelectorAll("span");
-
+        const spans = title.current.querySelectorAll("span");
+        if (spans.length > 0) {
           const timeline = gsap.timeline({
             scrollTrigger: {
               trigger: container.current,
@@ -75,14 +70,16 @@ const FAQ = () => {
         }
       }
     },
-    { scope: container },
+    { scope: container, dependencies: [locale] },
   );
 
   return (
     <div ref={container} className={cn("section")}>
       <div className={cn("container")}>
         <div ref={title} className={cn("heading-3", styles.title)}>
-          Frequently asked questions.
+          {TITLE_TEXT.split("").map((char, i) => (
+            <span key={i}>{char}</span>
+          ))}
         </div>
 
         <div className={styles.faqs}>

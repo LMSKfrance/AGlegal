@@ -4,7 +4,7 @@ import React from "react";
 import cn from "classnames";
 import styles from "./services.module.css";
 import Service from "@/components/Service";
-import mock from "@/constants/mock";
+import { useLanguage } from "@/contexts/LanguageContext";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
@@ -12,7 +12,8 @@ import { useGSAP } from "@gsap/react";
 gsap.registerPlugin(ScrollTrigger);
 
 const Services = () => {
-  const { services } = mock;
+  const { locale, t } = useLanguage();
+  const { services } = t;
 
   const container = React.useRef<HTMLDivElement>(null);
   const scrollRef = React.useRef<HTMLDivElement>(null);
@@ -23,8 +24,8 @@ const Services = () => {
   useGSAP(
     () => {
       if (container.current && title.current && description.current) {
-        const fullText = title.current.textContent || "";
-        const chars = fullText
+        const titleText = `${t.ui.services.title}.`;
+        const chars = titleText
           .split("")
           .map(
             (char, i, arr) =>
@@ -87,7 +88,7 @@ const Services = () => {
         }
       }
     },
-    { scope: container },
+    { scope: container, dependencies: [locale] },
   );
 
   React.useEffect(() => {
@@ -191,15 +192,13 @@ const Services = () => {
       <div className={cn("container", styles.container)}>
         <div className={styles.title_wrapper}>
           <h3 ref={title} className={cn("heading-3", styles.title)}>
-            Our legal services<span className={styles.blue}>.</span>
+            {t.ui.services.title}<span className={styles.blue}>.</span>
           </h3>
           <p
             ref={description}
             className={cn("paragraph-large", styles.description)}
           >
-            At AG Legal Consulting, we believe that great legal advice is built
-            on trust, transparency, and a strong dedication to delivering
-            exceptional outcomes.
+            {t.ui.services.description}
           </p>
         </div>
 

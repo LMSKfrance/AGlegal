@@ -4,7 +4,7 @@ import React from "react";
 import cn from "classnames";
 import styles from "./benefits.module.css";
 import Benefit from "@/components/Benefit";
-import mock from "@/constants/mock";
+import { useLanguage } from "@/contexts/LanguageContext";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
@@ -12,7 +12,8 @@ import { useGSAP } from "@gsap/react";
 gsap.registerPlugin(ScrollTrigger);
 
 const Benefits = () => {
-  const { benefits } = mock;
+  const { locale, t } = useLanguage();
+  const { benefits } = t;
 
   const container = React.useRef<HTMLDivElement>(null);
   const title = React.useRef<HTMLHeadingElement>(null);
@@ -21,8 +22,9 @@ const Benefits = () => {
   useGSAP(
     () => {
       if (container.current && title.current) {
-        const chars = title.current.textContent
-          ?.split("")
+        const titleText = t.ui.benefits.title;
+        const chars = titleText
+          .split("")
           .map((char) => `<span>${char}</span>`)
           .join("");
 
@@ -69,14 +71,14 @@ const Benefits = () => {
         }
       }
     },
-    { scope: container },
+    { scope: container, dependencies: [locale] },
   );
 
   return (
     <div ref={container} className={cn("section")}>
       <div className={cn("container")}>
         <div ref={title} className={cn("heading-3", styles.title)}>
-          Why work with us?
+          {t.ui.benefits.title}
         </div>
 
         <div className={styles.benefits}>

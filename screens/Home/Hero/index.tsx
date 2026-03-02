@@ -6,8 +6,11 @@ import styles from "./hero.module.css";
 import Image from "next/image";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const Hero = () => {
+  const { locale, t } = useLanguage();
+  const { brand, title: heroTitle, cta, description: heroDescription } = t.ui.hero;
   const container = React.useRef<HTMLDivElement>(null);
   const title = React.useRef<HTMLHeadingElement>(null);
   const image = React.useRef<HTMLDivElement>(null);
@@ -24,8 +27,9 @@ const Hero = () => {
         button.current &&
         description.current
       ) {
-        const bluePrefix = "AG Legal Consulting";
-        const fullText = title.current.textContent || "";
+        const bluePrefix = brand;
+        // Use translated values directly - don't read from DOM (revert can restore stale content)
+        const fullText = `${brand} - ${heroTitle.replace(/\n/g, " ")}.`;
         const chars = fullText
           .split("")
           .map(
@@ -102,7 +106,7 @@ const Hero = () => {
         }
       }
     },
-    { scope: container },
+    { scope: container, dependencies: [locale, brand, heroTitle] },
   );
 
   const scrollToSection = () => {
@@ -120,10 +124,15 @@ const Hero = () => {
       <div className={cn("container", styles.container)}>
         <div className={styles.content}>
           <h1 ref={title} className={cn("hero-2", styles.title)}>
-            <span className={styles.blue}>AG Legal Consulting</span> -{" "}
+            <span className={styles.blue}>{brand}</span>
+            {" - "}
             <br />
-            Your Trusted Legal
-            <br /> Advisors in Georgia
+            {heroTitle.split("\n").map((line, i) => (
+              <React.Fragment key={i}>
+                {i > 0 && <br />}
+                {line}
+              </React.Fragment>
+            ))}
             <span className={styles.blue}>.</span>
           </h1>
 
@@ -135,15 +144,14 @@ const Hero = () => {
               className={cn("button")}
               onClick={scrollToSection}
             >
-              CONSULT WITH US
+              {cta}
             </button>
 
             <p
               ref={description}
               className={cn("paragraph-large", styles.description)}
             >
-              Join our mission to create a better tomorrow through legal and
-              social support.
+              {heroDescription}
             </p>
           </div>
         </div>

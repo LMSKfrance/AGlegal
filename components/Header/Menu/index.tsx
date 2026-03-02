@@ -5,7 +5,7 @@ import cn from "classnames";
 import styles from "./menu.module.css";
 import icons from "@/constants/icons";
 import Link from "next/link";
-import mock from "@/constants/mock";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 type MenuProps = {
   menuOpen: boolean;
@@ -13,7 +13,8 @@ type MenuProps = {
 };
 
 const Menu = ({ menuOpen, handleMenu }: MenuProps) => {
-  const { nav_links } = mock;
+  const { t } = useLanguage();
+  const { nav_links } = t;
   const closeButtonRef = useRef<HTMLButtonElement>(null);
 
   /* Body scroll lock when menu open (Figma 8329-3603) */
@@ -46,7 +47,7 @@ const Menu = ({ menuOpen, handleMenu }: MenuProps) => {
         {icons.Close}
       </button>
 
-      <p className={styles.menu_title}>Menu</p>
+      <p className={styles.menu_title}>{t.ui.header.menu}</p>
 
       <nav className={styles.nav_links} aria-label="Main navigation">
         {nav_links.map((link) => (
@@ -61,10 +62,10 @@ const Menu = ({ menuOpen, handleMenu }: MenuProps) => {
         ))}
       </nav>
 
-      <p className={styles.footer_title}>Follow us</p>
+      <p className={styles.footer_title}>{t.ui.header.followUs}</p>
 
       <div className={styles.socials} role="list">
-        {mock.socials.map((social) => (
+        {t.socials.map((social) => (
           <a
             key={social.id}
             href={social.url}

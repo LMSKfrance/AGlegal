@@ -6,9 +6,11 @@ import styles from "./header.module.css";
 import Logo from "../Logo";
 import Menu from "./Menu";
 import Link from "next/link";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = React.useState(false);
+  const { locale, setLocale, t } = useLanguage();
 
   const handleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -20,11 +22,16 @@ const Header = () => {
         <Logo iconOnly />
 
         <div className={styles.btn_wrapper}>
-          <Link href="/" className={cn(styles.button_outline)} aria-label="Language">
-            ქარ
-          </Link>
+          <button
+            type="button"
+            className={cn(styles.button_outline, styles.lang_toggle)}
+            onClick={() => setLocale(locale === "en" ? "ka" : "en")}
+            aria-label={locale === "en" ? "Switch to Georgian" : "Switch to English"}
+          >
+            {locale === "en" ? "ქარ" : "EN"}
+          </button>
           <Link href="/contact" className={cn(styles.button_secondary)}>
-            Contact us
+            {t.ui.header.contact}
           </Link>
 
           <div className={styles.hamburger} aria-expanded={menuOpen}>

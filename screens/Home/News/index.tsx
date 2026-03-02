@@ -1,21 +1,32 @@
+"use client";
+
 import cn from "classnames";
 import styles from "./news.module.css";
 import Articles from "@/components/Articles";
-import { getSortedArticles } from "@/lib/articles";
+import { useLanguage } from "@/contexts/LanguageContext";
 
-const News = () => {
-  const articles = getSortedArticles();
+type Article = {
+  id: string;
+  image?: string;
+  title: string;
+  description: string;
+  date: string;
+  time?: string;
+  tags: string[];
+};
+
+const News = ({ articles }: { articles: Article[] }) => {
+  const { t } = useLanguage();
 
   return (
     <div className={cn("section")}>
       <div className={cn("container")}>
         <div className={styles.title_wrapper}>
           <div className={cn("heading-3", styles.title)}>
-            Legal insights & updates<span className={styles.blue}>.</span>
+            {t.ui.news.title}<span className={styles.blue}>.</span>
           </div>
           <div className={cn("paragraph-medium", styles.description)}>
-            Our team of skilled attorneys and legal professionals is dedicated
-            to providing you with top-tier legal support.
+            {t.ui.news.description}
           </div>
         </div>
 

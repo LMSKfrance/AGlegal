@@ -828,6 +828,67 @@ const topics = [
   },
 ];
 
+const ui = {
+  hero: {
+    brand: "AG Legal Consulting",
+    title: "Your Trusted Legal\nAdvisors in Georgia",
+    cta: "CONSULT WITH US",
+    description:
+      "Join our mission to create a better tomorrow through legal and social support.",
+  },
+  about: {
+    title: "Who we are",
+    description:
+      "AG Legal Consulting has been providing expert legal counsel to businesses and individuals since 2007. With years of experience and a strong reputation, our team is dedicated to being your trusted advisor, offering clear and effective guidance through any legal challenges",
+  },
+  services: {
+    title: "Our legal services",
+    description:
+      "At AG Legal Consulting, we believe that great legal advice is built on trust, transparency, and a strong dedication to delivering exceptional outcomes.",
+  },
+  benefits: {
+    title: "Why work with us?",
+  },
+  process: {
+    title: "Our working process",
+    description:
+      "We follow a streamlined process to ensure your legal matters are handled efficiently and effectively, keeping you informed every step of the way.",
+  },
+  team: {
+    title: "Meet our team",
+    description:
+      "At AG Legal Consulting, our people are our most valuable asset. Our team consists of highly skilled associates and professionals with diverse expertise and backgrounds.",
+  },
+  news: {
+    title: "Legal insights & updates",
+    description:
+      "Our team of skilled attorneys and legal professionals is dedicated to providing you with top-tier legal support.",
+  },
+  cta: {
+    subtitle: "Ready to take the next step?",
+    title: "Schedule your consultation today",
+    button: "SCHEDULE NOW",
+  },
+  faq: {
+    title: "Frequently asked questions.",
+  },
+  header: {
+    contact: "Contact us",
+    menu: "Menu",
+    followUs: "Follow us",
+  },
+  footer: {
+    download: "Download Presentation",
+    size: "PDF, 3 MB",
+    copyright: "© 2025 AG Legal. All rights reserved.",
+    terms: "Terms & conditions",
+    privacy: "Privacy Policy",
+  },
+  service: {
+    learnMore: "LEARN MORE",
+  },
+};
+
 const mock = {
   nav_links,
   socials,
@@ -848,6 +909,7 @@ const mock = {
   tags,
   articles,
   topics,
+  ui,
 };
 
 export default mock;

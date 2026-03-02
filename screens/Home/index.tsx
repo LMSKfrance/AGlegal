@@ -7,8 +7,11 @@ import Process from "./Process";
 import News from "./News";
 import CTA from "../Universal/CTA";
 import Team from "../Universal/Team";
+import { getSortedArticles } from "@/lib/articles";
 
 const HomePage = () => {
+  const articles = getSortedArticles();
+
   return (
     <Layout>
       <Hero />
@@ -17,7 +20,7 @@ const HomePage = () => {
       <Benefits />
       <Process />
       <Team />
-      <News />
+      <News articles={articles} />
       <CTA />
     </Layout>
   );

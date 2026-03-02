@@ -4,7 +4,7 @@ import React from "react";
 import cn from "classnames";
 import styles from "./team.module.css";
 import Member from "@/components/Member";
-import mock from "@/constants/mock";
+import { useLanguage } from "@/contexts/LanguageContext";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
@@ -12,7 +12,8 @@ import { useGSAP } from "@gsap/react";
 gsap.registerPlugin(ScrollTrigger);
 
 const Team = () => {
-  const { members } = mock;
+  const { locale, t } = useLanguage();
+  const { members } = t;
   const container = React.useRef<HTMLDivElement>(null);
   const title = React.useRef<HTMLHeadingElement>(null);
   const description = React.useRef<HTMLParagraphElement>(null);
@@ -21,8 +22,8 @@ const Team = () => {
   useGSAP(
     () => {
       if (container.current && title.current) {
-        const fullText = title.current.textContent || "";
-        const chars = fullText
+        const titleText = `${t.ui.team.title}.`;
+        const chars = titleText
           .split("")
           .map(
             (char, i, arr) =>
@@ -85,7 +86,7 @@ const Team = () => {
         }
       }
     },
-    { scope: container },
+    { scope: container, dependencies: [locale] },
   );
 
   return (
@@ -93,19 +94,13 @@ const Team = () => {
       <div className={cn("container")}>
         <div className={styles.title_wrapper}>
           <h3 ref={title} className={cn("heading-3", styles.title)}>
-            Meet our team<span className={styles.blue}>.</span>
+            {t.ui.team.title}<span className={styles.blue}>.</span>
           </h3>
           <p
             ref={description}
             className={cn("paragraph-large", styles.description)}
           >
-            At AG Legal Consulting, our people are our most valuable asset. Our
-            team consists of highly skilled associates and professionals with
-            diverse expertise and backgrounds. Together, we have successfully
-            represented clients in complex, multi-million dollar disputes,
-            consistently delivering favorable outcomes. We foster a culture of
-            teamwork and shared commitment to excellence, bringing innovative
-            solutions to every case we handle.
+            {t.ui.team.description}
           </p>
         </div>
 

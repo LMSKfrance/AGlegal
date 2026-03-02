@@ -210,6 +210,9 @@
   --benefits-card-padding: 48px;
   --benefits-card-icon-size: 56px;
   --benefits-card-icon-margin-bottom: 32px;
+
+  /* Georgian font – Noto Sans Georgian for locale-ka */
+  --font-noto-sans-georgian: "Noto Sans Georgian", var(--font-inter), sans-serif;
 }
 
 /* Header 1:1 Figma – padding per frame (Desktop 1440 / Tablet 1024 / Tablet 768 / Mobile 480) */

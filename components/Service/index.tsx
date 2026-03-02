@@ -1,8 +1,11 @@
+"use client";
+
 import Image from "next/image";
 import cn from "classnames";
 import styles from "./service.module.css";
 import icons from "@/constants/icons";
 import Link from "next/link";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 type ServiceProps = {
   service: {
@@ -15,6 +18,8 @@ type ServiceProps = {
 };
 
 const Service = ({ service }: ServiceProps) => {
+  const { t } = useLanguage();
+
   return (
     <Link href={`/services/${service.slug}`} className={styles.service}>
       <div className={styles.service_image}>
@@ -38,7 +43,7 @@ const Service = ({ service }: ServiceProps) => {
 
         <button className={cn("label-small", styles.button)}>
           <div className={styles.circle}>{icons.ArrowUpRight}</div>
-          LEARN MORE
+          {t.ui.service.learnMore}
         </button>
       </div>
     </Link>

@@ -11,6 +11,8 @@ import { useGSAP } from "@gsap/react";
 
 gsap.registerPlugin(ScrollTrigger);
 
+const TITLE_TEXT = "What set us apart.";
+
 const Features = () => {
   const { features } = mock;
 
@@ -25,22 +27,15 @@ const Features = () => {
   };
 
   const container = React.useRef<HTMLDivElement>(null);
-  const title = React.useRef<HTMLHeadingElement>(null);
+  const title = React.useRef<HTMLDivElement>(null);
   const featuresRefs = React.useRef<(HTMLDivElement | null)[]>([]);
   const buttonsRef = React.useRef<(HTMLButtonElement | null)[]>([]);
 
   useGSAP(
     () => {
       if (container.current && title.current) {
-        const chars = title.current.textContent
-          ?.split("")
-          .map((char) => `<span>${char}</span>`)
-          .join("");
-
-        if (chars) {
-          title.current.innerHTML = chars;
-          const spans = title.current.querySelectorAll("span");
-
+        const spans = title.current.querySelectorAll("span");
+        if (spans.length > 0) {
           const timeline = gsap.timeline({
             scrollTrigger: {
               trigger: container.current,
@@ -103,7 +98,9 @@ const Features = () => {
       <div className={cn("container", styles.container)}>
         <div className={styles.title_wrapper}>
           <div ref={title} className={cn("heading-3", styles.title)}>
-            What set us apart.
+            {TITLE_TEXT.split("").map((char, i) => (
+              <span key={i}>{char}</span>
+            ))}
           </div>
 
           <div className={styles.btn_wrapper}>

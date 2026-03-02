@@ -1,13 +1,15 @@
+"use client";
+
 import cn from "classnames";
 import styles from "./footer.module.css";
 import { LogoMini } from "@/design-system";
 import Link from "next/link";
-import TextField from "../TextField";
 import icons from "@/constants/icons";
-import mock from "@/constants/mock";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const Footer = () => {
-  const { footer_nav_links, footer_social_links } = mock;
+  const { t } = useLanguage();
+  const { footer_nav_links, footer_social_links } = t;
 
   return (
     <footer className={cn("section", styles.footer)}>
@@ -56,9 +58,9 @@ const Footer = () => {
               </span>
               <span className={styles.download_text_wrapper}>
                 <span className={styles.download_text}>
-                  Download Presentation
+                  {t.ui.footer.download}
                 </span>
-                <span className={styles.size_text}>PDF, 3 MB</span>
+                <span className={styles.size_text}>{t.ui.footer.size}</span>
               </span>
             </button>
           </div>
@@ -66,14 +68,14 @@ const Footer = () => {
 
         <div className={styles.texts_wrapper}>
           <p className={styles.copyright_text}>
-            © 2025 AG Legal. All rights reserved.
+            {t.ui.footer.copyright}
           </p>
           <div className={styles.terms_wrapper}>
             <Link href="/terms" className={styles.terms_text}>
-              Terms & conditions
+              {t.ui.footer.terms}
             </Link>
             <Link href="/privacy" className={styles.terms_text}>
-              Privacy Policy
+              {t.ui.footer.privacy}
             </Link>
           </div>
         </div>

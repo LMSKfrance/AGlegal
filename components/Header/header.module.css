@@ -147,7 +147,7 @@
 }
 
 @media (max-width: 480px) {
-    .button_outline,
+    .lang_toggle,
     .button_secondary {
         display: none;
     }

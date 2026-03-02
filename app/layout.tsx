@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans, Inter, Cormorant_Garamond } from "next/font/google";
+import { Plus_Jakarta_Sans, Inter, Cormorant_Garamond, Noto_Sans_Georgian } from "next/font/google";
 import "../styles/index.css";
 import cn from "classnames";
+import { LanguageProvider } from "@/contexts/LanguageContext";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   variable: "--font-plus-jakarta-sans",
@@ -19,6 +20,12 @@ const cormorantGaramond = Cormorant_Garamond({
   weight: ["400", "700"],
 });
 
+const notoSansGeorgian = Noto_Sans_Georgian({
+  variable: "--font-noto-sans-georgian",
+  subsets: ["georgian", "latin"],
+  weight: ["400", "500", "600", "700"],
+});
+
 export const metadata: Metadata = {
   title: "AG Legal",
   description: "The UI Template for AG Legal",
@@ -30,15 +37,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={cn(
           inter.variable,
           plusJakartaSans.variable,
           cormorantGaramond.variable,
+          notoSansGeorgian.variable,
         )}
       >
-        {children}
+        <LanguageProvider>{children}</LanguageProvider>
       </body>
     </html>
   );

@@ -8,10 +8,12 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import AgOverlaySvg from "./AgOverlaySvg";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const About = () => {
+  const { locale, t } = useLanguage();
   const container = React.useRef<HTMLDivElement>(null);
   const title = React.useRef<HTMLHeadingElement>(null);
   const description = React.useRef<HTMLParagraphElement>(null);
@@ -26,8 +28,8 @@ const About = () => {
         description.current &&
         mediaRef.current
       ) {
-        const fullText = title.current.textContent || "";
-        const chars = fullText
+        const titleText = `${t.ui.about.title}.`;
+        const chars = titleText
           .split("")
           .map(
             (char, i, arr) =>
@@ -107,7 +109,7 @@ const About = () => {
         }
       }
     },
-    { scope: container },
+    { scope: container, dependencies: [locale] },
   );
 
   return (
@@ -115,17 +117,13 @@ const About = () => {
       <div className={cn("container")}>
         <div className={styles.title_wrapper}>
           <h2 ref={title} className={cn("heading-3", styles.title)}>
-            Who we are<span className={styles.blue}>.</span>
+            {t.ui.about.title}<span className={styles.blue}>.</span>
           </h2>
           <p
             ref={description}
             className={cn("paragraph-large", styles.description)}
           >
-            AG Legal Consulting has been providing expert legal counsel to
-            businesses and individuals since 2007. With years of experience and
-            a strong reputation, our team is dedicated to being your trusted
-            advisor, offering clear and effective guidance through any legal
-            challenges
+            {t.ui.about.description}
           </p>
         </div>
       </div>

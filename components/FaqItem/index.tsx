@@ -18,7 +18,7 @@ const FaqItem = ({ faq, open, onToggle, style }: FaqItemProps) => {
     <div
       key={faq.id}
       className={cn(styles.faq)}
-      style={style}
+      {...(style && Object.keys(style).length > 0 ? { style } : {})}
       onClick={onToggle}
     >
       <div
