@@ -1,12 +1,21 @@
-import { getArticleData } from "@/lib/articles";
+import { getNewsArticleBySlug } from "@/lib/news";
 import ArticlePage from "@/screens/Article";
+import { notFound } from "next/navigation";
 
-const Article = async ({ params }: { params: Promise<{ slug: string }> }) => {
+const NewsArticlePage = async ({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) => {
   const { slug } = await params;
 
-  const articleData = await getArticleData(slug);
+  const article = await getNewsArticleBySlug(slug);
 
-  return <ArticlePage article={articleData} />;
+  if (!article) {
+    notFound();
+  }
+
+  return <ArticlePage article={article} />;
 };
 
-export default Article;
+export default NewsArticlePage;

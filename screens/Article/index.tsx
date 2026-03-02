@@ -7,8 +7,9 @@ type ArticlePageProps = {
     contentHtml: string;
     image: string;
     title: string;
+    description?: string;
     date: string;
-    time: string;
+    time?: string;
   };
 };
 

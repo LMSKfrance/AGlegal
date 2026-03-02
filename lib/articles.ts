@@ -69,6 +69,7 @@ export const getArticleData = async (id: string) => {
     contentHtml,
     image: matterResult.data.image,
     title: matterResult.data.title,
+    description: matterResult.data.description,
     date: moment(matterResult.data.date, "YYYY-MM-DD").format("MMM D, YYYY"),
     time: matterResult.data.time,
   };
