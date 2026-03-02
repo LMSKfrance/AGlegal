@@ -6,7 +6,7 @@
 
 .description {
     margin-top: 24px;
-    color: var(--gray-950);
+    color: var(--gray-500);
 }
 
 .members {
@@ -25,11 +25,13 @@
 
     .members {
         margin-top: 48px;
+        grid-template-columns: 1fr;
+        gap: 40px;
     }
 }
 
 @media (max-width: 480px) {
     .members {
-        grid-template-columns: 1fr;
+        gap: 32px;
     }
 }

@@ -1,33 +1,39 @@
+/* Benefit card – Figma 8299-5276 constraints (values from Benefits variables) */
+
 .benefit {
-    padding: 48px;
-    border: 1px solid var(--gray-200);
-    border-radius: 12px;
+  padding: var(--benefits-card-padding);
+  border: 1px solid var(--gray-200);
+  border-radius: 12px;
+  height: 100%;
+  min-width: 0;
+  box-sizing: border-box;
 }
 
 .icon_wrapper {
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
-    background-color: var(--gray-100);
-    border: 1px solid var(--gray-200);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  width: var(--benefits-card-icon-size);
+  height: var(--benefits-card-icon-size);
+  border-radius: 50%;
+  background-color: var(--gray-100);
+  border: 1px solid var(--gray-200);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
 }
 
 .icon_wrapper svg {
-    fill: var(--success-800);
+  fill: var(--ag-blue-800);
 }
 
 .title_wrapper {
-    margin-top: 32px;
+  margin-top: var(--benefits-card-icon-margin-bottom);
 }
 
 .title {
-    font-weight: 500;
+  font-weight: 500;
 }
 
 .description {
-    margin-top: 8px;
-    color: var(--gray-500);
+  margin-top: 8px;
+  color: var(--gray-500);
 }

@@ -20,6 +20,10 @@
     font-weight: 500;
 }
 
+.member_position {
+    color: var(--gray-900);
+}
+
 .member_description {
     margin-top: 12px;
     color: var(--gray-500);
@@ -54,5 +58,22 @@
 @media (max-width: 768px) {
     .member_image {
         height: 300px;
+    }
+}
+
+@media (max-width: 480px) {
+    .member {
+        padding: 0;
+        border: none;
+        border-radius: 0;
+    }
+
+    .member_image {
+        height: 260px;
+        border-radius: 12px;
+    }
+
+    .member_content {
+        padding: 16px 0 0;
     }
 }

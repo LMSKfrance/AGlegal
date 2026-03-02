@@ -202,6 +202,14 @@
   --footer-newsletter-title-size: 24px;
   --footer-newsletter-title-font: var(--font-plus-jakarta-sans);
   --footer-link-column-gap: 24px;
+
+  /* Benefits section – Figma 8299-5276 (sizes/constraints per screen) */
+  --benefits-title-margin-bottom: 64px;
+  --benefits-grid-gap: 48px;
+  --benefits-grid-cols: 2;
+  --benefits-card-padding: 48px;
+  --benefits-card-icon-size: 56px;
+  --benefits-card-icon-margin-bottom: 32px;
 }
 
 /* Header 1:1 Figma – padding per frame (Desktop 1440 / Tablet 1024 / Tablet 768 / Mobile 480) */
@@ -210,6 +218,10 @@
     --header-padding-x: 48px;
     --menu-padding: 48px;
     --menu-width: 480px;
+    --benefits-title-margin-bottom: 48px;
+    --benefits-grid-gap: 40px;
+    --benefits-card-padding: 40px;
+    --benefits-card-icon-margin-bottom: 28px;
   }
 }
 
@@ -218,6 +230,12 @@
     --header-padding-x: 40px;
     --menu-padding: 40px;
     --menu-width: 100%;
+    --benefits-title-margin-bottom: 40px;
+    --benefits-grid-gap: 32px;
+    --benefits-grid-cols: 1;
+    --benefits-card-padding: 32px;
+    --benefits-card-icon-size: 48px;
+    --benefits-card-icon-margin-bottom: 24px;
   }
 }
 
@@ -227,5 +245,21 @@
     --header-padding-y: 20px;
     --header-height: 88px;
     --menu-padding: 24px;
+    --benefits-title-margin-bottom: 32px;
+    --benefits-grid-gap: 24px;
+    --benefits-grid-cols: 1;
+    --benefits-card-padding: 24px;
+    --benefits-card-icon-size: 44px;
+    --benefits-card-icon-margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 390px) {
+  :root {
+    --benefits-title-margin-bottom: 24px;
+    --benefits-grid-gap: 20px;
+    --benefits-card-padding: 20px;
+    --benefits-card-icon-size: 40px;
+    --benefits-card-icon-margin-bottom: 16px;
   }
 }

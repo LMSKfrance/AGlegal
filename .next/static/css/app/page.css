@@ -2496,62 +2496,96 @@
 /*!*************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./screens/Home/Benefits/benefits.module.css ***!
   \*************************************************************************************************************************************************************************************************************************************************************************************/
+/* Benefits section – Figma 8299-5276: sizes/constraints for all screens */
+
+.benefits_title__naAmw {
+  margin-bottom: var(--benefits-title-margin-bottom);
+}
+
 .benefits_benefits__Pc83M {
-    margin-top: 64px;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 48px;
+  display: grid;
+  grid-template-columns: repeat(var(--benefits-grid-cols), 1fr);
+  gap: var(--benefits-grid-gap);
+}
+
+.benefits_benefit__2ECq8 {
+  min-width: 0; /* allow grid item to shrink per Figma constraints */
+}
+
+/* Typography scaling per breakpoint (Figma) */
+@media (max-width: 1024px) {
+  .benefits_title__naAmw {
+    font-size: 48px;
+    line-height: 56px;
+    letter-spacing: -0.64px;
+  }
 }
 
 @media (max-width: 768px) {
-    .benefits_title__naAmw {
-        font-size: 40px;
-        line-height: 52px;
-        letter-spacing: -0.54px;
-    }
+  .benefits_title__naAmw {
+    font-size: 40px;
+    line-height: 52px;
+    letter-spacing: -0.54px;
+  }
 }
 
 @media (max-width: 480px) {
-    .benefits_benefits__Pc83M {
-        grid-template-columns: 1fr;
-    }
+  .benefits_title__naAmw {
+    font-size: 32px;
+    line-height: 40px;
+    letter-spacing: -0.48px;
+  }
+}
+
+@media (max-width: 390px) {
+  .benefits_title__naAmw {
+    font-size: 28px;
+    line-height: 36px;
+    letter-spacing: -0.4px;
+  }
 }
 
 /*!*********************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[5].use[3]!./components/Benefit/benefit.module.css ***!
   \*********************************************************************************************************************************************************************************************************************************************************************************/
+/* Benefit card – Figma 8299-5276 constraints (values from Benefits variables) */
+
 .benefit_benefit__VQVdi {
-    padding: 48px;
-    border: 1px solid var(--gray-200);
-    border-radius: 12px;
+  padding: var(--benefits-card-padding);
+  border: 1px solid var(--gray-200);
+  border-radius: 12px;
+  height: 100%;
+  min-width: 0;
+  box-sizing: border-box;
 }
 
 .benefit_icon_wrapper__dBHUT {
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
-    background-color: var(--gray-100);
-    border: 1px solid var(--gray-200);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  width: var(--benefits-card-icon-size);
+  height: var(--benefits-card-icon-size);
+  border-radius: 50%;
+  background-color: var(--gray-100);
+  border: 1px solid var(--gray-200);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
 }
 
 .benefit_icon_wrapper__dBHUT svg {
-    fill: var(--success-800);
+  fill: var(--ag-blue-800);
 }
 
 .benefit_title_wrapper__7BJDA {
-    margin-top: 32px;
+  margin-top: var(--benefits-card-icon-margin-bottom);
 }
 
 .benefit_title__CSFGx {
-    font-weight: 500;
+  font-weight: 500;
 }
 
 .benefit_description__Pa4ym {
-    margin-top: 8px;
-    color: var(--gray-500);
+  margin-top: 8px;
+  color: var(--gray-500);
 }
 
 /*!*****************************************************************************************************************************************************************************************************************************************************************************!*\
@@ -2686,6 +2720,22 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 100%;
+}
+
+.process_title__J7TqB {
+    display: inline;
+}
+
+.process_title__J7TqB::after {
+    content: "";
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background-color: var(--success-800);
+    border-radius: 2px;
+    margin-left: 6px;
+    vertical-align: middle;
 }
 
 .process_title_wrapper__14xO9 {
@@ -2696,11 +2746,12 @@
 
 .process_description__NBFHS {
     margin-top: 24px;
-    color: var(--gray-950);
+    color: var(--gray-500);
 }
 
 .process_tabs__XhtOu {
     margin-top: 64px;
+    width: 100%;
 }
 
 .process_content__zpKGd {
@@ -2739,9 +2790,14 @@
     -webkit-text-fill-color: transparent;
     background-clip: text;
     color: transparent;
+    font-weight: 700;
 }
 
 @media (max-width: 768px) {
+    .process_container__q_GLS {
+        align-items: stretch;
+    }
+
     .process_title__J7TqB {
         font-size: 40px;
         line-height: 52px;
@@ -2754,14 +2810,39 @@
 
     .process_content__zpKGd {
         margin-top: 48px;
+        grid-template-columns: 1fr;
         gap: 48px;
+    }
+
+    .process_image_wrapper__0HtsJ {
+        width: 100%;
+        height: 280px;
+        border-radius: 12px;
+    }
+
+    .process_figure_content___8WbS {
+        gap: 24px;
+    }
+
+    .process_figure_number__dBh_j {
+        font-size: 80px;
+        line-height: 1;
+        margin-top: 8px;
+        background: linear-gradient(to bottom, #e5e7eb, #f9fafb);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
     }
 }
 
 @media (max-width: 480px) {
     .process_content__zpKGd {
-        grid-template-columns: 1fr;
-        gap: 24px;
+        gap: 48px;
+        margin-top: 48px;
+    }
+
+    .process_image_wrapper__0HtsJ {
+        height: 260px;
     }
 }
 
@@ -2780,8 +2861,9 @@
     padding: 12px 24px;
     border-radius: 10px;
     background-color: transparent;
+    color: var(--gray-600);
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: background-color 0.2s, color 0.2s;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -2792,10 +2874,16 @@
     color: var(--white);
 }
 
-@media (max-width: 480px) {
+@media (max-width: 768px) {
     .tabs_tabs__V2epF {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .tabs_tab__jMZRY {
+        padding: 10px 16px;
     }
 }
 
@@ -2997,7 +3085,7 @@
 
 .team_description__sm6Xo {
     margin-top: 24px;
-    color: var(--gray-950);
+    color: var(--gray-500);
 }
 
 .team_members__MNBMB {
@@ -3016,12 +3104,14 @@
 
     .team_members__MNBMB {
         margin-top: 48px;
+        grid-template-columns: 1fr;
+        gap: 40px;
     }
 }
 
 @media (max-width: 480px) {
     .team_members__MNBMB {
-        grid-template-columns: 1fr;
+        gap: 32px;
     }
 }
 
@@ -3048,6 +3138,10 @@
 
 .member_member_name__5qRom {
     font-weight: 500;
+}
+
+.member_member_position___C7GJ {
+    color: var(--gray-900);
 }
 
 .member_member_description__cK2w3 {
@@ -3084,6 +3178,23 @@
 @media (max-width: 768px) {
     .member_member_image__jJaoK {
         height: 300px;
+    }
+}
+
+@media (max-width: 480px) {
+    .member_member__KgSVa {
+        padding: 0;
+        border: none;
+        border-radius: 0;
+    }
+
+    .member_member_image__jJaoK {
+        height: 260px;
+        border-radius: 12px;
+    }
+
+    .member_member_content__EcLrH {
+        padding: 16px 0 0;
     }
 }
 

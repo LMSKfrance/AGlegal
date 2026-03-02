@@ -10,8 +10,9 @@
     padding: 12px 24px;
     border-radius: 10px;
     background-color: transparent;
+    color: var(--gray-600);
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: background-color 0.2s, color 0.2s;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -22,9 +23,15 @@
     color: var(--white);
 }
 
-@media (max-width: 480px) {
+@media (max-width: 768px) {
     .tabs {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .tab {
+        padding: 10px 16px;
     }
 }
