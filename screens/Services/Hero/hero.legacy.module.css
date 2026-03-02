@@ -1,0 +1,202 @@
+/* Services page – Figma 8363-5548: Our services + Extended service blocks */
+
+.section {
+  padding: 80px 0;
+  background: var(--white);
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+}
+
+.title {
+  color: var(--gray-900);
+}
+
+.accent {
+  color: var(--ag-blue-800);
+}
+
+.services {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+
+.service {
+  display: flex;
+  gap: 48px;
+  align-items: stretch;
+  min-height: 412px;
+}
+
+.service_reverse {
+  flex-direction: row-reverse;
+}
+
+.service_image {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.service_content {
+  flex: 1;
+  min-width: 0;
+  padding: 32px;
+  border: 1px solid var(--gray-200);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 32px;
+  transition: border-color 0.3s ease;
+}
+
+.service_content:hover {
+  border-color: var(--ag-blue-800);
+}
+
+.service_title {
+  color: var(--gray-900);
+  font-weight: 500;
+}
+
+.service_description {
+  color: var(--gray-500);
+  margin-top: 8px;
+}
+
+.service_button {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.button_circle {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background-color: var(--ag-blue-800);
+  color: var(--white);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
+}
+
+.service_content:hover .button_circle {
+  transform: rotate(45deg);
+}
+
+.button_circle svg {
+  stroke: currentColor;
+}
+
+.service_button_title {
+  color: var(--gray-900);
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+@media (max-width: 1280px) {
+  .title {
+    font-size: 56px;
+    line-height: 64px;
+    letter-spacing: -0.8px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .section {
+    padding: 64px 0;
+  }
+
+  .container {
+    gap: 48px;
+  }
+
+  .services {
+    gap: 40px;
+  }
+
+  .service {
+    min-height: 360px;
+    gap: 32px;
+  }
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: 48px 0;
+  }
+
+  .title {
+    font-size: 40px;
+    line-height: 48px;
+    letter-spacing: -0.54px;
+  }
+
+  .container {
+    gap: 40px;
+  }
+
+  .services {
+    gap: 32px;
+  }
+
+  .service,
+  .service_reverse {
+    flex-direction: column;
+    min-height: auto;
+    gap: 24px;
+  }
+
+  .service_image {
+    aspect-ratio: 16 / 10;
+    min-height: 280px;
+  }
+
+  .service_content {
+    padding: 24px;
+    gap: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .section {
+    padding: 40px 0;
+  }
+
+  .title {
+    font-size: 32px;
+    line-height: 40px;
+    letter-spacing: -0.48px;
+  }
+
+  .container {
+    gap: 32px;
+  }
+
+  .services {
+    gap: 24px;
+  }
+
+  .service_image {
+    min-height: 220px;
+  }
+
+  .service_content {
+    padding: 20px;
+  }
+
+  .button_circle {
+    width: 48px;
+    height: 48px;
+  }
+}
