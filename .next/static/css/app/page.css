@@ -2683,6 +2683,7 @@
     flex-direction: column;
     align-items: center;
     width: 100%;
+    overflow: hidden;
 }
 
 .process_title__J7TqB {
@@ -2721,6 +2722,7 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 64px;
+    will-change: transform, opacity;
 }
 
 .process_image_wrapper__0HtsJ {

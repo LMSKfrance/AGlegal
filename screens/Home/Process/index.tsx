@@ -16,8 +16,11 @@ const Process = () => {
   const { tabs } = mock;
 
   const [activeTab, setActiveTab] = React.useState(1);
+  const [displayTab, setDisplayTab] = React.useState(1);
+  const prevTab = React.useRef(1);
+  const isAnimating = React.useRef(false);
 
-  const content = tabs.find((tab) => tab.id === activeTab)?.content;
+  const content = tabs.find((tab) => tab.id === displayTab)?.content;
 
   const container = React.useRef<HTMLDivElement>(null);
   const title = React.useRef<HTMLHeadingElement>(null);
@@ -99,6 +102,56 @@ const Process = () => {
     },
     { scope: container },
   );
+
+  React.useEffect(() => {
+    if (activeTab === prevTab.current) return;
+    const el = contentRef.current;
+    if (!el || isAnimating.current) {
+      prevTab.current = activeTab;
+      setDisplayTab(activeTab);
+      return;
+    }
+
+    isAnimating.current = true;
+    prevTab.current = activeTab;
+
+    gsap.to(el, {
+      opacity: 0,
+      duration: 0.7,
+      ease: "power1.inOut",
+      onComplete: () => {
+        setDisplayTab(activeTab);
+
+        const img = el.querySelector(`.${styles.image_wrapper}`);
+        const figTitle = el.querySelector(`.${styles.figure_title}`);
+        const figDesc = el.querySelector(`.${styles.figure_description}`);
+        const figNum = el.querySelector(`.${styles.figure_number}`);
+
+        gsap.set(el, { opacity: 1 });
+
+        const tl = gsap.timeline({
+          onComplete: () => { isAnimating.current = false; },
+        });
+
+        if (img) {
+          gsap.set(img, { opacity: 0, scale: 1.04 });
+          tl.to(img, { opacity: 1, scale: 1, duration: 1.1, ease: "power1.out" }, 0);
+        }
+        if (figTitle) {
+          gsap.set(figTitle, { opacity: 0, y: 16 });
+          tl.to(figTitle, { opacity: 1, y: 0, duration: 0.9, ease: "power1.out" }, 0.15);
+        }
+        if (figDesc) {
+          gsap.set(figDesc, { opacity: 0, y: 12 });
+          tl.to(figDesc, { opacity: 1, y: 0, duration: 0.9, ease: "power1.out" }, 0.3);
+        }
+        if (figNum) {
+          gsap.set(figNum, { opacity: 0, y: 10 });
+          tl.to(figNum, { opacity: 1, y: 0, duration: 0.9, ease: "power1.out" }, 0.4);
+        }
+      },
+    });
+  }, [activeTab]);
 
   return (
     <div ref={container} className={cn("section")}>
