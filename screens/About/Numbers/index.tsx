@@ -23,13 +23,16 @@ const Numbers = () => {
   useGSAP(
     () => {
       if (container.current && title.current && description.current) {
-        const chars = title.current.textContent
-          ?.split("")
-          .map((char) => `<span>${char}</span>`)
-          .join("");
-
-        if (chars) {
-          title.current.innerHTML = chars;
+        if (title.current.textContent) {
+          const text = title.current.textContent;
+          const accentStart = text.indexOf("numbers.");
+          const beforeAccent = text.slice(0, accentStart);
+          const accent = text.slice(accentStart);
+          const beforeSpans = beforeAccent
+            .split("")
+            .map((c) => `<span>${c}</span>`)
+            .join("");
+          title.current.innerHTML = `${beforeSpans}<span class="${styles.accent}">${accent}</span>`;
           const spans = title.current.querySelectorAll("span");
 
           const timeline = gsap.timeline({
@@ -103,16 +106,16 @@ const Numbers = () => {
         </div>
 
         <div className={styles.numbers}>
-          <div className={styles.small_numbers}>
+          <div className={styles.left_column}>
             <div ref={addToRef(0)}>
               <Number title="10,000+" subtitle="Successful cases" />
             </div>
             <div ref={addToRef(1)}>
-              <Number title="25+" subtitle="Years of experience" />
+              <Number title="20+" subtitle="Years of experience" />
             </div>
           </div>
 
-          <div ref={addToRef(2)}>
+          <div ref={addToRef(2)} className={styles.right_card}>
             <Number title="5,000+" subtitle="Satisfied clients" />
           </div>
         </div>

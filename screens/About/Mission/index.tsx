@@ -12,17 +12,21 @@ import { useGSAP } from "@gsap/react";
 
 gsap.registerPlugin(ScrollTrigger);
 
+const CARD_DURATION = 0.45;
+const CARD_EASE = "power2.out";
+
 const Mission = () => {
   const { content } = mock;
 
   const [activeTab, setActiveTab] = React.useState(content[0].id);
-
-  const activeContent = content.find((item) => item.id === activeTab);
+  const [prevImageTab, setPrevImageTab] = React.useState(content[0].id);
 
   const container = React.useRef<HTMLDivElement>(null);
   const title = React.useRef<HTMLHeadingElement>(null);
   const description = React.useRef<HTMLParagraphElement>(null);
   const imageRef = React.useRef<HTMLDivElement>(null);
+  const imageLayerOutRef = React.useRef<HTMLDivElement>(null);
+  const imageLayerInRef = React.useRef<HTMLDivElement>(null);
   const tabsRef = React.useRef<HTMLDivElement>(null);
 
   useGSAP(
@@ -73,17 +77,18 @@ const Mission = () => {
           if (imageRef.current) {
             gsap.fromTo(
               imageRef.current,
-              { opacity: 0, y: 50 },
+              { opacity: 0, y: 20, scale: 0.98 },
               {
                 opacity: 1,
                 y: 0,
-                duration: 1,
+                scale: 1,
+                duration: 1.2,
                 ease: "power2.out",
+                overwrite: true,
               },
             );
           }
 
-          // Animation for the tabs when active
           if (tabsRef.current) {
             const timeline = gsap.timeline();
             timeline.fromTo(
@@ -103,6 +108,54 @@ const Mission = () => {
     { scope: container },
   );
 
+  React.useEffect(() => {
+    const layerOut = imageLayerOutRef.current;
+    const layerIn = imageLayerInRef.current;
+    if (!layerOut || !layerIn) return;
+
+    if (activeTab === prevImageTab) {
+      gsap.set(layerOut, { opacity: 0 });
+      gsap.set(layerIn, { opacity: 1 });
+      return;
+    }
+
+    gsap.set(layerIn, { opacity: 0, zIndex: 2 });
+    gsap.set(layerOut, { opacity: 1, zIndex: 1 });
+
+    gsap.timeline({
+      onComplete: () => {
+        setPrevImageTab(activeTab);
+        gsap.set(layerOut, { opacity: 0, zIndex: 0 });
+        gsap.set(layerIn, { opacity: 1, zIndex: 1 });
+      },
+    })
+      .to(layerOut, {
+        opacity: 0,
+        duration: CARD_DURATION,
+        ease: CARD_EASE,
+      })
+      .to(
+        layerIn,
+        {
+          opacity: 1,
+          duration: CARD_DURATION,
+          ease: CARD_EASE,
+        },
+        0,
+      );
+  }, [activeTab, prevImageTab]);
+
+  const handleTabClick = (id: number) => {
+    if (id !== activeTab) setActiveTab(id);
+  };
+
+  React.useEffect(() => {
+    content.forEach((item) => {
+      const img = new window.Image();
+      img.src = item.image;
+    });
+  }, [content]);
+
   return (
     <div ref={container} className={cn("section")}>
       <div className={cn("container")}>
@@ -119,12 +172,32 @@ const Mission = () => {
 
         <div className={styles.content}>
           <div ref={imageRef} className={styles.content_image}>
-            <Image
-              src={activeContent?.image || ""}
-              alt={activeContent?.title || ""}
-              layout="fill"
-              objectFit="cover"
-            />
+            <div
+              ref={imageLayerOutRef}
+              className={styles.content_image_layer}
+              style={{ zIndex: 1 }}
+            >
+              <Image
+                src={content.find((c) => c.id === prevImageTab)?.image || ""}
+                alt={content.find((c) => c.id === prevImageTab)?.title || ""}
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+                style={{ objectFit: "cover" }}
+              />
+            </div>
+            <div
+              ref={imageLayerInRef}
+              className={styles.content_image_layer}
+              style={{ zIndex: 2 }}
+            >
+              <Image
+                src={content.find((c) => c.id === activeTab)?.image || ""}
+                alt={content.find((c) => c.id === activeTab)?.title || ""}
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+                style={{ objectFit: "cover" }}
+              />
+            </div>
           </div>
 
           <div ref={tabsRef} className={styles.content_tabs}>
@@ -134,7 +207,7 @@ const Mission = () => {
                 className={cn(styles.content_tab, {
                   [styles.active]: item.id === activeTab,
                 })}
-                onClick={() => setActiveTab(item.id)}
+                onClick={() => handleTabClick(item.id)}
               >
                 <div
                   className={cn(styles.content_tab_header, {
@@ -151,16 +224,22 @@ const Mission = () => {
 
                   {icons.Plus}
                 </div>
-                {item.id === activeTab && (
-                  <div
-                    className={cn(
-                      "paragraph-medium",
-                      styles.content_description,
-                    )}
-                  >
-                    {item.description}
+                <div
+                  className={cn(styles.content_tab_inner, {
+                    [styles.expanded]: item.id === activeTab,
+                  })}
+                >
+                  <div className={styles.content_tab_body}>
+                    <div
+                      className={cn(
+                        "paragraph-medium",
+                        styles.content_description,
+                      )}
+                    >
+                      {item.description}
+                    </div>
                   </div>
-                )}
+                </div>
               </div>
             ))}
           </div>
