@@ -17,7 +17,7 @@ const Office = ({ office }: OfficeProps) => {
           src={office.image}
           layout="fill"
           objectFit="cover"
-          alt="lexa-firm"
+          alt="AG Legal"
         />
       </div>
 

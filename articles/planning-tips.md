@@ -21,7 +21,7 @@ A well-drafted will ensures that your assets are distributed according to your w
 
 Establishing a trust can help protect your assets from estate taxes, creditors, and legal disputes. A trust allows for more flexibility in how assets are distributed and can ensure your wishes are followed even after your passing.
 
-![Estate Planning Tips](/images/lexa-about.jpg)
+![Estate Planning Tips](/images/ag-legal-about.jpg)
 
 ###### Tip #3: Appoint a power of attorney
 

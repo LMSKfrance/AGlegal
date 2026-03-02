@@ -1,3 +1,7 @@
+.blue {
+    color: #0043B1;
+}
+
 .container {
     display: flex;
     flex-direction: column;
@@ -8,17 +12,6 @@
 
 .title {
     display: inline;
-}
-
-.title::after {
-    content: "";
-    display: inline-block;
-    width: 8px;
-    height: 8px;
-    background-color: var(--success-800);
-    border-radius: 2px;
-    margin-left: 6px;
-    vertical-align: middle;
 }
 
 .title_wrapper {

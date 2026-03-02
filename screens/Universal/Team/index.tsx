@@ -21,9 +21,13 @@ const Team = () => {
   useGSAP(
     () => {
       if (container.current && title.current) {
-        const chars = title.current.textContent
-          ?.split("")
-          .map((char) => `<span>${char}</span>`)
+        const fullText = title.current.textContent || "";
+        const chars = fullText
+          .split("")
+          .map(
+            (char, i, arr) =>
+              `<span${char === "." && i === arr.length - 1 ? ` class="${styles.blue}"` : ""}>${char}</span>`,
+          )
           .join("");
 
         if (chars) {
@@ -89,14 +93,19 @@ const Team = () => {
       <div className={cn("container")}>
         <div className={styles.title_wrapper}>
           <h3 ref={title} className={cn("heading-3", styles.title)}>
-            Meet our team.
+            Meet our team<span className={styles.blue}>.</span>
           </h3>
           <p
             ref={description}
             className={cn("paragraph-large", styles.description)}
           >
-            Our team of skilled attorneys and legal professionals is dedicated
-            to providing you with top-tier legal support.
+            At AG Legal Consulting, our people are our most valuable asset. Our
+            team consists of highly skilled associates and professionals with
+            diverse expertise and backgrounds. Together, we have successfully
+            represented clients in complex, multi-million dollar disputes,
+            consistently delivering favorable outcomes. We foster a culture of
+            teamwork and shared commitment to excellence, bringing innovative
+            solutions to every case we handle.
           </p>
         </div>
 

@@ -23,9 +23,13 @@ const Services = () => {
   useGSAP(
     () => {
       if (container.current && title.current && description.current) {
-        const chars = title.current.textContent
-          ?.split("")
-          .map((char) => `<span>${char}</span>`)
+        const fullText = title.current.textContent || "";
+        const chars = fullText
+          .split("")
+          .map(
+            (char, i, arr) =>
+              `<span${char === "." && i === arr.length - 1 ? ` class="${styles.blue}"` : ""}>${char}</span>`,
+          )
           .join("");
 
         if (chars) {
@@ -187,15 +191,15 @@ const Services = () => {
       <div className={cn("container", styles.container)}>
         <div className={styles.title_wrapper}>
           <h3 ref={title} className={cn("heading-3", styles.title)}>
-            Our legal services.
+            Our legal services<span className={styles.blue}>.</span>
           </h3>
           <p
             ref={description}
             className={cn("paragraph-large", styles.description)}
           >
-            Whether you are a business owner, individual, or family in need of
-            legal assistance, our team of experienced attorneys offers
-            personalized solutions tailored to your unique needs.
+            At AG Legal Consulting, we believe that great legal advice is built
+            on trust, transparency, and a strong dedication to delivering
+            exceptional outcomes.
           </p>
         </div>
 

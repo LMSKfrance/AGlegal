@@ -20,8 +20,8 @@ const cormorantGaramond = Cormorant_Garamond({
 });
 
 export const metadata: Metadata = {
-  title: "Lexa Firm",
-  description: "The UI Template for Lexa Firm",
+  title: "AG Legal",
+  description: "The UI Template for AG Legal",
 };
 
 export default function RootLayout({

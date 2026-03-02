@@ -66,7 +66,7 @@ const Footer = () => {
 
         <div className={styles.texts_wrapper}>
           <p className={styles.copyright_text}>
-            © 2024 Elektra. All rights reserved.
+            © 2025 AG Legal. All rights reserved.
           </p>
           <div className={styles.terms_wrapper}>
             <Link href="/terms" className={styles.terms_text}>

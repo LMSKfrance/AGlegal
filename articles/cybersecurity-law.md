@@ -18,7 +18,7 @@ In 2024, we expect further strengthening of data protection laws and privacy reg
 
 As businesses continue to expand their digital operations, the need for robust cybersecurity measures and legal frameworks grows. Companies must ensure they are taking the necessary steps to protect their clients' data and avoid costly penalties for non-compliance with data protection laws.
 
-![Cybersecurity Law](/images/lexa-about.jpg)
+![Cybersecurity Law](/images/ag-legal-about.jpg)
 
 ###### Legal actions and liability for data breaches
 

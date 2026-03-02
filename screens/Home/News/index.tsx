@@ -11,7 +11,7 @@ const News = () => {
       <div className={cn("container")}>
         <div className={styles.title_wrapper}>
           <div className={cn("heading-3", styles.title)}>
-            Legal insights & updates.
+            Legal insights & updates<span className={styles.blue}>.</span>
           </div>
           <div className={cn("paragraph-medium", styles.description)}>
             Our team of skilled attorneys and legal professionals is dedicated

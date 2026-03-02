@@ -31,9 +31,13 @@ const Process = () => {
   useGSAP(
     () => {
       if (container.current && title.current && description.current) {
-        const chars = title.current.textContent
-          ?.split("")
-          .map((char) => `<span>${char}</span>`)
+        const fullText = title.current.textContent || "";
+        const chars = fullText
+          .split("")
+          .map(
+            (char, i, arr) =>
+              `<span${char === "." && i === arr.length - 1 ? ` class="${styles.blue}"` : ""}>${char}</span>`,
+          )
           .join("");
 
         if (chars) {
@@ -158,7 +162,7 @@ const Process = () => {
       <div className={cn("container", styles.container)}>
         <div className={styles.title_wrapper}>
           <h3 ref={title} className={cn("heading-3", styles.title)}>
-            Our working process.
+            Our working process<span className={styles.blue}>.</span>
           </h3>
           <p
             ref={description}

@@ -20,7 +20,7 @@ Personal injury law allows victims to seek compensation for their injuries, whet
 
 Documenting every aspect of your injury and recovery is key to building a strong case. Keep detailed records of medical visits, treatment plans, and any other incidents related to the injury. These documents can serve as vital evidence in your claim.
 
-![Personal Injury Case Study](/images/lexa-about.jpg)
+![Personal Injury Case Study](/images/ag-legal-about.jpg)
 
 ###### The role of a personal injury lawyer
 

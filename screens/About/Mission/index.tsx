@@ -114,9 +114,7 @@ const Mission = () => {
             ref={description}
             className={cn("paragraph-medium", styles.description)}
           >
-            We are committed to empowering communities by providing exceptional
-            legal services with integrity, compassion, and expertise.
-          </p>
+        AG Legal Consulting -  Your Trusted Legal Advisors in Georgia  </p>
         </div>
 
         <div className={styles.content}>

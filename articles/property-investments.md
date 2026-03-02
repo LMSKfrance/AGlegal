@@ -20,7 +20,7 @@ Investors should pay attention to trends such as housing affordability, rental d
 
 When market conditions are volatile, it's essential for investors to diversify their portfolios, assess potential risks, and make data-driven decisions to minimize losses. Staying informed about regional trends and national policies can help identify more stable investment opportunities.
 
-![Real Estate Market Trends](/images/lexa-about.jpg)
+![Real Estate Market Trends](/images/ag-legal-about.jpg)
 
 ###### Long-term investment strategies
 

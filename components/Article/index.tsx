@@ -34,7 +34,7 @@ const Article = ({ article, type }: ArticleProps) => {
       <div className={styles.article_image}>
         <Image
           src={article.image || fallbackImage}
-          alt="Lexa Firm"
+          alt="AG Legal"
           layout="fill"
           objectFit="cover"
         />

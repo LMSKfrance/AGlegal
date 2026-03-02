@@ -127,8 +127,8 @@ const Hero = () => {
 
         <div ref={image} className={styles.image_wrapper}>
           <Image
-            src="/images/lexa-about.jpg"
-            alt="hero"
+            src="/images/ag-legal-about.jpg"
+            alt="AG Legal"
             layout="fill"
             objectFit="cover"
           />

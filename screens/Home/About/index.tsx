@@ -25,9 +25,13 @@ const About = () => {
         description.current &&
         mediaRef.current
       ) {
-        const chars = title.current.textContent
-          ?.split("")
-          .map((char) => `<span>${char}</span>`)
+        const fullText = title.current.textContent || "";
+        const chars = fullText
+          .split("")
+          .map(
+            (char, i, arr) =>
+              `<span${char === "." && i === arr.length - 1 ? ` class="${styles.blue}"` : ""}>${char}</span>`,
+          )
           .join("");
 
         if (chars) {
@@ -90,16 +94,17 @@ const About = () => {
       <div className={cn("container")}>
         <div className={styles.title_wrapper}>
           <h2 ref={title} className={cn("heading-3", styles.title)}>
-            Who we are.
+            Who we are<span className={styles.blue}>.</span>
           </h2>
           <p
             ref={description}
             className={cn("paragraph-large", styles.description)}
           >
-            With over 20 years of experience, AG Legal is committed to
-            delivering exceptional legal services. Our team of skilled attorneys
-            specializes in diverse practice areas to meet the unique needs of
-            individuals and businesses.
+            AG Legal Consulting has been providing expert legal counsel to
+            businesses and individuals since 2007. With years of experience and
+            a strong reputation, our team is dedicated to being your trusted
+            advisor, offering clear and effective guidance through any legal
+            challenges
           </p>
         </div>
       </div>
@@ -108,7 +113,7 @@ const About = () => {
       <div ref={mediaRef} className={styles.media_block}>
         <div className={styles.media_image}>
           <Image
-            src="/images/lexa-firm-video.jpg"
+            src="/images/ag-legal-video.jpg"
             fill
             sizes="100vw"
             alt="AG Legal – Who we are"

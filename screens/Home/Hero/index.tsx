@@ -24,9 +24,14 @@ const Hero = () => {
         button.current &&
         description.current
       ) {
-        const chars = title.current.textContent
-          ?.split("")
-          .map((char) => `<span>${char}</span>`)
+        const bluePrefix = "AG Legal Consulting";
+        const fullText = title.current.textContent || "";
+        const chars = fullText
+          .split("")
+          .map(
+            (char, i, arr) =>
+              `<span${i < bluePrefix.length || (char === "." && i === arr.length - 1) ? ` class="${styles.blue}"` : ""}>${char}</span>`,
+          )
           .join("");
         if (title.current && chars) {
           title.current.innerHTML = chars;
@@ -115,9 +120,11 @@ const Hero = () => {
       <div className={cn("container", styles.container)}>
         <div className={styles.content}>
           <h1 ref={title} className={cn("hero-2", styles.title)}>
-            Empowering <br />
-            communities,
-            <br /> one case at a time<span className={styles.styled}>.</span>
+            <span className={styles.blue}>AG Legal Consulting</span> -{" "}
+            <br />
+            Your Trusted Legal
+            <br /> Advisors in Georgia
+            <span className={styles.blue}>.</span>
           </h1>
 
           <div ref={divider} className={styles.divider} />
@@ -128,7 +135,7 @@ const Hero = () => {
               className={cn("button")}
               onClick={scrollToSection}
             >
-              Get Starteds
+              CONSULT WITH US
             </button>
 
             <p
@@ -143,8 +150,8 @@ const Hero = () => {
 
         <div ref={image} className={styles.image_wrapper}>
           <Image
-            src="/images/lexa-firm.jpg"
-            alt="hero"
+            src="/images/ag-legal.jpg"
+            alt="AG Legal"
             layout="fill"
             objectFit="cover"
             className={styles.image}

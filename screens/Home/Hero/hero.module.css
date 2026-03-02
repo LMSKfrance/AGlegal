@@ -3,6 +3,10 @@
     display: flex;
 }
 
+.blue {
+    color: #0043B1;
+}
+
 .container {
     display: grid;
     grid-template-columns: 1fr 0.7fr;

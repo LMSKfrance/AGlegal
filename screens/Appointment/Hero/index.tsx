@@ -51,8 +51,8 @@ const Hero = () => {
       <div className={cn("container", styles.container)}>
         <div ref={image} className={styles.image_wrapper}>
           <Image
-            src="/images/lexa-firm.jpg"
-            alt="hero"
+            src="/images/ag-legal.jpg"
+            alt="AG Legal"
             layout="fill"
             objectFit="cover"
           />

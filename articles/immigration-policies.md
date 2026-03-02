@@ -20,7 +20,7 @@ Immigration status can significantly influence the outcome of criminal cases, pa
 
 Criminal defense attorneys must now be well-versed in both criminal and immigration law. This dual expertise allows them to craft strategies that protect their clients from the full impact of criminal charges, especially when immigration consequences are at stake.
 
-![Immigration Policy Changes and Criminal Defense](/images/lexa-about.jpg)
+![Immigration Policy Changes and Criminal Defense](/images/ag-legal-about.jpg)
 
 ###### The role of recent immigration reforms
 

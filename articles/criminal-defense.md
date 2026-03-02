@@ -20,7 +20,7 @@ Recent cases have highlighted the importance of in-depth investigation, expert t
 
 Experienced attorneys play a vital role in providing guidance, interpreting evidence, and defending clients' rights throughout the legal process. Their expertise is instrumental in securing favorable verdicts, especially in complex criminal cases.
 
-![Navigating Criminal Defense Cases](/images/lexa-about.jpg)
+![Navigating Criminal Defense Cases](/images/ag-legal-about.jpg)
 
 ###### Protecting clients’ rights
 

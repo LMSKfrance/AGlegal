@@ -18,7 +18,7 @@ Mediation is becoming an increasingly popular alternative to litigation in famil
 
 In recent years, courts have been moving toward more shared custody arrangements, prioritizing the child's best interests and ensuring both parents remain involved in their child's life. In 2024, we anticipate further refinement in child custody laws to promote equal access and responsibility for both parents.
 
-![Family Law Trends](/images/lexa-about.jpg)
+![Family Law Trends](/images/ag-legal-about.jpg)
 
 ###### Trend #3: Digital assets and family law
 

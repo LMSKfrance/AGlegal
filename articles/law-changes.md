@@ -21,7 +21,7 @@ To navigate these changes effectively, businesses should consider consulting leg
 
 Preparing for corporate law updates not only minimizes risks of penalties but also strengthens trust with clients and stakeholders, helping businesses maintain smooth operations during periods of change.
 
-![Navigating Corporate Law Changes](/images/lexa-about.jpg)
+![Navigating Corporate Law Changes](/images/ag-legal-about.jpg)
 
 
 ###### The long-term benefits of compliance

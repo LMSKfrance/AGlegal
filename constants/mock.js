@@ -144,13 +144,13 @@ const services = [
       "We offer comprehensive services to businesses of all sizes, from startups to established enterprises, ensuring that every aspect of your business operations remains legally sound and compliant.",
     quote:
       "Choosing the right structure for your business is a critical decision that impacts everything from taxation to liability protection",
-    thumbnail_image: "/images/lexa-firm.jpg",
+    thumbnail_image: "/images/ag-legal.jpg",
     slug: "corporate-business-law",
   },
   {
     id: 2,
     image: "/images/services/family-law.jpg",
-    title: "Family law",
+    title: "Contract Law",
     description:
       "Compassionate guidance for divorce, child custody, alimony, and adoption cases.",
     text1:
@@ -159,8 +159,8 @@ const services = [
       "We provide a range of family law services, from divorce and child custody to adoption and alimony, helping you find the best path forward for your family.",
     quote:
       "We understand the sensitive nature of family law cases and provide the support and guidance you need.",
-    thumbnail_image: "/images/lexa-firm.jpg",
-    slug: "family-law",
+    thumbnail_image: "/images/ag-legal.jpg",
+    slug: "contract-law",
   },
   {
     id: 3,
@@ -174,7 +174,7 @@ const services = [
       "We handle cases involving misdemeanors, felonies, and more, ensuring that you receive the best possible outcome.",
     quote:
       "We fight for your rights and work tirelessly to secure the best possible outcome for your case.",
-    thumbnail_image: "/images/lexa-firm.jpg",
+    thumbnail_image: "/images/ag-legal.jpg",
     slug: "criminal-defense",
   },
   {
@@ -189,7 +189,7 @@ const services = [
       "We offer a range of real estate law services, from property transactions to zoning issues, helping you achieve your real estate goals.",
     quote:
       "Our team has the experience and expertise to handle all your real estate law needs.",
-    thumbnail_image: "/images/lexa-firm.jpg",
+    thumbnail_image: "/images/ag-legal.jpg",
     slug: "real-estate-law",
   },
   {
@@ -204,7 +204,7 @@ const services = [
       "We work closely with you to create a personalized estate plan that meets your unique needs and goals, ensuring that your wishes are carried out and your loved ones are taken care of.",
     quote:
       "We provide expert estate planning services to help you secure your legacy.",
-    thumbnail_image: "/images/lexa-firm.jpg",
+    thumbnail_image: "/images/ag-legal.jpg",
     slug: "estate-planning-wills",
   },
   {
@@ -212,14 +212,14 @@ const services = [
     image: "/images/services/immigration-law.jpg",
     title: "Immigration law",
     description:
-      "Guidance and support for navigating complex immigration laws and processes.",
+      "Wills, trusts, and probate services to secure your legacy and loved ones' future.",
     text1:
       "Immigration law can be challenging to navigate, but our experienced team is here to help you through every step of the process. Whether you need assistance with visas, residency, citizenship, or asylum applications, we are dedicated to achieving the best possible outcome for you and your family.",
     text2:
       "Our personalized approach ensures that we understand your unique situation and provide tailored legal solutions. We are committed to advocating for your rights and helping you realize your immigration goals with confidence.",
     quote:
       "Navigating immigration law can be overwhelming, but you don't have to do it alone. We're here to help.",
-    thumbnail_image: "/images/lexa-firm.jpg",
+    thumbnail_image: "/images/ag-legal.jpg",
     slug: "immigration-law",
   },
 ];
@@ -359,11 +359,11 @@ const bottom_testimonials = [
 const members = [
   {
     id: 1,
-    title: "Emily R. Mitchell",
-    position: "Senior Attorney, Family Law",
+    title: "Vladimer Gabrielashvili",
+    position: "Partner",
     description:
-      "Emily has spent the past 15 years helping families navigate emotionally charged legal challenges.",
-    image: "/images/members/emily-mitchell.jpg",
+      "Vladimer, a partner at AG Legal Consulting since 2007, has held key legal and government roles, including at Georgian Railway and the National Security Council",
+    image: "/images/members/vladimer-gabrielashvili.jpg",
     socials: [
       {
         id: 1,
@@ -381,11 +381,11 @@ const members = [
   },
   {
     id: 2,
-    title: "Johnathan A. Wright",
-    position: "Managing Partner",
+    title: "Dimitri Aleksidze",
+    position: "Partner",
     description:
-      "With over 20 years of experience in corporate law, Johnathan leads our firm with a focus on building strong business foundations for clients.",
-    image: "/images/members/jonathan-wreight.jpg",
+      "With over 20 years of experience in corporate law, Dimitri leads our firm with a focus on building strong business foundations for clients.",
+    image: "/images/members/dimitri-aleksidze.jpg",
     socials: [
       {
         id: 1,
@@ -403,11 +403,11 @@ const members = [
   },
   {
     id: 3,
-    title: "Daniel T. Harris",
-    position: "Senior Attorney, Criminal Defense",
+    title: "Lika Galustashvili",
+    position: "Senior Associate",
     description:
-      "Daniel brings a strategic approach to criminal defense, providing expert legal representation to clients facing serious criminal charges.",
-    image: "/images/members/daniel-harris.jpg",
+      "Lika brings a strategic approach to criminal defense, providing expert legal representation to clients facing serious criminal charges.",
+    image: "/images/members/lika-galustashvili.jpg",
     socials: [
       {
         id: 1,
@@ -425,11 +425,77 @@ const members = [
   },
   {
     id: 4,
-    title: "Jessica L. Green",
-    position: "Attorney, Real Estate Law",
+    title: "Nikoloz Abutidze",
+    position: "Senior Associate",
     description:
-      "Jessica specializes in real estate law, offering expert guidance on property transactions, zoning laws, and resolving disputes.",
-    image: "/images/members/jessica-green.jpg",
+      "Nikoloz specializes in real estate law, offering expert guidance on property transactions, zoning laws, and resolving disputes.",
+    image: "/images/members/nikoloz-abutidze.jpg",
+    socials: [
+      {
+        id: 1,
+        name: "Instagram",
+        icon: icons.Instagram,
+        link: "https://www.instagram.com/",
+      },
+      {
+        id: 2,
+        name: "Facebook",
+        icon: icons.Facebook,
+        link: "https://www.facebook.com/",
+      },
+    ],
+  },
+  {
+    id: 5,
+    title: "Aleksandre Khasia",
+    position: "Financial Manager",
+    description:
+      "Aleksandre specializes in financial management, offering expert guidance on financial planning and corporate budgeting.",
+    image: "/images/members/aleksandre-khasia.jpg",
+    socials: [
+      {
+        id: 1,
+        name: "Instagram",
+        icon: icons.Instagram,
+        link: "https://www.instagram.com/",
+      },
+      {
+        id: 2,
+        name: "Facebook",
+        icon: icons.Facebook,
+        link: "https://www.facebook.com/",
+      },
+    ],
+  },
+  {
+    id: 6,
+    title: "Eka Arsenidze",
+    position: "Senior Administrative Manager",
+    description:
+      "Eka oversees administrative operations, ensuring smooth day-to-day management and organizational excellence.",
+    image: "/images/members/eka-arsenidze.jpg",
+    socials: [
+      {
+        id: 1,
+        name: "Instagram",
+        icon: icons.Instagram,
+        link: "https://www.instagram.com/",
+      },
+      {
+        id: 2,
+        name: "Facebook",
+        icon: icons.Facebook,
+        link: "https://www.facebook.com/",
+      },
+    ],
+  },
+  {
+    id: 7,
+    title: "Kakhaber Kipiani",
+    position: "Of Counsel",
+    description:
+      "Kakhaber provides strategic legal counsel, leveraging extensive experience to guide clients through complex legal matters.",
+    image: "/images/members/kakhaber-kipiani.jpg",
     socials: [
       {
         id: 1,
@@ -474,7 +540,7 @@ const faqs = [
   },
   {
     id: 5,
-    question: "How long will it take to resolve my case?",
+    question: "How long does it take to resolve a case?",
     answer:
       "The time it takes to resolve your case will depend on a variety of factors, including the complexity of the legal issues involved and the willingness of the parties to reach a settlement. We will work diligently to resolve your case as quickly and efficiently as possible.",
   },
@@ -622,18 +688,18 @@ const articles = [
   },
   {
     id: 3,
-    title: "Top 5 estate planning tips for 2024",
-    date: "Dec 15, 2025",
-    time: "6 min read",
+    title: "Top 5 estate planning tips for 2025",
+    date: "Dec 22, 2025",
+    time: "5 min read",
     description:
-      "Learn about the latest changes in real estate law and how they might impact property owners and buyers.",
+      "Learn the best practices for estate planning to secure your legacy and protect your loved ones.",
     image: "/images/news/estate-planning.jpg",
     type: "main",
     tags: ["Real estate", "Tips & guides"],
   },
   {
     id: 4,
-    title: "Key trends in family law for 2024",
+    title: "Key trends in family law for 2025",
     date: "Dec 12, 2025",
     type: "side",
     tags: ["Personal injury", "Family law"],

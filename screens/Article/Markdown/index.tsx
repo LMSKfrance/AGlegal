@@ -45,8 +45,8 @@ const Markdown = ({ article }: ArticleProps) => {
         <div className={styles.thumbnail_wrapper}>
           <div className={styles.thumbnail_image}>
             <Image
-              src="/images/lexa-firm.jpg"
-              alt="Lexa Firm"
+              src="/images/ag-legal.jpg"
+              alt="AG Legal"
               layout="fill"
               objectFit="cover"
             />

@@ -17,7 +17,8 @@ const CTA = () => {
                 </span>
               </div>
               <h2 className={cn("heading-4", styles.title)}>
-                Schedule your consultation today.
+                Schedule your consultation today
+                <span className={styles.blue}>.</span>
               </h2>
             </div>
 
