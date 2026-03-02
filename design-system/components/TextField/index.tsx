@@ -60,6 +60,7 @@ const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
     return (
       <div
         className={cn(
+          "ds-textfield",
           styles.wrapper,
           styles[`size-${size}`],
           variant === "secondary" && styles.secondary,

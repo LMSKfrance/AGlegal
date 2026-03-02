@@ -54,6 +54,7 @@ const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
     return (
       <div
         className={cn(
+          "ds-textarea",
           styles.wrapper,
           styles[`size-${size}`],
           variant === "secondary" && styles.secondary,

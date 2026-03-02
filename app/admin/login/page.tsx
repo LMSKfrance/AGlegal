@@ -1,5 +1,6 @@
 import { auth, signIn } from "@/auth";
 import { redirect } from "next/navigation";
+import { Button, TextField } from "@/design-system";
 
 export default async function AdminLoginPage({
   searchParams,
@@ -29,55 +30,38 @@ export default async function AdminLoginPage({
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-neutral-100 p-4">
-      <div className="w-full max-w-sm rounded-lg border border-neutral-200 bg-white p-6 shadow-sm">
-        <h1 className="text-xl font-semibold text-neutral-900 mb-6">
+    <div className="min-h-screen flex items-center justify-center bg-[var(--gray-50)] p-4">
+      <div className="w-full max-w-sm rounded-2xl border border-[var(--gray-200)] bg-white p-6 shadow-sm">
+        <h1 className="text-xl font-semibold text-[var(--gray-900)] mb-6">
           Admin login
         </h1>
         <form action={handleLogin} className="space-y-4">
           {error && (
-            <p className="text-sm text-red-600" role="alert">
+            <p className="text-sm text-[var(--red-600)]" role="alert">
               Invalid credentials.
             </p>
           )}
-          <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-neutral-700 mb-1"
-            >
-              Email
-            </label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              required
-              autoComplete="email"
-              className="w-full rounded border border-neutral-300 px-3 py-2 text-neutral-900 focus:outline-none focus:ring-2 focus:ring-neutral-400"
-            />
-          </div>
-          <div>
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-neutral-700 mb-1"
-            >
-              Password
-            </label>
-            <input
-              id="password"
-              name="password"
-              type="password"
-              required
-              autoComplete="current-password"
-              className="w-full rounded border border-neutral-300 px-3 py-2 text-neutral-900 focus:outline-none focus:ring-2 focus:ring-neutral-400"
-            />
-          </div>
-          <button
-            type="submit"
-            className="w-full rounded bg-neutral-900 px-4 py-2 text-sm font-medium text-white hover:bg-neutral-800 focus:outline-none focus:ring-2 focus:ring-neutral-500"
-          >
+          <TextField
+            label="Email"
+            name="email"
+            type="email"
+            required
+            autoComplete="email"
+            placeholder="you@example.com"
+            size="m"
+          />
+          <TextField
+            label="Password"
+            name="password"
+            type="password"
+            required
+            autoComplete="current-password"
+            placeholder="••••••••"
+            size="m"
+          />
+          <Button type="submit" fullWidth variant="primary" colorStyle="dark" size="m">
             Sign in
-          </button>
+          </Button>
         </form>
       </div>
     </div>

@@ -1,11 +1,18 @@
-export default function AdminLayout({
+import { auth } from "@/auth";
+import AdminShell from "./AdminShell";
+import "./figma-ds.css";
+
+export default async function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const session = await auth();
   return (
-    <div className="min-h-screen bg-neutral-50 text-neutral-900">
-      {children}
+    <div data-figma-ds="admin">
+      <AdminShell userEmail={session?.user?.email ?? null}>
+        {children}
+      </AdminShell>
     </div>
   );
 }

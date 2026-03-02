@@ -7,6 +7,8 @@ type LogoProps = {
   iconOnly?: boolean;
   /** When "footer", logo uses gray-900. Default: "header" (AG Blue #0055B8). */
   variant?: "header" | "footer";
+  /** Link destination. Default: "/" (home). Use e.g. "/admin" for admin sidebar. */
+  href?: string;
 };
 
 /** AG Legal wordmark SVG – use currentColor so variant controls fill */
@@ -30,12 +32,12 @@ const LogoSvg = () => (
   </svg>
 );
 
-const Logo = ({ iconOnly = false, variant = "header" }: LogoProps) => {
+const Logo = ({ iconOnly = false, variant = "header", href = "/" }: LogoProps) => {
   return (
     <Link
-      href="/"
+      href={href}
       className={cn(styles.logo_wrapper, variant === "footer" && styles.logo_footer)}
-      aria-label="AG Legal – Home"
+      aria-label={href === "/admin" ? "AG Legal Admin – Dashboard" : "AG Legal – Home"}
     >
       <LogoSvg />
       {!iconOnly && (
