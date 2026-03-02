@@ -16,6 +16,7 @@ const About = () => {
   const title = React.useRef<HTMLHeadingElement>(null);
   const description = React.useRef<HTMLParagraphElement>(null);
   const mediaRef = React.useRef<HTMLDivElement>(null);
+  const imageContainerRef = React.useRef<HTMLDivElement>(null);
 
   useGSAP(
     () => {
@@ -84,6 +85,26 @@ const About = () => {
             "-=0.4",
           );
         }
+
+        if (imageContainerRef.current) {
+          const img = imageContainerRef.current.querySelector("img");
+          if (img) {
+            gsap.fromTo(
+              img,
+              { scale: 1.18 },
+              {
+                scale: 1,
+                ease: "none",
+                scrollTrigger: {
+                  trigger: imageContainerRef.current,
+                  start: "top bottom",
+                  end: "bottom top",
+                  scrub: 2,
+                },
+              },
+            );
+          }
+        }
       }
     },
     { scope: container },
@@ -111,7 +132,7 @@ const About = () => {
 
       {/* Figma 8278-778: image with white AG SVG overlay */}
       <div ref={mediaRef} className={styles.media_block}>
-        <div className={styles.media_image}>
+        <div ref={imageContainerRef} className={styles.media_image}>
           <Image
             src="/images/ag-legal-video.jpg"
             fill

@@ -30,8 +30,25 @@
     width: 100%;
 }
 
-.content {
+.content_wrapper {
     margin-top: 64px;
+    display: grid;
+    overflow: hidden;
+    background: #fff;
+    cursor: grab;
+    touch-action: pan-y;
+}
+
+.content_wrapper:active {
+    cursor: grabbing;
+}
+
+.content_slide {
+    grid-area: 1 / 1;
+    min-height: 0;
+}
+
+.content {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 64px;
@@ -43,6 +60,10 @@
     height: 379px;
     border-radius: 12px;
     overflow: hidden;
+}
+
+.image {
+    object-fit: cover;
 }
 
 .figure_content {

@@ -12,21 +12,117 @@ import { useGSAP } from "@gsap/react";
 
 gsap.registerPlugin(ScrollTrigger);
 
+type TabContent = {
+  title: string;
+  description: string;
+  image: string;
+  number: string;
+};
+
+const ProcessSlide = ({ content }: { content: TabContent }) => (
+  <>
+    <div className={styles.image_wrapper}>
+      <Image
+        src={content.image}
+        fill
+        sizes="(max-width: 768px) 100vw, 50vw"
+        alt={content.title}
+        className={styles.image}
+      />
+    </div>
+    <div className={styles.figure_content}>
+      <div>
+        <div className={cn("paragraph-x-large", styles.figure_title)}>
+          {content.title}
+        </div>
+        <div className={cn("paragraph-medium", styles.figure_description)}>
+          {content.description}
+        </div>
+      </div>
+      <div className={cn("hero-2", styles.figure_number)}>{content.number}</div>
+    </div>
+  </>
+);
+
 const Process = () => {
   const { tabs } = mock;
 
   const [activeTab, setActiveTab] = React.useState(1);
   const [displayTab, setDisplayTab] = React.useState(1);
-  const prevTab = React.useRef(1);
+  const [prevDisplayTab, setPrevDisplayTab] = React.useState<number | null>(null);
   const isAnimating = React.useRef(false);
 
   const content = tabs.find((tab) => tab.id === displayTab)?.content;
+  const prevContent = prevDisplayTab
+    ? tabs.find((tab) => tab.id === prevDisplayTab)?.content
+    : null;
 
   const container = React.useRef<HTMLDivElement>(null);
   const title = React.useRef<HTMLHeadingElement>(null);
   const description = React.useRef<HTMLParagraphElement>(null);
   const tabsRef = React.useRef<HTMLDivElement>(null);
-  const contentRef = React.useRef<HTMLDivElement>(null);
+  const contentWrapperRef = React.useRef<HTMLDivElement>(null);
+  const outgoingRef = React.useRef<HTMLDivElement>(null);
+  const incomingRef = React.useRef<HTMLDivElement>(null);
+
+  const swipeStart = React.useRef<{ x: number; y: number } | null>(null);
+
+  const handleSwipeStart = React.useCallback(
+    (clientX: number, clientY: number) => {
+      if (isAnimating.current) return;
+      swipeStart.current = { x: clientX, y: clientY };
+    },
+    [],
+  );
+
+  const handleSwipeEnd = React.useCallback(
+    (clientX: number) => {
+      const start = swipeStart.current;
+      swipeStart.current = null;
+      if (!start || isAnimating.current) return;
+
+      const deltaX = clientX - start.x;
+      const threshold = 50;
+
+      if (deltaX < -threshold) {
+        const nextId = Math.min(displayTab + 1, tabs.length);
+        if (nextId !== displayTab) setActiveTab(nextId);
+      } else if (deltaX > threshold) {
+        const prevId = Math.max(displayTab - 1, 1);
+        if (prevId !== displayTab) setActiveTab(prevId);
+      }
+    },
+    [displayTab, tabs.length],
+  );
+
+  React.useEffect(() => {
+    const el = contentWrapperRef.current;
+    if (!el) return;
+
+    const onTouchStart = (e: TouchEvent) =>
+      handleSwipeStart(e.touches[0].clientX, e.touches[0].clientY);
+    const onTouchEnd = (e: TouchEvent) =>
+      handleSwipeEnd(e.changedTouches[0].clientX);
+    const onMouseDown = (e: MouseEvent) =>
+      handleSwipeStart(e.clientX, e.clientY);
+    const onMouseUp = (e: MouseEvent) => handleSwipeEnd(e.clientX);
+
+    el.addEventListener("touchstart", onTouchStart, { passive: true });
+    el.addEventListener("touchend", onTouchEnd, { passive: true });
+    el.addEventListener("mousedown", onMouseDown);
+
+    const onDocMouseUp = (e: MouseEvent) => {
+      if (swipeStart.current) handleSwipeEnd(e.clientX);
+    };
+    document.addEventListener("mouseup", onDocMouseUp);
+
+    return () => {
+      el.removeEventListener("touchstart", onTouchStart);
+      el.removeEventListener("touchend", onTouchEnd);
+      el.removeEventListener("mousedown", onMouseDown);
+      document.removeEventListener("mouseup", onDocMouseUp);
+    };
+  }, [handleSwipeStart, handleSwipeEnd]);
 
   useGSAP(
     () => {
@@ -88,9 +184,9 @@ const Process = () => {
             },
           );
 
-          if (contentRef.current) {
+          if (contentWrapperRef.current) {
             timeline.fromTo(
-              contentRef.current,
+              contentWrapperRef.current,
               { opacity: 0, y: 20 },
               {
                 opacity: 1,
@@ -108,54 +204,67 @@ const Process = () => {
   );
 
   React.useEffect(() => {
-    if (activeTab === prevTab.current) return;
-    const el = contentRef.current;
-    if (!el || isAnimating.current) {
-      prevTab.current = activeTab;
+    if (activeTab === displayTab || isAnimating.current) return;
+    if (!contentWrapperRef.current) {
       setDisplayTab(activeTab);
       return;
     }
 
     isAnimating.current = true;
-    prevTab.current = activeTab;
+    setPrevDisplayTab(displayTab);
+    setDisplayTab(activeTab);
 
-    gsap.to(el, {
-      opacity: 0,
-      duration: 0.7,
-      ease: "power1.inOut",
-      onComplete: () => {
-        setDisplayTab(activeTab);
+    const direction = activeTab > displayTab ? 1 : -1;
+    const slideDistance = "100%";
 
-        const img = el.querySelector(`.${styles.image_wrapper}`);
-        const figTitle = el.querySelector(`.${styles.figure_title}`);
-        const figDesc = el.querySelector(`.${styles.figure_description}`);
-        const figNum = el.querySelector(`.${styles.figure_number}`);
+    const runTransition = () => {
+      const outgoing = outgoingRef.current;
+      const incoming = incomingRef.current;
+      if (!outgoing || !incoming) {
+        isAnimating.current = false;
+        setPrevDisplayTab(null);
+        return;
+      }
 
-        gsap.set(el, { opacity: 1 });
+      gsap.set(outgoing, { x: 0, opacity: 1 });
+      gsap.set(incoming, {
+        x: direction > 0 ? slideDistance : `-${slideDistance}`,
+        opacity: 0,
+      });
 
-        const tl = gsap.timeline({
-          onComplete: () => { isAnimating.current = false; },
-        });
+      const duration = 0.6;
+      const ease = "power2.inOut";
 
-        if (img) {
-          gsap.set(img, { opacity: 0, scale: 1.04 });
-          tl.to(img, { opacity: 1, scale: 1, duration: 1.1, ease: "power1.out" }, 0);
-        }
-        if (figTitle) {
-          gsap.set(figTitle, { opacity: 0, y: 16 });
-          tl.to(figTitle, { opacity: 1, y: 0, duration: 0.9, ease: "power1.out" }, 0.15);
-        }
-        if (figDesc) {
-          gsap.set(figDesc, { opacity: 0, y: 12 });
-          tl.to(figDesc, { opacity: 1, y: 0, duration: 0.9, ease: "power1.out" }, 0.3);
-        }
-        if (figNum) {
-          gsap.set(figNum, { opacity: 0, y: 10 });
-          tl.to(figNum, { opacity: 1, y: 0, duration: 0.9, ease: "power1.out" }, 0.4);
-        }
-      },
-    });
-  }, [activeTab]);
+      const tl = gsap.timeline({
+        onComplete: () => {
+          setPrevDisplayTab(null);
+          isAnimating.current = false;
+        },
+      });
+
+      tl.to(
+        outgoing,
+        {
+          x: direction > 0 ? `-${slideDistance}` : slideDistance,
+          opacity: 0,
+          duration,
+          ease,
+        },
+        0,
+      ).to(
+        incoming,
+        {
+          x: 0,
+          opacity: 1,
+          duration,
+          ease,
+        },
+        0,
+      );
+    };
+
+    requestAnimationFrame(() => requestAnimationFrame(runTransition));
+  }, [activeTab, displayTab]);
 
   return (
     <div ref={container} className={cn("section")}>
@@ -183,35 +292,25 @@ const Process = () => {
           />
         </div>
 
-        {content && (
-          <div ref={contentRef} className={styles.content}>
-            <div className={styles.image_wrapper}>
-              <Image
-                src={content.image}
-                layout="fill"
-                objectFit="cover"
-                alt={content.title}
-              />
+        <div ref={contentWrapperRef} className={styles.content_wrapper}>
+          {prevContent && (
+            <div
+              ref={outgoingRef}
+              className={cn(styles.content, styles.content_slide)}
+              aria-hidden
+            >
+              <ProcessSlide content={prevContent} />
             </div>
-
-            <div className={styles.figure_content}>
-              <div>
-                <div className={cn("paragraph-x-large", styles.figure_title)}>
-                  {content.title}
-                </div>
-                <div
-                  className={cn("paragraph-medium", styles.figure_description)}
-                >
-                  {content.description}
-                </div>
-              </div>
-
-              <div className={cn("hero-2", styles.figure_number)}>
-                {content.number}
-              </div>
+          )}
+          {content && (
+            <div
+              ref={prevContent ? incomingRef : undefined}
+              className={cn(styles.content, styles.content_slide)}
+            >
+              <ProcessSlide content={content} />
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );
