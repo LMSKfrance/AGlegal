@@ -1,9 +1,11 @@
 import cn from "classnames";
 import styles from "./member.module.css";
 import Image from "next/image";
+import Link from "next/link";
 
 type MemberProps = {
   member: {
+    slug?: string;
     title: string;
     position: string;
     description: string;
@@ -18,14 +20,15 @@ type MemberProps = {
 };
 
 const Member = ({ member }: MemberProps) => {
-  return (
-    <div className={styles.member}>
+  const content = (
+    <>
       <div className={styles.member_image}>
         <Image
           src={member.image}
-          alt="Attorney"
-          layout="fill"
-          objectFit="cover"
+          alt={member.title}
+          fill
+          sizes="(max-width: 768px) 100vw, 50vw"
+          style={{ objectFit: "cover" }}
         />
       </div>
 
@@ -43,20 +46,32 @@ const Member = ({ member }: MemberProps) => {
 
         <div className={styles.member_socials}>
           {member.socials.map((social) => (
-            <a
+            <span
               key={social.id}
               className={styles.member_social}
-              href={social.link}
-              target="_blank"
-              rel="noopener noreferrer"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                window.open(social.link, "_blank", "noopener,noreferrer");
+              }}
             >
               {social.icon}
-            </a>
+            </span>
           ))}
         </div>
       </div>
-    </div>
+    </>
   );
+
+  if (member.slug) {
+    return (
+      <Link href={`/team/${member.slug}`} className={styles.member}>
+        {content}
+      </Link>
+    );
+  }
+
+  return <div className={styles.member}>{content}</div>;
 };
 
 export default Member;

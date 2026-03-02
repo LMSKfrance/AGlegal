@@ -359,10 +359,17 @@ const bottom_testimonials = [
 const members = [
   {
     id: 1,
+    slug: "vladimer-gabrielashvili",
     title: "Vladimer Gabrielashvili",
     position: "Partner",
     description:
-      "Vladimer, a partner at AG Legal Consulting since 2007, has held key legal and government roles, including at Georgian Railway and the National Security Council",
+      "Vladimer, a partner at AG Legal Consulting since 2007, has held key legal and government roles, including at Georgian Railway and the National Security Council.",
+    quote:
+      "Strong legal foundations are the cornerstone of every successful business and lasting personal legacy.",
+    text1:
+      "Vladimer Gabrielashvili is a founding partner at AG Legal Consulting. He graduated from the Faculty of Law at Ivane Javakhishvili Tbilisi State University and has been practicing law since 2001. Over the course of his career, he has held senior legal positions at major Georgian institutions, including Georgian Railway and the National Security Council of Georgia.",
+    text2:
+      "Vladimer specializes in corporate and business law, mergers and acquisitions, government relations, and dispute resolution. He advises domestic and international clients on complex cross-border transactions and regulatory matters. He is a member of the Georgian Bar Association and is recognized as a leading practitioner in corporate law by major legal directories.",
     image: "/images/members/vladimer-gabrielashvili.jpg",
     socials: [
       {
@@ -381,10 +388,17 @@ const members = [
   },
   {
     id: 2,
+    slug: "dimitri-aleksidze",
     title: "Dimitri Aleksidze",
     position: "Partner",
     description:
-      "With over 20 years of experience in corporate law, Dimitri leads our firm with a focus on building strong business foundations for clients.",
+      "Dimitri Aleksidze, a partner at AG Legal Consulting, has held key legal and executive positions across leading Georgian enterprises and public institutions.",
+    quote:
+      "Effective legal counsel is not just about knowing the law — it is about understanding the business behind every decision.",
+    text1:
+      "Dimitri Aleksidze is a partner at AG Legal Consulting with over 15 years of legal practice across both the private and public sectors. He received his law degree from Tbilisi State University and completed advanced studies in European business law. Early in his career, Dimitri served as in-house counsel for several major Georgian corporations, gaining deep expertise in transactional and regulatory work.",
+    text2:
+      "At AG Legal Consulting, Dimitri focuses on mergers and acquisitions, corporate restructuring, contract law, and commercial dispute resolution. He represents clients in complex negotiations and court proceedings, providing practical, results-driven legal advice. Dimitri is a certified attorney and an active member of the Georgian Bar Association.",
     image: "/images/members/dimitri-aleksidze.jpg",
     socials: [
       {
@@ -403,10 +417,17 @@ const members = [
   },
   {
     id: 3,
+    slug: "lika-galustashvili",
     title: "Lika Galustashvili",
     position: "Senior Associate",
     description:
-      "Lika brings a strategic approach to criminal defense, providing expert legal representation to clients facing serious criminal charges.",
+      "Lika specializes in civil and administrative law, with additional expertise in corporate law, intellectual property, and contract law.",
+    quote:
+      "Choosing the right structure for your business is a critical decision that impacts everything from taxation to liability protection.",
+    text1:
+      "Lika Galustashvili graduated from the Faculty of Law at Ivane Javakhishvili Tbilisi State University, where she earned her LL.B. and LL.M. degrees in Private Law. She also completed part of her Master's studies at the University of La Coruña in Spain. Later, she pursued a Master's in European Studies at Ivane Javakhishvili Tbilisi State University, supported by a scholarship from the KONRAD ADENAUER Fund.",
+    text2:
+      "Lika began her career as a paralegal and gained valuable experience in both the private and public sectors, as well as with non-governmental organizations. Before joining AG Legal Consulting in 2020 as an associate, she worked at the National Bureau of Enforcement. At AG Legal Consulting, Lika specializes in civil and administrative law, with additional expertise in corporate law, intellectual property law, and contract law. She provides clients with comprehensive legal advice on corporate reorganization, restructuring, and employment matters. Lika is actively involved in M&A and real estate transactions, drafting and analyzing legal documents and representing clients in the courts of Georgia. She is a member of the Georgian Bar Association and speaks Georgian, English, Spanish, and Russian.",
     image: "/images/members/lika-galustashvili.jpg",
     socials: [
       {
@@ -425,10 +446,17 @@ const members = [
   },
   {
     id: 4,
+    slug: "nikoloz-abutidze",
     title: "Nikoloz Abutidze",
     position: "Senior Associate",
     description:
-      "Nikoloz specializes in real estate law, offering expert guidance on property transactions, zoning laws, and resolving disputes.",
+      "Nikoloz Abutidze, a licensed insolvency practitioner and PhD candidate, specializes in insolvency, corporate, and real estate law.",
+    quote:
+      "Sound legal analysis and practical judgment are the pillars of every successful transaction and dispute resolution.",
+    text1:
+      "Nikoloz Abutidze holds a law degree from Ivane Javakhishvili Tbilisi State University and is currently a PhD candidate in civil law. He is a licensed insolvency practitioner and has completed specialized training in corporate governance and commercial arbitration. His academic background is complemented by broad practical experience in both advisory and litigation roles.",
+    text2:
+      "At AG Legal Consulting, Nikoloz advises clients on insolvency proceedings, corporate restructuring, real estate transactions, and commercial disputes. He has represented clients before Georgian courts at all levels and has been involved in several landmark insolvency cases. Nikoloz is a member of the Georgian Bar Association and the Chamber of Insolvency Practitioners of Georgia.",
     image: "/images/members/nikoloz-abutidze.jpg",
     socials: [
       {
@@ -447,10 +475,17 @@ const members = [
   },
   {
     id: 5,
+    slug: "aleksandre-khasia",
     title: "Aleksandre Khasia",
     position: "Financial Manager",
     description:
-      "Aleksandre specializes in financial management, offering expert guidance on financial planning and corporate budgeting.",
+      "Aleksandre Khasia, financial manager at AG Legal Consulting since 2008, oversees all financial operations, reporting, and corporate planning for the firm.",
+    quote:
+      "Financial clarity and disciplined management are essential to building a firm that clients and partners can always rely on.",
+    text1:
+      "Aleksandre Khasia holds a degree in Economics and Finance from Tbilisi State University and has completed additional professional development courses in corporate financial management and accounting. He joined AG Legal Consulting in 2008 and has since played a central role in shaping the financial infrastructure of the firm.",
+    text2:
+      "Aleksandre oversees all aspects of the firm's financial operations, including budgeting, financial reporting, payroll management, and tax compliance. He works closely with the partners to ensure fiscal soundness across all client-facing and internal operations. His expertise extends to advising clients on financial structuring in the context of corporate transactions and business formation.",
     image: "/images/members/aleksandre-khasia.jpg",
     socials: [
       {
@@ -469,10 +504,17 @@ const members = [
   },
   {
     id: 6,
+    slug: "eka-arsenidze",
     title: "Eka Arsenidze",
     position: "Senior Administrative Manager",
     description:
-      "Eka oversees administrative operations, ensuring smooth day-to-day management and organizational excellence.",
+      "Eka Arsenidze, Senior Administrative Manager at AG Legal Consulting since 2008, leads the firm's administrative operations with precision and dedication.",
+    quote:
+      "A well-run firm starts from the inside — the strength of our team is built on trust, discipline, and genuine care for every client.",
+    text1:
+      "Eka Arsenidze has been a cornerstone of AG Legal Consulting's administrative operations since joining the firm in 2008. She holds a degree in Business Administration and has accumulated extensive experience in law firm management, client relations, and organizational development. Her leadership has been instrumental in building the firm's internal culture and operational standards.",
+    text2:
+      "As Senior Administrative Manager, Eka coordinates the firm's day-to-day operations, oversees client intake and communications, manages the administrative team, and ensures that all internal processes run smoothly and efficiently. She works closely with attorneys and partners to support the delivery of high-quality legal services. Eka is known for her exceptional organizational skills and commitment to client service excellence.",
     image: "/images/members/eka-arsenidze.jpg",
     socials: [
       {
@@ -491,10 +533,17 @@ const members = [
   },
   {
     id: 7,
+    slug: "kakhaber-kipiani",
     title: "Kakhaber Kipiani",
     position: "Of Counsel",
     description:
-      "Kakhaber provides strategic legal counsel, leveraging extensive experience to guide clients through complex legal matters.",
+      "Kakha, counsel at AG Legal Consulting since 2024, was a senior lawyer and partner at leading Georgian law firms for over two decades.",
+    quote:
+      "Decades of practice have taught me that every legal challenge, no matter how complex, has a solution rooted in careful analysis and sound judgment.",
+    text1:
+      "Kakhaber Kipiani brings over 25 years of legal experience to AG Legal Consulting, where he serves as Of Counsel. He graduated from the Faculty of Law at Ivane Javakhishvili Tbilisi State University and subsequently earned advanced qualifications in commercial and constitutional law. Over his career, he has been a partner at two of Georgia's most respected law firms and has appeared before the Constitutional Court of Georgia on multiple occasions.",
+    text2:
+      "Kakhaber specializes in constitutional law, commercial litigation, arbitration, and regulatory affairs. He advises the firm and its clients on high-stakes disputes and complex legal strategy. His extensive courtroom experience and depth of legal knowledge make him a trusted advisor across a wide range of practice areas. Kakhaber is a member of the Georgian Bar Association and a recognized authority in Georgian commercial law.",
     image: "/images/members/kakhaber-kipiani.jpg",
     socials: [
       {

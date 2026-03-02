@@ -1,9 +1,17 @@
 /* Team member card – Figma 8369:6993 Team Member instance */
 
 .member {
+  display: block;
   padding: 16px;
   border: 1px solid var(--gray-200);
   border-radius: 12px;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.25s ease;
+}
+
+.member:hover {
+  border-color: var(--ag-blue-800);
 }
 
 .member_image {
