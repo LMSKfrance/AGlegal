@@ -12,60 +12,44 @@ const Hero = () => {
   const { members } = mock;
 
   const container = React.useRef<HTMLDivElement>(null);
-  const title = React.useRef<HTMLHeadingElement>(null);
-  const teamRef = React.useRef<(HTMLDivElement | null)[]>([]);
+  const titleRef = React.useRef<HTMLHeadingElement>(null);
+  const membersRef = React.useRef<(HTMLDivElement | null)[]>([]);
 
   useGSAP(
     () => {
-      if (container.current && title.current) {
-        const chars = title.current.textContent
-          ?.split("")
-          .map((char) => `<span>${char}</span>`)
-          .join("");
+      if (!container.current || !titleRef.current) return;
 
-        if (chars) {
-          title.current.innerHTML = chars;
-          const spans = title.current.querySelectorAll("span");
+      const timeline = gsap.timeline();
 
-          const timeline = gsap.timeline();
+      timeline.fromTo(
+        titleRef.current,
+        { y: 40, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.9, ease: "power3.out" },
+      );
 
+      membersRef.current.forEach((member, index) => {
+        if (member) {
           timeline.fromTo(
-            spans,
+            member,
             { y: 50, opacity: 0 },
             {
               y: 0,
               opacity: 1,
-              stagger: 0.03,
-              ease: "back.out(2)",
-              duration: 1,
+              ease: "power2.out",
+              duration: 0.8,
             },
+            `-=${0.3 - index * 0.05}`,
           );
-
-          teamRef.current.forEach((team, index) => {
-            if (team) {
-              timeline.fromTo(
-                team,
-                { y: 50, opacity: 0 },
-                {
-                  y: 0,
-                  opacity: 1,
-                  ease: "power2.out",
-                  duration: 0.8,
-                },
-                `-=${0.3 - index * 0.05}`,
-              );
-            }
-          });
         }
-      }
+      });
     },
     { scope: container },
   );
 
   return (
-    <section ref={container} className={cn("section")}>
-      <div className={cn("container")}>
-        <h1 ref={title} className={cn("hero-2", styles.title)}>
+    <section ref={container} className={cn("section", styles.section)}>
+      <div className={cn("container", styles.container)}>
+        <h1 ref={titleRef} className={cn("hero-2", styles.title)}>
           Our team.
         </h1>
 
@@ -74,11 +58,10 @@ const Hero = () => {
             <div
               key={member.id}
               ref={(el) => {
-                teamRef.current[index] = el;
+                membersRef.current[index] = el;
               }}
-              className={styles.benefit}
             >
-              <Member key={member.id} member={member} />
+              <Member member={member} />
             </div>
           ))}
         </div>

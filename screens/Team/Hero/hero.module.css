@@ -1,42 +1,84 @@
+/* Team page – Figma 8369-6993/7123/7211/7299 */
+
+.section {
+  padding-top: 126px;
+  padding-bottom: 80px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+}
+
 .title {
-    text-align: center;
+  font-size: 72px;
+  line-height: 1.2;
+  letter-spacing: -1.44px;
+  text-align: left;
+  color: var(--slate-900);
 }
 
 .members {
-    margin-top: 64px;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 48px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 48px;
 }
 
 @media (max-width: 1280px) {
-    .title {
-        font-size: 64px;
-        line-height: 72px;
-        letter-spacing: -0.96px;
-    }
+  .title {
+    font-size: 64px;
+    line-height: 72px;
+    letter-spacing: -0.96px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .section {
+    padding-top: 100px;
+    padding-bottom: 64px;
+  }
+
+  .container {
+    gap: 48px;
+  }
 }
 
 @media (max-width: 768px) {
-    .title {
-        font-size: 56px;
-        line-height: 64px;
-        letter-spacing: -0.8px;
-    }
+  .section {
+    padding-top: 96px;
+    padding-bottom: 64px;
+  }
 
-    .members {
-        margin-top: 48px;
-    }
+  .title {
+    font-size: 56px;
+    line-height: 64px;
+    letter-spacing: -0.8px;
+  }
+
+  .container {
+    gap: 48px;
+  }
+
+  .members {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
 }
 
 @media (max-width: 480px) {
-    .title {
-        font-size: 48px;
-        line-height: 56px;
-        letter-spacing: -0.64px;
-    }
+  .section {
+    padding-top: 96px;
+    padding-bottom: 48px;
+  }
 
-    .members {
-        grid-template-columns: 1fr;
-    }
+  .title {
+    font-size: 48px;
+    line-height: 56px;
+    letter-spacing: -0.64px;
+  }
+
+  .container {
+    gap: 48px;
+  }
 }
