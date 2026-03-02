@@ -3,20 +3,10 @@ import styles from "./member.module.css";
 import Image from "next/image";
 import Link from "next/link";
 
+import type { TeamMember } from "@/lib/types/team";
+
 type MemberProps = {
-  member: {
-    slug?: string;
-    title: string;
-    position: string;
-    description: string;
-    image: string;
-    socials: {
-      id: number;
-      name: string;
-      icon: React.ReactNode;
-      link: string;
-    }[];
-  };
+  member: Pick<TeamMember, "slug" | "title" | "position" | "description" | "image" | "socials">;
 };
 
 const Member = ({ member }: MemberProps) => {

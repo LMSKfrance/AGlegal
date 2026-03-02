@@ -1,17 +1,36 @@
-import mock from "@/constants/mock";
+import { getServiceBySlug } from "@/lib/services";
 import ServicePage from "@/screens/Service";
+import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 
-const Service = async ({ params }: { params: Promise<{ slug: string }> }) => {
+type Props = {
+  params: Promise<{ slug: string }>;
+};
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const service = mock.services.find((service) => service.slug === slug);
+  const service = await getServiceBySlug(slug);
+  if (!service) return { title: "Service" };
+  return {
+    title: `${service.title} | AG Legal`,
+    description: service.description ?? service.text1?.slice(0, 160),
+    openGraph: {
+      title: `${service.title} | AG Legal`,
+      description: service.description ?? service.text1?.slice(0, 160),
+      images: service.image ? [{ url: service.image, alt: service.title }] : [],
+    },
+  };
+}
 
-  console.log("Service:", service);
+const ServiceDetailPage = async ({ params }: Props) => {
+  const { slug } = await params;
+  const service = await getServiceBySlug(slug);
 
   if (!service) {
-    return null;
+    notFound();
   }
 
   return <ServicePage service={service} />;
 };
 
-export default Service;
+export default ServiceDetailPage;

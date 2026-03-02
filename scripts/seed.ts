@@ -110,7 +110,7 @@ async function seed() {
       image: data.image || null,
       date: data.date ? new Date(data.date).toISOString().split("T")[0] : now.split("T")[0],
       time: data.time || null,
-      tags: JSON.stringify(data.tags || []),
+      tags: Array.isArray(data.tags) ? data.tags : [],
       type: data.type || null,
       sortOrder: i,
       createdAt: now,

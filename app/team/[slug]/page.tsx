@@ -1,21 +1,38 @@
-import mock from "@/constants/mock";
+import { getTeamMemberBySlug, getOtherTeamMembers } from "@/lib/team";
 import MemberDetailPage from "@/screens/MemberDetail";
+import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 
-const MemberDetail = async ({
-  params,
-}: {
+type Props = {
   params: Promise<{ slug: string }>;
-}) => {
+};
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const member = mock.members.find((m) => m.slug === slug);
+  const member = await getTeamMemberBySlug(slug);
+  if (!member) return { title: "Team Member" };
+  return {
+    title: `${member.title} | AG Legal`,
+    description: member.description,
+    openGraph: {
+      title: `${member.title} | AG Legal`,
+      description: member.description,
+      images: member.image ? [{ url: member.image, alt: member.title }] : [],
+    },
+  };
+}
+
+const TeamMemberPage = async ({ params }: Props) => {
+  const { slug } = await params;
+  const member = await getTeamMemberBySlug(slug);
 
   if (!member) {
-    return null;
+    notFound();
   }
 
-  const otherMembers = mock.members.filter((m) => m.slug !== slug);
+  const otherMembers = await getOtherTeamMembers(slug);
 
   return <MemberDetailPage member={member} otherMembers={otherMembers} />;
 };
 
-export default MemberDetail;
+export default TeamMemberPage;
