@@ -62,6 +62,15 @@ export function PagesForm({ item }: Props) {
               <TextArea label="Meta description (EN)" name="metaDescriptionEn" rows={2} defaultValue={item?.metaDescriptionEn ?? ""} size="m" />
             </div>
             <div style={{ marginTop: 16 }}>
+              <TextField label="SEO title (EN)" name="seoTitleEn" defaultValue={item?.seoTitleEn ?? ""} size="m" />
+            </div>
+            <div style={{ marginTop: 16 }}>
+              <TextField label="OG title (EN)" name="ogTitleEn" defaultValue={item?.ogTitleEn ?? ""} size="m" />
+            </div>
+            <div style={{ marginTop: 16 }}>
+              <TextArea label="OG description (EN)" name="ogDescriptionEn" rows={2} defaultValue={item?.ogDescriptionEn ?? ""} size="m" />
+            </div>
+            <div style={{ marginTop: 16 }}>
               <TextArea label="Content (EN, Markdown)" name="contentEn" rows={12} defaultValue={item?.contentEn ?? ""} size="m" />
             </div>
           </div>
@@ -73,11 +82,33 @@ export function PagesForm({ item }: Props) {
               <TextArea label="Meta description (KA)" name="metaDescriptionKa" rows={2} defaultValue={item?.metaDescriptionKa ?? ""} size="m" />
             </div>
             <div style={{ marginTop: 16 }}>
+              <TextField label="SEO title (KA)" name="seoTitleKa" defaultValue={item?.seoTitleKa ?? ""} size="m" />
+            </div>
+            <div style={{ marginTop: 16 }}>
+              <TextField label="OG title (KA)" name="ogTitleKa" defaultValue={item?.ogTitleKa ?? ""} size="m" />
+            </div>
+            <div style={{ marginTop: 16 }}>
+              <TextArea label="OG description (KA)" name="ogDescriptionKa" rows={2} defaultValue={item?.ogDescriptionKa ?? ""} size="m" />
+            </div>
+            <div style={{ marginTop: 16 }}>
               <TextArea label="Content (KA, Markdown)" name="contentKa" rows={12} defaultValue={item?.contentKa ?? ""} size="m" />
             </div>
           </div>
         }
       />
+
+      <div className={styles.formRow}>
+        <TextField
+          label="OG image URL/path"
+          name="ogImage"
+          defaultValue={item?.ogImage ?? ""}
+          size="m"
+        />
+      </div>
+
+      <div className={styles.formRow} style={{ marginTop: 24 }}>
+        <SubmitButton />
+      </div>
 
       <div className={styles.formRow} style={{ marginTop: 24 }}>
         <SubmitButton />

@@ -99,7 +99,8 @@ export const testimonials = sqliteTable("testimonials", {
   updatedAt: text("updated_at").notNull().$defaultFn(() => new Date().toISOString()),
 });
 
-// ─── Site Settings (key/value for UI strings, page sections, etc.) ──────────
+
+//  Site Settings (key/value for UI strings, page sections, etc.) 
 export const siteSettings = sqliteTable("site_settings", {
   id: integer("id").primaryKey({ autoIncrement: true }),
   key: text("key").notNull().unique(),
@@ -109,7 +110,27 @@ export const siteSettings = sqliteTable("site_settings", {
   updatedAt: text("updated_at").notNull().$defaultFn(() => new Date().toISOString()),
 });
 
-// ─── Pages (editable CMS pages: About, Contact, etc.) ────────────────────────
+//  Contact Settings (address, contact info, social links) 
+export const contactSettings = sqliteTable("contact_settings", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  titleEn: text("title_en"),
+  titleKa: text("title_ka"),
+  subtitleEn: text("subtitle_en"),
+  subtitleKa: text("subtitle_ka"),
+  addressEn: text("address_en"),
+  addressKa: text("address_ka"),
+  email: text("email"),
+  phone: text("phone"),
+  secondaryPhone: text("secondary_phone"),
+  facebookUrl: text("facebook_url"),
+  instagramUrl: text("instagram_url"),
+  linkedinUrl: text("linkedin_url"),
+  xUrl: text("x_url"),
+  mapEmbedUrl: text("map_embed_url"),
+  updatedAt: text("updated_at").notNull().$defaultFn(() => new Date().toISOString()),
+});
+
+//  Pages (editable CMS pages: About, Contact, etc.) 
 export const pages = sqliteTable("pages", {
   id: integer("id").primaryKey({ autoIncrement: true }),
   slug: text("slug").notNull().unique(),
@@ -119,6 +140,13 @@ export const pages = sqliteTable("pages", {
   contentKa: text("content_ka"),
   metaDescriptionEn: text("meta_description_en"),
   metaDescriptionKa: text("meta_description_ka"),
+  seoTitleEn: text("seo_title_en"),
+  seoTitleKa: text("seo_title_ka"),
+  ogTitleEn: text("og_title_en"),
+  ogTitleKa: text("og_title_ka"),
+  ogDescriptionEn: text("og_description_en"),
+  ogDescriptionKa: text("og_description_ka"),
+  ogImage: text("og_image"),
   sortOrder: integer("sort_order").default(0),
   createdAt: text("created_at").notNull().$defaultFn(() => new Date().toISOString()),
   updatedAt: text("updated_at").notNull().$defaultFn(() => new Date().toISOString()),
@@ -135,9 +163,9 @@ export type TeamMemberSocial = typeof teamMemberSocials.$inferSelect;
 export type NewTeamMemberSocial = typeof teamMemberSocials.$inferInsert;
 export type Faq = typeof faqs.$inferSelect;
 export type NewFaq = typeof faqs.$inferInsert;
-export type Testimonial = typeof testimonials.$inferSelect;
-export type NewTestimonial = typeof testimonials.$inferInsert;
 export type SiteSetting = typeof siteSettings.$inferSelect;
 export type NewSiteSetting = typeof siteSettings.$inferInsert;
+export type ContactSettings = typeof contactSettings.$inferSelect;
+export type NewContactSettings = typeof contactSettings.$inferInsert;
 export type Page = typeof pages.$inferSelect;
 export type NewPage = typeof pages.$inferInsert;

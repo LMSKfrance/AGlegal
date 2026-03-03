@@ -12,6 +12,7 @@ const navItems = [
   { href: "/admin/team", label: "Team" },
   { href: "/admin/services", label: "Services" },
   { href: "/admin/pages", label: "Pages" },
+  { href: "/admin/contact", label: "Contact" },
 ];
 
 export default function AdminShell({
