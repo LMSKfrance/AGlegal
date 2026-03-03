@@ -38,6 +38,10 @@ export async function createTeamMember(prev: TeamFormState, formData: FormData):
     if (result.success) imagePath = result.path;
   }
 
+  const showOnHome = formData.get("showOnHome") ? 1 : 0;
+  const homeOrderRaw = (formData.get("homeOrder") as string | null) ?? "0";
+  const homeOrder = Number.parseInt(homeOrderRaw, 10) || 0;
+
   const now = new Date().toISOString();
   await db.insert(teamMembers).values({
     slug,
@@ -54,6 +58,8 @@ export async function createTeamMember(prev: TeamFormState, formData: FormData):
     text2En: (formData.get("text2En") as string)?.trim() || null,
     text2Ka: (formData.get("text2Ka") as string)?.trim() || null,
     image: imagePath,
+    showOnHome,
+    homeOrder,
     updatedAt: now,
   });
 
@@ -74,6 +80,7 @@ export async function createTeamMember(prev: TeamFormState, formData: FormData):
   revalidatePath("/admin/team");
   revalidatePath("/admin");
   revalidatePath("/team", "layout");
+  revalidatePath("/");
   return { success: true };
 }
 
@@ -100,6 +107,10 @@ export async function updateTeamMember(id: number, prev: TeamFormState, formData
     if (result.success) imagePath = result.path;
   }
 
+  const showOnHome = formData.get("showOnHome") ? 1 : 0;
+  const homeOrderRaw = (formData.get("homeOrder") as string | null) ?? `${existing.homeOrder ?? 0}`;
+  const homeOrder = Number.parseInt(homeOrderRaw, 10) || 0;
+
   await db
     .update(teamMembers)
     .set({
@@ -117,6 +128,8 @@ export async function updateTeamMember(id: number, prev: TeamFormState, formData
       text2En: (formData.get("text2En") as string)?.trim() || null,
       text2Ka: (formData.get("text2Ka") as string)?.trim() || null,
       image: imagePath,
+      showOnHome,
+      homeOrder,
       updatedAt: new Date().toISOString(),
     })
     .where(eq(teamMembers.id, id));
@@ -135,6 +148,7 @@ export async function updateTeamMember(id: number, prev: TeamFormState, formData
   revalidatePath("/admin/team");
   revalidatePath("/admin");
   revalidatePath("/team", "layout");
+  revalidatePath("/");
   return { success: true };
 }
 
@@ -148,5 +162,6 @@ export async function deleteTeamMember(id: number): Promise<void> {
   revalidatePath("/admin/team");
   revalidatePath("/admin");
   revalidatePath("/team", "layout");
+  revalidatePath("/");
   redirect("/admin/team?toast=success");
 }

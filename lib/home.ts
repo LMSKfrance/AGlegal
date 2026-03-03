@@ -9,6 +9,8 @@ import {
 } from "@/lib/db/schema";
 import { eq, inArray, asc } from "drizzle-orm";
 import { truncateChars } from "@/lib/utils/text";
+import { getHomeTeamMembers } from "@/lib/team";
+import type { TeamMember } from "@/lib/types/team";
 
 type Locale = "en" | "ka";
 
@@ -62,6 +64,7 @@ export type HomeContent = {
   services: ServiceCard[];
   benefits: BenefitCard[];
   tabs: ProcessTab[];
+  teamMembers: TeamMember[];
 };
 
 async function getSettingValue(key: string, locale: Locale): Promise<string> {
@@ -253,7 +256,7 @@ export async function getHomeProcessSteps(locale: Locale): Promise<ProcessTab[]>
 }
 
 export async function getHomeContent(locale: Locale): Promise<HomeContent> {
-  const [hero, about, servicesHeading, benefitsHeading, processHeading, servicesCards, benefits, tabs] =
+  const [hero, about, servicesHeading, benefitsHeading, processHeading, servicesCards, benefits, tabs, teamMembers] =
     await Promise.all([
       getHeroContent(locale),
       getAboutContent(locale),
@@ -263,6 +266,7 @@ export async function getHomeContent(locale: Locale): Promise<HomeContent> {
       getHomeServicesCards(locale),
       getHomeBenefits(locale),
       getHomeProcessSteps(locale),
+      getHomeTeamMembers(locale),
     ]);
 
   return {
@@ -274,6 +278,7 @@ export async function getHomeContent(locale: Locale): Promise<HomeContent> {
     services: servicesCards,
     benefits,
     tabs,
+    teamMembers,
   };
 }
 

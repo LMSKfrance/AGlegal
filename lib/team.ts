@@ -46,6 +46,24 @@ export async function getTeamMembers(
   });
 }
 
+export async function getHomeTeamMembers(locale: Locale = "en"): Promise<TeamMember[]> {
+  const rows = db
+    .select()
+    .from(teamMembers)
+    .where(eq(teamMembers.showOnHome, 1))
+    .orderBy(asc(teamMembers.homeOrder), asc(teamMembers.sortOrder), asc(teamMembers.id))
+    .all();
+
+  return rows.map((row) => {
+    const socials = db
+      .select()
+      .from(teamMemberSocials)
+      .where(eq(teamMemberSocials.teamMemberId, row.id))
+      .all();
+    return mapRow(row, socials, locale);
+  });
+}
+
 export async function getOtherTeamMembers(
   excludeSlug: string,
   locale: Locale = "en"

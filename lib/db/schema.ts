@@ -66,6 +66,8 @@ export const teamMembers = sqliteTable("team_members", {
   text2Ka: text("text2_ka"),
   image: text("image"),
   sortOrder: integer("sort_order").default(0),
+  showOnHome: integer("show_on_home").default(0),
+  homeOrder: integer("home_order").default(0),
   createdAt: text("created_at").notNull().$defaultFn(() => new Date().toISOString()),
   updatedAt: text("updated_at").notNull().$defaultFn(() => new Date().toISOString()),
 });

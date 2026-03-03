@@ -346,6 +346,18 @@ function ServicesSection() {
   );
 }
 
+function TeamSection() {
+  return (
+    <SectionCard title="Team (homepage)">
+      <p className={styles.formHelp}>
+        Choose which team members appear on the homepage in the Team section. Use &quot;Show on
+        home&quot; and &quot;Home order&quot; on each member in the <a href="/admin/team">Team</a>{" "}
+        section.
+      </p>
+    </SectionCard>
+  );
+}
+
 async function BenefitsSection() {
   const benefits = await getHomeBenefitsList();
 
@@ -693,6 +705,7 @@ export default async function AdminHomePage() {
         <Suspense fallback={null}>
           <ProcessSection />
         </Suspense>
+        <TeamSection />
       </div>
 
       <Suspense fallback={null}>

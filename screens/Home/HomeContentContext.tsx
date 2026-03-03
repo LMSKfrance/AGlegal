@@ -9,7 +9,7 @@ export type HomeContentProviderValue = {
   contentKa: HomeContent;
 };
 
-const HomeContentContext = createContext<HomeContentProviderValue | null>(null);
+export const HomeContentContext = createContext<HomeContentProviderValue | null>(null);
 
 export function HomeContentProvider({
   value,

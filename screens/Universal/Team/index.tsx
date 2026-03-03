@@ -1,10 +1,11 @@
 "use client";
 
-import React from "react";
+import React, { useContext } from "react";
 import cn from "classnames";
 import styles from "./team.module.css";
 import Member from "@/components/Member";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { HomeContentContext } from "@/screens/Home/HomeContentContext";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
@@ -12,8 +13,11 @@ import { useGSAP } from "@gsap/react";
 gsap.registerPlugin(ScrollTrigger);
 
 const Team = () => {
+  const homeCtx = useContext(HomeContentContext);
   const { locale, t } = useLanguage();
-  const { members } = t;
+  const members =
+    homeCtx ? (locale === "ka" ? homeCtx.contentKa.teamMembers : homeCtx.contentEn.teamMembers) : t.members;
+  const membersList = Array.isArray(members) ? members : [];
   const container = React.useRef<HTMLDivElement>(null);
   const title = React.useRef<HTMLHeadingElement>(null);
   const description = React.useRef<HTMLParagraphElement>(null);
@@ -86,7 +90,7 @@ const Team = () => {
         }
       }
     },
-    { scope: container, dependencies: [locale] },
+    { scope: container, dependencies: [locale, membersList] },
   );
 
   return (
@@ -105,7 +109,7 @@ const Team = () => {
         </div>
 
         <div className={styles.members}>
-          {members.map((member, index) => (
+          {membersList.map((member, index) => (
             <div
               key={member.id}
               ref={(el) => {

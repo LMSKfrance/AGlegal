@@ -63,6 +63,28 @@ export function TeamForm({ item }: Props) {
         )}
       </div>
 
+      <div className={styles.formRow}>
+        <label style={{ display: "block", marginBottom: 4 }}>
+          <input
+            type="checkbox"
+            name="showOnHome"
+            defaultChecked={item?.showOnHome === 1}
+            style={{ marginRight: 8 }}
+          />
+          Show on homepage Team section
+        </label>
+      </div>
+      <div className={styles.formRow}>
+        <TextField
+          label="Home order"
+          name="homeOrder"
+          type="number"
+          min={0}
+          defaultValue={item?.homeOrder ?? 0}
+          size="m"
+        />
+      </div>
+
       <AdminLangTabs
         childrenEn={
           <div className={styles.formRow}>
