@@ -1,47 +1,38 @@
 "use client";
 
-import { useState } from "react";
-import { useFormStatus } from "react-dom";
+import { useActionState } from "react";
 import { Button, TextField, TextArea } from "@/design-system";
 import { AdminLangTabs } from "../components/AdminLangTabs";
 import type { Article } from "@/lib/db/schema";
-import { createNews, updateNews } from "@/lib/actions/news";
+import { createNews, updateNews, type NewsFormState } from "@/lib/actions/news";
 import styles from "../admin.module.css";
 
 type Props = {
   item?: Article | null;
 };
 
-function SubmitButton() {
-  const { pending } = useFormStatus();
-  return (
-    <Button type="submit" variant="primary" colorStyle="dark" size="m" disabled={pending}>
-      {pending ? "Saving…" : "Save"}
-    </Button>
-  );
-}
+const initialState: NewsFormState = {};
 
 export function NewsForm({ item }: Props) {
-  const [error, setError] = useState<string | null>(null);
   const isEdit = !!item;
+  const action: (prevState: NewsFormState, formData: FormData) => Promise<NewsFormState> =
+    isEdit && item ? updateNews.bind(null, item.id) : createNews;
+  const [state, formAction, isPending] = useActionState(action, initialState);
 
-  async function handleAction(formData: FormData) {
-    setError(null);
-    const result = isEdit
-      ? await updateNews(item.id, {}, formData)
-      : await createNews({}, formData);
-    if (result.error) {
-      setError(result.error);
-      return;
-    }
-    if (result.success) {
-      window.location.href = "/admin/news?toast=success";
-    }
-  }
+  const tagsDefault =
+    Array.isArray(item?.tags)
+      ? item.tags.join(", ")
+      : typeof item?.tags === "string"
+        ? item.tags
+        : "";
 
   return (
-    <form action={handleAction} className={styles.formCard}>
-      {error && <div className={styles.formError} role="alert">{error}</div>}
+    <form action={formAction} className={styles.formCard}>
+      {state?.error && (
+        <div className={styles.formError} role="alert">
+          {state.error}
+        </div>
+      )}
 
       <div className={styles.formRow}>
         <label className={styles.formRow} style={{ display: "block", marginBottom: 8 }}>
@@ -50,7 +41,10 @@ export function NewsForm({ item }: Props) {
         <input type="file" name="image" accept="image/jpeg,image/png,image/gif,image/webp" />
         {item?.image && (
           <p style={{ marginTop: 8, fontSize: 14, color: "var(--gray-600)" }}>
-            Current: <a href={item.image} target="_blank" rel="noreferrer">{item.image}</a>
+            Current:{" "}
+            <a href={item.image} target="_blank" rel="noreferrer">
+              {item.image}
+            </a>
           </p>
         )}
       </div>
@@ -89,7 +83,7 @@ export function NewsForm({ item }: Props) {
           label="Tags (comma-separated)"
           name="tags"
           rows={2}
-          defaultValue={item?.tags?.join(", ") ?? ""}
+          defaultValue={tagsDefault}
           placeholder="tag1, tag2"
           size="m"
         />
@@ -157,7 +151,9 @@ export function NewsForm({ item }: Props) {
       />
 
       <div className={styles.formRow} style={{ marginTop: 24 }}>
-        <SubmitButton />
+        <Button type="submit" variant="primary" colorStyle="dark" size="m" disabled={isPending}>
+          {isPending ? "Saving…" : "Save"}
+        </Button>
       </div>
     </form>
   );
