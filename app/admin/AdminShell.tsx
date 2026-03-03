@@ -11,6 +11,7 @@ const navItems = [
   { href: "/admin/news", label: "News" },
   { href: "/admin/team", label: "Team" },
   { href: "/admin/services", label: "Services" },
+  { href: "/admin/pages", label: "Pages" },
 ];
 
 export default function AdminShell({

@@ -109,6 +109,21 @@ export const siteSettings = sqliteTable("site_settings", {
   updatedAt: text("updated_at").notNull().$defaultFn(() => new Date().toISOString()),
 });
 
+// ─── Pages (editable CMS pages: About, Contact, etc.) ────────────────────────
+export const pages = sqliteTable("pages", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  slug: text("slug").notNull().unique(),
+  titleEn: text("title_en").notNull(),
+  titleKa: text("title_ka"),
+  contentEn: text("content_en"),
+  contentKa: text("content_ka"),
+  metaDescriptionEn: text("meta_description_en"),
+  metaDescriptionKa: text("meta_description_ka"),
+  sortOrder: integer("sort_order").default(0),
+  createdAt: text("created_at").notNull().$defaultFn(() => new Date().toISOString()),
+  updatedAt: text("updated_at").notNull().$defaultFn(() => new Date().toISOString()),
+});
+
 // ─── Type exports for convenience ────────────────────────────────────────────
 export type Article = typeof articles.$inferSelect;
 export type NewArticle = typeof articles.$inferInsert;
@@ -124,3 +139,5 @@ export type Testimonial = typeof testimonials.$inferSelect;
 export type NewTestimonial = typeof testimonials.$inferInsert;
 export type SiteSetting = typeof siteSettings.$inferSelect;
 export type NewSiteSetting = typeof siteSettings.$inferInsert;
+export type Page = typeof pages.$inferSelect;
+export type NewPage = typeof pages.$inferInsert;

@@ -24,6 +24,11 @@ export default async function AdminPage() {
           <p className={styles.statValue}>{stats.services}</p>
           <Link href="/admin/services">Manage services</Link>
         </div>
+        <div className={styles.statCard}>
+          <p className={styles.statLabel}>Pages</p>
+          <p className={styles.statValue}>{stats.pages}</p>
+          <Link href="/admin/pages">Manage pages</Link>
+        </div>
       </div>
     </>
   );
