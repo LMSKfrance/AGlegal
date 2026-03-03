@@ -37,6 +37,13 @@ export const services = sqliteTable("services", {
   image: text("image"),
   thumbnailImage: text("thumbnail_image"),
   sortOrder: integer("sort_order").default(0),
+  // Homepage-specific fields for the \"Our legal services\" cards
+  showOnHome: integer("show_on_home").default(0),
+  homeOrder: integer("home_order").default(0),
+  homeShortDescriptionEn: text("home_short_description_en"),
+  homeShortDescriptionKa: text("home_short_description_ka"),
+  homeLearnMoreUrl: text("home_learn_more_url"),
+  homeCardImage: text("home_card_image"),
   createdAt: text("created_at").notNull().$defaultFn(() => new Date().toISOString()),
   updatedAt: text("updated_at").notNull().$defaultFn(() => new Date().toISOString()),
 });
@@ -99,6 +106,34 @@ export const testimonials = sqliteTable("testimonials", {
   updatedAt: text("updated_at").notNull().$defaultFn(() => new Date().toISOString()),
 });
 
+// ─── Homepage Benefits (Why work with us?) ───────────────────────────────────
+export const homeBenefits = sqliteTable("home_benefits", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  titleEn: text("title_en").notNull(),
+  titleKa: text("title_ka"),
+  descriptionEn: text("description_en"),
+  descriptionKa: text("description_ka"),
+  iconPath: text("icon_path"),
+  sortOrder: integer("sort_order").default(0),
+  createdAt: text("created_at").notNull().$defaultFn(() => new Date().toISOString()),
+  updatedAt: text("updated_at").notNull().$defaultFn(() => new Date().toISOString()),
+});
+
+// ─── Homepage Process Steps (tabs) ───────────────────────────────────────────
+export const homeProcessSteps = sqliteTable("home_process_steps", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  tabTitleEn: text("tab_title_en").notNull(),
+  tabTitleKa: text("tab_title_ka"),
+  titleEn: text("title_en").notNull(),
+  titleKa: text("title_ka"),
+  descriptionEn: text("description_en"),
+  descriptionKa: text("description_ka"),
+  image: text("image"),
+  stepNumber: text("step_number"),
+  sortOrder: integer("sort_order").default(0),
+  createdAt: text("created_at").notNull().$defaultFn(() => new Date().toISOString()),
+  updatedAt: text("updated_at").notNull().$defaultFn(() => new Date().toISOString()),
+});
 
 //  Site Settings (key/value for UI strings, page sections, etc.) 
 export const siteSettings = sqliteTable("site_settings", {
@@ -165,6 +200,10 @@ export type Faq = typeof faqs.$inferSelect;
 export type NewFaq = typeof faqs.$inferInsert;
 export type SiteSetting = typeof siteSettings.$inferSelect;
 export type NewSiteSetting = typeof siteSettings.$inferInsert;
+export type HomeBenefit = typeof homeBenefits.$inferSelect;
+export type NewHomeBenefit = typeof homeBenefits.$inferInsert;
+export type HomeProcessStep = typeof homeProcessSteps.$inferSelect;
+export type NewHomeProcessStep = typeof homeProcessSteps.$inferInsert;
 export type ContactSettings = typeof contactSettings.$inferSelect;
 export type NewContactSettings = typeof contactSettings.$inferInsert;
 export type Page = typeof pages.$inferSelect;

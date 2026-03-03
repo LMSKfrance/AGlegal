@@ -46,6 +46,20 @@ export async function createService(prev: ServiceFormState, formData: FormData):
     if (result.success) thumbPath = result.path;
   }
 
+  const homeCardFile = formData.get("homeCardImage");
+  let homeCardPath: string | null = null;
+  if (homeCardFile && homeCardFile instanceof File && homeCardFile.size > 0) {
+    const fd = new FormData();
+    fd.append("image", homeCardFile);
+    const { uploadImage } = await import("@/lib/actions/upload");
+    const result = await uploadImage(fd);
+    if (result.success) homeCardPath = result.path;
+  }
+
+  const showOnHome = formData.get("showOnHome") ? 1 : 0;
+  const homeOrderRaw = (formData.get("homeOrder") as string | null) ?? "0";
+  const homeOrder = Number.parseInt(homeOrderRaw, 10) || 0;
+
   await db.insert(services).values({
     slug,
     titleEn,
@@ -60,6 +74,12 @@ export async function createService(prev: ServiceFormState, formData: FormData):
     quoteKa: (formData.get("quoteKa") as string)?.trim() || null,
     image: imagePath,
     thumbnailImage: thumbPath,
+    showOnHome,
+    homeOrder,
+    homeShortDescriptionEn: (formData.get("homeShortDescriptionEn") as string)?.trim() || null,
+    homeShortDescriptionKa: (formData.get("homeShortDescriptionKa") as string)?.trim() || null,
+    homeLearnMoreUrl: (formData.get("homeLearnMoreUrl") as string)?.trim() || null,
+    homeCardImage: homeCardPath,
     updatedAt: new Date().toISOString(),
   });
 
@@ -101,6 +121,20 @@ export async function updateService(id: number, prev: ServiceFormState, formData
     if (result.success) thumbPath = result.path;
   }
 
+  const homeCardFile = formData.get("homeCardImage");
+  let homeCardPath: string | null = existing.homeCardImage;
+  if (homeCardFile && homeCardFile instanceof File && homeCardFile.size > 0) {
+    const fd = new FormData();
+    fd.append("image", homeCardFile);
+    const { uploadImage } = await import("@/lib/actions/upload");
+    const result = await uploadImage(fd);
+    if (result.success) homeCardPath = result.path;
+  }
+
+  const showOnHome = formData.get("showOnHome") ? 1 : 0;
+  const homeOrderRaw = (formData.get("homeOrder") as string | null) ?? `${existing.homeOrder ?? 0}`;
+  const homeOrder = Number.parseInt(homeOrderRaw, 10) || 0;
+
   await db
     .update(services)
     .set({
@@ -117,6 +151,12 @@ export async function updateService(id: number, prev: ServiceFormState, formData
       quoteKa: (formData.get("quoteKa") as string)?.trim() || null,
       image: imagePath,
       thumbnailImage: thumbPath,
+      showOnHome,
+      homeOrder,
+      homeShortDescriptionEn: (formData.get("homeShortDescriptionEn") as string)?.trim() || null,
+      homeShortDescriptionKa: (formData.get("homeShortDescriptionKa") as string)?.trim() || null,
+      homeLearnMoreUrl: (formData.get("homeLearnMoreUrl") as string)?.trim() || null,
+      homeCardImage: homeCardPath,
       updatedAt: new Date().toISOString(),
     })
     .where(eq(services.id, id));

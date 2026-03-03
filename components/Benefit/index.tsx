@@ -4,7 +4,8 @@ import styles from "./benefit.module.css";
 type BenefitProps = {
   benefit: {
     id: number;
-    icon: React.ReactNode;
+    icon?: React.ReactNode;
+    iconPath?: string | null;
     title: string;
     description: string;
   };
@@ -13,7 +14,14 @@ type BenefitProps = {
 const Benefit = ({ benefit }: BenefitProps) => {
   return (
     <div className={styles.benefit}>
-      <div className={styles.icon_wrapper}>{benefit.icon}</div>
+      <div className={styles.icon_wrapper}>
+        {benefit.iconPath ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={benefit.iconPath} alt="" aria-hidden className={styles.iconImage} />
+        ) : (
+          benefit.icon
+        )}
+      </div>
 
       <div className={styles.title_wrapper}>
         <div className={cn("paragraph-x-large", styles.title)}>

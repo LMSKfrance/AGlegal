@@ -8,6 +8,7 @@ import styles from "./admin.module.css";
 
 const navItems = [
   { href: "/admin", label: "Dashboard" },
+  { href: "/admin/home", label: "Homepage" },
   { href: "/admin/news", label: "News" },
   { href: "/admin/team", label: "Team" },
   { href: "/admin/services", label: "Services" },

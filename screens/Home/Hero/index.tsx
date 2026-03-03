@@ -7,10 +7,12 @@ import Image from "next/image";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useHomeContent } from "../HomeContentContext";
 
 const Hero = () => {
-  const { locale, t } = useLanguage();
-  const { brand, title: heroTitle, cta, description: heroDescription } = t.ui.hero;
+  const { locale } = useLanguage();
+  const { hero } = useHomeContent();
+  const { brand, title: heroTitle, cta, description: heroDescription, image: heroImage } = hero;
   const container = React.useRef<HTMLDivElement>(null);
   const title = React.useRef<HTMLHeadingElement>(null);
   const image = React.useRef<HTMLDivElement>(null);
@@ -157,13 +159,7 @@ const Hero = () => {
         </div>
 
         <div ref={image} className={styles.image_wrapper}>
-          <Image
-            src="/images/ag-legal.jpg"
-            alt="AG Legal"
-            layout="fill"
-            objectFit="cover"
-            className={styles.image}
-          />
+          <Image src={heroImage} alt="AG Legal" layout="fill" objectFit="cover" className={styles.image} />
         </div>
       </div>
     </div>
