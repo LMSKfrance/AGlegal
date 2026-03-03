@@ -73,6 +73,7 @@ export async function createTeamMember(prev: TeamFormState, formData: FormData):
 
   revalidatePath("/admin/team");
   revalidatePath("/admin");
+  revalidatePath("/team", "layout");
   return { success: true };
 }
 
@@ -133,6 +134,7 @@ export async function updateTeamMember(id: number, prev: TeamFormState, formData
 
   revalidatePath("/admin/team");
   revalidatePath("/admin");
+  revalidatePath("/team", "layout");
   return { success: true };
 }
 
@@ -145,5 +147,6 @@ export async function deleteTeamMember(id: number): Promise<void> {
   await db.delete(teamMembers).where(eq(teamMembers.id, id));
   revalidatePath("/admin/team");
   revalidatePath("/admin");
+  revalidatePath("/team", "layout");
   redirect("/admin/team?toast=success");
 }

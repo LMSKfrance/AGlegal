@@ -2,24 +2,31 @@
 
 import React, { createContext, useContext } from "react";
 import type { HomeContent } from "@/lib/home";
+import { useLanguage } from "@/contexts/LanguageContext";
 
-const HomeContentContext = createContext<HomeContent | null>(null);
+export type HomeContentProviderValue = {
+  contentEn: HomeContent;
+  contentKa: HomeContent;
+};
+
+const HomeContentContext = createContext<HomeContentProviderValue | null>(null);
 
 export function HomeContentProvider({
   value,
   children,
 }: {
-  value: HomeContent;
+  value: HomeContentProviderValue;
   children: React.ReactNode;
 }) {
   return <HomeContentContext.Provider value={value}>{children}</HomeContentContext.Provider>;
 }
 
-export function useHomeContent() {
+export function useHomeContent(): HomeContent {
   const ctx = useContext(HomeContentContext);
+  const { locale } = useLanguage();
   if (!ctx) {
     throw new Error("useHomeContent must be used within HomeContentProvider");
   }
-  return ctx;
+  return locale === "ka" ? ctx.contentKa : ctx.contentEn;
 }
 

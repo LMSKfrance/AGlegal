@@ -3,13 +3,16 @@
 import React from "react";
 import cn from "classnames";
 import styles from "./hero.module.css";
-import mock from "@/constants/mock";
 import Link from "next/link";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import type { Service } from "@/lib/services";
 
-const Hero = () => {
-  const { services } = mock;
+type HeroProps = {
+  services: Service[];
+};
+
+const Hero = ({ services }: HeroProps) => {
 
   const container = React.useRef<HTMLDivElement>(null);
   const titleRef = React.useRef<HTMLHeadingElement>(null);
@@ -82,21 +85,23 @@ const Hero = () => {
           </p>
         </div>
 
-        <div ref={gridRef} className={styles.grid}>
-          {[0, 1, 2].map((colIndex) => (
-            <div key={colIndex} className={styles.column}>
-              {services.map((service) => (
-                <Link
-                  key={`${colIndex}-${service.id}`}
-                  href={`/services/${service.slug}`}
-                  className={styles.service_item}
-                >
-                  {service.title}
-                </Link>
-              ))}
-            </div>
-          ))}
-        </div>
+        {services.length > 0 && (
+          <div ref={gridRef} className={styles.grid}>
+            {[0, 1, 2].map((colIndex) => (
+              <div key={colIndex} className={styles.column}>
+                {services.map((service) => (
+                  <Link
+                    key={`${colIndex}-${service.id}`}
+                    href={`/services/${service.slug}`}
+                    className={styles.service_item}
+                  >
+                    {service.title}
+                  </Link>
+                ))}
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

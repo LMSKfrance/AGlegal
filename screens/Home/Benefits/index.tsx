@@ -6,11 +6,14 @@ import styles from "./benefits.module.css";
 import Benefit from "@/components/Benefit";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useHomeContent } from "../HomeContentContext";
+import icons from "@/constants/icons";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 
 gsap.registerPlugin(ScrollTrigger);
+
+const DEFAULT_BENEFIT_ICONS = [icons.Shield, icons.Star, icons.Speaker, icons.Cup];
 
 const Benefits = () => {
   const { locale } = useLanguage();
@@ -91,7 +94,12 @@ const Benefits = () => {
               }}
               className={styles.benefit}
             >
-              <Benefit key={benefit.id} benefit={benefit} />
+              <Benefit
+                benefit={{
+                  ...benefit,
+                  icon: benefit.iconPath ? undefined : DEFAULT_BENEFIT_ICONS[index % DEFAULT_BENEFIT_ICONS.length],
+                }}
+              />
             </div>
           ))}
         </div>

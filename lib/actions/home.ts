@@ -1,5 +1,6 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import { db } from "@/lib/db";
 import {
   siteSettings,
@@ -150,6 +151,8 @@ export async function upsertHomeHeroSettings(
     await upsertSetting("home_hero_image", "home_hero", imagePath, imagePath);
   }
 
+  revalidatePath("/");
+  revalidatePath("/admin/home");
   return { success: true };
 }
 
@@ -217,6 +220,77 @@ export async function upsertHomeAboutSettings(
     await upsertSetting("home_about_image", "home_about", imagePath, imagePath);
   }
 
+  revalidatePath("/");
+  revalidatePath("/admin/home");
+  return { success: true };
+}
+
+// ─── Section Headings (Services, Benefits, Process) ─────────────────────────────
+
+const SECTION_HEADING_KEYS = [
+  "services.title",
+  "services.description",
+  "benefits.title",
+  "process.title",
+  "process.description",
+] as const;
+
+export type HomeSectionHeadingsSettings = {
+  servicesTitleEn: string;
+  servicesTitleKa: string;
+  servicesDescriptionEn: string;
+  servicesDescriptionKa: string;
+  benefitsTitleEn: string;
+  benefitsTitleKa: string;
+  processTitleEn: string;
+  processTitleKa: string;
+  processDescriptionEn: string;
+  processDescriptionKa: string;
+};
+
+export async function getHomeSectionHeadingsSettings(): Promise<HomeSectionHeadingsSettings> {
+  const rows = await getSettings(SECTION_HEADING_KEYS as unknown as string[]);
+  const get = (key: (typeof SECTION_HEADING_KEYS)[number], which: "valueEn" | "valueKa") =>
+    rows[key]?.[which] ?? "";
+
+  return {
+    servicesTitleEn: get("services.title", "valueEn"),
+    servicesTitleKa: get("services.title", "valueKa"),
+    servicesDescriptionEn: get("services.description", "valueEn"),
+    servicesDescriptionKa: get("services.description", "valueKa"),
+    benefitsTitleEn: get("benefits.title", "valueEn"),
+    benefitsTitleKa: get("benefits.title", "valueKa"),
+    processTitleEn: get("process.title", "valueEn"),
+    processTitleKa: get("process.title", "valueKa"),
+    processDescriptionEn: get("process.description", "valueEn"),
+    processDescriptionKa: get("process.description", "valueKa"),
+  };
+}
+
+export async function upsertHomeSectionHeadingsSettings(
+  prev: HomeFormState,
+  formData: FormData,
+): Promise<HomeFormState> {
+  const getStr = (name: string) => (formData.get(name) as string | null) ?? "";
+
+  await upsertSetting("services.title", "services", getStr("servicesTitleEn"), getStr("servicesTitleKa"));
+  await upsertSetting(
+    "services.description",
+    "services",
+    getStr("servicesDescriptionEn"),
+    getStr("servicesDescriptionKa"),
+  );
+  await upsertSetting("benefits.title", "benefits", getStr("benefitsTitleEn"), getStr("benefitsTitleKa"));
+  await upsertSetting("process.title", "process", getStr("processTitleEn"), getStr("processTitleKa"));
+  await upsertSetting(
+    "process.description",
+    "process",
+    getStr("processDescriptionEn"),
+    getStr("processDescriptionKa"),
+  );
+
+  revalidatePath("/");
+  revalidatePath("/admin/home");
   return { success: true };
 }
 
@@ -299,11 +373,15 @@ export async function upsertHomeBenefit(
     });
   }
 
+  revalidatePath("/");
+  revalidatePath("/admin/home");
   return { success: true };
 }
 
 export async function deleteHomeBenefit(id: number): Promise<void> {
   await db.delete(homeBenefits).where(eq(homeBenefits.id, id));
+  revalidatePath("/");
+  revalidatePath("/admin/home");
 }
 
 // ─── Process Steps Section ────────────────────────────────────────────────────
@@ -400,10 +478,14 @@ export async function upsertHomeProcessStep(
     });
   }
 
+  revalidatePath("/");
+  revalidatePath("/admin/home");
   return { success: true };
 }
 
 export async function deleteHomeProcessStep(id: number): Promise<void> {
   await db.delete(homeProcessSteps).where(eq(homeProcessSteps.id, id));
+  revalidatePath("/");
+  revalidatePath("/admin/home");
 }
 

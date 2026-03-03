@@ -85,6 +85,8 @@ export async function createService(prev: ServiceFormState, formData: FormData):
 
   revalidatePath("/admin/services");
   revalidatePath("/admin");
+  revalidatePath("/");
+  revalidatePath("/services", "layout");
   return { success: true };
 }
 
@@ -163,6 +165,8 @@ export async function updateService(id: number, prev: ServiceFormState, formData
 
   revalidatePath("/admin/services");
   revalidatePath("/admin");
+  revalidatePath("/");
+  revalidatePath("/services", "layout");
   return { success: true };
 }
 
@@ -175,5 +179,7 @@ export async function deleteService(id: number): Promise<void> {
   await db.delete(services).where(eq(services.id, id));
   revalidatePath("/admin/services");
   revalidatePath("/admin");
+  revalidatePath("/");
+  revalidatePath("/services", "layout");
   redirect("/admin/services?toast=success");
 }

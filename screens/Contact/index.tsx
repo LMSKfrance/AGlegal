@@ -1,10 +1,13 @@
 import Layout from "@/components/Layout";
 import Hero from "./Hero";
+import { getContactSettings } from "@/lib/actions/contact";
 
-const ContactPage = () => {
+const ContactPage = async () => {
+  const contact = await getContactSettings();
+
   return (
     <Layout>
-      <Hero />
+      <Hero contact={contact} />
     </Layout>
   );
 };

@@ -9,7 +9,16 @@ import { useGSAP } from "@gsap/react";
 
 gsap.registerPlugin(useGSAP);
 
-const Hero = () => {
+type AboutPageRecord = {
+  titleEn?: string | null;
+  contentEn?: string | null;
+};
+
+type HeroProps = {
+  page: AboutPageRecord | null;
+};
+
+const Hero = ({ page }: HeroProps) => {
   const container = React.useRef<HTMLDivElement>(null);
   const title = React.useRef<HTMLHeadingElement>(null);
   const image = React.useRef<HTMLDivElement>(null);
@@ -87,13 +96,22 @@ const Hero = () => {
     }
   };
 
+  const headingText = page?.titleEn?.trim();
+  const descriptionText = page?.contentEn?.trim();
+
   return (
     <div ref={container} className={cn("section", styles.section)}>
       <div className={cn("container", styles.container)}>
         <div className={styles.hero_content}>
           <div ref={title} className={cn("hero-2", styles.title)}>
-            Your Trusted Legal Advisors in{" "}
-            <span className={styles.accent}>Georgia.</span>
+            {headingText ? (
+              headingText
+            ) : (
+              <>
+                Your Trusted Legal Advisors in{" "}
+                <span className={styles.accent}>Georgia.</span>
+              </>
+            )}
           </div>
 
           <div className={styles.right_column}>
@@ -101,9 +119,8 @@ const Hero = () => {
               ref={description}
               className={cn("paragraph-large", styles.description)}
             >
-              AG Legal Consulting has provided expert legal services since 2007,
-              advising businesses and individuals in civil and administrative
-              law. We deliver strategic solutions for complex legal challenges.
+              {descriptionText ||
+                "AG Legal Consulting has provided expert legal services since 2007, advising businesses and individuals in civil and administrative law. We deliver strategic solutions for complex legal challenges."}
             </p>
             <button
               ref={button}

@@ -62,6 +62,69 @@ export function ServicesForm({ item }: Props) {
         )}
       </div>
 
+      <div className={styles.formRow}>
+        <label style={{ display: "block", marginBottom: 4 }}>
+          <input
+            type="checkbox"
+            name="showOnHome"
+            defaultChecked={item?.showOnHome === 1}
+            style={{ marginRight: 8 }}
+          />
+          Show in homepage &quot;Our legal services&quot; section
+        </label>
+      </div>
+
+      <div className={styles.formRow}>
+        <TextField
+          label="Home card order"
+          name="homeOrder"
+          type="number"
+          min={0}
+          defaultValue={item?.homeOrder ?? 0}
+          size="m"
+        />
+      </div>
+
+      <div className={styles.formRow}>
+        <TextArea
+          label="Home short description (EN, optional)"
+          name="homeShortDescriptionEn"
+          rows={2}
+          defaultValue={item?.homeShortDescriptionEn ?? ""}
+          size="m"
+        />
+      </div>
+
+      <div className={styles.formRow}>
+        <TextArea
+          label="Home short description (KA, optional)"
+          name="homeShortDescriptionKa"
+          rows={2}
+          defaultValue={item?.homeShortDescriptionKa ?? ""}
+          size="m"
+        />
+      </div>
+
+      <div className={styles.formRow}>
+        <TextField
+          label='Custom "Learn more" URL (optional)'
+          name="homeLearnMoreUrl"
+          defaultValue={item?.homeLearnMoreUrl ?? ""}
+          size="m"
+          placeholder="/services or full URL"
+        />
+      </div>
+
+      <div className={styles.formRow}>
+        <label style={{ display: "block", marginBottom: 8 }}>Home card image (optional)</label>
+        <input type="file" name="homeCardImage" accept="image/jpeg,image/png,image/gif,image/webp" />
+        {item?.homeCardImage && (
+          <p style={{ marginTop: 8, fontSize: 14, color: "var(--gray-600)" }}>
+            Current: <a href={item.homeCardImage} target="_blank" rel="noreferrer">{item.homeCardImage}</a>
+          </p>
+        )}
+      </div>
+
       <AdminLangTabs
         childrenEn={
           <div className={styles.formRow}>

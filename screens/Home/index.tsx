@@ -12,17 +12,15 @@ import { getHomeContent } from "@/lib/home";
 import { HomeContentProvider } from "./HomeContentContext";
 
 const HomePage = async () => {
-  // Server-side we default to English; client-side language
-  // switching is handled by the LanguageContext.
-  const locale: "en" | "ka" = "en";
-  const [articles, homeContent] = await Promise.all([
+  const [articles, contentEn, contentKa] = await Promise.all([
     getSortedArticles(),
-    getHomeContent(locale),
+    getHomeContent("en"),
+    getHomeContent("ka"),
   ]);
 
   return (
     <Layout>
-      <HomeContentProvider value={homeContent}>
+      <HomeContentProvider value={{ contentEn, contentKa }}>
         <Hero />
         <About />
         <Services />

@@ -6,11 +6,14 @@ import Team from "../Universal/Team";
 import Features from "./Features";
 import FAQ from "../Universal/FAQ";
 import Philosophy from "./Philosophy";
+import { getPageBySlug } from "@/lib/actions/pages";
 
-const AboutPage = () => {
+const AboutPage = async () => {
+  const page = await getPageBySlug("about");
+
   return (
     <Layout>
-      <Hero />
+      <Hero page={page} />
       <Numbers />
       <Mission />
       <Team />
