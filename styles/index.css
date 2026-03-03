@@ -1,4 +1,4 @@
 @import "./reset.css";
-@import "./helpers/";
+@import "./helpers/index.css";
 @import "./common.css";
-@import "./blocks/";
+@import "./blocks/index.css";
