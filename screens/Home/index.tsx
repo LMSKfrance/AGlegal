@@ -9,26 +9,30 @@ import CTA from "../Universal/CTA";
 import Team from "../Universal/Team";
 import { getSortedArticles } from "@/lib/articles";
 import { getHomeContent } from "@/lib/home";
+import { getHomeSectionVisibility } from "@/lib/home";
 import { HomeContentProvider } from "./HomeContentContext";
 
 const HomePage = async () => {
-  const [articles, contentEn, contentKa] = await Promise.all([
+  const [articles, contentEn, contentKa, sectionVisibility] = await Promise.all([
     getSortedArticles(),
     getHomeContent("en"),
     getHomeContent("ka"),
+    getHomeSectionVisibility(),
   ]);
+
+  const v = sectionVisibility;
 
   return (
     <Layout>
       <HomeContentProvider value={{ contentEn, contentKa }}>
-        <Hero />
-        <About />
-        <Services />
-        <Benefits />
-        <Process />
-        <Team />
-        <News articles={articles} />
-        <CTA />
+        {v.hero && <Hero />}
+        {v.about && <About />}
+        {v.services && <Services />}
+        {v.benefits && <Benefits />}
+        {v.process && <Process />}
+        {v.team && <Team />}
+        {v.news && <News articles={articles} />}
+        {v.cta && <CTA />}
       </HomeContentProvider>
     </Layout>
   );

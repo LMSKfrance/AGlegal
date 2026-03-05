@@ -1,16 +1,26 @@
 "use client";
 
-import React from "react";
+import React, { useContext } from "react";
 import cn from "classnames";
 import styles from "./philosophy.module.css";
 import Value from "@/components/Value";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import { AboutContentContext } from "../AboutContentContext";
 
 gsap.registerPlugin(ScrollTrigger);
 
+const DEFAULT_TITLE = "A philosophy of integrity and dedication.";
+const DEFAULT_DESCRIPTION =
+  "At the heart of our legal practice lies an unwavering commitment to justice, transparency, and exceptional client service.";
+
 const Philosophy = () => {
+  const aboutCtx = useContext(AboutContentContext);
+  const titleText =
+    aboutCtx?.sections?.philosophyTitleEn?.trim() || DEFAULT_TITLE;
+  const descriptionText =
+    aboutCtx?.sections?.philosophyDescriptionEn?.trim() || DEFAULT_DESCRIPTION;
   const container = React.useRef<HTMLDivElement>(null);
   const title = React.useRef<HTMLHeadingElement>(null);
   const description = React.useRef<HTMLParagraphElement>(null);
@@ -91,14 +101,13 @@ const Philosophy = () => {
       <div className={cn("container")}>
         <div className={styles.title_wrapper}>
           <h3 ref={title} className={cn("heading-3", styles.title)}>
-            A philosophy of integrity and dedication.
+            {titleText}
           </h3>
           <p
             ref={description}
             className={cn("paragraph-medium", styles.description)}
           >
-            At the heart of our legal practice lies an unwavering commitment to
-            justice, transparency, and exceptional client service.
+            {descriptionText}
           </p>
         </div>
 

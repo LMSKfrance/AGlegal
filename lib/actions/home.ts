@@ -489,3 +489,22 @@ export async function deleteHomeProcessStep(id: number): Promise<void> {
   revalidatePath("/admin/home");
 }
 
+// ─── Home section visibility (show/hide sections on homepage) ─────────────────
+
+import type { HomeSectionId } from "@/lib/home";
+
+async function upsertVisibilitySetting(sectionId: HomeSectionId, visible: boolean) {
+  const key = `home.section.${sectionId}.visible`;
+  const val = visible ? "1" : "0";
+  await upsertSetting(key, "home_sections", val, val);
+}
+
+export async function setHomeSectionVisible(
+  sectionId: HomeSectionId,
+  visible: boolean,
+): Promise<void> {
+  await upsertVisibilitySetting(sectionId, visible);
+  revalidatePath("/");
+  revalidatePath("/admin/home");
+}
+

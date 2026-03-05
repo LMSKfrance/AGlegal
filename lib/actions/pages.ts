@@ -34,19 +34,28 @@ export async function createPage(prev: PageFormState, formData: FormData): Promi
   const existing = await db.select({ id: pages.id }).from(pages).where(eq(pages.slug, slug));
   if (existing.length) return { error: "A page with this slug already exists." };
 
+  const trim = (key: string) => (formData.get(key) as string)?.trim() || null;
   await db.insert(pages).values({
     slug,
     titleEn,
-    titleKa: (formData.get("titleKa") as string)?.trim() || null,
-    contentEn: (formData.get("contentEn") as string)?.trim() || null,
-    contentKa: (formData.get("contentKa") as string)?.trim() || null,
-    metaDescriptionEn: (formData.get("metaDescriptionEn") as string)?.trim() || null,
-    metaDescriptionKa: (formData.get("metaDescriptionKa") as string)?.trim() || null,
+    titleKa: trim("titleKa"),
+    contentEn: trim("contentEn"),
+    contentKa: trim("contentKa"),
+    metaDescriptionEn: trim("metaDescriptionEn"),
+    metaDescriptionKa: trim("metaDescriptionKa"),
+    seoTitleEn: trim("seoTitleEn"),
+    seoTitleKa: trim("seoTitleKa"),
+    ogTitleEn: trim("ogTitleEn"),
+    ogTitleKa: trim("ogTitleKa"),
+    ogDescriptionEn: trim("ogDescriptionEn"),
+    ogDescriptionKa: trim("ogDescriptionKa"),
+    ogImage: trim("ogImage"),
     updatedAt: new Date().toISOString(),
   });
 
   revalidatePath("/admin/pages");
   revalidatePath("/admin");
+  revalidatePath(`/${slug}`);
   return { success: true };
 }
 
@@ -66,22 +75,32 @@ export async function updatePage(id: number, prev: PageFormState, formData: Form
     if (conflict.length) return { error: "Another page already uses this slug." };
   }
 
+  const trim = (key: string) => (formData.get(key) as string)?.trim() || null;
   await db
     .update(pages)
     .set({
       slug: newSlug,
       titleEn,
-      titleKa: (formData.get("titleKa") as string)?.trim() || null,
-      contentEn: (formData.get("contentEn") as string)?.trim() || null,
-      contentKa: (formData.get("contentKa") as string)?.trim() || null,
-      metaDescriptionEn: (formData.get("metaDescriptionEn") as string)?.trim() || null,
-      metaDescriptionKa: (formData.get("metaDescriptionKa") as string)?.trim() || null,
+      titleKa: trim("titleKa"),
+      contentEn: trim("contentEn"),
+      contentKa: trim("contentKa"),
+      metaDescriptionEn: trim("metaDescriptionEn"),
+      metaDescriptionKa: trim("metaDescriptionKa"),
+      seoTitleEn: trim("seoTitleEn"),
+      seoTitleKa: trim("seoTitleKa"),
+      ogTitleEn: trim("ogTitleEn"),
+      ogTitleKa: trim("ogTitleKa"),
+      ogDescriptionEn: trim("ogDescriptionEn"),
+      ogDescriptionKa: trim("ogDescriptionKa"),
+      ogImage: trim("ogImage"),
       updatedAt: new Date().toISOString(),
     })
     .where(eq(pages.id, id));
 
   revalidatePath("/admin/pages");
   revalidatePath("/admin");
+  revalidatePath(`/${newSlug}`);
+  if (newSlug !== existing.slug) revalidatePath(`/${existing.slug}`);
   return { success: true };
 }
 
@@ -94,5 +113,6 @@ export async function deletePage(id: number): Promise<void> {
   await db.delete(pages).where(eq(pages.id, id));
   revalidatePath("/admin/pages");
   revalidatePath("/admin");
+  revalidatePath(`/${row.slug}`);
   redirect("/admin/pages?toast=success");
 }

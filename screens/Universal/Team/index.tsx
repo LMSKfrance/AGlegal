@@ -9,15 +9,25 @@ import { HomeContentContext } from "@/screens/Home/HomeContentContext";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import type { TeamMember } from "@/lib/team";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const Team = () => {
+type TeamProps = {
+  /** When provided (e.g. on About page), use these members instead of context/fallback */
+  members?: TeamMember[];
+};
+
+const Team = ({ members: membersProp }: TeamProps) => {
   const homeCtx = useContext(HomeContentContext);
   const { locale, t } = useLanguage();
-  const members =
+  const fromContext =
     homeCtx ? (locale === "ka" ? homeCtx.contentKa.teamMembers : homeCtx.contentEn.teamMembers) : t.members;
-  const membersList = Array.isArray(members) ? members : [];
+  const membersList = Array.isArray(membersProp) && membersProp.length > 0
+    ? membersProp
+    : Array.isArray(fromContext)
+      ? fromContext
+      : [];
   const container = React.useRef<HTMLDivElement>(null);
   const title = React.useRef<HTMLHeadingElement>(null);
   const description = React.useRef<HTMLParagraphElement>(null);

@@ -1,16 +1,27 @@
 "use client";
 
-import React from "react";
+import React, { useContext } from "react";
 import cn from "classnames";
 import styles from "./numbers.module.css";
 import Number from "@/components/Number";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import { AboutContentContext } from "../AboutContentContext";
 
 gsap.registerPlugin(ScrollTrigger);
 
+const DEFAULT_TITLE = "Our legacy in numbers.";
+const DEFAULT_DESCRIPTION =
+  "We're proud of the milestones we've achieved over the years, showcasing our commitment to excellence in every case we handle.";
+
 const Numbers = () => {
+  const aboutCtx = useContext(AboutContentContext);
+  const titleText =
+    aboutCtx?.sections?.numbersTitleEn?.trim() || DEFAULT_TITLE;
+  const descriptionText =
+    aboutCtx?.sections?.numbersDescriptionEn?.trim() || DEFAULT_DESCRIPTION;
+
   const container = React.useRef<HTMLDivElement>(null);
   const title = React.useRef<HTMLHeadingElement>(null);
   const description = React.useRef<HTMLParagraphElement>(null);
@@ -94,14 +105,13 @@ const Numbers = () => {
       <div className={cn("container")}>
         <div className={styles.title_wrapper}>
           <div ref={title} className={cn("heading-3", styles.title)}>
-            Our legacy in numbers.
+            {titleText}
           </div>
           <div
             ref={description}
             className={cn("paragraph-medium", styles.description)}
           >
-            We’re proud of the milestones we’ve achieved over the years,
-            showcasing our commitment to excellence in every case we handle.
+            {descriptionText}
           </div>
         </div>
 

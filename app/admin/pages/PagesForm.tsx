@@ -109,10 +109,6 @@ export function PagesForm({ item }: Props) {
       <div className={styles.formRow} style={{ marginTop: 24 }}>
         <SubmitButton />
       </div>
-
-      <div className={styles.formRow} style={{ marginTop: 24 }}>
-        <SubmitButton />
-      </div>
     </form>
   );
 }

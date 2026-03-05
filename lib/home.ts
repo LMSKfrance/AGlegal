@@ -255,6 +255,34 @@ export async function getHomeProcessSteps(locale: Locale): Promise<ProcessTab[]>
   });
 }
 
+// ─── Home section visibility (read-only; mutations live in lib/actions/home) ───
+
+export const HOME_SECTION_IDS = [
+  "hero",
+  "about",
+  "services",
+  "benefits",
+  "process",
+  "team",
+  "news",
+  "cta",
+] as const;
+
+export type HomeSectionId = (typeof HOME_SECTION_IDS)[number];
+
+export type HomeSectionVisibility = Record<HomeSectionId, boolean>;
+
+export async function getHomeSectionVisibility(): Promise<HomeSectionVisibility> {
+  const keys = HOME_SECTION_IDS.map((id) => `home.section.${id}.visible`);
+  const values = await Promise.all(keys.map((key) => getSettingValue(key, "en")));
+  const result = {} as HomeSectionVisibility;
+  const parse = (v: string) => v === "1" || v === "true" || v === "";
+  HOME_SECTION_IDS.forEach((id, i) => {
+    result[id] = parse(values[i] ?? "1");
+  });
+  return result;
+}
+
 export async function getHomeContent(locale: Locale): Promise<HomeContent> {
   const [hero, about, servicesHeading, benefitsHeading, processHeading, servicesCards, benefits, tabs, teamMembers] =
     await Promise.all([

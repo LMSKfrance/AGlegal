@@ -3,6 +3,7 @@ import { Button, TextField, TextArea } from "@/design-system";
 import { AdminLangTabs } from "../components/AdminLangTabs";
 import { AdminToast } from "../components/AdminToast";
 import styles from "../admin.module.css";
+import { getHomeSectionVisibility, type HomeSectionVisibility } from "@/lib/home";
 import {
   getHomeHeroSettings,
   getHomeAboutSettings,
@@ -19,20 +20,31 @@ import {
   type HomeBenefit,
   type HomeProcessStep,
 } from "@/lib/actions/home";
+import { HomeSectionVisibilityToggle } from "../components/HomeSectionVisibilityToggle";
 
-function SectionCard({ title, children }: { title: string; children: React.ReactNode }) {
+function SectionCard({
+  title,
+  children,
+  headerRight,
+}: {
+  title: string;
+  children: React.ReactNode;
+  headerRight?: React.ReactNode;
+}) {
   return (
     <section className={styles.formCard} aria-label={title}>
-      <h2 className={styles.pageTitle} style={{ marginBottom: 24 }}>
-        {title}
-      </h2>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 16, marginBottom: 24 }}>
+        <h2 className={styles.pageTitle} style={{ margin: 0 }}>
+          {title}
+        </h2>
+        {headerRight}
+      </div>
       {children}
     </section>
   );
-
 }
 
-async function HeroSection() {
+async function HeroSection({ visibility }: { visibility: HomeSectionVisibility }) {
   const hero = await getHomeHeroSettings();
 
   async function action(formData: FormData) {
@@ -41,7 +53,10 @@ async function HeroSection() {
   }
 
   return (
-    <SectionCard title="Hero">
+    <SectionCard
+      title="Hero"
+      headerRight={<HomeSectionVisibilityToggle sectionId="hero" sectionLabel="Hero" visible={visibility.hero} />}
+    >
       <form action={action}>
         <AdminLangTabs
           childrenEn={
@@ -142,7 +157,7 @@ async function HeroSection() {
   );
 }
 
-async function AboutSection() {
+async function AboutSection({ visibility }: { visibility: HomeSectionVisibility }) {
   const about = await getHomeAboutSettings();
 
   async function action(formData: FormData) {
@@ -151,7 +166,10 @@ async function AboutSection() {
   }
 
   return (
-    <SectionCard title="Who we are">
+    <SectionCard
+      title="Who we are"
+      headerRight={<HomeSectionVisibilityToggle sectionId="about" sectionLabel="Who we are" visible={visibility.about} />}
+    >
       <form action={action}>
         <AdminLangTabs
           childrenEn={
@@ -333,9 +351,12 @@ async function SectionHeadingsSection() {
   );
 }
 
-function ServicesSection() {
+function ServicesSection({ visibility }: { visibility: HomeSectionVisibility }) {
   return (
-    <SectionCard title="Our legal services (cards)">
+    <SectionCard
+      title="Our legal services (cards)"
+      headerRight={<HomeSectionVisibilityToggle sectionId="services" sectionLabel="Services" visible={visibility.services} />}
+    >
       <p className={styles.formHelp}>
         Manage which services appear on the homepage in the{" "}
         <a href="/admin/services">Services</a> section. Each service has flags for
@@ -346,9 +367,12 @@ function ServicesSection() {
   );
 }
 
-function TeamSection() {
+function TeamSection({ visibility }: { visibility: HomeSectionVisibility }) {
   return (
-    <SectionCard title="Team (homepage)">
+    <SectionCard
+      title="Team (homepage)"
+      headerRight={<HomeSectionVisibilityToggle sectionId="team" sectionLabel="Team" visible={visibility.team} />}
+    >
       <p className={styles.formHelp}>
         Choose which team members appear on the homepage in the Team section. Use &quot;Show on
         home&quot; and &quot;Home order&quot; on each member in the <a href="/admin/team">Team</a>{" "}
@@ -358,7 +382,27 @@ function TeamSection() {
   );
 }
 
-async function BenefitsSection() {
+function NewsCtaSection({ visibility }: { visibility: HomeSectionVisibility }) {
+  return (
+    <SectionCard title="News & CTA visibility">
+      <p className={styles.formHelp} style={{ marginBottom: 16 }}>
+        Toggle whether the News and CTA sections are shown on the homepage.
+      </p>
+      <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          <span style={{ minWidth: 80 }}>News</span>
+          <HomeSectionVisibilityToggle sectionId="news" sectionLabel="News" visible={visibility.news} />
+        </div>
+        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          <span style={{ minWidth: 80 }}>CTA</span>
+          <HomeSectionVisibilityToggle sectionId="cta" sectionLabel="CTA" visible={visibility.cta} />
+        </div>
+      </div>
+    </SectionCard>
+  );
+}
+
+async function BenefitsSection({ visibility }: { visibility: HomeSectionVisibility }) {
   const benefits = await getHomeBenefitsList();
 
   async function handleDelete(formData: FormData) {
@@ -377,7 +421,10 @@ async function BenefitsSection() {
   const canAdd = benefits.length < 4;
 
   return (
-    <SectionCard title="Why work with us">
+    <SectionCard
+      title="Why work with us"
+      headerRight={<HomeSectionVisibilityToggle sectionId="benefits" sectionLabel="Benefits" visible={visibility.benefits} />}
+    >
       <div className={styles.formRow}>
         <p className={styles.formHelp}>
           Up to 4 cards. Text will be truncated automatically on the homepage to fit the design.
@@ -508,7 +555,7 @@ async function BenefitsSection() {
   );
 }
 
-async function ProcessSection() {
+async function ProcessSection({ visibility }: { visibility: HomeSectionVisibility }) {
   const steps = await getHomeProcessStepsList();
 
   async function handleDelete(formData: FormData) {
@@ -527,7 +574,10 @@ async function ProcessSection() {
   const canAdd = steps.length < 4;
 
   return (
-    <SectionCard title="Our working process">
+    <SectionCard
+      title="Our working process"
+      headerRight={<HomeSectionVisibilityToggle sectionId="process" sectionLabel="Process" visible={visibility.process} />}
+    >
       <div className={styles.formRow}>
         <p className={styles.formHelp}>
           Up to 4 steps. Tab titles should be a single word; if longer, only the first word will be
@@ -682,6 +732,8 @@ async function ProcessSection() {
 }
 
 export default async function AdminHomePage() {
+  const visibility = await getHomeSectionVisibility();
+
   return (
     <>
       <div className={styles.pageBar}>
@@ -690,22 +742,23 @@ export default async function AdminHomePage() {
 
       <div className={styles.formStack}>
         <Suspense fallback={null}>
-          <HeroSection />
+          <HeroSection visibility={visibility} />
         </Suspense>
         <Suspense fallback={null}>
-          <AboutSection />
+          <AboutSection visibility={visibility} />
         </Suspense>
         <Suspense fallback={null}>
           <SectionHeadingsSection />
         </Suspense>
-        <ServicesSection />
+        <ServicesSection visibility={visibility} />
         <Suspense fallback={null}>
-          <BenefitsSection />
+          <BenefitsSection visibility={visibility} />
         </Suspense>
         <Suspense fallback={null}>
-          <ProcessSection />
+          <ProcessSection visibility={visibility} />
         </Suspense>
-        <TeamSection />
+        <TeamSection visibility={visibility} />
+        <NewsCtaSection visibility={visibility} />
       </div>
 
       <Suspense fallback={null}>

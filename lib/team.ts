@@ -53,6 +53,23 @@ export async function getHomeTeamMembers(locale: Locale = "en"): Promise<TeamMem
     .where(eq(teamMembers.showOnHome, 1))
     .orderBy(asc(teamMembers.homeOrder), asc(teamMembers.sortOrder), asc(teamMembers.id))
     .all();
+  return rows.map((row) => {
+    const socials = db
+      .select()
+      .from(teamMemberSocials)
+      .where(eq(teamMemberSocials.teamMemberId, row.id))
+      .all();
+    return mapRow(row, socials, locale);
+  });
+}
+
+export async function getAboutTeamMembers(locale: Locale = "en"): Promise<TeamMember[]> {
+  const rows = db
+    .select()
+    .from(teamMembers)
+    .where(eq(teamMembers.showOnAbout, 1))
+    .orderBy(asc(teamMembers.aboutOrder), asc(teamMembers.sortOrder), asc(teamMembers.id))
+    .all();
 
   return rows.map((row) => {
     const socials = db

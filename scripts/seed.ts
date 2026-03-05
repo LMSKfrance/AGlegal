@@ -266,6 +266,51 @@ async function seed() {
   }
   console.log(`  + ${uiSettings.length} UI settings`);
 
+  // --- Pages (About, Services, Contact) ---
+  const defaultPages = [
+    {
+      slug: "about",
+      titleEn: "Your Trusted Legal Advisors in Georgia.",
+      contentEn:
+        "AG Legal Consulting has provided expert legal services since 2007, advising businesses and individuals in civil and administrative law. We deliver strategic solutions for complex legal challenges.",
+      sortOrder: 0,
+    },
+    {
+      slug: "services",
+      titleEn: "Our services.",
+      contentEn:
+        "Navigating the complexities of business law is crucial to the success and longevity of your company. Whether you're starting a new business or looking to expand or protect an established one, our experienced legal team is here to provide expert support.\n\nWe offer comprehensive services to businesses of all sizes, from startups to established enterprises, ensuring that every aspect of your business operations remains legally sound and compliant.",
+      sortOrder: 1,
+    },
+    {
+      slug: "contact",
+      titleEn: "Get in Touch",
+      contentEn:
+        "We're here to provide the legal support you need. Reach out today to discuss your case or ask any questions.",
+      sortOrder: 2,
+    },
+  ];
+  for (const p of defaultPages) {
+    const exists = sqlite.prepare("SELECT id FROM pages WHERE slug = ?").get(p.slug);
+    if (!exists) {
+      db.insert(schema.pages).values({
+        slug: p.slug,
+        titleEn: p.titleEn,
+        titleKa: null,
+        contentEn: p.contentEn,
+        contentKa: null,
+        metaDescriptionEn: null,
+        metaDescriptionKa: null,
+        sortOrder: p.sortOrder,
+        createdAt: now,
+        updatedAt: now,
+      }).run();
+      console.log(`  + page: ${p.slug}`);
+    } else {
+      console.log(`  ~ page already exists: ${p.slug}`);
+    }
+  }
+
   console.log("\nSeed complete!");
 }
 

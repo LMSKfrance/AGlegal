@@ -68,6 +68,8 @@ export const teamMembers = sqliteTable("team_members", {
   sortOrder: integer("sort_order").default(0),
   showOnHome: integer("show_on_home").default(0),
   homeOrder: integer("home_order").default(0),
+  showOnAbout: integer("show_on_about").default(0),
+  aboutOrder: integer("about_order").default(0),
   createdAt: text("created_at").notNull().$defaultFn(() => new Date().toISOString()),
   updatedAt: text("updated_at").notNull().$defaultFn(() => new Date().toISOString()),
 });

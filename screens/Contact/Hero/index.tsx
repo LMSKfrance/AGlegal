@@ -17,11 +17,17 @@ type ContactSettingsRecord = {
   secondaryPhone?: string | null;
 };
 
+type PageRecord = {
+  titleEn?: string | null;
+  contentEn?: string | null;
+} | null;
+
 type HeroProps = {
   contact: ContactSettingsRecord | null;
+  page?: PageRecord;
 };
 
-const Hero = ({ contact }: HeroProps) => {
+const Hero = ({ contact, page }: HeroProps) => {
   const container = React.useRef<HTMLDivElement>(null);
   const title = React.useRef<HTMLHeadingElement>(null);
   const image = React.useRef<HTMLDivElement>(null);
@@ -164,8 +170,10 @@ const Hero = ({ contact }: HeroProps) => {
     { scope: container },
   );
 
-  const titleText = contact?.titleEn?.trim() || "Get in Touch";
+  const titleText =
+    page?.titleEn?.trim() || contact?.titleEn?.trim() || "Get in Touch";
   const subtitleText =
+    page?.contentEn?.trim() ||
     contact?.subtitleEn?.trim() ||
     "We're here to provide the legal support you need. Reach out today to discuss your case or ask any questions.";
   const addressText = contact?.addressEn?.trim() || "123 Justice Avenue, Suite 101\nSpringfield, IL 62704";
