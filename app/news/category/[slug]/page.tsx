@@ -4,6 +4,8 @@ import CTA from "@/screens/Universal/CTA";
 import { getSortedArticles } from "@/lib/articles";
 import { notFound } from "next/navigation";
 
+export const dynamic = "force-dynamic";
+
 const CATEGORY_SLUGS: Record<string, string> = {
   "corporate-law": "Corporate Law",
   "family-law": "Family Law",
@@ -28,7 +30,7 @@ const NewsCategoryPage = async ({
     notFound();
   }
 
-  const articles = getSortedArticles();
+  const articles = await getSortedArticles();
 
   return (
     <Layout>

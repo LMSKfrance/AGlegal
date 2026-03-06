@@ -3,8 +3,8 @@ import NewsListing from "./NewsListing";
 import CTA from "../Universal/CTA";
 import { getSortedArticles } from "@/lib/articles";
 
-const NewsPage = () => {
-  const articles = getSortedArticles();
+const NewsPage = async () => {
+  const articles = await getSortedArticles();
 
   return (
     <Layout>

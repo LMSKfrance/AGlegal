@@ -6,79 +6,72 @@ import type { TeamMember } from "./types/team";
 
 export type { TeamMember } from "./types/team";
 
+async function getSocialsForMember(memberId: number) {
+  return db
+    .select()
+    .from(teamMemberSocials)
+    .where(eq(teamMemberSocials.teamMemberId, memberId));
+}
+
 export async function getTeamMemberBySlug(
   slug: string,
   locale: Locale = "en"
 ): Promise<TeamMember | null> {
-  const rows = db
+  const rows = await db
     .select()
     .from(teamMembers)
-    .where(eq(teamMembers.slug, slug))
-    .all();
+    .where(eq(teamMembers.slug, slug));
   const row = rows[0];
   if (!row) return null;
 
-  const socials = db
-    .select()
-    .from(teamMemberSocials)
-    .where(eq(teamMemberSocials.teamMemberId, row.id))
-    .all();
-
+  const socials = await getSocialsForMember(row.id);
   return mapRow(row, socials, locale);
 }
 
 export async function getTeamMembers(
   locale: Locale = "en"
 ): Promise<TeamMember[]> {
-  const rows = db
+  const rows = await db
     .select()
     .from(teamMembers)
-    .orderBy(asc(teamMembers.sortOrder))
-    .all();
+    .orderBy(asc(teamMembers.sortOrder));
 
-  return rows.map((row) => {
-    const socials = db
-      .select()
-      .from(teamMemberSocials)
-      .where(eq(teamMemberSocials.teamMemberId, row.id))
-      .all();
-    return mapRow(row, socials, locale);
-  });
+  return Promise.all(
+    rows.map(async (row) => {
+      const socials = await getSocialsForMember(row.id);
+      return mapRow(row, socials, locale);
+    })
+  );
 }
 
 export async function getHomeTeamMembers(locale: Locale = "en"): Promise<TeamMember[]> {
-  const rows = db
+  const rows = await db
     .select()
     .from(teamMembers)
     .where(eq(teamMembers.showOnHome, 1))
-    .orderBy(asc(teamMembers.homeOrder), asc(teamMembers.sortOrder), asc(teamMembers.id))
-    .all();
-  return rows.map((row) => {
-    const socials = db
-      .select()
-      .from(teamMemberSocials)
-      .where(eq(teamMemberSocials.teamMemberId, row.id))
-      .all();
-    return mapRow(row, socials, locale);
-  });
+    .orderBy(asc(teamMembers.homeOrder), asc(teamMembers.sortOrder), asc(teamMembers.id));
+
+  return Promise.all(
+    rows.map(async (row) => {
+      const socials = await getSocialsForMember(row.id);
+      return mapRow(row, socials, locale);
+    })
+  );
 }
 
 export async function getAboutTeamMembers(locale: Locale = "en"): Promise<TeamMember[]> {
-  const rows = db
+  const rows = await db
     .select()
     .from(teamMembers)
     .where(eq(teamMembers.showOnAbout, 1))
-    .orderBy(asc(teamMembers.aboutOrder), asc(teamMembers.sortOrder), asc(teamMembers.id))
-    .all();
+    .orderBy(asc(teamMembers.aboutOrder), asc(teamMembers.sortOrder), asc(teamMembers.id));
 
-  return rows.map((row) => {
-    const socials = db
-      .select()
-      .from(teamMemberSocials)
-      .where(eq(teamMemberSocials.teamMemberId, row.id))
-      .all();
-    return mapRow(row, socials, locale);
-  });
+  return Promise.all(
+    rows.map(async (row) => {
+      const socials = await getSocialsForMember(row.id);
+      return mapRow(row, socials, locale);
+    })
+  );
 }
 
 export async function getOtherTeamMembers(

@@ -15,13 +15,13 @@ export type Article = {
   type?: "main" | "side";
 };
 
-export const getSortedArticles = (locale: Locale = "en"): Article[] => {
-  const rows = db.select().from(articles).orderBy(desc(articles.date)).all();
+export const getSortedArticles = async (locale: Locale = "en"): Promise<Article[]> => {
+  const rows = await db.select().from(articles).orderBy(desc(articles.date));
   return rows.map((row) => mapRow(row, locale));
 };
 
 export const getArticleData = async (id: string, locale: Locale = "en") => {
-  const rows = db.select().from(articles).where(eq(articles.slug, id)).all();
+  const rows = await db.select().from(articles).where(eq(articles.slug, id));
   const row = rows[0];
   if (!row) throw new Error(`Article not found: ${id}`);
 
