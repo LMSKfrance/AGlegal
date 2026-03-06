@@ -25,10 +25,8 @@ function SectionCard({
 }) {
   return (
     <section className={styles.formCard} aria-label={title}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 16, marginBottom: 24 }}>
-        <h2 className={styles.pageTitle} style={{ margin: 0 }}>
-          {title}
-        </h2>
+      <div className={styles.sectionCardHeader}>
+        <h2 className={styles.cardTitle}>{title}</h2>
         {headerRight}
       </div>
       {children}
@@ -43,7 +41,7 @@ async function HeroSection() {
       title="Hero"
       headerRight={<AboutSectionVisibilityToggle sectionId="hero" sectionLabel="Hero" visible={sectionVisibility.hero} />}
     >
-      <p style={{ margin: 0, color: "var(--gray-600)", fontSize: 14 }}>
+      <p className={styles.formHelp}>
         Hero title and content are edited in <a href="/admin/pages">Pages</a> (About page).
       </p>
     </SectionCard>
@@ -64,19 +62,19 @@ async function NumbersSection() {
       <form action={action}>
         <AdminLangTabs
           childrenEn={
-            <div className={styles.formRow}>
-              <TextField label="Title" name="numbersTitleEn" defaultValue={sections.numbersTitleEn} size="m" />
-              <TextArea label="Description" name="numbersDescriptionEn" rows={2} defaultValue={sections.numbersDescriptionEn} size="m" />
+            <div className={styles.formGroup}>
+              <TextField label="Title (EN)" name="numbersTitleEn" defaultValue={sections.numbersTitleEn} size="m" />
+              <TextArea label="Description (EN)" name="numbersDescriptionEn" rows={2} defaultValue={sections.numbersDescriptionEn} size="m" />
             </div>
           }
           childrenKa={
-            <div className={styles.formRow}>
+            <div className={styles.formGroup}>
               <TextField label="Title (KA)" name="numbersTitleKa" defaultValue={sections.numbersTitleKa} size="m" />
               <TextArea label="Description (KA)" name="numbersDescriptionKa" rows={2} defaultValue={sections.numbersDescriptionKa} size="m" />
             </div>
           }
         />
-        <div className={styles.formRow} style={{ marginTop: 16 }}>
+        <div className={styles.formActions}>
           <Button type="submit" variant="primary" colorStyle="dark" size="m">Save</Button>
         </div>
       </form>
@@ -98,19 +96,19 @@ async function MissionSection() {
       <form action={action}>
         <AdminLangTabs
           childrenEn={
-            <div className={styles.formRow}>
-              <TextField label="Title" name="missionTitleEn" defaultValue={sections.missionTitleEn} size="m" />
-              <TextArea label="Description" name="missionDescriptionEn" rows={2} defaultValue={sections.missionDescriptionEn} size="m" />
+            <div className={styles.formGroup}>
+              <TextField label="Title (EN)" name="missionTitleEn" defaultValue={sections.missionTitleEn} size="m" />
+              <TextArea label="Description (EN)" name="missionDescriptionEn" rows={2} defaultValue={sections.missionDescriptionEn} size="m" />
             </div>
           }
           childrenKa={
-            <div className={styles.formRow}>
+            <div className={styles.formGroup}>
               <TextField label="Title (KA)" name="missionTitleKa" defaultValue={sections.missionTitleKa} size="m" />
               <TextArea label="Description (KA)" name="missionDescriptionKa" rows={2} defaultValue={sections.missionDescriptionKa} size="m" />
             </div>
           }
         />
-        <div className={styles.formRow} style={{ marginTop: 16 }}>
+        <div className={styles.formActions}>
           <Button type="submit" variant="primary" colorStyle="dark" size="m">Save</Button>
         </div>
       </form>
@@ -132,17 +130,17 @@ async function FeaturesSection() {
       <form action={action}>
         <AdminLangTabs
           childrenEn={
-            <div className={styles.formRow}>
-              <TextField label="Title" name="featuresTitleEn" defaultValue={sections.featuresTitleEn} size="m" />
+            <div className={styles.formGroup}>
+              <TextField label="Title (EN)" name="featuresTitleEn" defaultValue={sections.featuresTitleEn} size="m" />
             </div>
           }
           childrenKa={
-            <div className={styles.formRow}>
+            <div className={styles.formGroup}>
               <TextField label="Title (KA)" name="featuresTitleKa" defaultValue={sections.featuresTitleKa} size="m" />
             </div>
           }
         />
-        <div className={styles.formRow} style={{ marginTop: 16 }}>
+        <div className={styles.formActions}>
           <Button type="submit" variant="primary" colorStyle="dark" size="m">Save</Button>
         </div>
       </form>
@@ -164,19 +162,19 @@ async function PhilosophySection() {
       <form action={action}>
         <AdminLangTabs
           childrenEn={
-            <div className={styles.formRow}>
-              <TextField label="Title" name="philosophyTitleEn" defaultValue={sections.philosophyTitleEn} size="m" />
-              <TextArea label="Description" name="philosophyDescriptionEn" rows={2} defaultValue={sections.philosophyDescriptionEn} size="m" />
+            <div className={styles.formGroup}>
+              <TextField label="Title (EN)" name="philosophyTitleEn" defaultValue={sections.philosophyTitleEn} size="m" />
+              <TextArea label="Description (EN)" name="philosophyDescriptionEn" rows={2} defaultValue={sections.philosophyDescriptionEn} size="m" />
             </div>
           }
           childrenKa={
-            <div className={styles.formRow}>
+            <div className={styles.formGroup}>
               <TextField label="Title (KA)" name="philosophyTitleKa" defaultValue={sections.philosophyTitleKa} size="m" />
               <TextArea label="Description (KA)" name="philosophyDescriptionKa" rows={2} defaultValue={sections.philosophyDescriptionKa} size="m" />
             </div>
           }
         />
-        <div className={styles.formRow} style={{ marginTop: 16 }}>
+        <div className={styles.formActions}>
           <Button type="submit" variant="primary" colorStyle="dark" size="m">Save</Button>
         </div>
       </form>
@@ -196,7 +194,7 @@ async function TeamSection() {
       title="Team"
       headerRight={<AboutSectionVisibilityToggle sectionId="team" sectionLabel="Team" visible={sections.sectionVisibility.team} />}
     >
-      <p style={{ marginBottom: 16, color: "var(--gray-600)", fontSize: 14 }}>
+      <p className={styles.formHelp} style={{ marginBottom: 16 }}>
         Choose which team members appear on the About page and set their order.
       </p>
       <form action={action}>
@@ -244,7 +242,7 @@ async function TeamSection() {
           </table>
         </div>
         {list.length > 0 && (
-          <div className={styles.formRow} style={{ marginTop: 16 }}>
+          <div className={styles.formActions}>
             <Button type="submit" variant="primary" colorStyle="dark" size="m">Save team selection</Button>
           </div>
         )}
@@ -260,8 +258,8 @@ async function FAQSection() {
       title="FAQ"
       headerRight={<AboutSectionVisibilityToggle sectionId="faq" sectionLabel="FAQ" visible={sections.sectionVisibility.faq} />}
     >
-      <p style={{ margin: 0, color: "var(--gray-600)", fontSize: 14 }}>
-        FAQ items are managed in the main site settings or a dedicated FAQ section. Toggle above controls whether the FAQ block is shown on the About page.
+      <p className={styles.formHelp}>
+        Toggle above controls whether the FAQ block is shown on the About page.
       </p>
     </SectionCard>
   );
@@ -273,7 +271,7 @@ export default async function AdminAboutPage() {
       <div className={styles.pageBar}>
         <h1 className={styles.pageTitle}>About page</h1>
       </div>
-      <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
+      <div className={styles.formStack}>
         <Suspense fallback={null}><HeroSection /></Suspense>
         <Suspense fallback={null}><NumbersSection /></Suspense>
         <Suspense fallback={null}><MissionSection /></Suspense>

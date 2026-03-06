@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Tab from "@/design-system/components/Tab";
 import styles from "../admin.module.css";
 
 type Props = {
@@ -14,22 +13,38 @@ export function AdminLangTabs({ childrenEn, childrenKa }: Props) {
   const [active, setActive] = useState<"en" | "ka">("en");
   return (
     <div className={styles.formTabsWrap}>
-      <div role="tablist" style={{ display: "flex", gap: 4, marginBottom: 16 }}>
-        <Tab
-          label="EN"
-          active={active === "en"}
+      <div className={styles.langTabList} role="tablist">
+        <button
+          type="button"
+          role="tab"
+          aria-selected={active === "en"}
+          className={`${styles.langTabBtn} ${active === "en" ? styles.langTabBtnActive : ""}`}
           onClick={() => setActive("en")}
-        />
-        <Tab
-          label="KA"
-          active={active === "ka"}
+        >
+          <span className={`${styles.langTabFlag} ${styles.langTabFlagEn}`} />
+          EN
+        </button>
+        <button
+          type="button"
+          role="tab"
+          aria-selected={active === "ka"}
+          className={`${styles.langTabBtn} ${active === "ka" ? styles.langTabBtnActive : ""}`}
           onClick={() => setActive("ka")}
-        />
+        >
+          <span className={`${styles.langTabFlag} ${styles.langTabFlagKa}`} />
+          KA
+        </button>
       </div>
-      <div className={`${styles.tabPanel} ${active === "en" ? styles.active : ""}`} role="tabpanel">
+      <div
+        className={`${styles.tabPanel} ${active === "en" ? styles.active : ""}`}
+        role="tabpanel"
+      >
         {childrenEn}
       </div>
-      <div className={`${styles.tabPanel} ${active === "ka" ? styles.active : ""}`} role="tabpanel">
+      <div
+        className={`${styles.tabPanel} ${active === "ka" ? styles.active : ""}`}
+        role="tabpanel"
+      >
         {childrenKa}
       </div>
     </div>

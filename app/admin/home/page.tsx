@@ -17,10 +17,52 @@ import {
   upsertHomeProcessStep,
   deleteHomeBenefit,
   deleteHomeProcessStep,
-  type HomeBenefit,
-  type HomeProcessStep,
 } from "@/lib/actions/home";
 import { HomeSectionVisibilityToggle } from "../components/HomeSectionVisibilityToggle";
+
+const UploadIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+    <polyline points="16 16 12 12 8 16" />
+    <line x1="12" y1="12" x2="12" y2="21" />
+    <path d="M20.39 18.39A5 5 0 0018 9h-1.26A8 8 0 103 16.3" />
+  </svg>
+);
+
+function FileUpload({
+  name,
+  accept,
+  label,
+  currentPath,
+}: {
+  name: string;
+  accept: string;
+  label: string;
+  currentPath?: string | null;
+}) {
+  return (
+    <div className={styles.fileUpload}>
+      <span className={styles.fileUploadLabel}>{label}</span>
+      <div className={styles.fileUploadZone}>
+        <div className={styles.fileUploadIcon}>
+          <UploadIcon />
+        </div>
+        <div className={styles.fileUploadText}>
+          <span className={styles.fileUploadPrimary}>Click to upload or drag &amp; drop</span>
+          <span className={styles.fileUploadSecondary}>JPEG, PNG, WebP, GIF, SVG</span>
+        </div>
+        <input type="file" name={name} accept={accept} />
+      </div>
+      {currentPath && (
+        <div className={styles.fileUploadCurrent}>
+          Current:&nbsp;
+          <a href={currentPath} target="_blank" rel="noreferrer">
+            {currentPath}
+          </a>
+        </div>
+      )}
+    </div>
+  );
+}
 
 function SectionCard({
   title,
@@ -33,10 +75,8 @@ function SectionCard({
 }) {
   return (
     <section className={styles.formCard} aria-label={title}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 16, marginBottom: 24 }}>
-        <h2 className={styles.pageTitle} style={{ margin: 0 }}>
-          {title}
-        </h2>
+      <div className={styles.sectionCardHeader}>
+        <h2 className={styles.cardTitle}>{title}</h2>
         {headerRight}
       </div>
       {children}
@@ -60,94 +100,31 @@ async function HeroSection({ visibility }: { visibility: HomeSectionVisibility }
       <form action={action}>
         <AdminLangTabs
           childrenEn={
-            <div className={styles.formRow}>
-              <TextField
-                label="Brand (EN, blue)"
-                name="brandEn"
-                defaultValue={hero.brandEn}
-                size="m"
-              />
-              <div style={{ marginTop: 16 }}>
-                <TextArea
-                  label="Title (EN, main heading) *"
-                  name="titleEn"
-                  rows={2}
-                  required
-                  defaultValue={hero.titleEn}
-                  size="m"
-                />
-              </div>
-              <div style={{ marginTop: 16 }}>
-                <TextField
-                  label="CTA label (EN)"
-                  name="ctaEn"
-                  defaultValue={hero.ctaEn}
-                  size="m"
-                />
-              </div>
-              <div style={{ marginTop: 16 }}>
-                <TextArea
-                  label="Subtext / description (EN)"
-                  name="descriptionEn"
-                  rows={3}
-                  defaultValue={hero.descriptionEn}
-                  size="m"
-                />
-              </div>
+            <div className={styles.formGroup}>
+              <TextField label="Brand (EN, blue)" name="brandEn" defaultValue={hero.brandEn} size="m" />
+              <TextArea label="Title (EN, main heading) *" name="titleEn" rows={2} required defaultValue={hero.titleEn} size="m" />
+              <TextField label="CTA label (EN)" name="ctaEn" defaultValue={hero.ctaEn} size="m" />
+              <TextArea label="Subtext / description (EN)" name="descriptionEn" rows={3} defaultValue={hero.descriptionEn} size="m" />
             </div>
           }
           childrenKa={
-            <div className={styles.formRow}>
-              <TextField
-                label="Brand (KA, blue)"
-                name="brandKa"
-                defaultValue={hero.brandKa}
-                size="m"
-              />
-              <div style={{ marginTop: 16 }}>
-                <TextArea
-                  label="Title (KA, main heading)"
-                  name="titleKa"
-                  rows={2}
-                  defaultValue={hero.titleKa}
-                  size="m"
-                />
-              </div>
-              <div style={{ marginTop: 16 }}>
-                <TextField
-                  label="CTA label (KA)"
-                  name="ctaKa"
-                  defaultValue={hero.ctaKa}
-                  size="m"
-                />
-              </div>
-              <div style={{ marginTop: 16 }}>
-                <TextArea
-                  label="Subtext / description (KA)"
-                  name="descriptionKa"
-                  rows={3}
-                  defaultValue={hero.descriptionKa}
-                  size="m"
-                />
-              </div>
+            <div className={styles.formGroup}>
+              <TextField label="Brand (KA, blue)" name="brandKa" defaultValue={hero.brandKa} size="m" />
+              <TextArea label="Title (KA, main heading)" name="titleKa" rows={2} defaultValue={hero.titleKa} size="m" />
+              <TextField label="CTA label (KA)" name="ctaKa" defaultValue={hero.ctaKa} size="m" />
+              <TextArea label="Subtext / description (KA)" name="descriptionKa" rows={3} defaultValue={hero.descriptionKa} size="m" />
             </div>
           }
         />
 
-        <div className={styles.formRow} style={{ marginTop: 16 }}>
-          <label style={{ display: "block", marginBottom: 8 }}>Hero image</label>
-          <input type="file" name="heroImage" accept="image/jpeg,image/png,image/gif,image/webp" />
-          {hero.image && (
-            <p style={{ marginTop: 8, fontSize: 14, color: "var(--gray-600)" }}>
-              Current:{" "}
-              <a href={hero.image} target="_blank" rel="noreferrer">
-                {hero.image}
-              </a>
-            </p>
-          )}
-        </div>
+        <FileUpload
+          name="heroImage"
+          accept="image/jpeg,image/png,image/gif,image/webp"
+          label="Hero image"
+          currentPath={hero.image}
+        />
 
-        <div className={styles.formRow} style={{ marginTop: 24 }}>
+        <div className={styles.formActions}>
           <Button type="submit" variant="primary" colorStyle="dark" size="m">
             Save hero
           </Button>
@@ -173,60 +150,27 @@ async function AboutSection({ visibility }: { visibility: HomeSectionVisibility 
       <form action={action}>
         <AdminLangTabs
           childrenEn={
-            <div className={styles.formRow}>
-              <TextField
-                label="Title (EN) *"
-                name="titleEn"
-                required
-                defaultValue={about.titleEn}
-                size="m"
-              />
-              <div style={{ marginTop: 16 }}>
-                <TextArea
-                  label="Body text (EN)"
-                  name="descriptionEn"
-                  rows={4}
-                  defaultValue={about.descriptionEn}
-                  size="m"
-                />
-              </div>
+            <div className={styles.formGroup}>
+              <TextField label="Title (EN) *" name="titleEn" required defaultValue={about.titleEn} size="m" />
+              <TextArea label="Body text (EN)" name="descriptionEn" rows={4} defaultValue={about.descriptionEn} size="m" />
             </div>
           }
           childrenKa={
-            <div className={styles.formRow}>
-              <TextField
-                label="Title (KA)"
-                name="titleKa"
-                defaultValue={about.titleKa}
-                size="m"
-              />
-              <div style={{ marginTop: 16 }}>
-                <TextArea
-                  label="Body text (KA)"
-                  name="descriptionKa"
-                  rows={4}
-                  defaultValue={about.descriptionKa}
-                  size="m"
-                />
-              </div>
+            <div className={styles.formGroup}>
+              <TextField label="Title (KA)" name="titleKa" defaultValue={about.titleKa} size="m" />
+              <TextArea label="Body text (KA)" name="descriptionKa" rows={4} defaultValue={about.descriptionKa} size="m" />
             </div>
           }
         />
 
-        <div className={styles.formRow} style={{ marginTop: 16 }}>
-          <label style={{ display: "block", marginBottom: 8 }}>Background image</label>
-          <input type="file" name="aboutImage" accept="image/jpeg,image/png,image/gif,image/webp" />
-          {about.image && (
-            <p style={{ marginTop: 8, fontSize: 14, color: "var(--gray-600)" }}>
-              Current:{" "}
-              <a href={about.image} target="_blank" rel="noreferrer">
-                {about.image}
-              </a>
-            </p>
-          )}
-        </div>
+        <FileUpload
+          name="aboutImage"
+          accept="image/jpeg,image/png,image/gif,image/webp"
+          label="Background image"
+          currentPath={about.image}
+        />
 
-        <div className={styles.formRow} style={{ marginTop: 24 }}>
+        <div className={styles.formActions}>
           <Button type="submit" variant="primary" colorStyle="dark" size="m">
             Save section
           </Button>
@@ -246,102 +190,32 @@ async function SectionHeadingsSection() {
 
   return (
     <SectionCard title="Section headings">
-      <p className={styles.formHelp} style={{ marginBottom: 16 }}>
+      <p className={styles.formHelp} style={{ marginBottom: 20 }}>
         Titles and descriptions for the homepage sections: Our legal services, Why work with us,
         Our working process.
       </p>
       <form action={action}>
         <AdminLangTabs
           childrenEn={
-            <div className={styles.formRow}>
-              <TextField
-                label="Services section title (EN)"
-                name="servicesTitleEn"
-                defaultValue={headings.servicesTitleEn}
-                size="m"
-              />
-              <div style={{ marginTop: 16 }}>
-                <TextArea
-                  label="Services section description (EN)"
-                  name="servicesDescriptionEn"
-                  rows={2}
-                  defaultValue={headings.servicesDescriptionEn}
-                  size="m"
-                />
-              </div>
-              <div style={{ marginTop: 16 }}>
-                <TextField
-                  label="Benefits section title (EN)"
-                  name="benefitsTitleEn"
-                  defaultValue={headings.benefitsTitleEn}
-                  size="m"
-                />
-              </div>
-              <div style={{ marginTop: 16 }}>
-                <TextField
-                  label="Process section title (EN)"
-                  name="processTitleEn"
-                  defaultValue={headings.processTitleEn}
-                  size="m"
-                />
-              </div>
-              <div style={{ marginTop: 16 }}>
-                <TextArea
-                  label="Process section description (EN)"
-                  name="processDescriptionEn"
-                  rows={2}
-                  defaultValue={headings.processDescriptionEn}
-                  size="m"
-                />
-              </div>
+            <div className={styles.formGroup}>
+              <TextField label="Services section title (EN)" name="servicesTitleEn" defaultValue={headings.servicesTitleEn} size="m" />
+              <TextArea label="Services section description (EN)" name="servicesDescriptionEn" rows={2} defaultValue={headings.servicesDescriptionEn} size="m" />
+              <TextField label="Benefits section title (EN)" name="benefitsTitleEn" defaultValue={headings.benefitsTitleEn} size="m" />
+              <TextField label="Process section title (EN)" name="processTitleEn" defaultValue={headings.processTitleEn} size="m" />
+              <TextArea label="Process section description (EN)" name="processDescriptionEn" rows={2} defaultValue={headings.processDescriptionEn} size="m" />
             </div>
           }
           childrenKa={
-            <div className={styles.formRow}>
-              <TextField
-                label="Services section title (KA)"
-                name="servicesTitleKa"
-                defaultValue={headings.servicesTitleKa}
-                size="m"
-              />
-              <div style={{ marginTop: 16 }}>
-                <TextArea
-                  label="Services section description (KA)"
-                  name="servicesDescriptionKa"
-                  rows={2}
-                  defaultValue={headings.servicesDescriptionKa}
-                  size="m"
-                />
-              </div>
-              <div style={{ marginTop: 16 }}>
-                <TextField
-                  label="Benefits section title (KA)"
-                  name="benefitsTitleKa"
-                  defaultValue={headings.benefitsTitleKa}
-                  size="m"
-                />
-              </div>
-              <div style={{ marginTop: 16 }}>
-                <TextField
-                  label="Process section title (KA)"
-                  name="processTitleKa"
-                  defaultValue={headings.processTitleKa}
-                  size="m"
-                />
-              </div>
-              <div style={{ marginTop: 16 }}>
-                <TextArea
-                  label="Process section description (KA)"
-                  name="processDescriptionKa"
-                  rows={2}
-                  defaultValue={headings.processDescriptionKa}
-                  size="m"
-                />
-              </div>
+            <div className={styles.formGroup}>
+              <TextField label="Services section title (KA)" name="servicesTitleKa" defaultValue={headings.servicesTitleKa} size="m" />
+              <TextArea label="Services section description (KA)" name="servicesDescriptionKa" rows={2} defaultValue={headings.servicesDescriptionKa} size="m" />
+              <TextField label="Benefits section title (KA)" name="benefitsTitleKa" defaultValue={headings.benefitsTitleKa} size="m" />
+              <TextField label="Process section title (KA)" name="processTitleKa" defaultValue={headings.processTitleKa} size="m" />
+              <TextArea label="Process section description (KA)" name="processDescriptionKa" rows={2} defaultValue={headings.processDescriptionKa} size="m" />
             </div>
           }
         />
-        <div className={styles.formRow} style={{ marginTop: 24 }}>
+        <div className={styles.formActions}>
           <Button type="submit" variant="primary" colorStyle="dark" size="m">
             Save section headings
           </Button>
@@ -374,9 +248,8 @@ function TeamSection({ visibility }: { visibility: HomeSectionVisibility }) {
       headerRight={<HomeSectionVisibilityToggle sectionId="team" sectionLabel="Team" visible={visibility.team} />}
     >
       <p className={styles.formHelp}>
-        Choose which team members appear on the homepage in the Team section. Use &quot;Show on
-        home&quot; and &quot;Home order&quot; on each member in the <a href="/admin/team">Team</a>{" "}
-        section.
+        Choose which team members appear on the homepage. Use &quot;Show on home&quot; and
+        &quot;Home order&quot; on each member in the <a href="/admin/team">Team</a> section.
       </p>
     </SectionCard>
   );
@@ -384,17 +257,17 @@ function TeamSection({ visibility }: { visibility: HomeSectionVisibility }) {
 
 function NewsCtaSection({ visibility }: { visibility: HomeSectionVisibility }) {
   return (
-    <SectionCard title="News & CTA visibility">
+    <SectionCard title="News &amp; CTA visibility">
       <p className={styles.formHelp} style={{ marginBottom: 16 }}>
         Toggle whether the News and CTA sections are shown on the homepage.
       </p>
       <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <span style={{ minWidth: 80 }}>News</span>
+          <span style={{ minWidth: 64, fontSize: 13, color: "var(--gray-600)", fontWeight: 500 }}>News</span>
           <HomeSectionVisibilityToggle sectionId="news" sectionLabel="News" visible={visibility.news} />
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <span style={{ minWidth: 80 }}>CTA</span>
+          <span style={{ minWidth: 64, fontSize: 13, color: "var(--gray-600)", fontWeight: 500 }}>CTA</span>
           <HomeSectionVisibilityToggle sectionId="cta" sectionLabel="CTA" visible={visibility.cta} />
         </div>
       </div>
@@ -425,126 +298,78 @@ async function BenefitsSection({ visibility }: { visibility: HomeSectionVisibili
       title="Why work with us"
       headerRight={<HomeSectionVisibilityToggle sectionId="benefits" sectionLabel="Benefits" visible={visibility.benefits} />}
     >
-      <div className={styles.formRow}>
-        <p className={styles.formHelp}>
-          Up to 4 cards. Text will be truncated automatically on the homepage to fit the design.
-        </p>
+      <p className={styles.formHelp} style={{ marginBottom: 8 }}>
+        Up to 4 cards. Text is truncated automatically on the homepage to fit the design.
+      </p>
+
+      <div className={styles.cardList}>
+        {benefits.map((benefit) => (
+          <div key={benefit.id} className={styles.formCardInner}>
+            <form action={handleUpsert.bind(null, benefit.id)}>
+              <AdminLangTabs
+                childrenEn={
+                  <div className={styles.formGroup}>
+                    <TextField label="Title (EN)" name="titleEn" defaultValue={benefit.titleEn} size="m" />
+                    <TextArea label="Description (EN)" name="descriptionEn" rows={3} defaultValue={benefit.descriptionEn ?? ""} size="m" />
+                  </div>
+                }
+                childrenKa={
+                  <div className={styles.formGroup}>
+                    <TextField label="Title (KA)" name="titleKa" defaultValue={benefit.titleKa ?? ""} size="m" />
+                    <TextArea label="Description (KA)" name="descriptionKa" rows={3} defaultValue={benefit.descriptionKa ?? ""} size="m" />
+                  </div>
+                }
+              />
+
+              <FileUpload
+                name="icon"
+                accept="image/svg+xml,image/png,image/jpeg,image/webp"
+                label="Icon (SVG / image)"
+                currentPath={benefit.iconPath}
+              />
+
+              <div className={styles.cardItemActions}>
+                <Button type="submit" variant="primary" colorStyle="dark" size="s">
+                  Save card
+                </Button>
+              </div>
+            </form>
+
+            <form action={handleDelete} style={{ marginTop: 8 }}>
+              <input type="hidden" name="id" value={benefit.id} />
+              <Button type="submit" variant="ghost" colorStyle="dark" size="s">
+                Delete
+              </Button>
+            </form>
+          </div>
+        ))}
       </div>
 
-      {benefits.map((benefit) => (
-        <div key={benefit.id} className={styles.formCard} style={{ marginBottom: 16 }}>
-          <form action={handleUpsert.bind(null, benefit.id)}>
-            <AdminLangTabs
-              childrenEn={
-                <div className={styles.formRow}>
-                  <TextField
-                    label="Title (EN)"
-                    name="titleEn"
-                    defaultValue={benefit.titleEn}
-                    size="m"
-                  />
-                  <div style={{ marginTop: 16 }}>
-                    <TextArea
-                      label="Description (EN)"
-                      name="descriptionEn"
-                      rows={3}
-                      defaultValue={benefit.descriptionEn ?? ""}
-                      size="m"
-                    />
-                  </div>
-                </div>
-              }
-              childrenKa={
-                <div className={styles.formRow}>
-                  <TextField
-                    label="Title (KA)"
-                    name="titleKa"
-                    defaultValue={benefit.titleKa ?? ""}
-                    size="m"
-                  />
-                  <div style={{ marginTop: 16 }}>
-                    <TextArea
-                      label="Description (KA)"
-                      name="descriptionKa"
-                      rows={3}
-                      defaultValue={benefit.descriptionKa ?? ""}
-                      size="m"
-                    />
-                  </div>
-                </div>
-              }
-            />
-
-            <div className={styles.formRow} style={{ marginTop: 16 }}>
-              <label style={{ display: "block", marginBottom: 8 }}>Icon (SVG / image)</label>
-              <input type="file" name="icon" accept="image/svg+xml,image/png,image/jpeg,image/webp" />
-              {benefit.iconPath && (
-                <p style={{ marginTop: 8, fontSize: 14, color: "var(--gray-600)" }}>
-                  Current:{" "}
-                  <a href={benefit.iconPath} target="_blank" rel="noreferrer">
-                    {benefit.iconPath}
-                  </a>
-                </p>
-              )}
-            </div>
-
-            <div className={styles.formRow} style={{ marginTop: 16 }}>
-              <Button type="submit" variant="primary" colorStyle="dark" size="s">
-                Save card
-              </Button>
-            </div>
-          </form>
-
-          <form action={handleDelete} style={{ marginTop: 8 }}>
-            <input type="hidden" name="id" value={benefit.id} />
-            <Button type="submit" variant="ghost" colorStyle="dark" size="s">
-              Delete
-            </Button>
-          </form>
-        </div>
-      ))}
-
       {canAdd && (
-        <form
-          action={handleUpsert.bind(null, null)}
-          className={styles.formCard}
-          style={{ marginTop: 24 }}
-        >
+        <form action={handleUpsert.bind(null, null)} className={styles.formCardInner} style={{ marginTop: 16 }}>
           <AdminLangTabs
             childrenEn={
-              <div className={styles.formRow}>
+              <div className={styles.formGroup}>
                 <TextField label="Title (EN)" name="titleEn" size="m" />
-                <div style={{ marginTop: 16 }}>
-                  <TextArea
-                    label="Description (EN)"
-                    name="descriptionEn"
-                    rows={3}
-                    size="m"
-                  />
-                </div>
+                <TextArea label="Description (EN)" name="descriptionEn" rows={3} size="m" />
               </div>
             }
             childrenKa={
-              <div className={styles.formRow}>
+              <div className={styles.formGroup}>
                 <TextField label="Title (KA)" name="titleKa" size="m" />
-                <div style={{ marginTop: 16 }}>
-                  <TextArea
-                    label="Description (KA)"
-                    name="descriptionKa"
-                    rows={3}
-                    size="m"
-                  />
-                </div>
+                <TextArea label="Description (KA)" name="descriptionKa" rows={3} size="m" />
               </div>
             }
           />
 
-          <div className={styles.formRow} style={{ marginTop: 16 }}>
-            <label style={{ display: "block", marginBottom: 8 }}>Icon (SVG / image)</label>
-            <input type="file" name="icon" accept="image/svg+xml,image/png,image/jpeg,image/webp" />
-          </div>
+          <FileUpload
+            name="icon"
+            accept="image/svg+xml,image/png,image/jpeg,image/webp"
+            label="Icon (SVG / image)"
+            currentPath={null}
+          />
 
-          <div className={styles.formRow} style={{ marginTop: 24 }}>
+          <div className={styles.cardItemActions}>
             <Button type="submit" variant="primary" colorStyle="dark" size="m">
               Add card
             </Button>
@@ -578,149 +403,82 @@ async function ProcessSection({ visibility }: { visibility: HomeSectionVisibilit
       title="Our working process"
       headerRight={<HomeSectionVisibilityToggle sectionId="process" sectionLabel="Process" visible={visibility.process} />}
     >
-      <div className={styles.formRow}>
-        <p className={styles.formHelp}>
-          Up to 4 steps. Tab titles should be a single word; if longer, only the first word will be
-          used on the buttons.
-        </p>
+      <p className={styles.formHelp} style={{ marginBottom: 8 }}>
+        Up to 4 steps. Tab titles should be a single word — only the first word is used on the tab buttons.
+      </p>
+
+      <div className={styles.cardList}>
+        {steps.map((step) => (
+          <div key={step.id} className={styles.formCardInner}>
+            <form action={handleUpsert.bind(null, step.id)}>
+              <AdminLangTabs
+                childrenEn={
+                  <div className={styles.formGroup}>
+                    <TextField label="Tab title (EN, 1 word)" name="tabTitleEn" defaultValue={step.tabTitleEn} size="m" />
+                    <TextField label="Step title (EN)" name="titleEn" defaultValue={step.titleEn} size="m" />
+                    <TextArea label="Description (EN)" name="descriptionEn" rows={3} defaultValue={step.descriptionEn ?? ""} size="m" />
+                  </div>
+                }
+                childrenKa={
+                  <div className={styles.formGroup}>
+                    <TextField label="Tab title (KA, 1 word)" name="tabTitleKa" defaultValue={step.tabTitleKa ?? ""} size="m" />
+                    <TextField label="Step title (KA)" name="titleKa" defaultValue={step.titleKa ?? ""} size="m" />
+                    <TextArea label="Description (KA)" name="descriptionKa" rows={3} defaultValue={step.descriptionKa ?? ""} size="m" />
+                  </div>
+                }
+              />
+
+              <FileUpload
+                name="image"
+                accept="image/jpeg,image/png,image/gif,image/webp"
+                label="Step image"
+                currentPath={step.image}
+              />
+
+              <div className={styles.cardItemActions}>
+                <Button type="submit" variant="primary" colorStyle="dark" size="s">
+                  Save step
+                </Button>
+              </div>
+            </form>
+
+            <form action={handleDelete} style={{ marginTop: 8 }}>
+              <input type="hidden" name="id" value={step.id} />
+              <Button type="submit" variant="ghost" colorStyle="dark" size="s">
+                Delete
+              </Button>
+            </form>
+          </div>
+        ))}
       </div>
 
-      {steps.map((step) => (
-        <div key={step.id} className={styles.formCard} style={{ marginBottom: 16 }}>
-          <form action={handleUpsert.bind(null, step.id)}>
-            <AdminLangTabs
-              childrenEn={
-                <div className={styles.formRow}>
-                  <TextField
-                    label="Tab title (EN, 1 word)"
-                    name="tabTitleEn"
-                    defaultValue={step.tabTitleEn}
-                    size="m"
-                  />
-                  <div style={{ marginTop: 16 }}>
-                    <TextField
-                      label="Step title (EN)"
-                      name="titleEn"
-                      defaultValue={step.titleEn}
-                      size="m"
-                    />
-                  </div>
-                  <div style={{ marginTop: 16 }}>
-                    <TextArea
-                      label="Description (EN)"
-                      name="descriptionEn"
-                      rows={3}
-                      defaultValue={step.descriptionEn ?? ""}
-                      size="m"
-                    />
-                  </div>
-                </div>
-              }
-              childrenKa={
-                <div className={styles.formRow}>
-                  <TextField
-                    label="Tab title (KA, 1 word)"
-                    name="tabTitleKa"
-                    defaultValue={step.tabTitleKa ?? ""}
-                    size="m"
-                  />
-                  <div style={{ marginTop: 16 }}>
-                    <TextField
-                      label="Step title (KA)"
-                      name="titleKa"
-                      defaultValue={step.titleKa ?? ""}
-                      size="m"
-                    />
-                  </div>
-                  <div style={{ marginTop: 16 }}>
-                    <TextArea
-                      label="Description (KA)"
-                      name="descriptionKa"
-                      rows={3}
-                      defaultValue={step.descriptionKa ?? ""}
-                      size="m"
-                    />
-                  </div>
-                </div>
-              }
-            />
-
-            <div className={styles.formRow} style={{ marginTop: 16 }}>
-              <label style={{ display: "block", marginBottom: 8 }}>Step image</label>
-              <input type="file" name="image" accept="image/jpeg,image/png,image/gif,image/webp" />
-              {step.image && (
-                <p style={{ marginTop: 8, fontSize: 14, color: "var(--gray-600)" }}>
-                  Current:{" "}
-                  <a href={step.image} target="_blank" rel="noreferrer">
-                    {step.image}
-                  </a>
-                </p>
-              )}
-            </div>
-
-            <div className={styles.formRow} style={{ marginTop: 16 }}>
-              <Button type="submit" variant="primary" colorStyle="dark" size="s">
-                Save step
-              </Button>
-            </div>
-          </form>
-
-          <form action={handleDelete} style={{ marginTop: 8 }}>
-            <input type="hidden" name="id" value={step.id} />
-            <Button type="submit" variant="ghost" colorStyle="dark" size="s">
-              Delete
-            </Button>
-          </form>
-        </div>
-      ))}
-
       {canAdd && (
-        <form
-          action={handleUpsert.bind(null, null)}
-          className={styles.formCard}
-          style={{ marginTop: 24 }}
-        >
+        <form action={handleUpsert.bind(null, null)} className={styles.formCardInner} style={{ marginTop: 16 }}>
           <AdminLangTabs
             childrenEn={
-              <div className={styles.formRow}>
+              <div className={styles.formGroup}>
                 <TextField label="Tab title (EN, 1 word)" name="tabTitleEn" size="m" />
-                <div style={{ marginTop: 16 }}>
-                  <TextField label="Step title (EN)" name="titleEn" size="m" />
-                </div>
-                <div style={{ marginTop: 16 }}>
-                  <TextArea
-                    label="Description (EN)"
-                    name="descriptionEn"
-                    rows={3}
-                    size="m"
-                  />
-                </div>
+                <TextField label="Step title (EN)" name="titleEn" size="m" />
+                <TextArea label="Description (EN)" name="descriptionEn" rows={3} size="m" />
               </div>
             }
             childrenKa={
-              <div className={styles.formRow}>
+              <div className={styles.formGroup}>
                 <TextField label="Tab title (KA, 1 word)" name="tabTitleKa" size="m" />
-                <div style={{ marginTop: 16 }}>
-                  <TextField label="Step title (KA)" name="titleKa" size="m" />
-                </div>
-                <div style={{ marginTop: 16 }}>
-                  <TextArea
-                    label="Description (KA)"
-                    name="descriptionKa"
-                    rows={3}
-                    size="m"
-                  />
-                </div>
+                <TextField label="Step title (KA)" name="titleKa" size="m" />
+                <TextArea label="Description (KA)" name="descriptionKa" rows={3} size="m" />
               </div>
             }
           />
 
-          <div className={styles.formRow} style={{ marginTop: 16 }}>
-            <label style={{ display: "block", marginBottom: 8 }}>Step image</label>
-            <input type="file" name="image" accept="image/jpeg,image/png,image/gif,image/webp" />
-          </div>
+          <FileUpload
+            name="image"
+            accept="image/jpeg,image/png,image/gif,image/webp"
+            label="Step image"
+            currentPath={null}
+          />
 
-          <div className={styles.formRow} style={{ marginTop: 24 }}>
+          <div className={styles.cardItemActions}>
             <Button type="submit" variant="primary" colorStyle="dark" size="m">
               Add step
             </Button>
@@ -767,4 +525,3 @@ export default async function AdminHomePage() {
     </>
   );
 }
-

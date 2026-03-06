@@ -3,6 +3,7 @@
 import { useTransition, useState, useEffect } from "react";
 import type { HomeSectionId } from "@/lib/home";
 import { setHomeSectionVisible } from "@/lib/actions/home";
+import styles from "../admin.module.css";
 
 type Props = {
   sectionId: HomeSectionId;
@@ -10,15 +11,19 @@ type Props = {
   visible: boolean;
 };
 
-export function HomeSectionVisibilityToggle({ sectionId, visible }: Props) {
+export function HomeSectionVisibilityToggle({ sectionId, visible, sectionLabel }: Props) {
   const [isPending, startTransition] = useTransition();
   const [checked, setChecked] = useState(visible);
   useEffect(() => setChecked(visible), [visible]);
 
+  const inputId = `toggle-home-${sectionId}`;
+
   return (
-    <label style={{ display: "flex", alignItems: "center", gap: 6, cursor: "pointer" }}>
+    <label htmlFor={inputId} className={styles.toggleSwitch} title={`Toggle visibility of ${sectionLabel} section`}>
       <input
+        id={inputId}
         type="checkbox"
+        className={styles.toggleInput}
         checked={checked}
         disabled={isPending}
         onChange={(e) => {
@@ -27,7 +32,10 @@ export function HomeSectionVisibilityToggle({ sectionId, visible }: Props) {
           startTransition(() => setHomeSectionVisible(sectionId, next));
         }}
       />
-      <span style={{ fontSize: 14, fontWeight: 500 }}>Show section</span>
+      <span className={styles.toggleTrack} aria-hidden="true" />
+      <span className={styles.toggleLabel}>
+        {isPending ? "Saving…" : "Show section"}
+      </span>
     </label>
   );
 }

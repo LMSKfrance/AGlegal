@@ -43,70 +43,84 @@ export function PagesForm({ item }: Props) {
     <form action={handleAction} className={styles.formCard}>
       {error && <div className={styles.formError} role="alert">{error}</div>}
 
-      <div className={styles.formRow}>
-        <TextField
-          label="Slug (URL path, e.g. about, contact)"
-          name="slug"
-          required={!isEdit}
-          defaultValue={item?.slug ?? ""}
-          placeholder="about"
-          size="m"
-        />
+      {/* Slug */}
+      <div className={styles.formGroup}>
+        {isEdit ? (
+          <div>
+            <p style={{ fontSize: 13, fontWeight: 500, color: "var(--gray-700)", marginBottom: 6 }}>Slug (URL path)</p>
+            <p style={{ fontSize: 14, color: "var(--gray-900)", fontFamily: "var(--font-inter)", padding: "10px 14px", background: "var(--gray-100)", borderRadius: 8, margin: 0 }}>
+              {item.slug}
+            </p>
+          </div>
+        ) : (
+          <TextField
+            label="Slug (URL path)"
+            name="slug"
+            required
+            defaultValue=""
+            placeholder="e.g. about"
+            size="m"
+          />
+        )}
+        <p className={styles.fieldHint}>
+          The URL path this page lives at. Use lowercase letters, numbers, and hyphens only.
+          {isEdit && " Slug cannot be changed after creation."}
+        </p>
       </div>
 
+      {/* Content divider */}
+      <div className={styles.fieldGroupDivider} style={{ margin: "24px 0" }} />
+
+      {/* Page content */}
       <AdminLangTabs
         childrenEn={
-          <div className={styles.formRow}>
-            <TextField label="Title (EN) *" name="titleEn" required defaultValue={item?.titleEn ?? ""} size="m" />
-            <div style={{ marginTop: 16 }}>
-              <TextArea label="Meta description (EN)" name="metaDescriptionEn" rows={2} defaultValue={item?.metaDescriptionEn ?? ""} size="m" />
-            </div>
-            <div style={{ marginTop: 16 }}>
-              <TextField label="SEO title (EN)" name="seoTitleEn" defaultValue={item?.seoTitleEn ?? ""} size="m" />
-            </div>
-            <div style={{ marginTop: 16 }}>
-              <TextField label="OG title (EN)" name="ogTitleEn" defaultValue={item?.ogTitleEn ?? ""} size="m" />
-            </div>
-            <div style={{ marginTop: 16 }}>
-              <TextArea label="OG description (EN)" name="ogDescriptionEn" rows={2} defaultValue={item?.ogDescriptionEn ?? ""} size="m" />
-            </div>
-            <div style={{ marginTop: 16 }}>
-              <TextArea label="Content (EN, Markdown)" name="contentEn" rows={12} defaultValue={item?.contentEn ?? ""} size="m" />
-            </div>
+          <div className={styles.formGroup}>
+            <TextField label="Page title (EN) *" name="titleEn" required defaultValue={item?.titleEn ?? ""} size="m" />
+            <TextArea label="Content (EN, Markdown)" name="contentEn" rows={12} defaultValue={item?.contentEn ?? ""} size="m" />
           </div>
         }
         childrenKa={
-          <div className={styles.formRow}>
-            <TextField label="Title (KA)" name="titleKa" defaultValue={item?.titleKa ?? ""} size="m" />
-            <div style={{ marginTop: 16 }}>
-              <TextArea label="Meta description (KA)" name="metaDescriptionKa" rows={2} defaultValue={item?.metaDescriptionKa ?? ""} size="m" />
-            </div>
-            <div style={{ marginTop: 16 }}>
-              <TextField label="SEO title (KA)" name="seoTitleKa" defaultValue={item?.seoTitleKa ?? ""} size="m" />
-            </div>
-            <div style={{ marginTop: 16 }}>
-              <TextField label="OG title (KA)" name="ogTitleKa" defaultValue={item?.ogTitleKa ?? ""} size="m" />
-            </div>
-            <div style={{ marginTop: 16 }}>
-              <TextArea label="OG description (KA)" name="ogDescriptionKa" rows={2} defaultValue={item?.ogDescriptionKa ?? ""} size="m" />
-            </div>
-            <div style={{ marginTop: 16 }}>
-              <TextArea label="Content (KA, Markdown)" name="contentKa" rows={12} defaultValue={item?.contentKa ?? ""} size="m" />
-            </div>
+          <div className={styles.formGroup}>
+            <TextField label="Page title (KA)" name="titleKa" defaultValue={item?.titleKa ?? ""} size="m" />
+            <TextArea label="Content (KA, Markdown)" name="contentKa" rows={12} defaultValue={item?.contentKa ?? ""} size="m" />
           </div>
         }
       />
 
-      <div className={styles.formRow}>
-        <TextField
-          label="OG image URL/path"
-          name="ogImage"
-          defaultValue={item?.ogImage ?? ""}
-          size="m"
-        />
+      {/* SEO divider */}
+      <div className={styles.fieldGroupDivider} style={{ margin: "24px 0 20px" }} />
+      <p className={styles.formHelp} style={{ marginBottom: 20 }}>
+        SEO &amp; Open Graph — controls how this page appears in search engines and social media previews.
+      </p>
+
+      {/* SEO fields */}
+      <AdminLangTabs
+        childrenEn={
+          <div className={styles.formGroup}>
+            <TextField label="SEO title (EN)" name="seoTitleEn" defaultValue={item?.seoTitleEn ?? ""} size="m" />
+            <TextArea label="Meta description (EN)" name="metaDescriptionEn" rows={2} defaultValue={item?.metaDescriptionEn ?? ""} size="m" />
+            <TextField label="OG title (EN)" name="ogTitleEn" defaultValue={item?.ogTitleEn ?? ""} size="m" />
+            <TextArea label="OG description (EN)" name="ogDescriptionEn" rows={2} defaultValue={item?.ogDescriptionEn ?? ""} size="m" />
+          </div>
+        }
+        childrenKa={
+          <div className={styles.formGroup}>
+            <TextField label="SEO title (KA)" name="seoTitleKa" defaultValue={item?.seoTitleKa ?? ""} size="m" />
+            <TextArea label="Meta description (KA)" name="metaDescriptionKa" rows={2} defaultValue={item?.metaDescriptionKa ?? ""} size="m" />
+            <TextField label="OG title (KA)" name="ogTitleKa" defaultValue={item?.ogTitleKa ?? ""} size="m" />
+            <TextArea label="OG description (KA)" name="ogDescriptionKa" rows={2} defaultValue={item?.ogDescriptionKa ?? ""} size="m" />
+          </div>
+        }
+      />
+
+      <div className={styles.formGroup} style={{ marginTop: 16 }}>
+        <TextField label="OG image URL / path" name="ogImage" defaultValue={item?.ogImage ?? ""} size="m" />
+        <p className={styles.fieldHint}>
+          Absolute URL or /uploads/... path. Recommended size: 1200 × 630 px.
+        </p>
       </div>
 
-      <div className={styles.formRow} style={{ marginTop: 24 }}>
+      <div className={styles.formActions}>
         <SubmitButton />
       </div>
     </form>
