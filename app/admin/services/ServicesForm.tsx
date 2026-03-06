@@ -79,7 +79,6 @@ export function ServicesForm({ item }: Props) {
           label="Home card order"
           name="homeOrder"
           type="number"
-          min={0}
           defaultValue={String(item?.homeOrder ?? 0)}
           size="m"
         />
