@@ -80,7 +80,7 @@ export function ServicesForm({ item }: Props) {
           name="homeOrder"
           type="number"
           min={0}
-          defaultValue={item?.homeOrder ?? 0}
+          defaultValue={String(item?.homeOrder ?? 0)}
           size="m"
         />
       </div>
