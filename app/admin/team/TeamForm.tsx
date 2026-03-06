@@ -1,12 +1,11 @@
 "use client";
 
-import { useState } from "react";
-import { useFormStatus } from "react-dom";
+import { useActionState } from "react";
 import { Button, TextField, TextArea } from "@/design-system";
 import { AdminLangTabs } from "../components/AdminLangTabs";
 import type { TeamMember } from "@/lib/db/schema";
 import type { TeamMemberSocial } from "@/lib/db/schema";
-import { createTeamMember, updateTeamMember } from "@/lib/actions/team";
+import { createTeamMember, updateTeamMember, type TeamFormState } from "@/lib/actions/team";
 import styles from "../admin.module.css";
 
 type MemberWithSocials = TeamMember & { socials?: TeamMemberSocial[] };
@@ -14,15 +13,6 @@ type MemberWithSocials = TeamMember & { socials?: TeamMemberSocial[] };
 type Props = {
   item?: MemberWithSocials | null;
 };
-
-function SubmitButton() {
-  const { pending } = useFormStatus();
-  return (
-    <Button type="submit" variant="primary" colorStyle="dark" size="m" disabled={pending}>
-      {pending ? "Saving…" : "Save"}
-    </Button>
-  );
-}
 
 function socialsToPlatforms(socials: TeamMemberSocial[] | undefined): string {
   return socials?.map((s) => s.platform).join("\n") ?? "";
@@ -32,26 +22,19 @@ function socialsToLinks(socials: TeamMemberSocial[] | undefined): string {
 }
 
 export function TeamForm({ item }: Props) {
-  const [error, setError] = useState<string | null>(null);
   const isEdit = !!item;
+  const action = isEdit && item ? updateTeamMember.bind(null, item.id) : createTeamMember;
+  const [state, formAction, isPending] = useActionState(action, {});
 
-  async function handleAction(formData: FormData) {
-    setError(null);
-    const result = isEdit
-      ? await updateTeamMember(item.id, {}, formData)
-      : await createTeamMember({}, formData);
-    if (result.error) {
-      setError(result.error);
-      return;
-    }
-    if (result.success) {
-      window.location.href = "/admin/team?toast=success";
-    }
-  }
+  const fieldError = (field: string) => state.fieldErrors?.[field];
+  const renderFieldError = (field: string) => {
+    const error = fieldError(field);
+    return error ? <div style={{ fontSize: 13, color: "var(--error-600)", marginTop: 4 }}>{error}</div> : null;
+  };
 
   return (
-    <form action={handleAction} className={styles.formCard}>
-      {error && <div className={styles.formError} role="alert">{error}</div>}
+    <form action={formAction} className={styles.formCard}>
+      {state.error && <div className={styles.formError} role="alert">{state.error}</div>}
 
       <div className={styles.formRow}>
         <label style={{ display: "block", marginBottom: 8 }}>Image</label>
@@ -88,7 +71,10 @@ export function TeamForm({ item }: Props) {
       <AdminLangTabs
         childrenEn={
           <div className={styles.formRow}>
-            <TextField label="Name (EN) *" name="titleEn" required defaultValue={item?.titleEn ?? ""} size="m" />
+            <div>
+              <TextField label="Name (EN) *" name="titleEn" required defaultValue={item?.titleEn ?? ""} size="m" />
+              {renderFieldError("titleEn")}
+            </div>
             <div style={{ marginTop: 16 }}>
               <TextField label="Position (EN)" name="positionEn" defaultValue={item?.positionEn ?? ""} size="m" />
             </div>
@@ -150,7 +136,9 @@ export function TeamForm({ item }: Props) {
       </div>
 
       <div className={styles.formRow} style={{ marginTop: 24 }}>
-        <SubmitButton />
+        <Button type="submit" variant="primary" colorStyle="dark" size="m" disabled={isPending}>
+          {isPending ? "Saving…" : "Save"}
+        </Button>
       </div>
     </form>
   );

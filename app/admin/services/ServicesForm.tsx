@@ -1,47 +1,30 @@
 "use client";
 
-import { useState } from "react";
-import { useFormStatus } from "react-dom";
+import { useActionState } from "react";
 import { Button, TextField, TextArea } from "@/design-system";
 import { AdminLangTabs } from "../components/AdminLangTabs";
 import type { Service } from "@/lib/db/schema";
-import { createService, updateService } from "@/lib/actions/services";
+import { createService, updateService, type ServiceFormState } from "@/lib/actions/services";
 import styles from "../admin.module.css";
 
 type Props = {
   item?: Service | null;
 };
 
-function SubmitButton() {
-  const { pending } = useFormStatus();
-  return (
-    <Button type="submit" variant="primary" colorStyle="dark" size="m" disabled={pending}>
-      {pending ? "Saving…" : "Save"}
-    </Button>
-  );
-}
-
 export function ServicesForm({ item }: Props) {
-  const [error, setError] = useState<string | null>(null);
   const isEdit = !!item;
+  const action = isEdit && item ? updateService.bind(null, item.id) : createService;
+  const [state, formAction, isPending] = useActionState(action, {});
 
-  async function handleAction(formData: FormData) {
-    setError(null);
-    const result = isEdit
-      ? await updateService(item.id, {}, formData)
-      : await createService({}, formData);
-    if (result.error) {
-      setError(result.error);
-      return;
-    }
-    if (result.success) {
-      window.location.href = "/admin/services?toast=success";
-    }
-  }
+  const fieldError = (field: string) => state.fieldErrors?.[field];
+  const renderFieldError = (field: string) => {
+    const error = fieldError(field);
+    return error ? <div style={{ fontSize: 13, color: "var(--error-600)", marginTop: 4 }}>{error}</div> : null;
+  };
 
   return (
-    <form action={handleAction} className={styles.formCard}>
-      {error && <div className={styles.formError} role="alert">{error}</div>}
+    <form action={formAction} className={styles.formCard}>
+      {state.error && <div className={styles.formError} role="alert">{state.error}</div>}
 
       <div className={styles.formRow}>
         <label style={{ display: "block", marginBottom: 8 }}>Image</label>
@@ -127,7 +110,10 @@ export function ServicesForm({ item }: Props) {
       <AdminLangTabs
         childrenEn={
           <div className={styles.formRow}>
-            <TextField label="Title (EN) *" name="titleEn" required defaultValue={item?.titleEn ?? ""} size="m" />
+            <div>
+              <TextField label="Title (EN) *" name="titleEn" required defaultValue={item?.titleEn ?? ""} size="m" />
+              {renderFieldError("titleEn")}
+            </div>
             <div style={{ marginTop: 16 }}>
               <TextArea label="Description (EN)" name="descriptionEn" rows={3} defaultValue={item?.descriptionEn ?? ""} size="m" />
             </div>
@@ -162,7 +148,9 @@ export function ServicesForm({ item }: Props) {
       />
 
       <div className={styles.formRow} style={{ marginTop: 24 }}>
-        <SubmitButton />
+        <Button type="submit" variant="primary" colorStyle="dark" size="m" disabled={isPending}>
+          {isPending ? "Saving…" : "Save"}
+        </Button>
       </div>
     </form>
   );

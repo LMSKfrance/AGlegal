@@ -1,47 +1,30 @@
 "use client";
 
-import { useState } from "react";
-import { useFormStatus } from "react-dom";
+import { useActionState } from "react";
 import { Button, TextField, TextArea } from "@/design-system";
 import { AdminLangTabs } from "../components/AdminLangTabs";
 import type { Page } from "@/lib/db/schema";
-import { createPage, updatePage } from "@/lib/actions/pages";
+import { createPage, updatePage, type PageFormState } from "@/lib/actions/pages";
 import styles from "../admin.module.css";
 
 type Props = {
   item?: Page | null;
 };
 
-function SubmitButton() {
-  const { pending } = useFormStatus();
-  return (
-    <Button type="submit" variant="primary" colorStyle="dark" size="m" disabled={pending}>
-      {pending ? "Saving…" : "Save"}
-    </Button>
-  );
-}
-
 export function PagesForm({ item }: Props) {
-  const [error, setError] = useState<string | null>(null);
   const isEdit = !!item;
+  const action = isEdit && item ? updatePage.bind(null, item.id) : createPage;
+  const [state, formAction, isPending] = useActionState(action, {});
 
-  async function handleAction(formData: FormData) {
-    setError(null);
-    const result = isEdit
-      ? await updatePage(item.id, {}, formData)
-      : await createPage({}, formData);
-    if (result.error) {
-      setError(result.error);
-      return;
-    }
-    if (result.success) {
-      window.location.href = "/admin/pages?toast=success";
-    }
-  }
+  const fieldError = (field: string) => state.fieldErrors?.[field];
+  const renderFieldError = (field: string) => {
+    const error = fieldError(field);
+    return error ? <div style={{ fontSize: 13, color: "var(--error-600)", marginTop: 4 }}>{error}</div> : null;
+  };
 
   return (
-    <form action={handleAction} className={styles.formCard}>
-      {error && <div className={styles.formError} role="alert">{error}</div>}
+    <form action={formAction} className={styles.formCard}>
+      {state.error && <div className={styles.formError} role="alert">{state.error}</div>}
 
       {/* Slug */}
       <div className={styles.formGroup}>
@@ -75,7 +58,10 @@ export function PagesForm({ item }: Props) {
       <AdminLangTabs
         childrenEn={
           <div className={styles.formGroup}>
-            <TextField label="Page title (EN) *" name="titleEn" required defaultValue={item?.titleEn ?? ""} size="m" />
+            <div>
+              <TextField label="Page title (EN) *" name="titleEn" required defaultValue={item?.titleEn ?? ""} size="m" />
+              {renderFieldError("titleEn")}
+            </div>
             <TextArea label="Content (EN, Markdown)" name="contentEn" rows={12} defaultValue={item?.contentEn ?? ""} size="m" />
           </div>
         }
@@ -121,7 +107,9 @@ export function PagesForm({ item }: Props) {
       </div>
 
       <div className={styles.formActions}>
-        <SubmitButton />
+        <Button type="submit" variant="primary" colorStyle="dark" size="m" disabled={isPending}>
+          {isPending ? "Saving…" : "Save"}
+        </Button>
       </div>
     </form>
   );
