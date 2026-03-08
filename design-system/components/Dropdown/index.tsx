@@ -100,7 +100,7 @@ const Dropdown = ({
   return (
     <div
       ref={containerRef}
-      className={cn(styles.wrapper, className)}
+      className={cn("ds-dropdown", styles.wrapper, className)}
       aria-disabled={disabled}
     >
       {label && (

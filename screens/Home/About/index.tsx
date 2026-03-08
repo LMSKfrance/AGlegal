@@ -9,11 +9,13 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import AgOverlaySvg from "./AgOverlaySvg";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useHomeContent } from "../HomeContentContext";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const About = () => {
-  const { locale, t } = useLanguage();
+  const { locale } = useLanguage();
+  const { about } = useHomeContent();
   const container = React.useRef<HTMLDivElement>(null);
   const title = React.useRef<HTMLHeadingElement>(null);
   const description = React.useRef<HTMLParagraphElement>(null);
@@ -28,7 +30,7 @@ const About = () => {
         description.current &&
         mediaRef.current
       ) {
-        const titleText = `${t.ui.about.title}.`;
+        const titleText = `${about.title}.`;
         const chars = titleText
           .split("")
           .map(
@@ -117,13 +119,14 @@ const About = () => {
       <div className={cn("container")}>
         <div className={styles.title_wrapper}>
           <h2 ref={title} className={cn("heading-3", styles.title)}>
-            {t.ui.about.title}<span className={styles.blue}>.</span>
+            {about.title}
+            <span className={styles.blue}>.</span>
           </h2>
           <p
             ref={description}
             className={cn("paragraph-large", styles.description)}
           >
-            {t.ui.about.description}
+            {about.description}
           </p>
         </div>
       </div>
@@ -132,7 +135,7 @@ const About = () => {
       <div ref={mediaRef} className={styles.media_block}>
         <div ref={imageContainerRef} className={styles.media_image}>
           <Image
-            src="/images/ag-legal-video.jpg"
+            src={about.image}
             fill
             sizes="100vw"
             alt="AG Legal – Who we are"

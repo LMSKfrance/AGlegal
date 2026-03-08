@@ -5,6 +5,7 @@ import cn from "classnames";
 import styles from "./services.module.css";
 import Service from "@/components/Service";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useHomeContent } from "../HomeContentContext";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
@@ -12,8 +13,8 @@ import { useGSAP } from "@gsap/react";
 gsap.registerPlugin(ScrollTrigger);
 
 const Services = () => {
-  const { locale, t } = useLanguage();
-  const { services } = t;
+  const { locale } = useLanguage();
+  const { services, servicesHeading } = useHomeContent();
 
   const container = React.useRef<HTMLDivElement>(null);
   const scrollRef = React.useRef<HTMLDivElement>(null);
@@ -24,7 +25,7 @@ const Services = () => {
   useGSAP(
     () => {
       if (container.current && title.current && description.current) {
-        const titleText = `${t.ui.services.title}.`;
+        const titleText = `${servicesHeading.title}.`;
         const chars = titleText
           .split("")
           .map(
@@ -192,13 +193,14 @@ const Services = () => {
       <div className={cn("container", styles.container)}>
         <div className={styles.title_wrapper}>
           <h3 ref={title} className={cn("heading-3", styles.title)}>
-            {t.ui.services.title}<span className={styles.blue}>.</span>
+            {servicesHeading.title}
+            <span className={styles.blue}>.</span>
           </h3>
           <p
             ref={description}
             className={cn("paragraph-large", styles.description)}
           >
-            {t.ui.services.description}
+            {servicesHeading.description}
           </p>
         </div>
 

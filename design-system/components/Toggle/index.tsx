@@ -44,6 +44,7 @@ const Toggle = ({
     <label
       htmlFor={inputId}
       className={cn(
+        "ds-toggle",
         styles.wrapper,
         styles[`size-${size}`],
         isOn && styles.on,

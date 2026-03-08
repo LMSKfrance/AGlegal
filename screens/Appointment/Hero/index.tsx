@@ -8,7 +8,16 @@ import AppointmentForm from "@/components/AppointmentForm";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 
-const Hero = () => {
+type AppointmentPageRecord = {
+  titleEn?: string | null;
+  contentEn?: string | null;
+};
+
+type HeroProps = {
+  page: AppointmentPageRecord | null;
+};
+
+const Hero = ({ page }: HeroProps) => {
   const container = React.useRef<HTMLDivElement>(null);
   const image = React.useRef<HTMLDivElement>(null);
   const form = React.useRef<HTMLDivElement>(null);
@@ -46,6 +55,9 @@ const Hero = () => {
     { scope: container },
   );
 
+  const headingText = page?.titleEn?.trim();
+  const descriptionText = page?.contentEn?.trim();
+
   return (
     <section ref={container} className={cn("section", styles.section)}>
       <div className={cn("container", styles.container)}>
@@ -58,7 +70,17 @@ const Hero = () => {
           />
         </div>
 
-        <div ref={form}>
+        <div ref={form} className={styles.form_wrapper}>
+          {headingText && (
+            <div className={cn("heading-3", styles.title)}>
+              {headingText}
+            </div>
+          )}
+          {descriptionText && (
+            <p className={cn("paragraph-large", styles.description)}>
+              {descriptionText}
+            </p>
+          )}
           <AppointmentForm className={styles.form} />
         </div>
       </div>

@@ -4,12 +4,15 @@ import React from "react";
 import cn from "classnames";
 import styles from "./hero.module.css";
 import Member from "@/components/Member";
-import mock from "@/constants/mock";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import type { TeamMember } from "@/lib/types/team";
 
-const Hero = () => {
-  const { members } = mock;
+type HeroProps = {
+  members: TeamMember[];
+};
+
+const Hero = ({ members }: HeroProps) => {
 
   const container = React.useRef<HTMLDivElement>(null);
   const titleRef = React.useRef<HTMLHeadingElement>(null);

@@ -14,6 +14,7 @@ type ServiceProps = {
     title: string;
     description: string;
     slug: string;
+    learnMoreUrl?: string;
   };
 };
 
@@ -21,7 +22,7 @@ const Service = ({ service }: ServiceProps) => {
   const { t } = useLanguage();
 
   return (
-    <Link href={`/services/${service.slug}`} className={styles.service}>
+    <Link href={service.learnMoreUrl ?? `/services/${service.slug}`} className={styles.service}>
       <div className={styles.service_image}>
         <Image
           src={service.image}

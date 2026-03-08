@@ -8,7 +8,26 @@ import ContactForm from "@/components/ContactForm";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 
-const Hero = () => {
+type ContactSettingsRecord = {
+  titleEn?: string | null;
+  subtitleEn?: string | null;
+  addressEn?: string | null;
+  email?: string | null;
+  phone?: string | null;
+  secondaryPhone?: string | null;
+};
+
+type PageRecord = {
+  titleEn?: string | null;
+  contentEn?: string | null;
+} | null;
+
+type HeroProps = {
+  contact: ContactSettingsRecord | null;
+  page?: PageRecord;
+};
+
+const Hero = ({ contact, page }: HeroProps) => {
   const container = React.useRef<HTMLDivElement>(null);
   const title = React.useRef<HTMLHeadingElement>(null);
   const image = React.useRef<HTMLDivElement>(null);
@@ -151,21 +170,32 @@ const Hero = () => {
     { scope: container },
   );
 
+  const titleText =
+    page?.titleEn?.trim() || contact?.titleEn?.trim() || "Get in Touch";
+  const subtitleText =
+    page?.contentEn?.trim() ||
+    contact?.subtitleEn?.trim() ||
+    "We're here to provide the legal support you need. Reach out today to discuss your case or ask any questions.";
+  const addressText = contact?.addressEn?.trim() || "123 Justice Avenue, Suite 101\nSpringfield, IL 62704";
+  const emailText = contact?.email?.trim() || "info@lawfirm.com";
+  const primaryPhone = contact?.phone?.trim() || "(555) 123-4567";
+  const secondaryPhone = contact?.secondaryPhone?.trim() || "";
+
+  const [addressLine1, addressLine2] = addressText.split("\n");
+
   return (
     <section ref={container} className={cn("section")}>
       <div className={cn("container")}>
         <div className={styles.content}>
           <div className={styles.title_wrapper}>
             <h3 ref={title} className={cn("heading-3", styles.title)}>
-              Get in Touch
+              {titleText}
             </h3>
             <p
               ref={description}
               className={cn("paragraph-x-large", styles.description)}
             >
-              {
-                "We're here to provide the legal support you need. Reach out today to discuss your case or ask any questions."
-              }
+              {subtitleText}
             </p>
           </div>
 
@@ -187,7 +217,7 @@ const Hero = () => {
                 }}
                 className={cn("paragraph-medium", styles.details_text)}
               >
-                123 Justice Avenue, Suite 101
+                {addressLine1}
               </p>
               <p
                 ref={(el) => {
@@ -195,7 +225,7 @@ const Hero = () => {
                 }}
                 className={cn("paragraph-medium", styles.details_text)}
               >
-                Springfield, IL 62704
+                {addressLine2}
               </p>
             </div>
 
@@ -214,7 +244,7 @@ const Hero = () => {
                 }}
                 className={cn("paragraph-medium", styles.details_text)}
               >
-                info@lawfirm.com
+                {emailText}
               </p>
               <p
                 ref={(el) => {
@@ -222,8 +252,13 @@ const Hero = () => {
                 }}
                 className={cn("paragraph-medium", styles.details_text)}
               >
-                (555) 123-4567
+                {primaryPhone}
               </p>
+              {secondaryPhone && (
+                <p className={cn("paragraph-medium", styles.details_text)}>
+                  {secondaryPhone}
+                </p>
+              )}
             </div>
           </div>
         </div>

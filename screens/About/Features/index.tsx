@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useContext } from "react";
 import cn from "classnames";
 import styles from "./features.module.css";
 import icons from "@/constants/icons";
@@ -8,12 +8,16 @@ import mock from "@/constants/mock";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import { AboutContentContext } from "../AboutContentContext";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const TITLE_TEXT = "What set us apart.";
+const DEFAULT_TITLE = "What set us apart.";
 
 const Features = () => {
+  const aboutCtx = useContext(AboutContentContext);
+  const titleText =
+    aboutCtx?.sections?.featuresTitleEn?.trim() || DEFAULT_TITLE;
   const { features } = mock;
 
   const [activeIndex, setActiveIndex] = React.useState(0);
@@ -98,7 +102,7 @@ const Features = () => {
       <div className={cn("container", styles.container)}>
         <div className={styles.title_wrapper}>
           <div ref={title} className={cn("heading-3", styles.title)}>
-            {TITLE_TEXT.split("").map((char, i) => (
+            {titleText.split("").map((char, i) => (
               <span key={i}>{char}</span>
             ))}
           </div>

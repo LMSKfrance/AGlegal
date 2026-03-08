@@ -1,12 +1,13 @@
 "use client";
 
-import React from "react";
+import React, { useContext } from "react";
 import cn from "classnames";
 import styles from "./mission.module.css";
 import Image from "next/image";
 import icons from "@/constants/icons";
 import mock from "@/constants/mock";
 import gsap from "gsap";
+import { AboutContentContext } from "../AboutContentContext";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 
@@ -15,7 +16,16 @@ gsap.registerPlugin(ScrollTrigger);
 const CARD_DURATION = 0.45;
 const CARD_EASE = "power2.out";
 
+const DEFAULT_MISSION_TITLE = "Our mission: Justice for all.";
+const DEFAULT_MISSION_DESCRIPTION =
+  "AG Legal Consulting -  Your Trusted Legal Advisors in Georgia";
+
 const Mission = () => {
+  const aboutCtx = useContext(AboutContentContext);
+  const missionTitle =
+    aboutCtx?.sections?.missionTitleEn?.trim() || DEFAULT_MISSION_TITLE;
+  const missionDescription =
+    aboutCtx?.sections?.missionDescriptionEn?.trim() || DEFAULT_MISSION_DESCRIPTION;
   const { content } = mock;
 
   const [activeTab, setActiveTab] = React.useState(content[0].id);
@@ -161,13 +171,14 @@ const Mission = () => {
       <div className={cn("container")}>
         <div className={styles.title_wrapper}>
           <h3 ref={title} className={cn("heading-3", styles.title)}>
-            Our mission: Justice for all.
+            {missionTitle}
           </h3>
           <p
             ref={description}
             className={cn("paragraph-medium", styles.description)}
           >
-        AG Legal Consulting -  Your Trusted Legal Advisors in Georgia  </p>
+            {missionDescription}
+          </p>
         </div>
 
         <div className={styles.content}>

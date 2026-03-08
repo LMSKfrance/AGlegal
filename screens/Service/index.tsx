@@ -2,17 +2,10 @@ import Layout from "@/components/Layout";
 import CTA from "@/screens/Universal/CTA";
 import Hero from "./Hero";
 
+import type { Service } from "@/lib/types/service";
+
 type ServicePageProps = {
-  service: {
-    id: number;
-    image: string;
-    title: string;
-    text1: string;
-    text2: string;
-    quote: string;
-    thumbnail_image: string;
-    slug: string;
-  };
+  service: Service;
 };
 
 const ServicePage = ({ service }: ServicePageProps) => {

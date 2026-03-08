@@ -61,6 +61,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       variant === "primary" ? `primary-${colorStyle}` : variant;
 
     const classes = cn(
+      "ds-btn",
       styles.btn,
       variantClass[variantKey],
       sizeClass[size],

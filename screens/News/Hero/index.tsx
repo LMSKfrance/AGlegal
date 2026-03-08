@@ -3,8 +3,8 @@ import styles from "./hero.module.css";
 import Articles from "@/components/Articles";
 import { getSortedArticles } from "@/lib/articles";
 
-const Hero = () => {
-  const articles = getSortedArticles();
+const Hero = async () => {
+  const articles = await getSortedArticles();
 
   return (
     <section className={cn("section")}>

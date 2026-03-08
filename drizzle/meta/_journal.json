@@ -8,6 +8,13 @@
       "when": 1772492801722,
       "tag": "0000_typical_scarecrow",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1772577403079,
+      "tag": "0001_condemned_stick",
+      "breakpoints": true
     }
   ]
 }
