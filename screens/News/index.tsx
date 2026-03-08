@@ -1,11 +1,14 @@
 import Layout from "@/components/Layout";
-import Hero from "./Hero";
+import NewsListing from "./NewsListing";
 import CTA from "../Universal/CTA";
+import { getSortedArticles } from "@/lib/articles";
 
-const NewsPage = () => {
+const NewsPage = async () => {
+  const articles = await getSortedArticles();
+
   return (
     <Layout>
-      <Hero />
+      <NewsListing articles={articles} />
       <CTA />
     </Layout>
   );

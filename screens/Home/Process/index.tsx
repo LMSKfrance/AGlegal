@@ -6,6 +6,7 @@ import styles from "./process.module.css";
 import Image from "next/image";
 import Tabs from "@/components/Tabs";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useHomeContent } from "../HomeContentContext";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
@@ -45,13 +46,25 @@ const ProcessSlide = ({ content }: { content: TabContent }) => (
 );
 
 const Process = () => {
-  const { locale, t } = useLanguage();
-  const { tabs } = t;
+  const { locale } = useLanguage();
+  const { tabs, processHeading } = useHomeContent();
 
-  const [activeTab, setActiveTab] = React.useState(1);
-  const [displayTab, setDisplayTab] = React.useState(1);
+  const firstTabId = tabs[0]?.id ?? 0;
+  const [activeTab, setActiveTab] = React.useState(firstTabId);
+  const [displayTab, setDisplayTab] = React.useState(firstTabId);
   const [prevDisplayTab, setPrevDisplayTab] = React.useState<number | null>(null);
   const isAnimating = React.useRef(false);
+
+  // Sync to first tab when tabs list changes (e.g. data load)
+  const tabIdsKey = React.useMemo(
+    () => tabs.map((t) => t.id).join(","),
+    [tabs],
+  );
+  React.useEffect(() => {
+    const id = tabs[0]?.id ?? 0;
+    setActiveTab(id);
+    setDisplayTab(id);
+  }, [tabIdsKey, tabs]);
 
   const content = tabs.find((tab) => tab.id === displayTab)?.content;
   const prevContent = prevDisplayTab
@@ -84,16 +97,17 @@ const Process = () => {
 
       const deltaX = clientX - start.x;
       const threshold = 50;
+      const idx = tabs.findIndex((t) => t.id === displayTab);
 
-      if (deltaX < -threshold) {
-        const nextId = Math.min(displayTab + 1, tabs.length);
-        if (nextId !== displayTab) setActiveTab(nextId);
-      } else if (deltaX > threshold) {
-        const prevId = Math.max(displayTab - 1, 1);
-        if (prevId !== displayTab) setActiveTab(prevId);
+      if (deltaX < -threshold && idx >= 0) {
+        const nextTab = tabs[idx + 1];
+        if (nextTab && nextTab.id !== displayTab) setActiveTab(nextTab.id);
+      } else if (deltaX > threshold && idx >= 0) {
+        const prevTab = tabs[idx - 1];
+        if (prevTab && prevTab.id !== displayTab) setActiveTab(prevTab.id);
       }
     },
-    [displayTab, tabs.length],
+    [displayTab, tabs],
   );
 
   React.useEffect(() => {
@@ -128,7 +142,7 @@ const Process = () => {
   useGSAP(
     () => {
       if (container.current && title.current && description.current) {
-        const titleText = `${t.ui.process.title}.`;
+        const titleText = `${processHeading.title}.`;
         const chars = titleText
           .split("")
           .map(
@@ -272,13 +286,14 @@ const Process = () => {
       <div className={cn("container", styles.container)}>
         <div className={styles.title_wrapper}>
           <h3 ref={title} className={cn("heading-3", styles.title)}>
-            {t.ui.process.title}<span className={styles.blue}>.</span>
+            {processHeading.title}
+            <span className={styles.blue}>.</span>
           </h3>
           <p
             ref={description}
             className={cn("paragraph-large", styles.description)}
           >
-            {t.ui.process.description}
+            {processHeading.description}
           </p>
         </div>
 

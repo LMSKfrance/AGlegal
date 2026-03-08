@@ -69,6 +69,7 @@ export const Checkbox = ({
     <label
       htmlFor={inputId}
       className={cn(
+        "ds-checkbox",
         styles.wrapper,
         styles.checkbox,
         styles[`size-${size}`],
@@ -138,6 +139,7 @@ export const Radio = ({
     <label
       htmlFor={inputId}
       className={cn(
+        "ds-radio",
         styles.wrapper,
         styles.radio,
         styles[`size-${size}`],

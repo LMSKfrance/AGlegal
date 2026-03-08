@@ -1,11 +1,10 @@
-import fs from "fs";
-import matter from "gray-matter";
-import path from "path";
+import { db } from "@/lib/db";
+import { articles } from "@/lib/db/schema";
+import { eq, desc } from "drizzle-orm";
+import { pick, type Locale } from "@/lib/db/locale";
 import moment from "moment";
-import { remark } from "remark";
-import html from "remark-html";
 
-type Article = {
+export type Article = {
   id: string;
   image?: string;
   title: string;
@@ -13,64 +12,42 @@ type Article = {
   date: string;
   time?: string;
   tags: string[];
+  type?: "main" | "side";
 };
 
-const articlesDirectory = path.join(process.cwd(), "articles");
-
-export const getSortedArticles = (): Article[] => {
-  const fileNames = fs.readdirSync(articlesDirectory);
-
-  const allArticlesData = fileNames.map((fileName) => {
-    const id = fileName.replace(/\.md$/, "");
-    const fullPath = path.join(articlesDirectory, fileName);
-    const fileContents = fs.readFileSync(fullPath, "utf-8");
-
-    const matterResult = matter(fileContents);
-
-    return {
-      id,
-      image: matterResult.data.image,
-      title: matterResult.data.title,
-      description: matterResult.data.description,
-      date: moment(matterResult.data.date, "YYYY-MM-DD").format("MMM D, YYYY"),
-      time: matterResult.data.time,
-      tags: matterResult.data.tags,
-      type: matterResult.data.type,
-    };
-  });
-
-  return allArticlesData.sort((a, b) => {
-    const format = "MMM D, YYYY";
-    const dateA = moment(a.date, format);
-    const dateB = moment(b.date, format);
-    if (dateA.isBefore(dateB)) {
-      return -1;
-    } else if (dateB.isAfter(dateA)) {
-      return 1;
-    } else {
-      return 0;
-    }
-  });
+export const getSortedArticles = async (locale: Locale = "en"): Promise<Article[]> => {
+  const rows = await db.select().from(articles).orderBy(desc(articles.date));
+  return rows.map((row) => mapRow(row, locale));
 };
 
-export const getArticleData = async (id: string) => {
-  const fullPath = path.join(articlesDirectory, `${id}.md`);
-  const fileContents = fs.readFileSync(fullPath, "utf-8");
-  const matterResult = matter(fileContents);
-
-  const processedContent = await remark()
-    .use(html)
-    .process(matterResult.content);
-
-  const contentHtml = processedContent.toString();
+export const getArticleData = async (id: string, locale: Locale = "en") => {
+  const rows = await db.select().from(articles).where(eq(articles.slug, id));
+  const row = rows[0];
+  if (!row) throw new Error(`Article not found: ${id}`);
 
   return {
-    id,
-    contentHtml,
-    image: matterResult.data.image,
-    title: matterResult.data.title,
-    description: matterResult.data.description,
-    date: moment(matterResult.data.date, "YYYY-MM-DD").format("MMM D, YYYY"),
-    time: matterResult.data.time,
+    id: row.slug,
+    contentHtml: pick(locale, row.contentEn, row.contentKa) ?? "",
+    image: row.image,
+    title: pick(locale, row.titleEn, row.titleKa),
+    description: pick(locale, row.descriptionEn, row.descriptionKa) ?? "",
+    date: moment(row.date, "YYYY-MM-DD").format("MMM D, YYYY"),
+    time: row.time,
   };
 };
+
+function mapRow(
+  row: typeof articles.$inferSelect,
+  locale: Locale
+): Article {
+  return {
+    id: row.slug,
+    image: row.image ?? undefined,
+    title: pick(locale, row.titleEn, row.titleKa),
+    description: pick(locale, row.descriptionEn, row.descriptionKa) ?? "",
+    date: moment(row.date, "YYYY-MM-DD").format("MMM D, YYYY"),
+    time: row.time ?? undefined,
+    tags: row.tags ?? [],
+    type: row.type as Article["type"],
+  };
+}

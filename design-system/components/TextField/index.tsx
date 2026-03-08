@@ -27,6 +27,11 @@ export type TextFieldProps = {
   className?: string;
   required?: boolean;
   autoComplete?: string;
+  min?: string | number;
+  max?: string | number;
+  step?: string | number;
+  disabled?: boolean;
+  [key: string]: any;
 };
 
 const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
@@ -50,6 +55,11 @@ const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
       className,
       required,
       autoComplete,
+      min,
+      max,
+      step,
+      disabled: disabledProp,
+      ...rest
     },
     ref
   ) => {
@@ -60,6 +70,7 @@ const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
     return (
       <div
         className={cn(
+          "ds-textfield",
           styles.wrapper,
           styles[`size-${size}`],
           variant === "secondary" && styles.secondary,
@@ -93,16 +104,20 @@ const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
             name={name}
             type={type}
             placeholder={placeholder}
-            disabled={isDisabled}
+            disabled={isDisabled || disabledProp}
             value={value}
             defaultValue={defaultValue}
             onChange={onChange}
             onBlur={onBlur}
             required={required}
             autoComplete={autoComplete}
+            min={min}
+            max={max}
+            step={step}
             aria-invalid={isError}
             aria-describedby={hint ? `${inputId}-hint` : undefined}
             className={styles.input}
+            {...rest}
           />
 
           {rightIcon && (

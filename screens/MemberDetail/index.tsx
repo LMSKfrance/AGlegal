@@ -1,28 +1,11 @@
 import Layout from "@/components/Layout";
 import CTA from "@/screens/Universal/CTA";
 import Hero from "./Hero";
-
-type MemberType = {
-  id: number;
-  slug: string;
-  title: string;
-  position: string;
-  description: string;
-  quote: string;
-  text1: string;
-  text2: string;
-  image: string;
-  socials: {
-    id: number;
-    name: string;
-    icon: React.ReactNode;
-    link: string;
-  }[];
-};
+import type { TeamMember } from "@/lib/types/team";
 
 type MemberDetailPageProps = {
-  member: MemberType;
-  otherMembers: MemberType[];
+  member: TeamMember;
+  otherMembers: TeamMember[];
 };
 
 const MemberDetailPage = ({ member, otherMembers }: MemberDetailPageProps) => {

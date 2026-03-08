@@ -5,15 +5,19 @@ import cn from "classnames";
 import styles from "./benefits.module.css";
 import Benefit from "@/components/Benefit";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useHomeContent } from "../HomeContentContext";
+import icons from "@/constants/icons";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 
 gsap.registerPlugin(ScrollTrigger);
 
+const DEFAULT_BENEFIT_ICONS = [icons.Shield, icons.Star, icons.Speaker, icons.Cup];
+
 const Benefits = () => {
-  const { locale, t } = useLanguage();
-  const { benefits } = t;
+  const { locale } = useLanguage();
+  const { benefits, benefitsHeading } = useHomeContent();
 
   const container = React.useRef<HTMLDivElement>(null);
   const title = React.useRef<HTMLHeadingElement>(null);
@@ -22,7 +26,7 @@ const Benefits = () => {
   useGSAP(
     () => {
       if (container.current && title.current) {
-        const titleText = t.ui.benefits.title;
+        const titleText = benefitsHeading.title;
         const chars = titleText
           .split("")
           .map((char) => `<span>${char}</span>`)
@@ -78,7 +82,7 @@ const Benefits = () => {
     <div ref={container} className={cn("section")}>
       <div className={cn("container")}>
         <div ref={title} className={cn("heading-3", styles.title)}>
-          {t.ui.benefits.title}
+          {benefitsHeading.title}
         </div>
 
         <div className={styles.benefits}>
@@ -90,7 +94,12 @@ const Benefits = () => {
               }}
               className={styles.benefit}
             >
-              <Benefit key={benefit.id} benefit={benefit} />
+              <Benefit
+                benefit={{
+                  ...benefit,
+                  icon: benefit.iconPath ? undefined : DEFAULT_BENEFIT_ICONS[index % DEFAULT_BENEFIT_ICONS.length],
+                }}
+              />
             </div>
           ))}
         </div>

@@ -6,17 +6,24 @@ import Team from "../Universal/Team";
 import Features from "./Features";
 import FAQ from "../Universal/FAQ";
 import Philosophy from "./Philosophy";
+import { getAboutContent } from "@/lib/about";
+import { AboutContentProvider } from "./AboutContentContext";
 
-const AboutPage = () => {
+const AboutPage = async () => {
+  const { page, sections, teamMembers } = await getAboutContent("en");
+  const v = sections.sectionVisibility;
+
   return (
     <Layout>
-      <Hero />
-      <Numbers />
-      <Mission />
-      <Team />
-      <Features />
-      <Philosophy />
-      <FAQ />
+      <AboutContentProvider value={{ page, sections, teamMembers }}>
+        {v.hero && <Hero page={page} />}
+        {v.numbers && <Numbers />}
+        {v.mission && <Mission />}
+        {v.team && <Team members={teamMembers} />}
+        {v.features && <Features />}
+        {v.philosophy && <Philosophy />}
+        {v.faq && <FAQ />}
+      </AboutContentProvider>
     </Layout>
   );
 };
