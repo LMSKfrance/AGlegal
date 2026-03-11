@@ -10,12 +10,22 @@ import { slugify } from "@/lib/utils/slug";
 export type ServiceFormState = { success?: boolean; error?: string; fieldErrors?: Record<string, string> };
 
 export async function getServicesList() {
-  return db.select().from(services).orderBy(asc(services.sortOrder), asc(services.id));
+  try {
+    return await db.select().from(services).orderBy(asc(services.sortOrder), asc(services.id));
+  } catch (err) {
+    console.error("[getServicesList]", err);
+    return [];
+  }
 }
 
 export async function getServiceById(id: number) {
-  const rows = await db.select().from(services).where(eq(services.id, id));
-  return rows[0] ?? null;
+  try {
+    const rows = await db.select().from(services).where(eq(services.id, id));
+    return rows[0] ?? null;
+  } catch (err) {
+    console.error("[getServiceById]", err);
+    return null;
+  }
 }
 
 export async function createService(prev: ServiceFormState, formData: FormData): Promise<ServiceFormState> {
