@@ -107,53 +107,58 @@ export async function upsertHomeHeroSettings(
   prev: HomeFormState,
   formData: FormData,
 ): Promise<HomeFormState> {
-  const rawBrandEn = (formData.get("brandEn") as string | null) ?? "";
-  const rawBrandKa = (formData.get("brandKa") as string | null) ?? "";
-  const rawTitleEn = (formData.get("titleEn") as string | null) ?? "";
-  const rawTitleKa = (formData.get("titleKa") as string | null) ?? "";
-  const rawCtaEn = (formData.get("ctaEn") as string | null) ?? "";
-  const rawCtaKa = (formData.get("ctaKa") as string | null) ?? "";
-  const rawDescEn = (formData.get("descriptionEn") as string | null) ?? "";
-  const rawDescKa = (formData.get("descriptionKa") as string | null) ?? "";
+  try {
+    const rawBrandEn = (formData.get("brandEn") as string | null) ?? "";
+    const rawBrandKa = (formData.get("brandKa") as string | null) ?? "";
+    const rawTitleEn = (formData.get("titleEn") as string | null) ?? "";
+    const rawTitleKa = (formData.get("titleKa") as string | null) ?? "";
+    const rawCtaEn = (formData.get("ctaEn") as string | null) ?? "";
+    const rawCtaKa = (formData.get("ctaKa") as string | null) ?? "";
+    const rawDescEn = (formData.get("descriptionEn") as string | null) ?? "";
+    const rawDescKa = (formData.get("descriptionKa") as string | null) ?? "";
 
-  if (!rawTitleEn.trim()) {
-    return { error: "Hero title (EN) is required." };
-  }
-
-  const brandEn = truncateChars(rawBrandEn, 40);
-  const brandKa = truncateChars(rawBrandKa, 40);
-  const titleEn = truncateChars(rawTitleEn, 80);
-  const titleKa = truncateChars(rawTitleKa, 80);
-  const ctaEn = truncateChars(rawCtaEn, 24);
-  const ctaKa = truncateChars(rawCtaKa, 24);
-  const descriptionEn = truncateChars(rawDescEn, 180);
-  const descriptionKa = truncateChars(rawDescKa, 180);
-
-  let imagePath: string | null = null;
-  const file = formData.get("heroImage");
-  if (file && file instanceof File && file.size > 0) {
-    const fd = new FormData();
-    fd.append("image", file);
-    const { uploadImage } = await import("@/lib/actions/upload");
-    const result = await uploadImage(fd);
-    if (!result.success) {
-      return { error: result.error };
+    if (!rawTitleEn.trim()) {
+      return { error: "Hero title (EN) is required." };
     }
-    imagePath = result.path;
+
+    const brandEn = truncateChars(rawBrandEn, 40);
+    const brandKa = truncateChars(rawBrandKa, 40);
+    const titleEn = truncateChars(rawTitleEn, 80);
+    const titleKa = truncateChars(rawTitleKa, 80);
+    const ctaEn = truncateChars(rawCtaEn, 24);
+    const ctaKa = truncateChars(rawCtaKa, 24);
+    const descriptionEn = truncateChars(rawDescEn, 180);
+    const descriptionKa = truncateChars(rawDescKa, 180);
+
+    let imagePath: string | null = null;
+    const file = formData.get("heroImage");
+    if (file && file instanceof File && file.size > 0) {
+      const fd = new FormData();
+      fd.append("image", file);
+      const { uploadImage } = await import("@/lib/actions/upload");
+      const result = await uploadImage(fd);
+      if (!result.success) {
+        return { error: result.error };
+      }
+      imagePath = result.path;
+    }
+
+    await upsertSetting("home_hero_brand", "home_hero", brandEn, brandKa);
+    await upsertSetting("home_hero_title", "home_hero", titleEn, titleKa);
+    await upsertSetting("home_hero_cta", "home_hero", ctaEn, ctaKa);
+    await upsertSetting("home_hero_description", "home_hero", descriptionEn, descriptionKa);
+
+    if (imagePath) {
+      await upsertSetting("home_hero_image", "home_hero", imagePath, imagePath);
+    }
+
+    revalidatePath("/");
+    revalidatePath("/admin/home");
+    return { success: true };
+  } catch (err) {
+    console.error("[upsertHomeHeroSettings]", err);
+    return { error: "Failed to save. Please try again." };
   }
-
-  await upsertSetting("home_hero_brand", "home_hero", brandEn, brandKa);
-  await upsertSetting("home_hero_title", "home_hero", titleEn, titleKa);
-  await upsertSetting("home_hero_cta", "home_hero", ctaEn, ctaKa);
-  await upsertSetting("home_hero_description", "home_hero", descriptionEn, descriptionKa);
-
-  if (imagePath) {
-    await upsertSetting("home_hero_image", "home_hero", imagePath, imagePath);
-  }
-
-  revalidatePath("/");
-  revalidatePath("/admin/home");
-  return { success: true };
 }
 
 // ─── Who We Are Section ───────────────────────────────────────────────────────
@@ -186,43 +191,48 @@ export async function upsertHomeAboutSettings(
   prev: HomeFormState,
   formData: FormData,
 ): Promise<HomeFormState> {
-  const rawTitleEn = (formData.get("titleEn") as string | null) ?? "";
-  const rawTitleKa = (formData.get("titleKa") as string | null) ?? "";
-  const rawDescEn = (formData.get("descriptionEn") as string | null) ?? "";
-  const rawDescKa = (formData.get("descriptionKa") as string | null) ?? "";
+  try {
+    const rawTitleEn = (formData.get("titleEn") as string | null) ?? "";
+    const rawTitleKa = (formData.get("titleKa") as string | null) ?? "";
+    const rawDescEn = (formData.get("descriptionEn") as string | null) ?? "";
+    const rawDescKa = (formData.get("descriptionKa") as string | null) ?? "";
 
-  if (!rawTitleEn.trim()) {
-    return { error: "About title (EN) is required." };
-  }
-
-  const titleEn = truncateChars(rawTitleEn, 60);
-  const titleKa = truncateChars(rawTitleKa, 60);
-  const descriptionEn = truncateChars(rawDescEn, 260);
-  const descriptionKa = truncateChars(rawDescKa, 260);
-
-  let imagePath: string | null = null;
-  const file = formData.get("aboutImage");
-  if (file && file instanceof File && file.size > 0) {
-    const fd = new FormData();
-    fd.append("image", file);
-    const { uploadImage } = await import("@/lib/actions/upload");
-    const result = await uploadImage(fd);
-    if (!result.success) {
-      return { error: result.error };
+    if (!rawTitleEn.trim()) {
+      return { error: "About title (EN) is required." };
     }
-    imagePath = result.path;
+
+    const titleEn = truncateChars(rawTitleEn, 60);
+    const titleKa = truncateChars(rawTitleKa, 60);
+    const descriptionEn = truncateChars(rawDescEn, 260);
+    const descriptionKa = truncateChars(rawDescKa, 260);
+
+    let imagePath: string | null = null;
+    const file = formData.get("aboutImage");
+    if (file && file instanceof File && file.size > 0) {
+      const fd = new FormData();
+      fd.append("image", file);
+      const { uploadImage } = await import("@/lib/actions/upload");
+      const result = await uploadImage(fd);
+      if (!result.success) {
+        return { error: result.error };
+      }
+      imagePath = result.path;
+    }
+
+    await upsertSetting("home_about_title", "home_about", titleEn, titleKa);
+    await upsertSetting("home_about_description", "home_about", descriptionEn, descriptionKa);
+
+    if (imagePath) {
+      await upsertSetting("home_about_image", "home_about", imagePath, imagePath);
+    }
+
+    revalidatePath("/");
+    revalidatePath("/admin/home");
+    return { success: true };
+  } catch (err) {
+    console.error("[upsertHomeAboutSettings]", err);
+    return { error: "Failed to save. Please try again." };
   }
-
-  await upsertSetting("home_about_title", "home_about", titleEn, titleKa);
-  await upsertSetting("home_about_description", "home_about", descriptionEn, descriptionKa);
-
-  if (imagePath) {
-    await upsertSetting("home_about_image", "home_about", imagePath, imagePath);
-  }
-
-  revalidatePath("/");
-  revalidatePath("/admin/home");
-  return { success: true };
 }
 
 // ─── Section Headings (Services, Benefits, Process) ─────────────────────────────
@@ -271,27 +281,32 @@ export async function upsertHomeSectionHeadingsSettings(
   prev: HomeFormState,
   formData: FormData,
 ): Promise<HomeFormState> {
-  const getStr = (name: string) => (formData.get(name) as string | null) ?? "";
+  try {
+    const getStr = (name: string) => (formData.get(name) as string | null) ?? "";
 
-  await upsertSetting("services.title", "services", getStr("servicesTitleEn"), getStr("servicesTitleKa"));
-  await upsertSetting(
-    "services.description",
-    "services",
-    getStr("servicesDescriptionEn"),
-    getStr("servicesDescriptionKa"),
-  );
-  await upsertSetting("benefits.title", "benefits", getStr("benefitsTitleEn"), getStr("benefitsTitleKa"));
-  await upsertSetting("process.title", "process", getStr("processTitleEn"), getStr("processTitleKa"));
-  await upsertSetting(
-    "process.description",
-    "process",
-    getStr("processDescriptionEn"),
-    getStr("processDescriptionKa"),
-  );
+    await upsertSetting("services.title", "services", getStr("servicesTitleEn"), getStr("servicesTitleKa"));
+    await upsertSetting(
+      "services.description",
+      "services",
+      getStr("servicesDescriptionEn"),
+      getStr("servicesDescriptionKa"),
+    );
+    await upsertSetting("benefits.title", "benefits", getStr("benefitsTitleEn"), getStr("benefitsTitleKa"));
+    await upsertSetting("process.title", "process", getStr("processTitleEn"), getStr("processTitleKa"));
+    await upsertSetting(
+      "process.description",
+      "process",
+      getStr("processDescriptionEn"),
+      getStr("processDescriptionKa"),
+    );
 
-  revalidatePath("/");
-  revalidatePath("/admin/home");
-  return { success: true };
+    revalidatePath("/");
+    revalidatePath("/admin/home");
+    return { success: true };
+  } catch (err) {
+    console.error("[upsertHomeSectionHeadingsSettings]", err);
+    return { error: "Failed to save. Please try again." };
+  }
 }
 
 // ─── Benefits Section (Why work with us) ──────────────────────────────────────
@@ -305,83 +320,92 @@ export async function upsertHomeBenefit(
   prev: HomeFormState,
   formData: FormData,
 ): Promise<HomeFormState> {
-  const rawTitleEn = (formData.get("titleEn") as string | null) ?? "";
-  const rawTitleKa = (formData.get("titleKa") as string | null) ?? "";
-  const rawDescEn = (formData.get("descriptionEn") as string | null) ?? "";
-  const rawDescKa = (formData.get("descriptionKa") as string | null) ?? "";
+  try {
+    const rawTitleEn = (formData.get("titleEn") as string | null) ?? "";
+    const rawTitleKa = (formData.get("titleKa") as string | null) ?? "";
+    const rawDescEn = (formData.get("descriptionEn") as string | null) ?? "";
+    const rawDescKa = (formData.get("descriptionKa") as string | null) ?? "";
 
-  if (!rawTitleEn.trim()) {
-    return { error: "Benefit title (EN) is required." };
-  }
-
-  const titleEn = truncateChars(rawTitleEn, 60);
-  const titleKa = truncateChars(rawTitleKa, 60);
-  const descriptionEn = truncateChars(rawDescEn, 220);
-  const descriptionKa = truncateChars(rawDescKa, 220);
-
-  let iconPath: string | null = null;
-  const file = formData.get("icon");
-  if (file && file instanceof File && file.size > 0) {
-    const fd = new FormData();
-    fd.append("image", file);
-    const { uploadImage } = await import("@/lib/actions/upload");
-    const result = await uploadImage(fd);
-    if (!result.success) {
-      return { error: result.error };
+    if (!rawTitleEn.trim()) {
+      return { error: "Benefit title (EN) is required." };
     }
-    iconPath = result.path;
-  }
 
-  const now = new Date().toISOString();
+    const titleEn = truncateChars(rawTitleEn, 60);
+    const titleKa = truncateChars(rawTitleKa, 60);
+    const descriptionEn = truncateChars(rawDescEn, 220);
+    const descriptionKa = truncateChars(rawDescKa, 220);
 
-  if (id) {
-    const existing = await db
-      .select()
-      .from(homeBenefits)
-      .where(eq(homeBenefits.id, id));
-    if (!existing.length) return { error: "Benefit not found." };
+    let iconPath: string | null = null;
+    const file = formData.get("icon");
+    if (file && file instanceof File && file.size > 0) {
+      const fd = new FormData();
+      fd.append("image", file);
+      const { uploadImage } = await import("@/lib/actions/upload");
+      const result = await uploadImage(fd);
+      if (!result.success) {
+        return { error: result.error };
+      }
+      iconPath = result.path;
+    }
 
-    await db
-      .update(homeBenefits)
-      .set({
+    const now = new Date().toISOString();
+
+    if (id) {
+      const existing = await db
+        .select()
+        .from(homeBenefits)
+        .where(eq(homeBenefits.id, id));
+      if (!existing.length) return { error: "Benefit not found." };
+
+      await db
+        .update(homeBenefits)
+        .set({
+          titleEn,
+          titleKa: titleKa || null,
+          descriptionEn: descriptionEn || null,
+          descriptionKa: descriptionKa || null,
+          iconPath: iconPath ?? existing[0].iconPath,
+          updatedAt: now,
+        })
+        .where(eq(homeBenefits.id, id));
+    } else {
+      const countRows = await db
+        .select({ id: homeBenefits.id })
+        .from(homeBenefits)
+        .orderBy(asc(homeBenefits.sortOrder));
+      if (countRows.length >= 4) {
+        return { error: "You can only have up to 4 benefits on the homepage." };
+      }
+
+      await db.insert(homeBenefits).values({
         titleEn,
         titleKa: titleKa || null,
         descriptionEn: descriptionEn || null,
         descriptionKa: descriptionKa || null,
-        iconPath: iconPath ?? existing[0].iconPath,
+        iconPath: iconPath ?? null,
+        sortOrder: countRows.length,
+        createdAt: now,
         updatedAt: now,
-      })
-      .where(eq(homeBenefits.id, id));
-  } else {
-    const countRows = await db
-      .select({ id: homeBenefits.id })
-      .from(homeBenefits)
-      .orderBy(asc(homeBenefits.sortOrder));
-    if (countRows.length >= 4) {
-      return { error: "You can only have up to 4 benefits on the homepage." };
+      });
     }
 
-    await db.insert(homeBenefits).values({
-      titleEn,
-      titleKa: titleKa || null,
-      descriptionEn: descriptionEn || null,
-      descriptionKa: descriptionKa || null,
-      iconPath: iconPath ?? null,
-      sortOrder: countRows.length,
-      createdAt: now,
-      updatedAt: now,
-    });
+    revalidatePath("/");
+    revalidatePath("/admin/home");
+    return { success: true };
+  } catch (err) {
+    console.error("[upsertHomeBenefit]", err);
+    return { error: "Failed to save. Please try again." };
   }
-
-  revalidatePath("/");
-  revalidatePath("/admin/home");
-  return { success: true };
 }
 
 export async function deleteHomeBenefit(id: number): Promise<void> {
-  await db.delete(homeBenefits).where(eq(homeBenefits.id, id));
-  revalidatePath("/");
-  revalidatePath("/admin/home");
+  try {
+    await db.delete(homeBenefits).where(eq(homeBenefits.id, id));
+    revalidatePath("/");
+    revalidatePath("/admin/home");
+  } catch (err) {
+    console.error("[deleteHomeBenefit]", err);
+  }
 }
 
 // ─── Process Steps Section ────────────────────────────────────────────────────
@@ -398,95 +422,104 @@ export async function upsertHomeProcessStep(
   prev: HomeFormState,
   formData: FormData,
 ): Promise<HomeFormState> {
-  const rawTabTitleEn = (formData.get("tabTitleEn") as string | null) ?? "";
-  const rawTabTitleKa = (formData.get("tabTitleKa") as string | null) ?? "";
-  const rawTitleEn = (formData.get("titleEn") as string | null) ?? "";
-  const rawTitleKa = (formData.get("titleKa") as string | null) ?? "";
-  const rawDescEn = (formData.get("descriptionEn") as string | null) ?? "";
-  const rawDescKa = (formData.get("descriptionKa") as string | null) ?? "";
+  try {
+    const rawTabTitleEn = (formData.get("tabTitleEn") as string | null) ?? "";
+    const rawTabTitleKa = (formData.get("tabTitleKa") as string | null) ?? "";
+    const rawTitleEn = (formData.get("titleEn") as string | null) ?? "";
+    const rawTitleKa = (formData.get("titleKa") as string | null) ?? "";
+    const rawDescEn = (formData.get("descriptionEn") as string | null) ?? "";
+    const rawDescKa = (formData.get("descriptionKa") as string | null) ?? "";
 
-  if (!rawTabTitleEn.trim() || !rawTitleEn.trim()) {
-    return { error: "Tab title (EN) and step title (EN) are required." };
-  }
-
-  const tabTitleEn = oneWord(truncateChars(rawTabTitleEn, 20));
-  const tabTitleKa = oneWord(truncateChars(rawTabTitleKa, 20));
-  const titleEn = truncateChars(rawTitleEn, 80);
-  const titleKa = truncateChars(rawTitleKa, 80);
-  const descriptionEn = truncateChars(rawDescEn, 260);
-  const descriptionKa = truncateChars(rawDescKa, 260);
-
-  let imagePath: string | null = null;
-  const file = formData.get("image");
-  if (file && file instanceof File && file.size > 0) {
-    const fd = new FormData();
-    fd.append("image", file);
-    const { uploadImage } = await import("@/lib/actions/upload");
-    const result = await uploadImage(fd);
-    if (!result.success) {
-      return { error: result.error };
+    if (!rawTabTitleEn.trim() || !rawTitleEn.trim()) {
+      return { error: "Tab title (EN) and step title (EN) are required." };
     }
-    imagePath = result.path;
-  }
 
-  const now = new Date().toISOString();
+    const tabTitleEn = oneWord(truncateChars(rawTabTitleEn, 20));
+    const tabTitleKa = oneWord(truncateChars(rawTabTitleKa, 20));
+    const titleEn = truncateChars(rawTitleEn, 80);
+    const titleKa = truncateChars(rawTitleKa, 80);
+    const descriptionEn = truncateChars(rawDescEn, 260);
+    const descriptionKa = truncateChars(rawDescKa, 260);
 
-  if (id) {
-    const existing = await db
-      .select()
-      .from(homeProcessSteps)
-      .where(eq(homeProcessSteps.id, id));
-    if (!existing.length) return { error: "Process step not found." };
+    let imagePath: string | null = null;
+    const file = formData.get("image");
+    if (file && file instanceof File && file.size > 0) {
+      const fd = new FormData();
+      fd.append("image", file);
+      const { uploadImage } = await import("@/lib/actions/upload");
+      const result = await uploadImage(fd);
+      if (!result.success) {
+        return { error: result.error };
+      }
+      imagePath = result.path;
+    }
 
-    await db
-      .update(homeProcessSteps)
-      .set({
+    const now = new Date().toISOString();
+
+    if (id) {
+      const existing = await db
+        .select()
+        .from(homeProcessSteps)
+        .where(eq(homeProcessSteps.id, id));
+      if (!existing.length) return { error: "Process step not found." };
+
+      await db
+        .update(homeProcessSteps)
+        .set({
+          tabTitleEn,
+          tabTitleKa: tabTitleKa || null,
+          titleEn,
+          titleKa: titleKa || null,
+          descriptionEn: descriptionEn || null,
+          descriptionKa: descriptionKa || null,
+          image: imagePath ?? existing[0].image,
+          stepNumber: existing[0].stepNumber,
+          updatedAt: now,
+        })
+        .where(eq(homeProcessSteps.id, id));
+    } else {
+      const rows = await db
+        .select()
+        .from(homeProcessSteps)
+        .orderBy(asc(homeProcessSteps.sortOrder), asc(homeProcessSteps.id));
+      if (rows.length >= 4) {
+        return { error: "You can only have up to 4 process steps on the homepage." };
+      }
+
+      const stepNumber = String(rows.length + 1).padStart(2, "0");
+
+      await db.insert(homeProcessSteps).values({
         tabTitleEn,
         tabTitleKa: tabTitleKa || null,
         titleEn,
         titleKa: titleKa || null,
         descriptionEn: descriptionEn || null,
         descriptionKa: descriptionKa || null,
-        image: imagePath ?? existing[0].image,
-        stepNumber: existing[0].stepNumber,
+        image: imagePath ?? null,
+        stepNumber,
+        sortOrder: rows.length,
+        createdAt: now,
         updatedAt: now,
-      })
-      .where(eq(homeProcessSteps.id, id));
-  } else {
-    const rows = await db
-      .select()
-      .from(homeProcessSteps)
-      .orderBy(asc(homeProcessSteps.sortOrder), asc(homeProcessSteps.id));
-    if (rows.length >= 4) {
-      return { error: "You can only have up to 4 process steps on the homepage." };
+      });
     }
 
-    const stepNumber = String(rows.length + 1).padStart(2, "0");
-
-    await db.insert(homeProcessSteps).values({
-      tabTitleEn,
-      tabTitleKa: tabTitleKa || null,
-      titleEn,
-      titleKa: titleKa || null,
-      descriptionEn: descriptionEn || null,
-      descriptionKa: descriptionKa || null,
-      image: imagePath ?? null,
-      stepNumber,
-      sortOrder: rows.length,
-      createdAt: now,
-      updatedAt: now,
-    });
+    revalidatePath("/");
+    revalidatePath("/admin/home");
+    return { success: true };
+  } catch (err) {
+    console.error("[upsertHomeProcessStep]", err);
+    return { error: "Failed to save. Please try again." };
   }
-
-  revalidatePath("/");
-  revalidatePath("/admin/home");
-  return { success: true };
 }
 
 export async function deleteHomeProcessStep(id: number): Promise<void> {
-  await db.delete(homeProcessSteps).where(eq(homeProcessSteps.id, id));
-  revalidatePath("/");
-  revalidatePath("/admin/home");
+  try {
+    await db.delete(homeProcessSteps).where(eq(homeProcessSteps.id, id));
+    revalidatePath("/");
+    revalidatePath("/admin/home");
+  } catch (err) {
+    console.error("[deleteHomeProcessStep]", err);
+  }
 }
 
 // ─── Home section visibility (show/hide sections on homepage) ─────────────────
@@ -503,8 +536,12 @@ export async function setHomeSectionVisible(
   sectionId: HomeSectionId,
   visible: boolean,
 ): Promise<void> {
-  await upsertVisibilitySetting(sectionId, visible);
-  revalidatePath("/");
-  revalidatePath("/admin/home");
+  try {
+    await upsertVisibilitySetting(sectionId, visible);
+    revalidatePath("/");
+    revalidatePath("/admin/home");
+  } catch (err) {
+    console.error("[setHomeSectionVisible]", err);
+  }
 }
 
