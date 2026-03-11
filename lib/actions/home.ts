@@ -312,7 +312,12 @@ export async function upsertHomeSectionHeadingsSettings(
 // ─── Benefits Section (Why work with us) ──────────────────────────────────────
 
 export async function getHomeBenefitsList(): Promise<HomeBenefit[]> {
-  return db.select().from(homeBenefits).orderBy(asc(homeBenefits.sortOrder), asc(homeBenefits.id));
+  try {
+    return await db.select().from(homeBenefits).orderBy(asc(homeBenefits.sortOrder), asc(homeBenefits.id));
+  } catch (err) {
+    console.error("[getHomeBenefitsList]", err);
+    return [];
+  }
 }
 
 export async function upsertHomeBenefit(
@@ -411,10 +416,15 @@ export async function deleteHomeBenefit(id: number): Promise<void> {
 // ─── Process Steps Section ────────────────────────────────────────────────────
 
 export async function getHomeProcessStepsList(): Promise<HomeProcessStep[]> {
-  return db
-    .select()
-    .from(homeProcessSteps)
-    .orderBy(asc(homeProcessSteps.sortOrder), asc(homeProcessSteps.id));
+  try {
+    return await db
+      .select()
+      .from(homeProcessSteps)
+      .orderBy(asc(homeProcessSteps.sortOrder), asc(homeProcessSteps.id));
+  } catch (err) {
+    console.error("[getHomeProcessStepsList]", err);
+    return [];
+  }
 }
 
 export async function upsertHomeProcessStep(

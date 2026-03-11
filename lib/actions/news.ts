@@ -10,12 +10,22 @@ import { slugify } from "@/lib/utils/slug";
 export type NewsFormState = { success?: boolean; error?: string; fieldErrors?: Record<string, string> };
 
 export async function getNewsList() {
-  return db.select().from(articles).orderBy(desc(articles.date), desc(articles.id));
+  try {
+    return await db.select().from(articles).orderBy(desc(articles.date), desc(articles.id));
+  } catch (err) {
+    console.error("[getNewsList]", err);
+    return [];
+  }
 }
 
 export async function getNewsById(id: number) {
-  const rows = await db.select().from(articles).where(eq(articles.id, id));
-  return rows[0] ?? null;
+  try {
+    const rows = await db.select().from(articles).where(eq(articles.id, id));
+    return rows[0] ?? null;
+  } catch (err) {
+    console.error("[getNewsById]", err);
+    return null;
+  }
 }
 
 export async function createNews(prev: NewsFormState, formData: FormData): Promise<NewsFormState> {

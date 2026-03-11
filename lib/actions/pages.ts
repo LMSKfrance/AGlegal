@@ -10,17 +10,32 @@ import { slugify } from "@/lib/utils/slug";
 export type PageFormState = { success?: boolean; error?: string; fieldErrors?: Record<string, string> };
 
 export async function getPagesList() {
-  return db.select().from(pages).orderBy(asc(pages.sortOrder), asc(pages.id));
+  try {
+    return await db.select().from(pages).orderBy(asc(pages.sortOrder), asc(pages.id));
+  } catch (err) {
+    console.error("[getPagesList]", err);
+    return [];
+  }
 }
 
 export async function getPageById(id: number) {
-  const rows = await db.select().from(pages).where(eq(pages.id, id));
-  return rows[0] ?? null;
+  try {
+    const rows = await db.select().from(pages).where(eq(pages.id, id));
+    return rows[0] ?? null;
+  } catch (err) {
+    console.error("[getPageById]", err);
+    return null;
+  }
 }
 
 export async function getPageBySlug(slug: string) {
-  const rows = await db.select().from(pages).where(eq(pages.slug, slug));
-  return rows[0] ?? null;
+  try {
+    const rows = await db.select().from(pages).where(eq(pages.slug, slug));
+    return rows[0] ?? null;
+  } catch (err) {
+    console.error("[getPageBySlug]", err);
+    return null;
+  }
 }
 
 export async function createPage(prev: PageFormState, formData: FormData): Promise<PageFormState> {

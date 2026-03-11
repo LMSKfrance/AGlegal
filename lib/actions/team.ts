@@ -10,14 +10,24 @@ import { slugify } from "@/lib/utils/slug";
 export type TeamFormState = { success?: boolean; error?: string; fieldErrors?: Record<string, string> };
 
 export async function getTeamList() {
-  return db.select().from(teamMembers).orderBy(asc(teamMembers.sortOrder), asc(teamMembers.id));
+  try {
+    return await db.select().from(teamMembers).orderBy(asc(teamMembers.sortOrder), asc(teamMembers.id));
+  } catch (err) {
+    console.error("[getTeamList]", err);
+    return [];
+  }
 }
 
 export async function getTeamMemberById(id: number) {
-  const member = await db.select().from(teamMembers).where(eq(teamMembers.id, id)).then((r) => r[0] ?? null);
-  if (!member) return null;
-  const socials = await db.select().from(teamMemberSocials).where(eq(teamMemberSocials.teamMemberId, id));
-  return { ...member, socials };
+  try {
+    const member = await db.select().from(teamMembers).where(eq(teamMembers.id, id)).then((r) => r[0] ?? null);
+    if (!member) return null;
+    const socials = await db.select().from(teamMemberSocials).where(eq(teamMemberSocials.teamMemberId, id));
+    return { ...member, socials };
+  } catch (err) {
+    console.error("[getTeamMemberById]", err);
+    return null;
+  }
 }
 
 export async function createTeamMember(prev: TeamFormState, formData: FormData): Promise<TeamFormState> {
