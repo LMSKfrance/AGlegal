@@ -24,62 +24,20 @@ export async function getPageBySlug(slug: string) {
 }
 
 export async function createPage(prev: PageFormState, formData: FormData): Promise<PageFormState> {
-  const titleEn = (formData.get("titleEn") as string)?.trim();
-  if (!titleEn) return { error: "Title (EN) is required", fieldErrors: { titleEn: "Required" } };
+  try {
+    const titleEn = (formData.get("titleEn") as string)?.trim();
+    if (!titleEn) return { error: "Title (EN) is required", fieldErrors: { titleEn: "Required" } };
 
-  const slugInput = (formData.get("slug") as string)?.trim();
-  const slug = slugInput ? slugify(slugInput) : slugify(titleEn);
-  if (!slug) return { error: "Slug is required (e.g. about, contact).", fieldErrors: { slug: "Required" } };
+    const slugInput = (formData.get("slug") as string)?.trim();
+    const slug = slugInput ? slugify(slugInput) : slugify(titleEn);
+    if (!slug) return { error: "Slug is required (e.g. about, contact).", fieldErrors: { slug: "Required" } };
 
-  const existing = await db.select({ id: pages.id }).from(pages).where(eq(pages.slug, slug));
-  if (existing.length) return { error: "A page with this slug already exists." };
+    const existing = await db.select({ id: pages.id }).from(pages).where(eq(pages.slug, slug));
+    if (existing.length) return { error: "A page with this slug already exists." };
 
-  const trim = (key: string) => (formData.get(key) as string)?.trim() || null;
-  await db.insert(pages).values({
-    slug,
-    titleEn,
-    titleKa: trim("titleKa"),
-    contentEn: trim("contentEn"),
-    contentKa: trim("contentKa"),
-    metaDescriptionEn: trim("metaDescriptionEn"),
-    metaDescriptionKa: trim("metaDescriptionKa"),
-    seoTitleEn: trim("seoTitleEn"),
-    seoTitleKa: trim("seoTitleKa"),
-    ogTitleEn: trim("ogTitleEn"),
-    ogTitleKa: trim("ogTitleKa"),
-    ogDescriptionEn: trim("ogDescriptionEn"),
-    ogDescriptionKa: trim("ogDescriptionKa"),
-    ogImage: trim("ogImage"),
-    updatedAt: new Date().toISOString(),
-  });
-
-  revalidatePath("/admin/pages");
-  revalidatePath("/admin");
-  revalidatePath(`/${slug}`);
-  return { success: true };
-}
-
-export async function updatePage(id: number, prev: PageFormState, formData: FormData): Promise<PageFormState> {
-  const titleEn = (formData.get("titleEn") as string)?.trim();
-  if (!titleEn) return { error: "Title (EN) is required", fieldErrors: { titleEn: "Required" } };
-
-  const existing = await getPageById(id);
-  if (!existing) return { error: "Page not found." };
-
-  const slugInput = (formData.get("slug") as string)?.trim();
-  const newSlug = slugInput ? slugify(slugInput) : existing.slug;
-  if (!newSlug) return { error: "Slug is required.", fieldErrors: { slug: "Required" } };
-
-  if (newSlug !== existing.slug) {
-    const conflict = await db.select().from(pages).where(eq(pages.slug, newSlug));
-    if (conflict.length) return { error: "Another page already uses this slug." };
-  }
-
-  const trim = (key: string) => (formData.get(key) as string)?.trim() || null;
-  await db
-    .update(pages)
-    .set({
-      slug: newSlug,
+    const trim = (key: string) => (formData.get(key) as string)?.trim() || null;
+    await db.insert(pages).values({
+      slug,
       titleEn,
       titleKa: trim("titleKa"),
       contentEn: trim("contentEn"),
@@ -94,25 +52,83 @@ export async function updatePage(id: number, prev: PageFormState, formData: Form
       ogDescriptionKa: trim("ogDescriptionKa"),
       ogImage: trim("ogImage"),
       updatedAt: new Date().toISOString(),
-    })
-    .where(eq(pages.id, id));
+    });
 
-  revalidatePath("/admin/pages");
-  revalidatePath("/admin");
-  revalidatePath(`/${newSlug}`);
-  if (newSlug !== existing.slug) revalidatePath(`/${existing.slug}`);
-  return { success: true };
+    revalidatePath("/admin/pages");
+    revalidatePath("/admin");
+    revalidatePath(`/${slug}`);
+    return { success: true };
+  } catch (err) {
+    console.error("[createPage]", err);
+    return { error: "Failed to save. Please try again." };
+  }
+}
+
+export async function updatePage(id: number, prev: PageFormState, formData: FormData): Promise<PageFormState> {
+  try {
+    const titleEn = (formData.get("titleEn") as string)?.trim();
+    if (!titleEn) return { error: "Title (EN) is required", fieldErrors: { titleEn: "Required" } };
+
+    const existing = await getPageById(id);
+    if (!existing) return { error: "Page not found." };
+
+    const slugInput = (formData.get("slug") as string)?.trim();
+    const newSlug = slugInput ? slugify(slugInput) : existing.slug;
+    if (!newSlug) return { error: "Slug is required.", fieldErrors: { slug: "Required" } };
+
+    if (newSlug !== existing.slug) {
+      const conflict = await db.select().from(pages).where(eq(pages.slug, newSlug));
+      if (conflict.length) return { error: "Another page already uses this slug." };
+    }
+
+    const trim = (key: string) => (formData.get(key) as string)?.trim() || null;
+    await db
+      .update(pages)
+      .set({
+        slug: newSlug,
+        titleEn,
+        titleKa: trim("titleKa"),
+        contentEn: trim("contentEn"),
+        contentKa: trim("contentKa"),
+        metaDescriptionEn: trim("metaDescriptionEn"),
+        metaDescriptionKa: trim("metaDescriptionKa"),
+        seoTitleEn: trim("seoTitleEn"),
+        seoTitleKa: trim("seoTitleKa"),
+        ogTitleEn: trim("ogTitleEn"),
+        ogTitleKa: trim("ogTitleKa"),
+        ogDescriptionEn: trim("ogDescriptionEn"),
+        ogDescriptionKa: trim("ogDescriptionKa"),
+        ogImage: trim("ogImage"),
+        updatedAt: new Date().toISOString(),
+      })
+      .where(eq(pages.id, id));
+
+    revalidatePath("/admin/pages");
+    revalidatePath("/admin");
+    revalidatePath(`/${newSlug}`);
+    if (newSlug !== existing.slug) revalidatePath(`/${existing.slug}`);
+    return { success: true };
+  } catch (err) {
+    console.error("[updatePage]", err);
+    return { error: "Failed to save. Please try again." };
+  }
 }
 
 export async function deletePage(id: number): Promise<void> {
-  const row = await getPageById(id);
-  if (!row) {
-    redirect("/admin/pages?toast=error");
-    return;
+  let deleted = false;
+  let slug = "";
+  try {
+    const row = await getPageById(id);
+    if (row) {
+      slug = row.slug;
+      await db.delete(pages).where(eq(pages.id, id));
+      revalidatePath("/admin/pages");
+      revalidatePath("/admin");
+      revalidatePath(`/${slug}`);
+      deleted = true;
+    }
+  } catch (err) {
+    console.error("[deletePage]", err);
   }
-  await db.delete(pages).where(eq(pages.id, id));
-  revalidatePath("/admin/pages");
-  revalidatePath("/admin");
-  revalidatePath(`/${row.slug}`);
-  redirect("/admin/pages?toast=success");
+  redirect(deleted ? "/admin/pages?toast=success" : "/admin/pages?toast=error");
 }
