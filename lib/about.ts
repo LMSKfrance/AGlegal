@@ -53,56 +53,97 @@ const ABOUT_VISIBILITY_KEYS = ABOUT_SECTION_IDS.map((id) => `about.section.${id}
 
 async function getSettingsMap(keys: string[]) {
   if (!keys.length) return {} as Record<string, { valueEn: string | null; valueKa: string | null }>;
-  const rows = await db
-    .select({ key: siteSettings.key, valueEn: siteSettings.valueEn, valueKa: siteSettings.valueKa })
-    .from(siteSettings)
-    .where(inArray(siteSettings.key, keys));
-  const map: Record<string, { valueEn: string | null; valueKa: string | null }> = {};
-  for (const row of rows) map[row.key] = { valueEn: row.valueEn, valueKa: row.valueKa };
-  return map;
+  try {
+    const rows = await db
+      .select({ key: siteSettings.key, valueEn: siteSettings.valueEn, valueKa: siteSettings.valueKa })
+      .from(siteSettings)
+      .where(inArray(siteSettings.key, keys));
+    const map: Record<string, { valueEn: string | null; valueKa: string | null }> = {};
+    for (const row of rows) map[row.key] = { valueEn: row.valueEn, valueKa: row.valueKa };
+    return map;
+  } catch (err) {
+    console.error("[getSettingsMap]", err);
+    return {} as Record<string, { valueEn: string | null; valueKa: string | null }>;
+  }
 }
 
 function parseVisibility(value: string | null | undefined): boolean {
-  return value === "1" || value === "true";
+  return value === "1" || value === "true" || value === "";
 }
 
+const DEFAULT_ABOUT_SECTION_SETTINGS: AboutSectionSettings = {
+  numbersTitleEn: "",
+  numbersTitleKa: "",
+  numbersDescriptionEn: "",
+  numbersDescriptionKa: "",
+  missionTitleEn: "",
+  missionTitleKa: "",
+  missionDescriptionEn: "",
+  missionDescriptionKa: "",
+  featuresTitleEn: "",
+  featuresTitleKa: "",
+  philosophyTitleEn: "",
+  philosophyTitleKa: "",
+  philosophyDescriptionEn: "",
+  philosophyDescriptionKa: "",
+  sectionVisibility: {
+    hero: true,
+    numbers: true,
+    mission: true,
+    team: true,
+    features: true,
+    philosophy: true,
+    faq: true,
+  },
+};
+
 export async function getAboutSectionSettings(): Promise<AboutSectionSettings> {
-  const allKeys = [...(ABOUT_KEYS as unknown as string[]), ...ABOUT_VISIBILITY_KEYS];
-  const rows = await getSettingsMap(allKeys);
-  const get = (key: string, which: "valueEn" | "valueKa") => rows[key]?.[which] ?? "";
-  const sectionVisibility: AboutSectionVisibility = {
-    hero: parseVisibility(rows["about.section.hero.visible"]?.valueEn ?? "1"),
-    numbers: parseVisibility(rows["about.section.numbers.visible"]?.valueEn ?? "1"),
-    mission: parseVisibility(rows["about.section.mission.visible"]?.valueEn ?? "1"),
-    team: parseVisibility(rows["about.section.team.visible"]?.valueEn ?? "1"),
-    features: parseVisibility(rows["about.section.features.visible"]?.valueEn ?? "1"),
-    philosophy: parseVisibility(rows["about.section.philosophy.visible"]?.valueEn ?? "1"),
-    faq: parseVisibility(rows["about.section.faq.visible"]?.valueEn ?? "1"),
-  };
-  return {
-    numbersTitleEn: get("about.numbers.title", "valueEn"),
-    numbersTitleKa: get("about.numbers.title", "valueKa"),
-    numbersDescriptionEn: get("about.numbers.description", "valueEn"),
-    numbersDescriptionKa: get("about.numbers.description", "valueKa"),
-    missionTitleEn: get("about.mission.title", "valueEn"),
-    missionTitleKa: get("about.mission.title", "valueKa"),
-    missionDescriptionEn: get("about.mission.description", "valueEn"),
-    missionDescriptionKa: get("about.mission.description", "valueKa"),
-    featuresTitleEn: get("about.features.title", "valueEn"),
-    featuresTitleKa: get("about.features.title", "valueKa"),
-    philosophyTitleEn: get("about.philosophy.title", "valueEn"),
-    philosophyTitleKa: get("about.philosophy.title", "valueKa"),
-    philosophyDescriptionEn: get("about.philosophy.description", "valueEn"),
-    philosophyDescriptionKa: get("about.philosophy.description", "valueKa"),
-    sectionVisibility,
-  };
+  try {
+    const allKeys = [...(ABOUT_KEYS as unknown as string[]), ...ABOUT_VISIBILITY_KEYS];
+    const rows = await getSettingsMap(allKeys);
+    const get = (key: string, which: "valueEn" | "valueKa") => rows[key]?.[which] ?? "";
+    const sectionVisibility: AboutSectionVisibility = {
+      hero: parseVisibility(rows["about.section.hero.visible"]?.valueEn ?? "1"),
+      numbers: parseVisibility(rows["about.section.numbers.visible"]?.valueEn ?? "1"),
+      mission: parseVisibility(rows["about.section.mission.visible"]?.valueEn ?? "1"),
+      team: parseVisibility(rows["about.section.team.visible"]?.valueEn ?? "1"),
+      features: parseVisibility(rows["about.section.features.visible"]?.valueEn ?? "1"),
+      philosophy: parseVisibility(rows["about.section.philosophy.visible"]?.valueEn ?? "1"),
+      faq: parseVisibility(rows["about.section.faq.visible"]?.valueEn ?? "1"),
+    };
+    return {
+      numbersTitleEn: get("about.numbers.title", "valueEn"),
+      numbersTitleKa: get("about.numbers.title", "valueKa"),
+      numbersDescriptionEn: get("about.numbers.description", "valueEn"),
+      numbersDescriptionKa: get("about.numbers.description", "valueKa"),
+      missionTitleEn: get("about.mission.title", "valueEn"),
+      missionTitleKa: get("about.mission.title", "valueKa"),
+      missionDescriptionEn: get("about.mission.description", "valueEn"),
+      missionDescriptionKa: get("about.mission.description", "valueKa"),
+      featuresTitleEn: get("about.features.title", "valueEn"),
+      featuresTitleKa: get("about.features.title", "valueKa"),
+      philosophyTitleEn: get("about.philosophy.title", "valueEn"),
+      philosophyTitleKa: get("about.philosophy.title", "valueKa"),
+      philosophyDescriptionEn: get("about.philosophy.description", "valueEn"),
+      philosophyDescriptionKa: get("about.philosophy.description", "valueKa"),
+      sectionVisibility,
+    };
+  } catch (err) {
+    console.error("[getAboutSectionSettings]", err);
+    return DEFAULT_ABOUT_SECTION_SETTINGS;
+  }
 }
 
 export async function getAboutContent(locale: Locale = "en") {
-  const [page, sections, teamMembers] = await Promise.all([
-    getPageBySlug("about"),
-    getAboutSectionSettings(),
-    getAboutTeamMembers(locale),
-  ]);
-  return { page, sections, teamMembers };
+  try {
+    const [page, sections, teamMembers] = await Promise.all([
+      getPageBySlug("about"),
+      getAboutSectionSettings(),
+      getAboutTeamMembers(locale),
+    ]);
+    return { page, sections, teamMembers };
+  } catch (err) {
+    console.error("[getAboutContent]", err);
+    return { page: null, sections: DEFAULT_ABOUT_SECTION_SETTINGS, teamMembers: [] };
+  }
 }

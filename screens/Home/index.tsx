@@ -7,18 +7,42 @@ import Process from "./Process";
 import News from "./News";
 import CTA from "../Universal/CTA";
 import Team from "../Universal/Team";
-import { getSortedArticles } from "@/lib/articles";
-import { getHomeContent } from "@/lib/home";
-import { getHomeSectionVisibility } from "@/lib/home";
+import { getSortedArticles, type Article } from "@/lib/articles";
+import { getHomeContent, getHomeSectionVisibility, HOME_SECTION_IDS, type HomeContent, type HomeSectionVisibility } from "@/lib/home";
 import { HomeContentProvider } from "./HomeContentContext";
 
+const EMPTY_HOME_CONTENT: HomeContent = {
+  hero: { brand: "", title: "", cta: "", description: "", image: "" },
+  about: { title: "", description: "", image: "" },
+  servicesHeading: { title: "", description: "" },
+  benefitsHeading: { title: "" },
+  processHeading: { title: "", description: "" },
+  services: [],
+  benefits: [],
+  tabs: [],
+  teamMembers: [],
+};
+
+const ALL_VISIBLE: HomeSectionVisibility = Object.fromEntries(
+  HOME_SECTION_IDS.map((id) => [id, true])
+) as HomeSectionVisibility;
+
 const HomePage = async () => {
-  const [articles, contentEn, contentKa, sectionVisibility] = await Promise.all([
-    getSortedArticles(),
-    getHomeContent("en"),
-    getHomeContent("ka"),
-    getHomeSectionVisibility(),
-  ]);
+  let articles: Article[] = [];
+  let contentEn: HomeContent = EMPTY_HOME_CONTENT;
+  let contentKa: HomeContent = EMPTY_HOME_CONTENT;
+  let sectionVisibility: HomeSectionVisibility = ALL_VISIBLE;
+
+  try {
+    [articles, contentEn, contentKa, sectionVisibility] = await Promise.all([
+      getSortedArticles(),
+      getHomeContent("en"),
+      getHomeContent("ka"),
+      getHomeSectionVisibility(),
+    ]);
+  } catch (err) {
+    console.error("[HomePage]", err);
+  }
 
   const v = sectionVisibility;
 

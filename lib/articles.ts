@@ -16,8 +16,13 @@ export type Article = {
 };
 
 export const getSortedArticles = async (locale: Locale = "en"): Promise<Article[]> => {
-  const rows = await db.select().from(articles).orderBy(desc(articles.date));
-  return rows.map((row) => mapRow(row, locale));
+  try {
+    const rows = await db.select().from(articles).orderBy(desc(articles.date));
+    return rows.map((row) => mapRow(row, locale));
+  } catch (err) {
+    console.error("[getSortedArticles]", err);
+    return [];
+  }
 };
 
 export const getArticleData = async (id: string, locale: Locale = "en") => {
