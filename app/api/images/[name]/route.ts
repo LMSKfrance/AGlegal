@@ -8,7 +8,7 @@ export async function GET(
   const { name } = await params;
   if (!name) return new NextResponse("Not found", { status: 404 });
 
-  const store = getStore({ name: "images", consistency: "strong" });
+  const store = getStore("images");
   const result = await store.getWithMetadata(name, { type: "arrayBuffer" });
   if (!result?.data) return new NextResponse("Not found", { status: 404 });
 
