@@ -6,6 +6,7 @@ import { pages } from "@/lib/db/schema";
 import { eq, asc } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { slugify } from "@/lib/utils/slug";
+import { logSave } from "./history";
 
 export type PageFormState = { success?: boolean; error?: string; fieldErrors?: Record<string, string> };
 
@@ -72,6 +73,7 @@ export async function createPage(prev: PageFormState, formData: FormData): Promi
     revalidatePath("/admin/pages");
     revalidatePath("/admin");
     revalidatePath(`/${slug}`);
+    await logSave("Pages", titleEn, "created");
     return { success: true };
   } catch (err) {
     console.error("[createPage]", err);
@@ -122,6 +124,7 @@ export async function updatePage(id: number, prev: PageFormState, formData: Form
     revalidatePath("/admin");
     revalidatePath(`/${newSlug}`);
     if (newSlug !== existing.slug) revalidatePath(`/${existing.slug}`);
+    await logSave("Pages", titleEn, "updated");
     return { success: true };
   } catch (err) {
     console.error("[updatePage]", err);
@@ -140,6 +143,7 @@ export async function deletePage(id: number): Promise<void> {
       revalidatePath("/admin/pages");
       revalidatePath("/admin");
       revalidatePath(`/${slug}`);
+      await logSave("Pages", row.titleEn, "deleted");
       deleted = true;
     }
   } catch (err) {

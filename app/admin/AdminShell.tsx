@@ -14,6 +14,7 @@ const navItems = [
   { href: "/admin/pages", label: "Pages" },
   { href: "/admin/about", label: "About" },
   { href: "/admin/contact", label: "Contact" },
+  { href: "/admin/history", label: "History" },
 ];
 
 const navIcons: Record<string, React.ReactNode> = {
@@ -68,6 +69,12 @@ const navIcons: Record<string, React.ReactNode> = {
   "/admin/contact": (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
       <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" />
+    </svg>
+  ),
+  "/admin/history": (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="9" />
+      <polyline points="12 7 12 12 15 15" />
     </svg>
   ),
 };

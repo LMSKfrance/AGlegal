@@ -1,0 +1,53 @@
+.groups {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.dateHeader {
+  font-family: var(--font-inter);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--gray-400);
+  padding: 0 2px;
+}
+
+.sectionChip {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 20px;
+  background: var(--gray-100);
+  color: var(--gray-600);
+  font-size: 12px;
+  font-weight: 500;
+  font-family: var(--font-inter);
+  white-space: nowrap;
+}
+
+.actionBadge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 20px;
+  background: color-mix(in srgb, var(--badge-color) 12%, transparent);
+  color: var(--badge-color);
+  font-size: 12px;
+  font-weight: 600;
+  font-family: var(--font-inter);
+  white-space: nowrap;
+}
+
+.empty {
+  font-family: var(--font-inter);
+  font-size: 14px;
+  color: var(--gray-400);
+  padding: 48px 0;
+  text-align: center;
+}

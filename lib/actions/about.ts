@@ -6,6 +6,7 @@ import { siteSettings, teamMembers } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
 import { getTeamList } from "@/lib/actions/team";
 import { ABOUT_SECTION_IDS, type AboutSectionId, type AboutTeamMemberEntry } from "@/lib/about";
+import { logSave } from "./history";
 
 async function upsertSetting(
   key: string,
@@ -89,6 +90,7 @@ export async function upsertAboutNumbersSettings(formData: FormData): Promise<{ 
     );
     revalidatePath("/about");
     revalidatePath("/admin/about");
+    await logSave("About", "Numbers section", "updated");
     return { success: true };
   } catch (err) {
     console.error("[upsertAboutNumbersSettings]", err);
@@ -110,6 +112,7 @@ export async function upsertAboutMissionSettings(formData: FormData): Promise<{ 
     );
     revalidatePath("/about");
     revalidatePath("/admin/about");
+    await logSave("About", "Mission section", "updated");
     return { success: true };
   } catch (err) {
     console.error("[upsertAboutMissionSettings]", err);
@@ -126,6 +129,7 @@ export async function upsertAboutFeaturesSettings(formData: FormData): Promise<{
     );
     revalidatePath("/about");
     revalidatePath("/admin/about");
+    await logSave("About", "Features section", "updated");
     return { success: true };
   } catch (err) {
     console.error("[upsertAboutFeaturesSettings]", err);
@@ -147,6 +151,7 @@ export async function upsertAboutPhilosophySettings(formData: FormData): Promise
     );
     revalidatePath("/about");
     revalidatePath("/admin/about");
+    await logSave("About", "Philosophy section", "updated");
     return { success: true };
   } catch (err) {
     console.error("[upsertAboutPhilosophySettings]", err);

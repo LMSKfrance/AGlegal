@@ -11,6 +11,7 @@ import {
 } from "@/lib/db/schema";
 import { eq, inArray, asc } from "drizzle-orm";
 import { truncateChars, oneWord } from "@/lib/utils/text";
+import { logSave } from "./history";
 
 export type HomeFormState = {
   success?: boolean;
@@ -154,6 +155,7 @@ export async function upsertHomeHeroSettings(
 
     revalidatePath("/");
     revalidatePath("/admin/home");
+    await logSave("Home", "Hero section", "updated");
     return { success: true };
   } catch (err) {
     console.error("[upsertHomeHeroSettings]", err);
@@ -228,6 +230,7 @@ export async function upsertHomeAboutSettings(
 
     revalidatePath("/");
     revalidatePath("/admin/home");
+    await logSave("Home", "Who we are section", "updated");
     return { success: true };
   } catch (err) {
     console.error("[upsertHomeAboutSettings]", err);
@@ -302,6 +305,7 @@ export async function upsertHomeSectionHeadingsSettings(
 
     revalidatePath("/");
     revalidatePath("/admin/home");
+    await logSave("Home", "Section headings", "updated");
     return { success: true };
   } catch (err) {
     console.error("[upsertHomeSectionHeadingsSettings]", err);
@@ -396,6 +400,7 @@ export async function upsertHomeBenefit(
 
     revalidatePath("/");
     revalidatePath("/admin/home");
+    await logSave("Home", "Benefit card", id ? "updated" : "created");
     return { success: true };
   } catch (err) {
     console.error("[upsertHomeBenefit]", err);
@@ -515,6 +520,7 @@ export async function upsertHomeProcessStep(
 
     revalidatePath("/");
     revalidatePath("/admin/home");
+    await logSave("Home", "Process step", id ? "updated" : "created");
     return { success: true };
   } catch (err) {
     console.error("[upsertHomeProcessStep]", err);

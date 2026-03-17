@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getAdminStats } from "@/lib/admin/stats";
+import { getSaveHistory } from "@/lib/actions/history";
 import styles from "./admin.module.css";
 
 const icons = {
@@ -31,8 +32,28 @@ const icons = {
   ),
 };
 
+const ACTION_DOT: Record<string, string> = {
+  created: "#059669",
+  updated: "#2563eb",
+  deleted: "#dc2626",
+};
+
+function formatRelative(iso: string) {
+  const diff = Date.now() - new Date(iso).getTime();
+  const mins = Math.floor(diff / 60000);
+  if (mins < 1) return "just now";
+  if (mins < 60) return `${mins}m ago`;
+  const hrs = Math.floor(mins / 60);
+  if (hrs < 24) return `${hrs}h ago`;
+  const days = Math.floor(hrs / 24);
+  return `${days}d ago`;
+}
+
 export default async function AdminPage() {
-  const stats = await getAdminStats();
+  const [stats, recentHistory] = await Promise.all([
+    getAdminStats(),
+    getSaveHistory(10),
+  ]);
 
   return (
     <>
@@ -70,6 +91,40 @@ export default async function AdminPage() {
           <p className={styles.statValue}>{stats.pages}</p>
           <Link href="/admin/pages">Manage pages</Link>
         </div>
+      </div>
+
+      {/* Recent saves widget */}
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
+        <h2 style={{ fontFamily: "var(--font-plus-jakarta-sans)", fontSize: 16, fontWeight: 700, color: "var(--gray-900)", margin: 0 }}>
+          Recent saves
+        </h2>
+        <Link href="/admin/history" style={{ fontFamily: "var(--font-inter)", fontSize: 13, color: "var(--ag-blue-600)", textDecoration: "none" }}>
+          View all →
+        </Link>
+      </div>
+      <div className={styles.tableWrap}>
+        {recentHistory.length === 0 ? (
+          <div style={{ padding: "24px 18px", fontFamily: "var(--font-inter)", fontSize: 14, color: "var(--gray-400)" }}>
+            No saves yet.
+          </div>
+        ) : (
+          <table className={styles.adminTable}>
+            <tbody>
+              {recentHistory.map((entry) => (
+                <tr key={entry.id}>
+                  <td style={{ width: 10, paddingRight: 0 }}>
+                    <span style={{ display: "inline-block", width: 8, height: 8, borderRadius: "50%", background: ACTION_DOT[entry.action] ?? "#6b7280", flexShrink: 0 }} />
+                  </td>
+                  <td style={{ fontWeight: 500, color: "var(--gray-800)" }}>{entry.label}</td>
+                  <td style={{ color: "var(--gray-400)", fontSize: 13 }}>{entry.section}</td>
+                  <td style={{ color: "var(--gray-400)", fontSize: 13, textAlign: "right", whiteSpace: "nowrap" }}>
+                    {formatRelative(entry.savedAt)}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
       </div>
     </>
   );

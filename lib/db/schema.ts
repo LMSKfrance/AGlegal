@@ -191,6 +191,16 @@ export const pages = sqliteTable("pages", {
   updatedAt: text("updated_at").notNull().$defaultFn(() => new Date().toISOString()),
 });
 
+// ─── Save History ─────────────────────────────────────────────────────────────
+export const saveHistory = sqliteTable("save_history", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  section: text("section").notNull(),
+  label: text("label").notNull(),
+  action: text("action").notNull(), // "created" | "updated" | "deleted"
+  savedAt: text("saved_at").notNull().$defaultFn(() => new Date().toISOString()),
+});
+export type SaveHistoryEntry = typeof saveHistory.$inferSelect;
+
 // ─── Type exports for convenience ────────────────────────────────────────────
 export type Article = typeof articles.$inferSelect;
 export type NewArticle = typeof articles.$inferInsert;
