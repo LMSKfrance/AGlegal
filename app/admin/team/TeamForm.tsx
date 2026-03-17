@@ -3,6 +3,7 @@
 import { useActionState } from "react";
 import { Button, TextField, TextArea } from "@/design-system";
 import { AdminLangTabs } from "../components/AdminLangTabs";
+import { FileUploadField } from "../components/FileUploadField";
 import type { TeamMember } from "@/lib/db/schema";
 import type { TeamMemberSocial } from "@/lib/db/schema";
 import { createTeamMember, updateTeamMember, type TeamFormState } from "@/lib/actions/team";
@@ -37,13 +38,12 @@ export function TeamForm({ item }: Props) {
       {state.error && <div className={styles.formError} role="alert">{state.error}</div>}
 
       <div className={styles.formRow}>
-        <label style={{ display: "block", marginBottom: 8 }}>Image</label>
-        <input type="file" name="image" accept="image/jpeg,image/png,image/gif,image/webp" />
-        {item?.image && (
-          <p style={{ marginTop: 8, fontSize: 14, color: "var(--gray-600)" }}>
-            Current: <a href={item.image} target="_blank" rel="noreferrer">{item.image}</a>
-          </p>
-        )}
+        <FileUploadField
+          name="image"
+          accept="image/jpeg,image/png,image/gif,image/webp"
+          label="Image"
+          currentPath={item?.image}
+        />
       </div>
 
       <div className={styles.formRow}>

@@ -92,11 +92,11 @@ export async function createTeamMember(prev: TeamFormState, formData: FormData):
     revalidatePath("/admin");
     revalidatePath("/team", "layout");
     revalidatePath("/");
-    return { success: true };
   } catch (err) {
     console.error("[createTeamMember]", err);
     return { error: "Failed to save. Please try again." };
   }
+  redirect("/admin/team?toast=success");
 }
 
 export async function updateTeamMember(id: number, prev: TeamFormState, formData: FormData): Promise<TeamFormState> {
@@ -165,11 +165,11 @@ export async function updateTeamMember(id: number, prev: TeamFormState, formData
     revalidatePath("/admin");
     revalidatePath("/team", "layout");
     revalidatePath("/");
-    return { success: true };
   } catch (err) {
     console.error("[updateTeamMember]", err);
     return { error: "Failed to save. Please try again." };
   }
+  redirect("/admin/team?toast=success");
 }
 
 export async function deleteTeamMember(id: number): Promise<void> {

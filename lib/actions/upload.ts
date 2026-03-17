@@ -20,12 +20,17 @@ export async function uploadImage(formData: FormData, fieldName = "image"): Prom
   }
   const ext = path.extname(file.name) || ".jpg";
   const name = `${Date.now()}-${Math.random().toString(36).slice(2, 9)}${ext}`;
-  const bytes = await file.arrayBuffer();
 
-  const store = getStore({ name: "images", consistency: "strong" });
-  await store.set(name, bytes, {
-    metadata: { contentType: file.type },
-  });
+  try {
+    const bytes = await file.arrayBuffer();
+    const store = getStore("images");
+    await store.set(name, bytes, {
+      metadata: { contentType: file.type },
+    });
+  } catch (err) {
+    console.error("[uploadImage] blob store error:", err);
+    return { success: false, error: "Failed to store image. Please try again." };
+  }
 
   // Serve via Next.js API route which reads from the blob store
   return { success: true, path: `/api/images/${name}` };

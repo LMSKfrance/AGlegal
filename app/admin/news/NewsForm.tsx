@@ -3,6 +3,7 @@
 import { useActionState } from "react";
 import { Button, TextField, TextArea } from "@/design-system";
 import { AdminLangTabs } from "../components/AdminLangTabs";
+import { FileUploadField } from "../components/FileUploadField";
 import type { Article } from "@/lib/db/schema";
 import { createNews, updateNews, type NewsFormState } from "@/lib/actions/news";
 import styles from "../admin.module.css";
@@ -35,18 +36,12 @@ export function NewsForm({ item }: Props) {
       )}
 
       <div className={styles.formRow}>
-        <label className={styles.formRow} style={{ display: "block", marginBottom: 8 }}>
-          Image
-        </label>
-        <input type="file" name="image" accept="image/jpeg,image/png,image/gif,image/webp" />
-        {item?.image && (
-          <p style={{ marginTop: 8, fontSize: 14, color: "var(--gray-600)" }}>
-            Current:{" "}
-            <a href={item.image} target="_blank" rel="noreferrer">
-              {item.image}
-            </a>
-          </p>
-        )}
+        <FileUploadField
+          name="image"
+          accept="image/jpeg,image/png,image/gif,image/webp"
+          label="Image"
+          currentPath={item?.image}
+        />
       </div>
 
       <div className={styles.formRow}>

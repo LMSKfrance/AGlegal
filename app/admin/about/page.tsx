@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import { redirect } from "next/navigation";
 import { Button, TextField, TextArea } from "@/design-system";
 import { AdminLangTabs } from "../components/AdminLangTabs";
 import { AdminToast } from "../components/AdminToast";
@@ -52,7 +53,8 @@ async function NumbersSection() {
   const sections = await getAboutSectionSettings();
   async function action(formData: FormData) {
     "use server";
-    await upsertAboutNumbersSettings(formData);
+    const result = await upsertAboutNumbersSettings(formData);
+    if (result.success) redirect("/admin/about?toast=success");
   }
   return (
     <SectionCard
@@ -86,7 +88,8 @@ async function MissionSection() {
   const sections = await getAboutSectionSettings();
   async function action(formData: FormData) {
     "use server";
-    await upsertAboutMissionSettings(formData);
+    const result = await upsertAboutMissionSettings(formData);
+    if (result.success) redirect("/admin/about?toast=success");
   }
   return (
     <SectionCard
@@ -120,7 +123,8 @@ async function FeaturesSection() {
   const sections = await getAboutSectionSettings();
   async function action(formData: FormData) {
     "use server";
-    await upsertAboutFeaturesSettings(formData);
+    const result = await upsertAboutFeaturesSettings(formData);
+    if (result.success) redirect("/admin/about?toast=success");
   }
   return (
     <SectionCard
@@ -152,7 +156,8 @@ async function PhilosophySection() {
   const sections = await getAboutSectionSettings();
   async function action(formData: FormData) {
     "use server";
-    await upsertAboutPhilosophySettings(formData);
+    const result = await upsertAboutPhilosophySettings(formData);
+    if (result.success) redirect("/admin/about?toast=success");
   }
   return (
     <SectionCard
