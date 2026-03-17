@@ -98,11 +98,11 @@ export async function createService(prev: ServiceFormState, formData: FormData):
     revalidatePath("/admin");
     revalidatePath("/");
     revalidatePath("/services", "layout");
-    return { success: true };
   } catch (err) {
     console.error("[createService]", err);
     return { error: "Failed to save. Please try again." };
   }
+  redirect("/admin/services?toast=success");
 }
 
 export async function updateService(id: number, prev: ServiceFormState, formData: FormData): Promise<ServiceFormState> {
@@ -183,11 +183,11 @@ export async function updateService(id: number, prev: ServiceFormState, formData
     revalidatePath("/admin");
     revalidatePath("/");
     revalidatePath("/services", "layout");
-    return { success: true };
   } catch (err) {
     console.error("[updateService]", err);
     return { error: "Failed to save. Please try again." };
   }
+  redirect("/admin/services?toast=success");
 }
 
 export async function deleteService(id: number): Promise<void> {

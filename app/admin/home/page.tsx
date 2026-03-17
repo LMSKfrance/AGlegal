@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import { redirect } from "next/navigation";
 import { Button, TextField, TextArea } from "@/design-system";
 import { AdminLangTabs } from "../components/AdminLangTabs";
 import { AdminToast } from "../components/AdminToast";
@@ -19,50 +20,7 @@ import {
   deleteHomeProcessStep,
 } from "@/lib/actions/home";
 import { HomeSectionVisibilityToggle } from "../components/HomeSectionVisibilityToggle";
-
-const UploadIcon = () => (
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
-    <polyline points="16 16 12 12 8 16" />
-    <line x1="12" y1="12" x2="12" y2="21" />
-    <path d="M20.39 18.39A5 5 0 0018 9h-1.26A8 8 0 103 16.3" />
-  </svg>
-);
-
-function FileUpload({
-  name,
-  accept,
-  label,
-  currentPath,
-}: {
-  name: string;
-  accept: string;
-  label: string;
-  currentPath?: string | null;
-}) {
-  return (
-    <div className={styles.fileUpload}>
-      <span className={styles.fileUploadLabel}>{label}</span>
-      <div className={styles.fileUploadZone}>
-        <div className={styles.fileUploadIcon}>
-          <UploadIcon />
-        </div>
-        <div className={styles.fileUploadText}>
-          <span className={styles.fileUploadPrimary}>Click to upload or drag &amp; drop</span>
-          <span className={styles.fileUploadSecondary}>JPEG, PNG, WebP, GIF, SVG</span>
-        </div>
-        <input type="file" name={name} accept={accept} />
-      </div>
-      {currentPath && (
-        <div className={styles.fileUploadCurrent}>
-          Current:&nbsp;
-          <a href={currentPath} target="_blank" rel="noreferrer">
-            {currentPath}
-          </a>
-        </div>
-      )}
-    </div>
-  );
-}
+import { FileUploadField } from "../components/FileUploadField";
 
 function SectionCard({
   title,
@@ -89,7 +47,8 @@ async function HeroSection({ visibility }: { visibility: HomeSectionVisibility }
 
   async function action(formData: FormData) {
     "use server";
-    await upsertHomeHeroSettings({}, formData);
+    const result = await upsertHomeHeroSettings({}, formData);
+    if (result.success) redirect("/admin/home?toast=success");
   }
 
   return (
@@ -117,7 +76,7 @@ async function HeroSection({ visibility }: { visibility: HomeSectionVisibility }
           }
         />
 
-        <FileUpload
+        <FileUploadField
           name="heroImage"
           accept="image/jpeg,image/png,image/gif,image/webp"
           label="Hero image"
@@ -139,7 +98,8 @@ async function AboutSection({ visibility }: { visibility: HomeSectionVisibility 
 
   async function action(formData: FormData) {
     "use server";
-    await upsertHomeAboutSettings({}, formData);
+    const result = await upsertHomeAboutSettings({}, formData);
+    if (result.success) redirect("/admin/home?toast=success");
   }
 
   return (
@@ -163,7 +123,7 @@ async function AboutSection({ visibility }: { visibility: HomeSectionVisibility 
           }
         />
 
-        <FileUpload
+        <FileUploadField
           name="aboutImage"
           accept="image/jpeg,image/png,image/gif,image/webp"
           label="Background image"
@@ -185,7 +145,8 @@ async function SectionHeadingsSection() {
 
   async function action(formData: FormData) {
     "use server";
-    await upsertHomeSectionHeadingsSettings({}, formData);
+    const result = await upsertHomeSectionHeadingsSettings({}, formData);
+    if (result.success) redirect("/admin/home?toast=success");
   }
 
   return (
@@ -288,7 +249,8 @@ async function BenefitsSection({ visibility }: { visibility: HomeSectionVisibili
 
   async function handleUpsert(id: number | null, formData: FormData) {
     "use server";
-    await upsertHomeBenefit(id, {}, formData);
+    const result = await upsertHomeBenefit(id, {}, formData);
+    if (result.success) redirect("/admin/home?toast=success");
   }
 
   const canAdd = benefits.length < 4;
@@ -321,7 +283,7 @@ async function BenefitsSection({ visibility }: { visibility: HomeSectionVisibili
                 }
               />
 
-              <FileUpload
+              <FileUploadField
                 name="icon"
                 accept="image/svg+xml,image/png,image/jpeg,image/webp"
                 label="Icon (SVG / image)"
@@ -362,7 +324,7 @@ async function BenefitsSection({ visibility }: { visibility: HomeSectionVisibili
             }
           />
 
-          <FileUpload
+          <FileUploadField
             name="icon"
             accept="image/svg+xml,image/png,image/jpeg,image/webp"
             label="Icon (SVG / image)"
@@ -393,7 +355,8 @@ async function ProcessSection({ visibility }: { visibility: HomeSectionVisibilit
 
   async function handleUpsert(id: number | null, formData: FormData) {
     "use server";
-    await upsertHomeProcessStep(id, {}, formData);
+    const result = await upsertHomeProcessStep(id, {}, formData);
+    if (result.success) redirect("/admin/home?toast=success");
   }
 
   const canAdd = steps.length < 4;
@@ -428,7 +391,7 @@ async function ProcessSection({ visibility }: { visibility: HomeSectionVisibilit
                 }
               />
 
-              <FileUpload
+              <FileUploadField
                 name="image"
                 accept="image/jpeg,image/png,image/gif,image/webp"
                 label="Step image"
@@ -471,7 +434,7 @@ async function ProcessSection({ visibility }: { visibility: HomeSectionVisibilit
             }
           />
 
-          <FileUpload
+          <FileUploadField
             name="image"
             accept="image/jpeg,image/png,image/gif,image/webp"
             label="Step image"
