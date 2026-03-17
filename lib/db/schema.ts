@@ -198,6 +198,9 @@ export const saveHistory = sqliteTable("save_history", {
   label: text("label").notNull(),
   action: text("action").notNull(), // "created" | "updated" | "deleted"
   savedAt: text("saved_at").notNull().$defaultFn(() => new Date().toISOString()),
+  snapshotType: text("snapshot_type"), // e.g. "news" | "team" | "service" | "page"
+  snapshotId: integer("snapshot_id"),  // the row id before the change
+  snapshot: text("snapshot"),          // JSON of the row before the change
 });
 export type SaveHistoryEntry = typeof saveHistory.$inferSelect;
 

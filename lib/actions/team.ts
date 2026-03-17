@@ -167,7 +167,7 @@ export async function updateTeamMember(id: number, prev: TeamFormState, formData
     revalidatePath("/admin");
     revalidatePath("/team", "layout");
     revalidatePath("/");
-    await logSave("Team", titleEn, "updated");
+    await logSave("Team", titleEn, "updated", { type: "team", id: existing.id, data: existing });
     return { success: true };
   } catch (err) {
     console.error("[updateTeamMember]", err);
@@ -185,7 +185,7 @@ export async function deleteTeamMember(id: number): Promise<void> {
       revalidatePath("/admin");
       revalidatePath("/team", "layout");
       revalidatePath("/");
-      await logSave("Team", row.titleEn, "deleted");
+      await logSave("Team", row.titleEn, "deleted", { type: "team", id: row.id, data: row });
       deleted = true;
     }
   } catch (err) {

@@ -51,3 +51,36 @@
   padding: 48px 0;
   text-align: center;
 }
+
+.restoreBtn {
+  display: inline-block;
+  padding: 3px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--gray-200);
+  background: var(--gray-50);
+  color: var(--gray-600);
+  font-size: 12px;
+  font-weight: 500;
+  font-family: var(--font-inter);
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+  white-space: nowrap;
+}
+
+.restoreBtn:hover:not(:disabled) {
+  background: var(--ag-blue-50, #eff6ff);
+  border-color: var(--ag-blue-300, #93c5fd);
+  color: var(--ag-blue-700, #1d4ed8);
+}
+
+.restoreBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.restoreDone {
+  font-size: 12px;
+  font-family: var(--font-inter);
+  color: #059669;
+  font-weight: 600;
+}

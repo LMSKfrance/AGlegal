@@ -185,7 +185,7 @@ export async function updateService(id: number, prev: ServiceFormState, formData
     revalidatePath("/admin");
     revalidatePath("/");
     revalidatePath("/services", "layout");
-    await logSave("Services", titleEn, "updated");
+    await logSave("Services", titleEn, "updated", { type: "service", id: existing.id, data: existing });
     return { success: true };
   } catch (err) {
     console.error("[updateService]", err);
@@ -203,7 +203,7 @@ export async function deleteService(id: number): Promise<void> {
       revalidatePath("/admin");
       revalidatePath("/");
       revalidatePath("/services", "layout");
-      await logSave("Services", row.titleEn, "deleted");
+      await logSave("Services", row.titleEn, "deleted", { type: "service", id: row.id, data: row });
       deleted = true;
     }
   } catch (err) {

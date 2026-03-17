@@ -124,7 +124,7 @@ export async function updatePage(id: number, prev: PageFormState, formData: Form
     revalidatePath("/admin");
     revalidatePath(`/${newSlug}`);
     if (newSlug !== existing.slug) revalidatePath(`/${existing.slug}`);
-    await logSave("Pages", titleEn, "updated");
+    await logSave("Pages", titleEn, "updated", { type: "page", id: existing.id, data: existing });
     return { success: true };
   } catch (err) {
     console.error("[updatePage]", err);
@@ -143,7 +143,7 @@ export async function deletePage(id: number): Promise<void> {
       revalidatePath("/admin/pages");
       revalidatePath("/admin");
       revalidatePath(`/${slug}`);
-      await logSave("Pages", row.titleEn, "deleted");
+      await logSave("Pages", row.titleEn, "deleted", { type: "page", id: row.id, data: row });
       deleted = true;
     }
   } catch (err) {

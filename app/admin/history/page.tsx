@@ -1,6 +1,7 @@
 import { getSaveHistory } from "@/lib/actions/history";
 import styles from "../admin.module.css";
 import histStyles from "./history.module.css";
+import { RestoreButton } from "./RestoreButton";
 
 const ACTION_LABELS: Record<string, string> = {
   created: "Created",
@@ -24,7 +25,7 @@ function formatTime(iso: string) {
   return d.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" });
 }
 
-function groupByDate(entries: { id: number; section: string; label: string; action: string; savedAt: string }[]) {
+function groupByDate(entries: { id: number; section: string; label: string; action: string; savedAt: string; snapshotType: string | null; snapshotId: number | null; snapshot: string | null }[]) {
   const groups: Record<string, typeof entries> = {};
   for (const entry of entries) {
     const date = formatDate(entry.savedAt);
@@ -62,28 +63,36 @@ export default async function AdminHistoryPage() {
                       <th>Section</th>
                       <th>Item</th>
                       <th>Action</th>
+                      <th></th>
                     </tr>
                   </thead>
                   <tbody>
-                    {groups[date].map((entry) => (
-                      <tr key={entry.id}>
-                        <td style={{ color: "var(--gray-400)", fontVariantNumeric: "tabular-nums", whiteSpace: "nowrap" }}>
-                          {formatTime(entry.savedAt)}
-                        </td>
-                        <td>
-                          <span className={histStyles.sectionChip}>{entry.section}</span>
-                        </td>
-                        <td style={{ fontWeight: 500 }}>{entry.label}</td>
-                        <td>
-                          <span
-                            className={histStyles.actionBadge}
-                            style={{ "--badge-color": ACTION_COLORS[entry.action] ?? "#6b7280" } as React.CSSProperties}
-                          >
-                            {ACTION_LABELS[entry.action] ?? entry.action}
-                          </span>
-                        </td>
-                      </tr>
-                    ))}
+                    {groups[date].map((entry) => {
+                      const canRestore = !!entry.snapshotType && !!entry.snapshot &&
+                        (entry.action === "updated" || entry.action === "deleted");
+                      return (
+                        <tr key={entry.id}>
+                          <td style={{ color: "var(--gray-400)", fontVariantNumeric: "tabular-nums", whiteSpace: "nowrap" }}>
+                            {formatTime(entry.savedAt)}
+                          </td>
+                          <td>
+                            <span className={histStyles.sectionChip}>{entry.section}</span>
+                          </td>
+                          <td style={{ fontWeight: 500 }}>{entry.label}</td>
+                          <td>
+                            <span
+                              className={histStyles.actionBadge}
+                              style={{ "--badge-color": ACTION_COLORS[entry.action] ?? "#6b7280" } as React.CSSProperties}
+                            >
+                              {ACTION_LABELS[entry.action] ?? entry.action}
+                            </span>
+                          </td>
+                          <td style={{ textAlign: "right" }}>
+                            {canRestore && <RestoreButton historyId={entry.id} />}
+                          </td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </table>
               </div>
