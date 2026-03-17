@@ -21,6 +21,7 @@ import {
 } from "@/lib/actions/home";
 import { HomeSectionVisibilityToggle } from "../components/HomeSectionVisibilityToggle";
 import { FileUploadField } from "../components/FileUploadField";
+import { SubmitButton } from "../components/SubmitButton";
 
 function SectionCard({
   title,
@@ -84,9 +85,7 @@ async function HeroSection({ visibility }: { visibility: HomeSectionVisibility }
         />
 
         <div className={styles.formActions}>
-          <Button type="submit" variant="primary" colorStyle="dark" size="m">
-            Save hero
-          </Button>
+          <SubmitButton label="Save hero" />
         </div>
       </form>
     </SectionCard>
@@ -131,9 +130,7 @@ async function AboutSection({ visibility }: { visibility: HomeSectionVisibility 
         />
 
         <div className={styles.formActions}>
-          <Button type="submit" variant="primary" colorStyle="dark" size="m">
-            Save section
-          </Button>
+          <SubmitButton label="Save section" />
         </div>
       </form>
     </SectionCard>
@@ -177,9 +174,7 @@ async function SectionHeadingsSection() {
           }
         />
         <div className={styles.formActions}>
-          <Button type="submit" variant="primary" colorStyle="dark" size="m">
-            Save section headings
-          </Button>
+          <SubmitButton label="Save section headings" />
         </div>
       </form>
     </SectionCard>
@@ -291,9 +286,7 @@ async function BenefitsSection({ visibility }: { visibility: HomeSectionVisibili
               />
 
               <div className={styles.cardItemActions}>
-                <Button type="submit" variant="primary" colorStyle="dark" size="s">
-                  Save card
-                </Button>
+                <SubmitButton label="Save card" size="s" />
               </div>
             </form>
 
@@ -332,9 +325,7 @@ async function BenefitsSection({ visibility }: { visibility: HomeSectionVisibili
           />
 
           <div className={styles.cardItemActions}>
-            <Button type="submit" variant="primary" colorStyle="dark" size="m">
-              Add card
-            </Button>
+            <SubmitButton label="Add card" />
           </div>
         </form>
       )}
@@ -399,9 +390,7 @@ async function ProcessSection({ visibility }: { visibility: HomeSectionVisibilit
               />
 
               <div className={styles.cardItemActions}>
-                <Button type="submit" variant="primary" colorStyle="dark" size="s">
-                  Save step
-                </Button>
+                <SubmitButton label="Save step" size="s" />
               </div>
             </form>
 
@@ -442,9 +431,7 @@ async function ProcessSection({ visibility }: { visibility: HomeSectionVisibilit
           />
 
           <div className={styles.cardItemActions}>
-            <Button type="submit" variant="primary" colorStyle="dark" size="m">
-              Add step
-            </Button>
+            <SubmitButton label="Add step" />
           </div>
         </form>
       )}

@@ -24,6 +24,9 @@ export function AdminToast() {
   return (
     <div className={styles.toastWrap} role="status" aria-live="polite">
       <div className={`${styles.toast} ${toast === "success" ? styles.success : styles.error}`}>
+        <span className={`${styles.statusBarIcon} ${toast === "error" ? styles.statusBarIconError : ""}`}>
+          {toast === "success" ? "✓" : "✕"}
+        </span>
         {toast === "success" ? "Saved successfully." : "Something went wrong."}
       </div>
     </div>

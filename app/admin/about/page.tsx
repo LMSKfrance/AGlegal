@@ -14,6 +14,7 @@ import {
   upsertAboutPhilosophySettings,
 } from "@/lib/actions/about";
 import { getTeamList } from "@/lib/actions/team";
+import { SubmitButton } from "../components/SubmitButton";
 
 function SectionCard({
   title,
@@ -77,7 +78,7 @@ async function NumbersSection() {
           }
         />
         <div className={styles.formActions}>
-          <Button type="submit" variant="primary" colorStyle="dark" size="m">Save</Button>
+          <SubmitButton />
         </div>
       </form>
     </SectionCard>
@@ -112,7 +113,7 @@ async function MissionSection() {
           }
         />
         <div className={styles.formActions}>
-          <Button type="submit" variant="primary" colorStyle="dark" size="m">Save</Button>
+          <SubmitButton />
         </div>
       </form>
     </SectionCard>
@@ -145,7 +146,7 @@ async function FeaturesSection() {
           }
         />
         <div className={styles.formActions}>
-          <Button type="submit" variant="primary" colorStyle="dark" size="m">Save</Button>
+          <SubmitButton />
         </div>
       </form>
     </SectionCard>
@@ -180,7 +181,7 @@ async function PhilosophySection() {
           }
         />
         <div className={styles.formActions}>
-          <Button type="submit" variant="primary" colorStyle="dark" size="m">Save</Button>
+          <SubmitButton />
         </div>
       </form>
     </SectionCard>
@@ -248,7 +249,7 @@ async function TeamSection() {
         </div>
         {list.length > 0 && (
           <div className={styles.formActions}>
-            <Button type="submit" variant="primary" colorStyle="dark" size="m">Save team selection</Button>
+            <SubmitButton label="Save team selection" />
           </div>
         )}
       </form>

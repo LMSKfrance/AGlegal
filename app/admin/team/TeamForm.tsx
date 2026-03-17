@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useEffect } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button, TextField, TextArea } from "@/design-system";
 import { AdminLangTabs } from "../components/AdminLangTabs";
@@ -28,9 +28,14 @@ export function TeamForm({ item }: Props) {
   const isEdit = !!item;
   const action = isEdit && item ? updateTeamMember.bind(null, item.id) : createTeamMember;
   const [state, formAction, isPending] = useActionState(action, {});
+  const [saved, setSaved] = useState(false);
 
   useEffect(() => {
-    if (state.success) router.push("/admin/team?toast=success");
+    if (state.success) {
+      setSaved(true);
+      const t = setTimeout(() => router.push("/admin/team?toast=success"), 1500);
+      return () => clearTimeout(t);
+    }
   }, [state.success, router]);
 
   const fieldError = (field: string) => state.fieldErrors?.[field];
@@ -40,7 +45,8 @@ export function TeamForm({ item }: Props) {
   };
 
   return (
-    <form action={formAction} className={styles.formCard}>
+    <>
+    <form action={formAction} className={`${styles.formCard} ${saved ? styles.formCardSaved : ""}`}>
       {state.error && <div className={styles.formError} role="alert">{state.error}</div>}
 
       <div className={styles.formRow}>
@@ -147,5 +153,12 @@ export function TeamForm({ item }: Props) {
         </Button>
       </div>
     </form>
+    {saved && (
+      <div className={styles.statusBar} role="status" aria-live="polite">
+        <span className={styles.statusBarIcon}>✓</span>
+        Saved successfully
+      </div>
+    )}
+    </>
   );
 }
