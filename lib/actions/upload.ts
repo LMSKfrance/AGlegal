@@ -1,10 +1,7 @@
 "use server";
 
-import { writeFile, mkdir } from "fs/promises";
 import path from "path";
-import { revalidatePath } from "next/cache";
-
-const PUBLIC_IMAGES = "public/images";
+import { getStore } from "@netlify/blobs";
 
 export type UploadResult = { success: true; path: string } | { success: false; error: string };
 
@@ -23,13 +20,18 @@ export async function uploadImage(formData: FormData, fieldName = "image"): Prom
   }
   const ext = path.extname(file.name) || ".jpg";
   const name = `${Date.now()}-${Math.random().toString(36).slice(2, 9)}${ext}`;
-  const dir = path.join(process.cwd(), PUBLIC_IMAGES);
-  await mkdir(dir, { recursive: true });
-  const bytes = await file.arrayBuffer();
-  const buffer = Buffer.from(bytes);
-  const filePath = path.join(dir, name);
-  await writeFile(filePath, buffer);
-  const publicPath = `/images/${name}`;
-  revalidatePath("/");
-  return { success: true, path: publicPath };
+
+  try {
+    const bytes = await file.arrayBuffer();
+    const store = getStore("images");
+    await store.set(name, bytes, {
+      metadata: { contentType: file.type },
+    });
+  } catch (err) {
+    console.error("[uploadImage] blob store error:", err);
+    return { success: false, error: "Failed to store image. Please try again." };
+  }
+
+  // Serve via Next.js API route which reads from the blob store
+  return { success: true, path: `/api/images/${name}` };
 }

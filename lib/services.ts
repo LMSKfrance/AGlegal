@@ -10,15 +10,25 @@ export async function getServiceBySlug(
   slug: string,
   locale: Locale = "en"
 ): Promise<Service | null> {
-  const rows = await db.select().from(services).where(eq(services.slug, slug));
-  const row = rows[0];
-  if (!row) return null;
-  return mapRow(row, locale);
+  try {
+    const rows = await db.select().from(services).where(eq(services.slug, slug));
+    const row = rows[0];
+    if (!row) return null;
+    return mapRow(row, locale);
+  } catch (err) {
+    console.error("[getServiceBySlug]", err);
+    return null;
+  }
 }
 
 export async function getServices(locale: Locale = "en"): Promise<Service[]> {
-  const rows = await db.select().from(services).orderBy(asc(services.sortOrder));
-  return rows.map((row) => mapRow(row, locale));
+  try {
+    const rows = await db.select().from(services).orderBy(asc(services.sortOrder));
+    return rows.map((row) => mapRow(row, locale));
+  } catch (err) {
+    console.error("[getServices]", err);
+    return [];
+  }
 }
 
 function mapRow(

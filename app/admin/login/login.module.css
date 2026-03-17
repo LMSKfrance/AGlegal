@@ -1,0 +1,333 @@
+/* ─── Root layout ────────────────────────────────────────────── */
+.root {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 480px 1fr;
+  background: var(--white);
+  font-family: var(--font-inter), sans-serif;
+}
+
+@media (max-width: 860px) {
+  .root { grid-template-columns: 1fr; }
+  .panelRight { display: none; }
+}
+
+/* ─── Left panel ─────────────────────────────────────────────── */
+.panelLeft {
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--gray-200);
+  min-height: 100vh;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 24px 40px;
+  border-bottom: 1px solid var(--gray-100);
+}
+
+.adminBadge {
+  background: var(--ag-blue-50);
+  color: var(--ag-blue-800);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 999px;
+}
+
+.formArea {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 48px 44px;
+}
+
+/* ─── Form wrapper (entrance animation) ─────────────────────── */
+.formWrap {
+  width: 100%;
+  max-width: 380px;
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.formWrapIn {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.formWrapShake {
+  animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  14%  { transform: translateX(-8px); }
+  28%  { transform: translateX(7px); }
+  42%  { transform: translateX(-5px); }
+  57%  { transform: translateX(4px); }
+  71%  { transform: translateX(-2px); }
+  85%  { transform: translateX(1px); }
+}
+
+/* ─── Heading ────────────────────────────────────────────────── */
+.eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--ag-blue-800);
+  margin-bottom: 10px;
+}
+
+.heading {
+  margin-bottom: 32px;
+}
+
+.headingH1 {
+  font-family: var(--font-plus-jakarta-sans), sans-serif;
+  font-size: 36px;
+  font-weight: 800;
+  color: var(--gray-900);
+  letter-spacing: -0.5px;
+  line-height: 1.1;
+  margin-bottom: 10px;
+}
+
+.headingAccent {
+  color: var(--ag-blue-800);
+}
+
+.headingDesc {
+  font-size: 14px;
+  color: var(--gray-500);
+  line-height: 1.6;
+}
+
+/* ─── Global error banner ────────────────────────────────────── */
+.globalErr {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  background: var(--red-50);
+  border: 1.5px solid var(--red-200);
+  border-left: 3.5px solid var(--red-500);
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin-bottom: 20px;
+  color: var(--red-700);
+  font-size: 13.5px;
+  font-weight: 500;
+  animation: slideDown 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── Password wrapper (for eye-toggle overlay) ──────────────── */
+.pwWrapper {
+  position: relative;
+}
+
+.eyeBtn {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--gray-400);
+  padding: 4px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  transition: color 0.15s, background-color 0.15s;
+  z-index: 1;
+}
+
+.eyeBtn:hover {
+  color: var(--gray-700);
+  background-color: var(--gray-100);
+}
+
+/* offset top to clear the label (13px line-height ~20px + 6px gap = 26px) */
+.eyeBtnWithLabel {
+  top: calc(50% + 13px);
+}
+
+/* ─── Submit area ────────────────────────────────────────────── */
+.submitArea {
+  margin-top: 24px;
+}
+
+/* ─── Form footer ────────────────────────────────────────────── */
+.formFooter {
+  margin-top: 28px;
+  padding-top: 20px;
+  border-top: 1px solid var(--gray-100);
+  font-size: 12px;
+  color: var(--gray-400);
+  text-align: center;
+  line-height: 1.65;
+}
+
+.formFooterLink {
+  color: var(--ag-blue-700);
+  cursor: pointer;
+  font-weight: 500;
+  background: none;
+  border: none;
+  font-family: inherit;
+  font-size: inherit;
+  padding: 0;
+  text-decoration: none;
+}
+
+.formFooterLink:hover {
+  text-decoration: underline;
+}
+
+/* ─── Right / Brand panel ────────────────────────────────────── */
+.panelRight {
+  background: var(--ag-blue-950);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 52px 56px;
+}
+
+.panelRight::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 55% at 110% 95%, rgba(12, 181, 226, 0.35) 0%, transparent 55%),
+    radial-gradient(ellipse 45% 40% at -10% 5%,  rgba(0, 85, 184, 0.4)   0%, transparent 50%);
+  pointer-events: none;
+}
+
+.rightTop {
+  position: relative;
+  z-index: 2;
+}
+
+.rightWordmark {
+  font-family: var(--font-plus-jakarta-sans), sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.2);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 80px;
+}
+
+.rightHeadline {
+  font-family: var(--font-plus-jakarta-sans), sans-serif;
+  font-weight: 800;
+  line-height: 1.05;
+  font-size: clamp(48px, 4.5vw, 72px);
+  color: var(--white);
+  letter-spacing: -1px;
+}
+
+.rightAccent {
+  color: var(--ag-blue-400);
+}
+
+.rightDesc {
+  margin-top: 24px;
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.4);
+  font-weight: 400;
+  line-height: 1.7;
+  max-width: 360px;
+}
+
+.rightBottom {
+  position: relative;
+  z-index: 2;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.2);
+}
+
+/* ─── Decorative dots ────────────────────────────────────────── */
+.dotsGrid {
+  position: absolute;
+  bottom: 70px;
+  right: 40px;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+  opacity: 0.1;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--white);
+}
+
+/* ─── Success overlay ────────────────────────────────────────── */
+.successOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.98);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  animation: fadeIn 0.3s ease;
+  z-index: 100;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.sucRing {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--ag-blue-50);
+  border: 2.5px solid var(--ag-blue-400);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: pop 0.45s 0.05s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes pop {
+  from { opacity: 0; transform: scale(0.3); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.sucTitle {
+  font-family: var(--font-plus-jakarta-sans), sans-serif;
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--gray-900);
+  letter-spacing: -0.5px;
+  animation: slideDown 0.35s 0.2s ease both;
+}
+
+.sucSub {
+  font-size: 14px;
+  color: var(--gray-500);
+  animation: slideDown 0.35s 0.3s ease both;
+}

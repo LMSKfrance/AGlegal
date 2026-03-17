@@ -68,18 +68,22 @@ export type HomeContent = {
 };
 
 async function getSettingValue(key: string, locale: Locale): Promise<string> {
-  const rows = await db
-    .select({
-      valueEn: siteSettings.valueEn,
-      valueKa: siteSettings.valueKa,
-    })
-    .from(siteSettings)
-    .where(eq(siteSettings.key, key));
+  try {
+    const rows = await db
+      .select({
+        valueEn: siteSettings.valueEn,
+        valueKa: siteSettings.valueKa,
+      })
+      .from(siteSettings)
+      .where(eq(siteSettings.key, key));
 
-  if (!rows.length) return "";
-  const row = rows[0];
-  const raw = locale === "ka" ? row.valueKa ?? row.valueEn : row.valueEn ?? row.valueKa;
-  return raw ?? "";
+    if (!rows.length) return "";
+    const row = rows[0];
+    const raw = locale === "ka" ? row.valueKa ?? row.valueEn : row.valueEn ?? row.valueKa;
+    return raw ?? "";
+  } catch {
+    return "";
+  }
 }
 
 export async function getHeroContent(locale: Locale): Promise<HeroContent> {
@@ -170,89 +174,104 @@ export async function getHomeProcessHeading(locale: Locale) {
 }
 
 export async function getHomeServicesCards(locale: Locale): Promise<ServiceCard[]> {
-  const rows = await db
-    .select()
-    .from(services)
-    .where(eq(services.showOnHome, 1))
-    .orderBy(asc(services.homeOrder), asc(services.sortOrder), asc(services.id));
+  try {
+    const rows = await db
+      .select()
+      .from(services)
+      .where(eq(services.showOnHome, 1))
+      .orderBy(asc(services.homeOrder), asc(services.sortOrder), asc(services.id));
 
-  return rows.map((row) => {
-    const title = locale === "ka" ? row.titleKa ?? row.titleEn : row.titleEn ?? row.titleKa ?? "";
-    const descriptionSource =
-      locale === "ka"
-        ? row.homeShortDescriptionKa ?? row.descriptionKa ?? row.descriptionEn
-        : row.homeShortDescriptionEn ?? row.descriptionEn ?? row.descriptionKa;
+    return rows.map((row) => {
+      const title = locale === "ka" ? row.titleKa ?? row.titleEn : row.titleEn ?? row.titleKa ?? "";
+      const descriptionSource =
+        locale === "ka"
+          ? row.homeShortDescriptionKa ?? row.descriptionKa ?? row.descriptionEn
+          : row.homeShortDescriptionEn ?? row.descriptionEn ?? row.descriptionKa;
 
-    const description = truncateChars(descriptionSource ?? "", 160);
+      const description = truncateChars(descriptionSource ?? "", 160);
 
-    const image = row.homeCardImage ?? row.image ?? "/images/ag-legal.jpg";
-    const learnMoreUrl =
-      row.homeLearnMoreUrl && row.homeLearnMoreUrl.trim().length > 0
-        ? row.homeLearnMoreUrl.trim()
-        : row.slug
-          ? `/services/${row.slug}`
-          : "/services";
+      const image = row.homeCardImage ?? row.image ?? "/images/ag-legal.jpg";
+      const learnMoreUrl =
+        row.homeLearnMoreUrl && row.homeLearnMoreUrl.trim().length > 0
+          ? row.homeLearnMoreUrl.trim()
+          : row.slug
+            ? `/services/${row.slug}`
+            : "/services";
 
-    return {
-      id: row.id,
-      image,
-      title,
-      description,
-      slug: row.slug,
-      learnMoreUrl,
-    };
-  });
+      return {
+        id: row.id,
+        image,
+        title,
+        description,
+        slug: row.slug,
+        learnMoreUrl,
+      };
+    });
+  } catch (err) {
+    console.error("[getHomeServicesCards]", err);
+    return [];
+  }
 }
 
 export async function getHomeBenefits(locale: Locale): Promise<BenefitCard[]> {
-  const rows: HomeBenefit[] = await db
-    .select()
-    .from(homeBenefits)
-    .orderBy(asc(homeBenefits.sortOrder), asc(homeBenefits.id));
+  try {
+    const rows: HomeBenefit[] = await db
+      .select()
+      .from(homeBenefits)
+      .orderBy(asc(homeBenefits.sortOrder), asc(homeBenefits.id));
 
-  return rows.map((row) => {
-    const title = locale === "ka" ? row.titleKa ?? row.titleEn : row.titleEn ?? row.titleKa ?? "";
-    const descriptionSource =
-      locale === "ka" ? row.descriptionKa ?? row.descriptionEn : row.descriptionEn ?? row.descriptionKa;
-    const description = truncateChars(descriptionSource ?? "", 220);
+    return rows.map((row) => {
+      const title = locale === "ka" ? row.titleKa ?? row.titleEn : row.titleEn ?? row.titleKa ?? "";
+      const descriptionSource =
+        locale === "ka" ? row.descriptionKa ?? row.descriptionEn : row.descriptionEn ?? row.descriptionKa;
+      const description = truncateChars(descriptionSource ?? "", 220);
 
-    return {
-      id: row.id,
-      iconPath: row.iconPath,
-      title,
-      description,
-    };
-  });
+      return {
+        id: row.id,
+        iconPath: row.iconPath,
+        title,
+        description,
+      };
+    });
+  } catch (err) {
+    console.error("[getHomeBenefits]", err);
+    return [];
+  }
 }
 
 export async function getHomeProcessSteps(locale: Locale): Promise<ProcessTab[]> {
-  const rows: HomeProcessStep[] = await db
-    .select()
-    .from(homeProcessSteps)
-    .orderBy(asc(homeProcessSteps.sortOrder), asc(homeProcessSteps.id));
+  try {
+    const rows: HomeProcessStep[] = await db
+      .select()
+      .from(homeProcessSteps)
+      .orderBy(asc(homeProcessSteps.sortOrder), asc(homeProcessSteps.id));
 
-  return rows.map((row, index) => {
-    const title =
-      locale === "ka" ? row.tabTitleKa ?? row.tabTitleEn : row.tabTitleEn ?? row.tabTitleKa ?? "";
-    const contentTitle =
-      locale === "ka" ? row.titleKa ?? row.titleEn : row.titleEn ?? row.titleKa ?? "";
-    const descriptionSource =
-      locale === "ka" ? row.descriptionKa ?? row.descriptionEn : row.descriptionEn ?? row.descriptionKa;
-    const description = truncateChars(descriptionSource ?? "", 260);
-    const image = row.image ?? "/images/process/consultation.jpg";
-    const number = row.stepNumber || String(index + 1).padStart(2, "0");
+    return rows.map((row, index) => {
+      const title =
+        locale === "ka" ? row.tabTitleKa ?? row.tabTitleEn : row.tabTitleEn ?? row.tabTitleKa ?? "";
+      const contentTitle =
+        locale === "ka" ? row.titleKa ?? row.titleEn : row.titleEn ?? row.titleKa ?? "";
+      const descriptionSource =
+        locale === "ka" ? row.descriptionKa ?? row.descriptionEn : row.descriptionEn ?? row.descriptionKa;
+      const description = truncateChars(descriptionSource ?? "", 260);
+      const image = row.image ?? "/images/process/consultation.jpg";
+      const number = row.stepNumber || String(index + 1).padStart(2, "0");
 
-    return {
-      id: row.id,
-      title,
-      content: {
-        title: contentTitle,
-        description,
-        image,
-        number,
-      },
-    };
-  });
+      return {
+        id: row.id,
+        title,
+        content: {
+          title: contentTitle,
+          description,
+          image,
+          number,
+        },
+      };
+    });
+  } catch (err) {
+    console.error("[getHomeProcessSteps]", err);
+    return [];
+  }
 }
 
 // ─── Home section visibility (read-only; mutations live in lib/actions/home) ───
@@ -273,14 +292,20 @@ export type HomeSectionId = (typeof HOME_SECTION_IDS)[number];
 export type HomeSectionVisibility = Record<HomeSectionId, boolean>;
 
 export async function getHomeSectionVisibility(): Promise<HomeSectionVisibility> {
-  const keys = HOME_SECTION_IDS.map((id) => `home.section.${id}.visible`);
-  const values = await Promise.all(keys.map((key) => getSettingValue(key, "en")));
-  const result = {} as HomeSectionVisibility;
-  const parse = (v: string) => v === "1" || v === "true" || v === "";
-  HOME_SECTION_IDS.forEach((id, i) => {
-    result[id] = parse(values[i] ?? "1");
-  });
-  return result;
+  try {
+    const keys = HOME_SECTION_IDS.map((id) => `home.section.${id}.visible`);
+    const values = await Promise.all(keys.map((key) => getSettingValue(key, "en")));
+    const result = {} as HomeSectionVisibility;
+    const parse = (v: string) => v === "1" || v === "true" || v === "";
+    HOME_SECTION_IDS.forEach((id, i) => {
+      result[id] = parse(values[i] ?? "1");
+    });
+    return result;
+  } catch (err) {
+    console.error("[getHomeSectionVisibility]", err);
+    // Default: all sections visible
+    return Object.fromEntries(HOME_SECTION_IDS.map((id) => [id, true])) as HomeSectionVisibility;
+  }
 }
 
 export async function getHomeContent(locale: Locale): Promise<HomeContent> {

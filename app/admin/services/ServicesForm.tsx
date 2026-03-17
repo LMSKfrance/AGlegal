@@ -3,6 +3,7 @@
 import { useActionState } from "react";
 import { Button, TextField, TextArea } from "@/design-system";
 import { AdminLangTabs } from "../components/AdminLangTabs";
+import { FileUploadField } from "../components/FileUploadField";
 import type { Service } from "@/lib/db/schema";
 import { createService, updateService, type ServiceFormState } from "@/lib/actions/services";
 import styles from "../admin.module.css";
@@ -27,22 +28,20 @@ export function ServicesForm({ item }: Props) {
       {state.error && <div className={styles.formError} role="alert">{state.error}</div>}
 
       <div className={styles.formRow}>
-        <label style={{ display: "block", marginBottom: 8 }}>Image</label>
-        <input type="file" name="image" accept="image/jpeg,image/png,image/gif,image/webp" />
-        {item?.image && (
-          <p style={{ marginTop: 8, fontSize: 14, color: "var(--gray-600)" }}>
-            Current: <a href={item.image} target="_blank" rel="noreferrer">{item.image}</a>
-          </p>
-        )}
+        <FileUploadField
+          name="image"
+          accept="image/jpeg,image/png,image/gif,image/webp"
+          label="Image"
+          currentPath={item?.image}
+        />
       </div>
       <div className={styles.formRow}>
-        <label style={{ display: "block", marginBottom: 8 }}>Thumbnail image</label>
-        <input type="file" name="thumbnailImage" accept="image/jpeg,image/png,image/gif,image/webp" />
-        {item?.thumbnailImage && (
-          <p style={{ marginTop: 8, fontSize: 14, color: "var(--gray-600)" }}>
-            Current: <a href={item.thumbnailImage} target="_blank" rel="noreferrer">{item.thumbnailImage}</a>
-          </p>
-        )}
+        <FileUploadField
+          name="thumbnailImage"
+          accept="image/jpeg,image/png,image/gif,image/webp"
+          label="Thumbnail image"
+          currentPath={item?.thumbnailImage}
+        />
       </div>
 
       <div className={styles.formRow}>
@@ -98,13 +97,12 @@ export function ServicesForm({ item }: Props) {
       </div>
 
       <div className={styles.formRow}>
-        <label style={{ display: "block", marginBottom: 8 }}>Home card image (optional)</label>
-        <input type="file" name="homeCardImage" accept="image/jpeg,image/png,image/gif,image/webp" />
-        {item?.homeCardImage && (
-          <p style={{ marginTop: 8, fontSize: 14, color: "var(--gray-600)" }}>
-            Current: <a href={item.homeCardImage} target="_blank" rel="noreferrer">{item.homeCardImage}</a>
-          </p>
-        )}
+        <FileUploadField
+          name="homeCardImage"
+          accept="image/jpeg,image/png,image/gif,image/webp"
+          label="Home card image (optional)"
+          currentPath={item?.homeCardImage}
+        />
       </div>
 
       <AdminLangTabs
