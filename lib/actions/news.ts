@@ -72,11 +72,11 @@ export async function createNews(prev: NewsFormState, formData: FormData): Promi
 
     revalidatePath("/admin/news");
     revalidatePath("/admin");
+    return { success: true };
   } catch (err) {
     console.error("[createNews]", err);
     return { error: "Failed to save. Please try again." };
   }
-  redirect("/admin/news?toast=success");
 }
 
 export async function updateNews(id: number, prev: NewsFormState, formData: FormData): Promise<NewsFormState> {
@@ -131,11 +131,11 @@ export async function updateNews(id: number, prev: NewsFormState, formData: Form
     revalidatePath("/admin/news");
     revalidatePath("/admin");
     revalidatePath(`/news/${existing.slug}`);
+    return { success: true };
   } catch (err) {
     console.error("[updateNews]", err);
     return { error: "Failed to save. Please try again." };
   }
-  redirect("/admin/news?toast=success");
 }
 
 export async function deleteNews(id: number): Promise<void> {

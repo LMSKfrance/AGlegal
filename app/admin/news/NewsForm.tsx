@@ -1,6 +1,7 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { Button, TextField, TextArea } from "@/design-system";
 import { AdminLangTabs } from "../components/AdminLangTabs";
 import { FileUploadField } from "../components/FileUploadField";
@@ -15,10 +16,15 @@ type Props = {
 const initialState: NewsFormState = {};
 
 export function NewsForm({ item }: Props) {
+  const router = useRouter();
   const isEdit = !!item;
   const action: (prevState: NewsFormState, formData: FormData) => Promise<NewsFormState> =
     isEdit && item ? updateNews.bind(null, item.id) : createNews;
   const [state, formAction, isPending] = useActionState(action, initialState);
+
+  useEffect(() => {
+    if (state?.success) router.push("/admin/news?toast=success");
+  }, [state?.success, router]);
 
   const tagsDefault =
     Array.isArray(item?.tags)

@@ -1,6 +1,7 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { Button, TextField, TextArea } from "@/design-system";
 import { AdminLangTabs } from "../components/AdminLangTabs";
 import { FileUploadField } from "../components/FileUploadField";
@@ -13,9 +14,14 @@ type Props = {
 };
 
 export function ServicesForm({ item }: Props) {
+  const router = useRouter();
   const isEdit = !!item;
   const action = isEdit && item ? updateService.bind(null, item.id) : createService;
   const [state, formAction, isPending] = useActionState(action, {});
+
+  useEffect(() => {
+    if (state.success) router.push("/admin/services?toast=success");
+  }, [state.success, router]);
 
   const fieldError = (field: string) => state.fieldErrors?.[field];
   const renderFieldError = (field: string) => {

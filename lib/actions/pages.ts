@@ -72,11 +72,11 @@ export async function createPage(prev: PageFormState, formData: FormData): Promi
     revalidatePath("/admin/pages");
     revalidatePath("/admin");
     revalidatePath(`/${slug}`);
+    return { success: true };
   } catch (err) {
     console.error("[createPage]", err);
     return { error: "Failed to save. Please try again." };
   }
-  redirect("/admin/pages?toast=success");
 }
 
 export async function updatePage(id: number, prev: PageFormState, formData: FormData): Promise<PageFormState> {
@@ -122,11 +122,11 @@ export async function updatePage(id: number, prev: PageFormState, formData: Form
     revalidatePath("/admin");
     revalidatePath(`/${newSlug}`);
     if (newSlug !== existing.slug) revalidatePath(`/${existing.slug}`);
+    return { success: true };
   } catch (err) {
     console.error("[updatePage]", err);
     return { error: "Failed to save. Please try again." };
   }
-  redirect("/admin/pages?toast=success");
 }
 
 export async function deletePage(id: number): Promise<void> {
