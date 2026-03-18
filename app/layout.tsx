@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Plus_Jakarta_Sans, Inter, Cormorant_Garamond, Noto_Sans_Georgian } from "next/font/google";
 import "../styles/index.css";
 import cn from "classnames";
@@ -29,6 +29,17 @@ const notoSansGeorgian = Noto_Sans_Georgian({
 export const metadata: Metadata = {
   title: "AG Legal",
   description: "The UI Template for AG Legal",
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+    ],
+    apple: "/apple-touch-icon.png",
+  },
+  manifest: "/site.webmanifest",
+};
+
+export const viewport: Viewport = {
+  themeColor: "#FFFFFF",
 };
 
 export default function RootLayout({
