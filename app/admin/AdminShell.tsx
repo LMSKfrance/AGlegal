@@ -28,6 +28,7 @@ const SECTION_LABELS: Record<string, string> = {
   about: "About",
   contact: "Contact",
   history: "History",
+  profile: "My Profile",
 };
 
 const navIcons: Record<string, React.ReactNode> = {
@@ -213,9 +214,11 @@ function AdminTopbar() {
 export default function AdminShell({
   children,
   userEmail,
+  userName,
 }: {
   children: React.ReactNode;
   userEmail?: string | null;
+  userName?: string | null;
 }) {
   const pathname = usePathname();
   const isLogin = pathname === "/admin/login";
@@ -224,7 +227,8 @@ export default function AdminShell({
     return <>{children}</>;
   }
 
-  const initial = userEmail ? userEmail.charAt(0).toUpperCase() : "A";
+  const displayName = userName ?? "Admin";
+  const initial = displayName.charAt(0).toUpperCase();
 
   return (
     <div className={styles.shell}>
@@ -248,10 +252,10 @@ export default function AdminShell({
           })}
         </nav>
         <div className={styles.sidebarBottom}>
-          <div className={styles.sidebarUser}>
+          <Link href="/admin/profile" className={`${styles.sidebarUser} ${pathname === "/admin/profile" ? styles.sidebarUserActive : ""}`} style={{ textDecoration: "none" }}>
             <div className={styles.sidebarUserAvatar}>{initial}</div>
             <div className={styles.sidebarUserInfo}>
-              <span className={styles.sidebarUserEmail}>{userEmail ?? "Admin"}</span>
+              <span className={styles.sidebarUserEmail}>{displayName}</span>
               <span className={styles.sidebarUserRole}>Administrator</span>
             </div>
             <a
@@ -259,10 +263,11 @@ export default function AdminShell({
               className={styles.sidebarSignOut}
               title="Sign out"
               aria-label="Sign out"
+              onClick={(e) => e.stopPropagation()}
             >
               <SignOutIcon />
             </a>
-          </div>
+          </Link>
         </div>
       </aside>
       <main className={styles.main}>

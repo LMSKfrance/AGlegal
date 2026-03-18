@@ -191,6 +191,16 @@ export const pages = sqliteTable("pages", {
   updatedAt: text("updated_at").notNull().$defaultFn(() => new Date().toISOString()),
 });
 
+// ─── Admin Profile ────────────────────────────────────────────────────────────
+export const adminProfile = sqliteTable("admin_profile", {
+  id: integer("id").primaryKey(),
+  name: text("name").notNull().default("Admin"),
+  email: text("email").notNull(),
+  passwordHash: text("password_hash").notNull(),
+  updatedAt: text("updated_at").notNull().$defaultFn(() => new Date().toISOString()),
+});
+export type AdminProfile = typeof adminProfile.$inferSelect;
+
 // ─── Save History ─────────────────────────────────────────────────────────────
 export const saveHistory = sqliteTable("save_history", {
   id: integer("id").primaryKey({ autoIncrement: true }),

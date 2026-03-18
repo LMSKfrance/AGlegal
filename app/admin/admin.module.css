@@ -119,6 +119,18 @@
   border-radius: 10px;
   background: var(--gray-50);
   border: 1px solid rgba(0, 0, 0, 0.05);
+  transition: background-color 0.15s, border-color 0.15s;
+  cursor: pointer;
+}
+
+.sidebarUser:hover {
+  background: var(--ag-blue-50);
+  border-color: var(--ag-blue-100);
+}
+
+.sidebarUserActive {
+  background: var(--ag-blue-50) !important;
+  border-color: var(--ag-blue-200) !important;
 }
 
 .sidebarUserAvatar {
@@ -639,6 +651,24 @@
   background: var(--red-50);
   border: 1px solid var(--red-200);
   border-radius: 10px;
+}
+
+.formSuccess {
+  font-family: var(--font-inter);
+  font-size: 13px;
+  line-height: 20px;
+  color: #166534;
+  margin-bottom: 20px;
+  padding: 12px 16px;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 10px;
+}
+
+.formSectionDivider {
+  border: none;
+  border-top: 1px solid rgba(0, 0, 0, 0.07);
+  margin: 8px 0 16px;
 }
 
 .formTabsWrap {

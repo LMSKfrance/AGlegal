@@ -12,12 +12,15 @@
     "db:studio": "drizzle-kit studio",
     "db:seed": "tsx scripts/seed.ts",
     "db:seed-pages": "tsx scripts/seed-pages.ts",
-    "db:seed-turso": "node --env-file=.env.local --import=tsx scripts/seed-turso.ts"
+    "db:seed-turso": "node --env-file=.env.local --import=tsx scripts/seed-turso.ts",
+    "db:seed-admin": "node --env-file=.env.local --import=tsx scripts/seed-admin.ts"
   },
   "dependencies": {
     "@gsap/react": "^2.1.1",
     "@libsql/client": "^0.17.0",
     "@netlify/blobs": "^10.7.1",
+    "@types/bcryptjs": "^2.4.6",
+    "bcryptjs": "^3.0.3",
     "classnames": "^2.5.1",
     "drizzle-orm": "^0.45.1",
     "gray-matter": "^4.0.3",
