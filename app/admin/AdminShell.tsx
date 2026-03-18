@@ -1,7 +1,8 @@
 "use client";
 
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import Logo from "@/components/Logo";
 import styles from "./admin.module.css";
 
@@ -16,6 +17,17 @@ const navItems = [
   { href: "/admin/contact", label: "Contact" },
   { href: "/admin/history", label: "History" },
 ];
+
+const SECTION_LABELS: Record<string, string> = {
+  home: "Homepage",
+  news: "News",
+  team: "Team",
+  services: "Services",
+  pages: "Pages",
+  about: "About",
+  contact: "Contact",
+  history: "History",
+};
 
 const navIcons: Record<string, React.ReactNode> = {
   "/admin": (
@@ -89,6 +101,87 @@ function SignOutIcon() {
   );
 }
 
+type Crumb = { label: string; href?: string };
+
+function getBreadcrumbs(pathname: string): Crumb[] {
+  const parts = pathname.split("/").filter(Boolean); // ["admin", "team", "123", "edit"]
+  if (parts.length <= 1) return [{ label: "Dashboard" }];
+
+  const section = parts[1];
+  const sectionLabel = SECTION_LABELS[section] ?? section;
+  const sectionHref = `/admin/${section}`;
+
+  const crumbs: Crumb[] = [{ label: "Dashboard", href: "/admin" }];
+
+  if (parts.length === 2) {
+    crumbs.push({ label: sectionLabel });
+  } else {
+    crumbs.push({ label: sectionLabel, href: sectionHref });
+    const sub = parts[2];
+    if (sub === "new") {
+      crumbs.push({ label: "New" });
+    } else if (parts[3] === "edit") {
+      crumbs.push({ label: "Edit" });
+    } else {
+      crumbs.push({ label: sub });
+    }
+  }
+
+  return crumbs;
+}
+
+function AdminTopbar() {
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const toast = searchParams.get("toast");
+
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    if (toast) {
+      setVisible(true);
+      const t = setTimeout(() => setVisible(false), 3500);
+      return () => clearTimeout(t);
+    } else {
+      setVisible(false);
+    }
+  }, [toast, pathname]);
+
+  const crumbs = getBreadcrumbs(pathname);
+
+  return (
+    <header className={styles.header}>
+      <nav className={styles.breadcrumb} aria-label="Breadcrumb">
+        {crumbs.map((c, i) => (
+          <span key={i} className={styles.breadcrumbItem}>
+            {i > 0 && <span className={styles.breadcrumbSep}>/</span>}
+            {c.href ? (
+              <Link href={c.href} className={styles.breadcrumbLink}>{c.label}</Link>
+            ) : (
+              <span className={styles.breadcrumbCurrent}>{c.label}</span>
+            )}
+          </span>
+        ))}
+      </nav>
+
+      {visible && toast && (
+        <div className={`${styles.topbarToast} ${toast === "success" ? styles.topbarToastSuccess : styles.topbarToastError}`}>
+          {toast === "success" ? (
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+              <path d="M2 7l3.5 3.5L12 3" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          ) : (
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+              <path d="M2 2l10 10M12 2L2 12" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />
+            </svg>
+          )}
+          {toast === "success" ? "Saved successfully" : "Something went wrong"}
+        </div>
+      )}
+    </header>
+  );
+}
+
 export default function AdminShell({
   children,
   userEmail,
@@ -145,12 +238,7 @@ export default function AdminShell({
         </div>
       </aside>
       <main className={styles.main}>
-        <header className={styles.header}>
-          <span className={styles.headerLogo}>
-            <Logo iconOnly variant="header" href="/" />
-          </span>
-          <div className={styles.headerRight} />
-        </header>
+        <AdminTopbar />
         <div className={styles.content}>{children}</div>
       </main>
     </div>
