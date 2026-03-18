@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import { redirect } from "next/navigation";
 import { Button, TextField, TextArea } from "@/design-system";
 import { AdminLangTabs } from "../components/AdminLangTabs";
 import { AdminToast } from "../components/AdminToast";
@@ -11,7 +12,8 @@ export default async function AdminContactPage() {
 
   async function action(formData: FormData) {
     "use server";
-    await upsertContactSettings({}, formData);
+    const result = await upsertContactSettings({}, formData);
+    if (result.success) redirect("/admin/contact?toast=success");
   }
 
   return (

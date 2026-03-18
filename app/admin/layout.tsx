@@ -12,7 +12,10 @@ export default async function AdminLayout({
   return (
     <div data-figma-ds="admin">
       <LangProvider>
-        <AdminShell userEmail={session?.user?.email ?? null}>
+        <AdminShell
+          userEmail={session?.user?.email ?? null}
+          userName={session?.user?.name ?? null}
+        >
           {children}
         </AdminShell>
       </LangProvider>
