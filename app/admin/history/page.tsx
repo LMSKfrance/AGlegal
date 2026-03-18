@@ -88,7 +88,7 @@ export default async function AdminHistoryPage() {
                             </span>
                           </td>
                           <td style={{ textAlign: "right" }}>
-                            {canRestore && <RestoreButton historyId={entry.id} />}
+                            {canRestore && <RestoreButton historyId={entry.id} label={entry.label} />}
                           </td>
                         </tr>
                       );

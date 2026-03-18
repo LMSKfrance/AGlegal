@@ -53,24 +53,24 @@
 }
 
 .restoreBtn {
-  display: inline-block;
-  padding: 3px 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
   border-radius: 6px;
   border: 1px solid var(--gray-200);
   background: var(--gray-50);
-  color: var(--gray-600);
-  font-size: 12px;
-  font-weight: 500;
-  font-family: var(--font-inter);
+  color: var(--gray-400);
   cursor: pointer;
   transition: background 0.15s, border-color 0.15s, color 0.15s;
-  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .restoreBtn:hover:not(:disabled) {
-  background: var(--ag-blue-50, #eff6ff);
-  border-color: var(--ag-blue-300, #93c5fd);
-  color: var(--ag-blue-700, #1d4ed8);
+  background: #eff6ff;
+  border-color: #93c5fd;
+  color: #1d4ed8;
 }
 
 .restoreBtn:disabled {
@@ -78,9 +78,25 @@
   cursor: not-allowed;
 }
 
+.restoreBtnLoading .restoreArrow {
+  animation: restoreSpin 0.8s linear infinite;
+}
+
+.restoreArrow {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+@keyframes restoreSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(-360deg); }
+}
+
 .restoreDone {
-  font-size: 12px;
+  font-size: 11px;
   font-family: var(--font-inter);
   color: #059669;
   font-weight: 600;
+  white-space: nowrap;
 }
