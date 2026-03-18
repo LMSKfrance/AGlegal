@@ -22,17 +22,21 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    const stored = localStorage.getItem(STORAGE_KEY) as Locale | null;
-    if (stored === "en" || stored === "ka") {
-      setLocaleState(stored);
-    }
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY) as Locale | null;
+      if (stored === "en" || stored === "ka") {
+        setLocaleState(stored);
+      }
+    } catch {}
     setMounted(true);
   }, []);
 
   const setLocale = useCallback((newLocale: Locale) => {
     setLocaleState(newLocale);
     if (typeof window !== "undefined") {
-      localStorage.setItem(STORAGE_KEY, newLocale);
+      try {
+        localStorage.setItem(STORAGE_KEY, newLocale);
+      } catch {}
       document.documentElement.lang = newLocale === "ka" ? "ka" : "en";
       document.documentElement.classList.toggle("locale-ka", newLocale === "ka");
     }

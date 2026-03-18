@@ -23,13 +23,15 @@ type TabContent = {
 const ProcessSlide = ({ content }: { content: TabContent }) => (
   <>
     <div className={styles.image_wrapper}>
-      <Image
-        src={content.image}
-        fill
-        sizes="(max-width: 768px) 100vw, 50vw"
-        alt={content.title}
-        className={styles.image}
-      />
+      {content.image && (
+        <Image
+          src={content.image}
+          fill
+          sizes="(max-width: 768px) 100vw, 50vw"
+          alt={content.title}
+          className={styles.image}
+        />
+      )}
     </div>
     <div className={styles.figure_content}>
       <div>

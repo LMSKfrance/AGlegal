@@ -4,10 +4,16 @@ import { getContactSettings } from "@/lib/actions/contact";
 import { getPageBySlug } from "@/lib/actions/pages";
 
 const ContactPage = async () => {
-  const [contact, page] = await Promise.all([
-    getContactSettings(),
-    getPageBySlug("contact"),
-  ]);
+  let contact = null;
+  let page = null;
+  try {
+    [contact, page] = await Promise.all([
+      getContactSettings(),
+      getPageBySlug("contact"),
+    ]);
+  } catch (err) {
+    console.error("[ContactPage]", err);
+  }
 
   return (
     <Layout>
