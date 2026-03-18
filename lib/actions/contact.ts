@@ -4,6 +4,7 @@ import { db } from "@/lib/db";
 import { contactSettings } from "@/lib/db/schema";
 import { revalidatePath } from "next/cache";
 import { eq } from "drizzle-orm";
+import { logSave } from "./history";
 
 export type ContactFormState = {
   success?: boolean;
@@ -57,6 +58,7 @@ export async function upsertContactSettings(
 
     revalidatePath("/contact");
     revalidatePath("/admin/contact");
+    await logSave("Contact", "Contact settings", "updated");
     return { success: true };
   } catch (err) {
     console.error("[upsertContactSettings]", err);

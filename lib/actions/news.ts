@@ -6,6 +6,7 @@ import { articles } from "@/lib/db/schema";
 import { eq, desc } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { slugify } from "@/lib/utils/slug";
+import { logSave } from "./history";
 
 export type NewsFormState = { success?: boolean; error?: string; fieldErrors?: Record<string, string> };
 
@@ -72,11 +73,12 @@ export async function createNews(prev: NewsFormState, formData: FormData): Promi
 
     revalidatePath("/admin/news");
     revalidatePath("/admin");
+    await logSave("News", titleEn, "created");
+    return { success: true };
   } catch (err) {
     console.error("[createNews]", err);
     return { error: "Failed to save. Please try again." };
   }
-  redirect("/admin/news?toast=success");
 }
 
 export async function updateNews(id: number, prev: NewsFormState, formData: FormData): Promise<NewsFormState> {
@@ -131,11 +133,12 @@ export async function updateNews(id: number, prev: NewsFormState, formData: Form
     revalidatePath("/admin/news");
     revalidatePath("/admin");
     revalidatePath(`/news/${existing.slug}`);
+    await logSave("News", titleEn, "updated", { type: "news", id: existing.id, data: existing });
+    return { success: true };
   } catch (err) {
     console.error("[updateNews]", err);
     return { error: "Failed to save. Please try again." };
   }
-  redirect("/admin/news?toast=success");
 }
 
 export async function deleteNews(id: number): Promise<void> {
@@ -146,6 +149,7 @@ export async function deleteNews(id: number): Promise<void> {
       await db.delete(articles).where(eq(articles.id, id));
       revalidatePath("/admin/news");
       revalidatePath("/admin");
+      await logSave("News", row.titleEn, "deleted", { type: "news", id: row.id, data: row });
       deleted = true;
     }
   } catch (err) {

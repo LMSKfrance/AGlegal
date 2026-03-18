@@ -205,12 +205,119 @@
   z-index: 10;
 }
 
-.headerLogo {
-  color: var(--ag-blue-800);
+/* ─── Topbar right cluster ───────────────────────────────────────────────────── */
+.topbarRight {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-.headerLogo:hover {
-  color: var(--ag-blue-900);
+/* ─── Language switcher ──────────────────────────────────────────────────────── */
+.langSwitcher {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  background: var(--gray-100);
+  border-radius: 8px;
+  padding: 2px;
+}
+
+.langSwitcherBtn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  font-family: var(--font-inter);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--gray-500);
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s, box-shadow 0.12s;
+  line-height: 1.6;
+}
+
+.langSwitcherBtn:hover:not(.langSwitcherActive) {
+  color: var(--gray-700);
+}
+
+.langSwitcherActive {
+  background: white;
+  color: var(--gray-900);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.langSwitcherFlag {
+  font-size: 13px;
+  line-height: 1;
+}
+
+/* ─── Breadcrumb ─────────────────────────────────────────────────────────────── */
+.breadcrumb {
+  display: flex;
+  align-items: center;
+}
+
+.breadcrumbItem {
+  display: flex;
+  align-items: center;
+}
+
+.breadcrumbSep {
+  margin: 0 6px;
+  color: var(--gray-300);
+  font-family: var(--font-inter);
+  font-size: 13px;
+  user-select: none;
+}
+
+.breadcrumbLink {
+  font-family: var(--font-inter);
+  font-size: 13px;
+  color: var(--gray-400);
+  text-decoration: none;
+  transition: color 0.12s;
+}
+
+.breadcrumbLink:hover {
+  color: var(--ag-blue-600);
+}
+
+.breadcrumbCurrent {
+  font-family: var(--font-inter);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gray-700);
+}
+
+/* ─── Topbar toast ───────────────────────────────────────────────────────────── */
+.topbarToast {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-family: var(--font-inter);
+  font-size: 12px;
+  font-weight: 500;
+  animation: topbarToastIn 0.18s ease;
+}
+
+.topbarToastSuccess {
+  background: rgba(5, 150, 105, 0.1);
+  color: #065f46;
+}
+
+.topbarToastError {
+  background: rgba(220, 38, 38, 0.1);
+  color: #991b1b;
+}
+
+@keyframes topbarToastIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 .headerRight {
@@ -392,11 +499,17 @@
 
 .formCard {
   background: var(--white);
-  border: 1px solid rgba(0, 0, 0, 0.06);
+  border: 2px solid rgba(0, 0, 0, 0.06);
   border-radius: 16px;
   padding: 28px;
   max-width: 760px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 16px rgba(0, 0, 0, 0.03);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.formCardSaved {
+  border-color: #059669;
+  box-shadow: 0 0 0 4px rgba(5, 150, 105, 0.1), 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 16px rgba(0, 0, 0, 0.03);
 }
 
 /* Inner card for nested items (benefits, process steps) */
@@ -777,39 +890,80 @@
   text-decoration: underline;
 }
 
-/* ─── Toast ───────────────────────────────────────────────────────────────── */
+/* ─── Status bar (fixed bottom) ───────────────────────────────────────────── */
 
-.toastWrap {
+.statusBar {
   position: fixed;
-  bottom: 28px;
-  right: 28px;
+  bottom: 0;
+  left: 0;
+  right: 0;
   z-index: 9999;
+  background: #111827;
+  color: #fff;
+  padding: 14px 28px;
   display: flex;
-  flex-direction: column;
-  gap: 8px;
-  max-width: 360px;
-}
-
-.toast {
-  padding: 12px 20px;
-  border-radius: 12px;
+  align-items: center;
+  gap: 12px;
   font-family: var(--font-inter);
   font-size: 14px;
   font-weight: 500;
-  background: var(--gray-900);
-  color: var(--white);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18), 0 2px 6px rgba(0, 0, 0, 0.12);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  animation: statusBarIn 0.22s ease;
+}
+
+.statusBarIcon {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #059669;
   display: flex;
   align-items: center;
-  gap: 8px;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.statusBarIconError {
+  background: #dc2626;
+}
+
+@keyframes statusBarIn {
+  from { transform: translateY(100%); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* ─── Toast (kept for compatibility, now uses status bar style) ───────────── */
+
+.toastWrap {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+}
+
+.toast {
+  padding: 14px 28px;
+  font-family: var(--font-inter);
+  font-size: 14px;
+  font-weight: 500;
+  background: #111827;
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  animation: statusBarIn 0.22s ease;
 }
 
 .toast.success {
-  background: #065f46;
+  background: #111827;
 }
 
 .toast.error {
-  background: var(--red-700);
+  background: #111827;
 }
 
 /* ─── Page bar ────────────────────────────────────────────────────────────── */

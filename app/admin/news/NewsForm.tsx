@@ -1,6 +1,7 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Button, TextField, TextArea } from "@/design-system";
 import { AdminLangTabs } from "../components/AdminLangTabs";
 import { FileUploadField } from "../components/FileUploadField";
@@ -15,10 +16,20 @@ type Props = {
 const initialState: NewsFormState = {};
 
 export function NewsForm({ item }: Props) {
+  const router = useRouter();
   const isEdit = !!item;
   const action: (prevState: NewsFormState, formData: FormData) => Promise<NewsFormState> =
     isEdit && item ? updateNews.bind(null, item.id) : createNews;
   const [state, formAction, isPending] = useActionState(action, initialState);
+  const [saved, setSaved] = useState(false);
+
+  useEffect(() => {
+    if (state?.success) {
+      setSaved(true);
+      const t = setTimeout(() => router.push("/admin/news?toast=success"), 1500);
+      return () => clearTimeout(t);
+    }
+  }, [state?.success, router]);
 
   const tagsDefault =
     Array.isArray(item?.tags)
@@ -28,7 +39,8 @@ export function NewsForm({ item }: Props) {
         : "";
 
   return (
-    <form action={formAction} className={styles.formCard}>
+    <>
+    <form action={formAction} className={`${styles.formCard} ${saved ? styles.formCardSaved : ""}`}>
       {state?.error && (
         <div className={styles.formError} role="alert">
           {state.error}
@@ -151,5 +163,12 @@ export function NewsForm({ item }: Props) {
         </Button>
       </div>
     </form>
+    {saved && (
+      <div className={styles.statusBar} role="status" aria-live="polite">
+        <span className={styles.statusBarIcon}>✓</span>
+        Saved successfully
+      </div>
+    )}
+    </>
   );
 }

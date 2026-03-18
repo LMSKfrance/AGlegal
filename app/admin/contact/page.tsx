@@ -4,6 +4,7 @@ import { AdminLangTabs } from "../components/AdminLangTabs";
 import { AdminToast } from "../components/AdminToast";
 import styles from "../admin.module.css";
 import { getContactSettings, upsertContactSettings } from "@/lib/actions/contact";
+import { SubmitButton } from "../components/SubmitButton";
 
 export default async function AdminContactPage() {
   const contact = await getContactSettings();
@@ -147,9 +148,7 @@ export default async function AdminContactPage() {
         </div>
 
         <div className={styles.formRow} style={{ marginTop: 24 }}>
-          <Button type="submit" variant="primary" colorStyle="dark" size="m">
-            Save
-          </Button>
+          <SubmitButton />
         </div>
       </form>
       <Suspense fallback={null}>

@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { getAdminStats } from "@/lib/admin/stats";
+import { getSaveHistory } from "@/lib/actions/history";
 import styles from "./admin.module.css";
+import { DashboardRecentSaves } from "./DashboardRecentSaves";
 
 const icons = {
   news: (
@@ -31,8 +33,12 @@ const icons = {
   ),
 };
 
+
 export default async function AdminPage() {
-  const stats = await getAdminStats();
+  const [stats, recentHistory] = await Promise.all([
+    getAdminStats(),
+    getSaveHistory(5),
+  ]);
 
   return (
     <>
@@ -71,6 +77,8 @@ export default async function AdminPage() {
           <Link href="/admin/pages">Manage pages</Link>
         </div>
       </div>
+
+      <DashboardRecentSaves entries={recentHistory} />
     </>
   );
 }

@@ -6,6 +6,7 @@ import { services } from "@/lib/db/schema";
 import { eq, asc } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { slugify } from "@/lib/utils/slug";
+import { logSave } from "./history";
 
 export type ServiceFormState = { success?: boolean; error?: string; fieldErrors?: Record<string, string> };
 
@@ -98,11 +99,12 @@ export async function createService(prev: ServiceFormState, formData: FormData):
     revalidatePath("/admin");
     revalidatePath("/");
     revalidatePath("/services", "layout");
+    await logSave("Services", titleEn, "created");
+    return { success: true };
   } catch (err) {
     console.error("[createService]", err);
     return { error: "Failed to save. Please try again." };
   }
-  redirect("/admin/services?toast=success");
 }
 
 export async function updateService(id: number, prev: ServiceFormState, formData: FormData): Promise<ServiceFormState> {
@@ -183,11 +185,12 @@ export async function updateService(id: number, prev: ServiceFormState, formData
     revalidatePath("/admin");
     revalidatePath("/");
     revalidatePath("/services", "layout");
+    await logSave("Services", titleEn, "updated", { type: "service", id: existing.id, data: existing });
+    return { success: true };
   } catch (err) {
     console.error("[updateService]", err);
     return { error: "Failed to save. Please try again." };
   }
-  redirect("/admin/services?toast=success");
 }
 
 export async function deleteService(id: number): Promise<void> {
@@ -200,6 +203,7 @@ export async function deleteService(id: number): Promise<void> {
       revalidatePath("/admin");
       revalidatePath("/");
       revalidatePath("/services", "layout");
+      await logSave("Services", row.titleEn, "deleted", { type: "service", id: row.id, data: row });
       deleted = true;
     }
   } catch (err) {
