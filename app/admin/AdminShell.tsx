@@ -258,15 +258,22 @@ export default function AdminShell({
               <span className={styles.sidebarUserEmail}>{displayName}</span>
               <span className={styles.sidebarUserRole}>Administrator</span>
             </div>
-            <a
-              href="/api/auth/signout?callbackUrl=/admin/login"
-              className={styles.sidebarSignOut}
-              title="Sign out"
-              aria-label="Sign out"
+            <form
+              method="post"
+              action="/api/auth/signout"
               onClick={(e) => e.stopPropagation()}
+              style={{ display: "contents" }}
             >
-              <SignOutIcon />
-            </a>
+              <input type="hidden" name="callbackUrl" value="/admin/login" />
+              <button
+                type="submit"
+                className={styles.sidebarSignOut}
+                title="Sign out"
+                aria-label="Sign out"
+              >
+                <SignOutIcon />
+              </button>
+            </form>
           </Link>
         </div>
       </aside>
