@@ -2,7 +2,7 @@
 
 import { usePathname, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import Logo from "@/components/Logo";
 import { useLang, type Lang } from "./LangContext";
 import styles from "./admin.module.css";
@@ -156,7 +156,7 @@ function LangSwitcher() {
   );
 }
 
-function AdminTopbar() {
+function TopbarToast() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const toast = searchParams.get("toast");
@@ -173,6 +173,26 @@ function AdminTopbar() {
     }
   }, [toast, pathname]);
 
+  if (!visible || !toast) return null;
+
+  return (
+    <div className={`${styles.topbarToast} ${toast === "success" ? styles.topbarToastSuccess : styles.topbarToastError}`}>
+      {toast === "success" ? (
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+          <path d="M2 7l3.5 3.5L12 3" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      ) : (
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+          <path d="M2 2l10 10M12 2L2 12" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />
+        </svg>
+      )}
+      {toast === "success" ? "Saved successfully" : "Something went wrong"}
+    </div>
+  );
+}
+
+function AdminTopbar() {
+  const pathname = usePathname();
   const crumbs = getBreadcrumbs(pathname);
 
   return (
@@ -192,20 +212,9 @@ function AdminTopbar() {
 
       <div className={styles.topbarRight}>
         <LangSwitcher />
-        {visible && toast && (
-        <div className={`${styles.topbarToast} ${toast === "success" ? styles.topbarToastSuccess : styles.topbarToastError}`}>
-          {toast === "success" ? (
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-              <path d="M2 7l3.5 3.5L12 3" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          ) : (
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-              <path d="M2 2l10 10M12 2L2 12" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />
-            </svg>
-          )}
-          {toast === "success" ? "Saved successfully" : "Something went wrong"}
-        </div>
-        )}
+        <Suspense fallback={null}>
+          <TopbarToast />
+        </Suspense>
       </div>
     </header>
   );
