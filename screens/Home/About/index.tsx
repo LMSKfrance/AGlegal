@@ -134,14 +134,16 @@ const About = () => {
       {/* Figma 8278-778: image with white AG SVG overlay */}
       <div ref={mediaRef} className={styles.media_block}>
         <div ref={imageContainerRef} className={styles.media_image}>
-          <Image
-            src={about.image}
-            fill
-            sizes="100vw"
-            alt="AG Legal – Who we are"
-            priority
-            className={styles.image}
-          />
+          {about.image && (
+            <Image
+              src={about.image}
+              fill
+              sizes="100vw"
+              alt="AG Legal – Who we are"
+              priority
+              className={styles.image}
+            />
+          )}
         </div>
         <div className={styles.media_overlay} aria-hidden>
           <AgOverlaySvg />

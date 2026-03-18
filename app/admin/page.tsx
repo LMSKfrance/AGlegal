@@ -35,10 +35,16 @@ const icons = {
 
 
 export default async function AdminPage() {
-  const [stats, recentHistory] = await Promise.all([
-    getAdminStats(),
-    getSaveHistory(5),
-  ]);
+  let stats = { articles: 0, teamMembers: 0, services: 0, pages: 0 };
+  let recentHistory: Awaited<ReturnType<typeof getSaveHistory>> = [];
+  try {
+    [stats, recentHistory] = await Promise.all([
+      getAdminStats(),
+      getSaveHistory(5),
+    ]);
+  } catch (err) {
+    console.error("[AdminPage]", err);
+  }
 
   return (
     <>
