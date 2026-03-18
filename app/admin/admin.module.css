@@ -205,6 +205,55 @@
   z-index: 10;
 }
 
+/* ─── Topbar right cluster ───────────────────────────────────────────────────── */
+.topbarRight {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* ─── Language switcher ──────────────────────────────────────────────────────── */
+.langSwitcher {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  background: var(--gray-100);
+  border-radius: 8px;
+  padding: 2px;
+}
+
+.langSwitcherBtn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  font-family: var(--font-inter);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--gray-500);
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s, box-shadow 0.12s;
+  line-height: 1.6;
+}
+
+.langSwitcherBtn:hover:not(.langSwitcherActive) {
+  color: var(--gray-700);
+}
+
+.langSwitcherActive {
+  background: white;
+  color: var(--gray-900);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.langSwitcherFlag {
+  font-size: 13px;
+  line-height: 1;
+}
+
 /* ─── Breadcrumb ─────────────────────────────────────────────────────────────── */
 .breadcrumb {
   display: flex;

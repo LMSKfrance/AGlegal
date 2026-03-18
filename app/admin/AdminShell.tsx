@@ -4,6 +4,7 @@ import { usePathname, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import Logo from "@/components/Logo";
+import { useLang, type Lang } from "./LangContext";
 import styles from "./admin.module.css";
 
 const navItems = [
@@ -130,6 +131,30 @@ function getBreadcrumbs(pathname: string): Crumb[] {
   return crumbs;
 }
 
+function LangSwitcher() {
+  const { lang, setLang } = useLang();
+  const options: { value: Lang; flag: string }[] = [
+    { value: "en", flag: "🇬🇧" },
+    { value: "ka", flag: "🇬🇪" },
+  ];
+  return (
+    <div className={styles.langSwitcher}>
+      {options.map(({ value, flag }) => (
+        <button
+          key={value}
+          type="button"
+          className={`${styles.langSwitcherBtn} ${lang === value ? styles.langSwitcherActive : ""}`}
+          onClick={() => setLang(value)}
+          aria-pressed={lang === value}
+        >
+          <span className={styles.langSwitcherFlag}>{flag}</span>
+          {value.toUpperCase()}
+        </button>
+      ))}
+    </div>
+  );
+}
+
 function AdminTopbar() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -164,7 +189,9 @@ function AdminTopbar() {
         ))}
       </nav>
 
-      {visible && toast && (
+      <div className={styles.topbarRight}>
+        <LangSwitcher />
+        {visible && toast && (
         <div className={`${styles.topbarToast} ${toast === "success" ? styles.topbarToastSuccess : styles.topbarToastError}`}>
           {toast === "success" ? (
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
@@ -177,7 +204,8 @@ function AdminTopbar() {
           )}
           {toast === "success" ? "Saved successfully" : "Something went wrong"}
         </div>
-      )}
+        )}
+      </div>
     </header>
   );
 }

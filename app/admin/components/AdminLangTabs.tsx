@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useLang } from "../LangContext";
 import styles from "../admin.module.css";
 
 type Props = {
@@ -8,18 +8,19 @@ type Props = {
   childrenKa: React.ReactNode;
 };
 
-/** EN/KA tabs that keep both panels in the DOM so form fields submit correctly. */
+/** EN/KA tabs synced to the global language context. Both panels stay in the DOM so form fields always submit. */
 export function AdminLangTabs({ childrenEn, childrenKa }: Props) {
-  const [active, setActive] = useState<"en" | "ka">("en");
+  const { lang, setLang } = useLang();
+
   return (
     <div className={styles.formTabsWrap}>
       <div className={styles.langTabList} role="tablist">
         <button
           type="button"
           role="tab"
-          aria-selected={active === "en"}
-          className={`${styles.langTabBtn} ${active === "en" ? styles.langTabBtnActive : ""}`}
-          onClick={() => setActive("en")}
+          aria-selected={lang === "en"}
+          className={`${styles.langTabBtn} ${lang === "en" ? styles.langTabBtnActive : ""}`}
+          onClick={() => setLang("en")}
         >
           <span className={`${styles.langTabFlag} ${styles.langTabFlagEn}`} />
           EN
@@ -27,22 +28,22 @@ export function AdminLangTabs({ childrenEn, childrenKa }: Props) {
         <button
           type="button"
           role="tab"
-          aria-selected={active === "ka"}
-          className={`${styles.langTabBtn} ${active === "ka" ? styles.langTabBtnActive : ""}`}
-          onClick={() => setActive("ka")}
+          aria-selected={lang === "ka"}
+          className={`${styles.langTabBtn} ${lang === "ka" ? styles.langTabBtnActive : ""}`}
+          onClick={() => setLang("ka")}
         >
           <span className={`${styles.langTabFlag} ${styles.langTabFlagKa}`} />
           KA
         </button>
       </div>
       <div
-        className={`${styles.tabPanel} ${active === "en" ? styles.active : ""}`}
+        className={`${styles.tabPanel} ${lang === "en" ? styles.active : ""}`}
         role="tabpanel"
       >
         {childrenEn}
       </div>
       <div
-        className={`${styles.tabPanel} ${active === "ka" ? styles.active : ""}`}
+        className={`${styles.tabPanel} ${lang === "ka" ? styles.active : ""}`}
         role="tabpanel"
       >
         {childrenKa}
