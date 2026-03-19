@@ -3,7 +3,10 @@ import { getAdminProfile } from "@/lib/actions/adminProfile";
 import { ProfileForm } from "./ProfileForm";
 
 export default async function AdminProfilePage() {
-  const profile = await getAdminProfile();
+  let profile = null;
+  try {
+    profile = await getAdminProfile();
+  } catch {}
 
   return (
     <>
