@@ -261,18 +261,19 @@ export default function AdminShell({
           })}
         </nav>
         <div className={styles.sidebarBottom}>
-          <Link href="/admin/profile" className={`${styles.sidebarUser} ${pathname === "/admin/profile" ? styles.sidebarUserActive : ""}`} style={{ textDecoration: "none" }}>
-            <div className={styles.sidebarUserAvatar}>{initial}</div>
-            <div className={styles.sidebarUserInfo}>
-              <span className={styles.sidebarUserEmail}>{displayName}</span>
-              <span className={styles.sidebarUserRole}>Administrator</span>
-            </div>
-            <form
-              method="post"
-              action="/api/auth/signout"
-              onClick={(e) => e.stopPropagation()}
-              style={{ display: "contents" }}
+          <div className={styles.sidebarUserWrap}>
+            <Link
+              href="/admin/profile"
+              className={`${styles.sidebarUser} ${pathname === "/admin/profile" ? styles.sidebarUserActive : ""}`}
+              style={{ textDecoration: "none" }}
             >
+              <div className={styles.sidebarUserAvatar}>{initial}</div>
+              <div className={styles.sidebarUserInfo}>
+                <span className={styles.sidebarUserEmail}>{displayName}</span>
+                <span className={styles.sidebarUserRole}>Administrator</span>
+              </div>
+            </Link>
+            <form method="post" action="/api/auth/signout">
               <input type="hidden" name="callbackUrl" value="/admin/login" />
               <button
                 type="submit"
@@ -283,7 +284,7 @@ export default function AdminShell({
                 <SignOutIcon />
               </button>
             </form>
-          </Link>
+          </div>
         </div>
       </aside>
       <main className={styles.main}>

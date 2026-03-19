@@ -111,6 +111,12 @@
   border-top: 1px solid rgba(0, 0, 0, 0.05);
 }
 
+.sidebarUserWrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
 .sidebarUser {
   display: flex;
   align-items: center;
@@ -121,6 +127,8 @@
   border: 1px solid rgba(0, 0, 0, 0.05);
   transition: background-color 0.15s, border-color 0.15s;
   cursor: pointer;
+  flex: 1;
+  min-width: 0;
 }
 
 .sidebarUser:hover {
