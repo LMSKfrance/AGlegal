@@ -1,20 +1,19 @@
 "use client";
 
+import { useEffect } from "react";
+
 export default function Error({
   reset,
 }: {
   error: Error & { digest?: string };
   reset: () => void;
 }) {
-  return (
-    <div style={{ padding: "4rem 2rem", textAlign: "center", fontFamily: "sans-serif" }}>
-      <h2 style={{ marginBottom: "1rem" }}>Something went wrong.</h2>
-      <button
-        onClick={reset}
-        style={{ padding: "0.5rem 1.5rem", cursor: "pointer" }}
-      >
-        Try again
-      </button>
-    </div>
-  );
+  useEffect(() => {
+    // Auto-retry silently — most errors are transient (DB cold start).
+    // A short delay lets the connection warm up before re-rendering.
+    const t = setTimeout(reset, 300);
+    return () => clearTimeout(t);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  return null;
 }
