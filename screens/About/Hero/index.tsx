@@ -42,7 +42,7 @@ const Hero = ({ page }: HeroProps) => {
             y: 0,
             opacity: 1,
             ease: "back.out(2)",
-            duration: 1,
+            duration: 0.5,
           },
         );
 
@@ -52,7 +52,7 @@ const Hero = ({ page }: HeroProps) => {
           {
             opacity: 1,
             y: 0,
-            duration: 1,
+            duration: 0.5,
             ease: "power2.out",
           },
           0,
@@ -64,7 +64,7 @@ const Hero = ({ page }: HeroProps) => {
           {
             opacity: 1,
             y: 0,
-            duration: 0.5,
+            duration: 0.25,
             ease: "power2.out",
           },
           "-=0.2",
@@ -76,7 +76,7 @@ const Hero = ({ page }: HeroProps) => {
           {
             opacity: 1,
             scale: 1,
-            duration: 0.5,
+            duration: 0.25,
             ease: "back.out(1.7)",
           },
           "-=0.3",

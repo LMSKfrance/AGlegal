@@ -61,9 +61,9 @@ const Numbers = () => {
             {
               y: 0,
               opacity: 1,
-              stagger: 0.03,
+              stagger: 0.015,
               ease: "back.out(2)",
-              duration: 1,
+              duration: 0.5,
             },
           );
 
@@ -73,7 +73,7 @@ const Numbers = () => {
             {
               y: 0,
               opacity: 1,
-              duration: 0.8,
+              duration: 0.4,
               ease: "power2.out",
             },
             "-=0.4",
@@ -88,7 +88,7 @@ const Numbers = () => {
                   y: 0,
                   opacity: 1,
                   ease: "power2.out",
-                  duration: 0.8,
+                  duration: 0.4,
                 },
                 `-=${0.3 - index * 0.05}`,
               );

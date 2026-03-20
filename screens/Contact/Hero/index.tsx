@@ -66,9 +66,9 @@ const Hero = ({ contact, page }: HeroProps) => {
             {
               y: 0,
               opacity: 1,
-              stagger: 0.05,
+              stagger: 0.025,
               ease: "back.out(2)",
-              duration: 1,
+              duration: 0.5,
             },
           );
 
@@ -78,7 +78,7 @@ const Hero = ({ contact, page }: HeroProps) => {
             {
               opacity: 1,
               y: 0,
-              duration: 0.5,
+              duration: 0.25,
               ease: "power2.out",
             },
             "-=0.1",
@@ -90,7 +90,7 @@ const Hero = ({ contact, page }: HeroProps) => {
             {
               scaleX: 1,
               transformOrigin: "left",
-              duration: 0.5,
+              duration: 0.25,
               ease: "power2.out",
             },
             "-=0.3",
@@ -102,7 +102,7 @@ const Hero = ({ contact, page }: HeroProps) => {
             {
               opacity: 1,
               x: 0,
-              duration: 1,
+              duration: 0.5,
               ease: "power2.out",
             },
             0,
@@ -116,9 +116,9 @@ const Hero = ({ contact, page }: HeroProps) => {
                 {
                   opacity: 1,
                   y: 0,
-                  duration: 0.6,
+                  duration: 0.3,
                   ease: "power2.out",
-                  stagger: 0.1,
+                  stagger: 0.05,
                 },
                 `-=${0.2 + index * 0.1}`,
               );
@@ -133,9 +133,9 @@ const Hero = ({ contact, page }: HeroProps) => {
                 {
                   opacity: 1,
                   y: 0,
-                  duration: 0.6,
+                  duration: 0.3,
                   ease: "power2.out",
-                  stagger: 0.1,
+                  stagger: 0.05,
                 },
                 `-=${0.3 + index * 0.1}`,
               );
@@ -148,7 +148,7 @@ const Hero = ({ contact, page }: HeroProps) => {
             {
               opacity: 1,
               y: 0,
-              duration: 1,
+              duration: 0.5,
               ease: "power2.out",
             },
             "-=0.5",
@@ -160,7 +160,7 @@ const Hero = ({ contact, page }: HeroProps) => {
             {
               opacity: 1,
               y: 0,
-              duration: 1,
+              duration: 0.5,
               ease: "power2.out",
             },
             "-=0.5",
