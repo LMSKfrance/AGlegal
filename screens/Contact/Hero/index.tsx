@@ -15,6 +15,7 @@ type ContactSettingsRecord = {
   email?: string | null;
   phone?: string | null;
   secondaryPhone?: string | null;
+  mapEmbedUrl?: string | null;
 };
 
 type PageRecord = {
@@ -183,6 +184,12 @@ const Hero = ({ contact, page }: HeroProps) => {
 
   const [addressLine1, addressLine2] = addressText.split("\n");
 
+  // Extract src URL from a full <iframe ...> string, or use as-is if it's already a URL
+  const rawMap = contact?.mapEmbedUrl?.trim() ?? "";
+  const mapSrc = rawMap.startsWith("<iframe")
+    ? (rawMap.match(/src="([^"]+)"/) ?? [])[1] ?? ""
+    : rawMap;
+
   return (
     <section ref={container} className={cn("section")}>
       <div className={cn("container")}>
@@ -264,12 +271,24 @@ const Hero = ({ contact, page }: HeroProps) => {
         </div>
 
         <div ref={image} className={styles.image_wrapper}>
-          <Image
-            src="/images/contact.jpg"
-            alt="AG Legal"
-            layout="fill"
-            objectFit="cover"
-          />
+          {mapSrc ? (
+            <iframe
+              src={mapSrc}
+              width="100%"
+              height="100%"
+              style={{ border: 0 }}
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
+          ) : (
+            <Image
+              src="/images/contact.jpg"
+              alt="AG Legal"
+              layout="fill"
+              objectFit="cover"
+            />
+          )}
         </div>
 
         <div ref={formTitle} className={cn("heading-3", styles.form_title)}>
