@@ -24,12 +24,14 @@ const Service = ({ service }: ServiceProps) => {
   return (
     <Link href={service.learnMoreUrl ?? `/services/${service.slug}`} className={styles.service}>
       <div className={styles.service_image}>
-        <Image
-          src={service.image}
-          layout="fill"
-          objectFit="cover"
-          alt="service"
-        />
+        {service.image && (
+          <Image
+            src={service.image}
+            layout="fill"
+            objectFit="cover"
+            alt="service"
+          />
+        )}
       </div>
 
       <div className={styles.service_content}>

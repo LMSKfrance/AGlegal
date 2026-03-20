@@ -3,16 +3,33 @@
 import { db } from "@/lib/db";
 import { adminProfile } from "@/lib/db/schema";
 import bcrypt from "bcryptjs";
-import { eq } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 
 export type ProfileFormState = {
   success?: boolean;
   error?: string;
 };
 
+async function ensureTable() {
+  await db.run(sql`
+    CREATE TABLE IF NOT EXISTS admin_profile (
+      id INTEGER PRIMARY KEY NOT NULL,
+      name TEXT NOT NULL DEFAULT 'Admin',
+      email TEXT NOT NULL DEFAULT '',
+      password_hash TEXT NOT NULL DEFAULT '',
+      updated_at TEXT NOT NULL DEFAULT ''
+    )
+  `);
+}
+
 export async function getAdminProfile() {
-  const [profile] = await db.select().from(adminProfile).limit(1);
-  return profile ?? null;
+  try {
+    await ensureTable();
+    const [profile] = await db.select().from(adminProfile).limit(1);
+    return profile ?? null;
+  } catch {
+    return null;
+  }
 }
 
 export async function updateAdminProfile(
@@ -29,8 +46,18 @@ export async function updateAdminProfile(
     if (!name) return { error: "Name is required." };
     if (!email) return { error: "Email is required." };
 
+    await ensureTable();
     const [profile] = await db.select().from(adminProfile).limit(1);
-    if (!profile) return { error: "Admin profile not found." };
+
+    if (!profile) {
+      // First-time setup: create the profile row using the provided password
+      if (!currentPassword) return { error: "Password is required for initial setup." };
+      if (newPassword && newPassword !== confirmPassword) return { error: "New passwords do not match." };
+      if (newPassword && newPassword.length < 6) return { error: "Password must be at least 6 characters." };
+      const passwordHash = await bcrypt.hash(newPassword || currentPassword, 12);
+      await db.insert(adminProfile).values({ id: 1, name, email, passwordHash, updatedAt: new Date().toISOString() });
+      return { success: true };
+    }
 
     // Verify current password before any change
     const validCurrent = await bcrypt.compare(currentPassword, profile.passwordHash);

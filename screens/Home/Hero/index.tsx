@@ -159,7 +159,9 @@ const Hero = () => {
         </div>
 
         <div ref={image} className={styles.image_wrapper}>
-          <Image src={heroImage} alt="AG Legal" layout="fill" objectFit="cover" className={styles.image} />
+          {heroImage && (
+            <Image src={heroImage} alt="AG Legal" layout="fill" objectFit="cover" className={styles.image} />
+          )}
         </div>
       </div>
     </div>

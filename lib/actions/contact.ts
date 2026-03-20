@@ -24,10 +24,6 @@ export async function upsertContactSettings(
     const email = (formData.get("email") as string)?.trim();
     const phone = (formData.get("phone") as string)?.trim();
 
-    if (!email && !phone) {
-      return { error: "Provide at least an email or a phone number." };
-    }
-
     const values = {
       titleEn: (formData.get("titleEn") as string)?.trim() || null,
       titleKa: (formData.get("titleKa") as string)?.trim() || null,
