@@ -14,6 +14,7 @@ export default async function AdminContactPage() {
     "use server";
     const result = await upsertContactSettings({}, formData);
     if (result.success) redirect("/admin/contact?toast=success");
+    else redirect("/admin/contact?toast=error");
   }
 
   return (
