@@ -25,12 +25,12 @@ export default async function TeamListPage() {
             <table className="admin-table">
               <thead>
                 <tr>
-                  <th className="w-16" />
+                  <th className="hidden sm:table-cell w-16" />
                   <th>Name</th>
                   <th>Position</th>
-                  <th className="text-center w-24">Homepage</th>
-                  <th className="text-center w-20">Order</th>
-                  <th className="text-right w-24">Actions</th>
+                  <th className="hidden sm:table-cell text-center w-24">Homepage</th>
+                  <th className="hidden sm:table-cell text-center w-20">Order</th>
+                  <th className="text-right w-20">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -43,7 +43,7 @@ export default async function TeamListPage() {
                 ) : (
                   members.map((member) => (
                     <tr key={member.id}>
-                      <td>
+                      <td className="hidden sm:table-cell">
                         {member.image ? (
                           // eslint-disable-next-line @next/next/no-img-element
                           <img
@@ -62,14 +62,14 @@ export default async function TeamListPage() {
                         {member.titleKa && <div className="text-[12px] text-brand-400 mt-0.5">{member.titleKa}</div>}
                       </td>
                       <td className="text-brand-600 text-[13px]">{member.positionEn ?? <span className="text-brand-300">—</span>}</td>
-                      <td className="text-center">
+                      <td className="hidden sm:table-cell text-center">
                         {member.showOnHome ? (
                           <span className="badge badge-green text-[11px]">Yes</span>
                         ) : (
                           <span className="text-brand-300 text-[12px]">No</span>
                         )}
                       </td>
-                      <td className="text-center text-brand-500 text-[13px]">{member.homeOrder}</td>
+                      <td className="hidden sm:table-cell text-center text-brand-500 text-[13px]">{member.homeOrder}</td>
                       <td className="text-right">
                         <div className="flex items-center justify-end gap-2">
                           <Link href={`/admin/team/${member.id}/edit`} className="btn-icon" title="Edit">
