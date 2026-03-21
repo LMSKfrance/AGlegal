@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 
 const nav = [
   {
@@ -69,8 +69,14 @@ export default function AdminShell({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const [collapsed, setCollapsed] = useState(false);
+  // SSR: start collapsed to avoid hydration mismatch; expand on desktop after mount
+  const [collapsed, setCollapsed] = useState(true);
   const [lang, setLang] = useState<"en" | "ka">("en");
+
+  useEffect(() => {
+    // On mount: expand sidebar on desktop, keep collapsed on mobile
+    if (window.innerWidth > 768) setCollapsed(false);
+  }, []);
 
   const displayName = userName ?? "Admin User";
   const email = userEmail ?? "admin@aglegal.com";
