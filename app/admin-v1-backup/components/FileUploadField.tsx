@@ -66,6 +66,7 @@ export function FileUploadField({ name, accept, label, currentPath }: Props) {
 
       {previewUrl && (
         <div style={{ marginTop: 8 }}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={previewUrl}
             alt="Preview"
@@ -76,6 +77,7 @@ export function FileUploadField({ name, accept, label, currentPath }: Props) {
 
       {displayPath && (
         <div className={styles.fileUploadCurrent}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={displayPath}
             alt="Current"
