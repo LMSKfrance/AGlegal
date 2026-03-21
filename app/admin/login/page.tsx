@@ -41,8 +41,8 @@ export default function LoginPage({
 
           <form action={handleLogin} className="space-y-5">
             <div>
-              <label className="label-base required">Email Address</label>
-              <input type="email" name="email" className="input-base" placeholder="admin@aglegal.com" required />
+              <label className="label-base required">Username</label>
+              <input type="text" name="email" className="input-base" placeholder="Administrator" required />
             </div>
             <div>
               <label className="label-base required">Password</label>
