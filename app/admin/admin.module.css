@@ -146,6 +146,23 @@
   color: inherit;
 }
 
+/* Nav badge (notification count) */
+.navBadge {
+  margin-left: auto;
+  background: #ef4444;
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 5px;
+  flex-shrink: 0;
+}
+
 /* Collapsed states */
 .sidebarCollapsed .navLink {
   padding: 9px;
@@ -295,10 +312,15 @@
 }
 
 .breadcrumbSep {
+  display: inline-block;
+  width: 16px;
+  text-align: center;
   color: #d1d5db;
-  display: flex;
-  align-items: center;
-  margin: 0 4px;
+  font-size: 12px;
+}
+
+.breadcrumbSep::after {
+  content: "›";
 }
 
 .breadcrumbDimmed {
@@ -403,8 +425,7 @@
 }
 
 .langSwitcherFlag {
-  font-size: 13px;
-  line-height: 1;
+  display: none;
 }
 
 /* ─── Topbar toast ───────────────────────────────────────────────────────────── */
@@ -601,6 +622,60 @@
   padding: 20px;
 }
 
+/* Content Status grid */
+.statusGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.statusItem {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid transparent;
+}
+
+.statusItemAmber {
+  background: #fefce8;
+  border-color: #fef08a;
+}
+
+.statusItemRed {
+  background: #fef2f2;
+  border-color: #fecaca;
+}
+
+.statusItemBlue {
+  background: #eff6ff;
+  border-color: #bfdbfe;
+}
+
+.statusItemIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.statusItemTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 3px;
+}
+
+.statusItemDesc {
+  font-size: 12px;
+  color: #6b7280;
+  margin: 0;
+}
+
 /* Dashboard 2-column grid */
 .dashGrid2 {
   display: grid;
@@ -645,6 +720,17 @@
   justify-content: center;
   background: #eff6ff;
   color: #2563eb;
+}
+
+.quickActionIconNeutral {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f3f4f6;
+  color: #374151;
 }
 
 .quickActionLabel {

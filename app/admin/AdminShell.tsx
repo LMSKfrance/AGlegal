@@ -19,7 +19,7 @@ function IconDashboard() {
 function IconHome() {
   return (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M3 12L12 3l9 9" /><path d="M9 21V12h6v9" />
+      <rect x="2" y="3" width="20" height="14" rx="2" /><line x1="8" y1="21" x2="16" y2="21" /><line x1="12" y1="17" x2="12" y2="21" />
     </svg>
   );
 }
@@ -42,7 +42,6 @@ function IconBriefcase() {
   return (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
       <rect x="2" y="7" width="20" height="14" rx="2" /><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2" />
-      <line x1="12" y1="12" x2="12" y2="12" />
     </svg>
   );
 }
@@ -64,7 +63,8 @@ function IconInfo() {
 function IconContact() {
   return (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" />
+      <path d="M17 2H7a2 2 0 00-2 2v16a2 2 0 002 2h10a2 2 0 002-2V4a2 2 0 00-2-2z" />
+      <path d="M12 18h.01M8 6h8M8 10h8M8 14h4" />
     </svg>
   );
 }
@@ -79,16 +79,17 @@ function IconHistory() {
 }
 function IconBell() {
   return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
       <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
       <path d="M13.73 21a2 2 0 0 1-3.46 0" />
     </svg>
   );
 }
-function IconCaret() {
+function IconBellHeader() {
   return (
-    <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M3 2l4 3-4 3" />
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+      <path d="M13.73 21a2 2 0 0 1-3.46 0" />
     </svg>
   );
 }
@@ -103,10 +104,8 @@ function IconScales() {
   return (
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
       <line x1="12" y1="3" x2="12" y2="21" />
-      <path d="M5 21h14" />
-      <path d="M7 3h10" />
-      <path d="M5 9l-2 6h4L5 9z" />
-      <path d="M19 9l-2 6h4l-2-6z" />
+      <path d="M5 21h14" /><path d="M7 3h10" />
+      <path d="M5 9l-2 6h4L5 9z" /><path d="M19 9l-2 6h4l-2-6z" />
     </svg>
   );
 }
@@ -145,6 +144,7 @@ const navStructure = [
     label: "System",
     items: [
       { href: "/admin/history", label: "History Log", Icon: IconHistory },
+      { href: "/admin/history", label: "Tasks & Notifications", Icon: IconBell, badge: 4 },
     ],
   },
 ];
@@ -161,7 +161,15 @@ const SECTION_LABELS: Record<string, string> = {
   profile: "My Profile",
 };
 
-// ─── Breadcrumbs ──────────────────────────────────────────────────────────────
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+
+function getInitials(name: string): string {
+  const parts = name.trim().split(/\s+/);
+  if (parts.length >= 2) {
+    return (parts[0][0] + parts[1][0]).toUpperCase();
+  }
+  return name.slice(0, 2).toUpperCase();
+}
 
 type Crumb = { label: string; href?: string };
 
@@ -190,20 +198,19 @@ function getBreadcrumbs(pathname: string): Crumb[] {
 
 function LangSwitcher() {
   const { lang, setLang } = useLang();
-  const options: { value: Lang; label: string; flag: string }[] = [
-    { value: "en", label: "EN", flag: "🇬🇧" },
-    { value: "ka", label: "KA", flag: "🇬🇪" },
+  const options: { value: Lang; label: string }[] = [
+    { value: "en", label: "EN" },
+    { value: "ka", label: "KA" },
   ];
   return (
     <div className={styles.langSwitcher}>
-      {options.map(({ value, label, flag }) => (
+      {options.map(({ value, label }) => (
         <button
           key={value}
           type="button"
           className={`${styles.langSwitcherBtn} ${lang === value ? styles.langSwitcherActive : ""}`}
           onClick={() => setLang(value)}
         >
-          <span className={styles.langSwitcherFlag}>{flag}</span>
           {label}
         </button>
       ))}
@@ -256,7 +263,7 @@ export default function AdminShell({
   if (isLogin) return <>{children}</>;
 
   const displayName = userName ?? "Admin";
-  const initial = displayName.charAt(0).toUpperCase();
+  const initials = getInitials(displayName);
   const crumbs = getBreadcrumbs(pathname);
 
   return (
@@ -286,20 +293,23 @@ export default function AdminShell({
               {!collapsed && (
                 <div className={styles.navGroupLabel}>{section.label}</div>
               )}
-              {section.items.map(({ href, label, Icon }) => {
+              {section.items.map(({ href, label, Icon, badge }) => {
                 const isActive =
                   href === "/admin"
                     ? pathname === "/admin"
                     : pathname.startsWith(href);
                 return (
                   <Link
-                    key={href}
+                    key={label}
                     href={href}
                     className={`${styles.navLink} ${isActive ? styles.navLinkActive : ""}`}
                     title={label}
                   >
                     <span className={styles.navIcon}><Icon /></span>
                     {!collapsed && <span>{label}</span>}
+                    {!collapsed && badge ? (
+                      <span className={styles.navBadge}>{badge}</span>
+                    ) : null}
                   </Link>
                 );
               })}
@@ -314,11 +324,11 @@ export default function AdminShell({
               href="/admin/profile"
               className={`${styles.sidebarUserLink} ${pathname === "/admin/profile" ? styles.sidebarUserActive : ""}`}
             >
-              <div className={styles.sidebarUserAvatar}>{initial}</div>
+              <div className={styles.sidebarUserAvatar}>{initials}</div>
               {!collapsed && (
                 <div className={styles.sidebarUserInfo}>
                   <span className={styles.sidebarUserName}>{displayName}</span>
-                  <span className={styles.sidebarUserRole}>Administrator</span>
+                  <span className={styles.sidebarUserRole}>{userEmail ?? "Administrator"}</span>
                 </div>
               )}
             </Link>
@@ -342,7 +352,7 @@ export default function AdminShell({
             <span className={styles.breadcrumbDimmed}>Admin</span>
             {crumbs.map((c, i) => (
               <span key={i} className={styles.breadcrumbItem}>
-                <span className={styles.breadcrumbSep}><IconCaret /></span>
+                <span className={styles.breadcrumbSep} aria-hidden="true" />
                 {c.href ? (
                   <Link href={c.href} className={styles.breadcrumbLink}>{c.label}</Link>
                 ) : (
@@ -354,7 +364,7 @@ export default function AdminShell({
 
           <div className={styles.topbarRight}>
             <button className={styles.bellBtn} type="button" aria-label="Notifications">
-              <IconBell />
+              <IconBellHeader />
               <span className={styles.bellDot} aria-hidden="true" />
             </button>
             <div className={styles.headerDivider} />
