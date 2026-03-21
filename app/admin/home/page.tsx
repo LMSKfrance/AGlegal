@@ -50,6 +50,7 @@ async function HeroSection({ visibility }: { visibility: HomeSectionVisibility }
     "use server";
     const result = await upsertHomeHeroSettings({}, formData);
     if (result.success) redirect("/admin/home?toast=success");
+    else redirect("/admin/home?toast=error");
   }
 
   return (
@@ -99,6 +100,7 @@ async function AboutSection({ visibility }: { visibility: HomeSectionVisibility 
     "use server";
     const result = await upsertHomeAboutSettings({}, formData);
     if (result.success) redirect("/admin/home?toast=success");
+    else redirect("/admin/home?toast=error");
   }
 
   return (
@@ -144,6 +146,7 @@ async function SectionHeadingsSection() {
     "use server";
     const result = await upsertHomeSectionHeadingsSettings({}, formData);
     if (result.success) redirect("/admin/home?toast=success");
+    else redirect("/admin/home?toast=error");
   }
 
   return (
@@ -246,6 +249,7 @@ async function BenefitsSection({ visibility }: { visibility: HomeSectionVisibili
     "use server";
     const result = await upsertHomeBenefit(id, {}, formData);
     if (result.success) redirect("/admin/home?toast=success");
+    else redirect("/admin/home?toast=error");
   }
 
   const canAdd = benefits.length < 4;
@@ -348,6 +352,7 @@ async function ProcessSection({ visibility }: { visibility: HomeSectionVisibilit
     "use server";
     const result = await upsertHomeProcessStep(id, {}, formData);
     if (result.success) redirect("/admin/home?toast=success");
+    else redirect("/admin/home?toast=error");
   }
 
   const canAdd = steps.length < 4;
