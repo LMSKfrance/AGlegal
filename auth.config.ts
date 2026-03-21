@@ -10,6 +10,9 @@ export const authConfig = {
     signIn: "/admin/login",
   },
   session: { strategy: "jwt" },
+  // Required on Netlify: reverse proxy sets X-Forwarded-Host; without this
+  // NextAuth v5 throws UntrustedHost on every authenticated request.
+  trustHost: true,
   providers: [],
   callbacks: {
     authorized({ auth, request }) {
