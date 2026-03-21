@@ -434,6 +434,10 @@ select.input-base {
    ═══════════════════════════════════════════════════════════════════════════ */
 
 @media (max-width: 768px) {
+  /* Tighter table cells on mobile */
+  .admin-table th,
+  .admin-table td { padding: 10px 12px; }
+
   /* Reduce page header + content padding */
   .page-header {
     padding: 20px 16px 16px 16px;

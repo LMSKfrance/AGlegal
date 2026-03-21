@@ -29,28 +29,26 @@ export default async function NewsListPage() {
 
       <div className="page-content">
         <div className="card overflow-hidden">
-          <div className="p-5 border-b border-brand-200 flex justify-between items-center bg-white">
-            <div className="flex gap-2">
-              <select className="input-base w-48 h-9 text-[13px]">
-                <option>All Types</option>
-                <option>In-depth Article</option>
-                <option>News Notice</option>
-                <option>Press Release</option>
-              </select>
-            </div>
-            <div className="relative w-72">
+          <div className="p-4 border-b border-brand-200 flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between bg-white">
+            <select className="input-base h-9 text-[13px] sm:w-48">
+              <option>All Types</option>
+              <option>In-depth Article</option>
+              <option>News Notice</option>
+              <option>Press Release</option>
+            </select>
+            <div className="relative">
               <i className="ph ph-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-brand-400 text-lg" />
-              <input type="text" className="input-base pl-10 h-9 text-[13px]" placeholder="Search articles..." />
+              <input type="text" className="input-base pl-10 h-9 text-[13px] w-full sm:w-72" placeholder="Search articles..." />
             </div>
           </div>
           <div className="table-container">
             <table className="admin-table">
               <thead>
                 <tr>
-                  <th className="w-48">Date Published</th>
+                  <th className="hidden sm:table-cell w-40">Date Published</th>
                   <th>Title</th>
-                  <th className="w-32">Type</th>
-                  <th className="w-24 text-right">Actions</th>
+                  <th className="w-28">Type</th>
+                  <th className="w-20 text-right">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -63,10 +61,11 @@ export default async function NewsListPage() {
                 ) : (
                   articles.map((article) => (
                     <tr key={article.id}>
-                      <td className="text-brand-500 text-[13px]">{formatDate(article.date)}</td>
+                      <td className="hidden sm:table-cell text-brand-500 text-[13px]">{formatDate(article.date)}</td>
                       <td>
                         <div className="font-medium text-brand-900">{article.titleEn}</div>
                         {article.titleKa && <div className="text-[12px] text-brand-400 mt-0.5">{article.titleKa}</div>}
+                        <div className="sm:hidden text-[11px] text-brand-400 mt-1">{formatDate(article.date)}</div>
                       </td>
                       <td>
                         {article.type ? (

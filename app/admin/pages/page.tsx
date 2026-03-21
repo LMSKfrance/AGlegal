@@ -32,10 +32,10 @@ export default async function PagesListPage() {
             <table className="admin-table">
               <thead>
                 <tr>
-                  <th className="w-1/3">Page Title</th>
-                  <th className="w-1/3">URL Slug</th>
-                  <th className="w-1/4">Last Modified</th>
-                  <th className="text-right">Actions</th>
+                  <th className="hidden sm:table-cell">Page Title</th>
+                  <th>URL Slug</th>
+                  <th className="hidden sm:table-cell">Last Modified</th>
+                  <th className="text-right w-20">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -48,7 +48,7 @@ export default async function PagesListPage() {
                 ) : (
                   pagesList.map((page) => (
                     <tr key={page.id}>
-                      <td>
+                      <td className="hidden sm:table-cell">
                         <div className="font-medium text-brand-900">{page.titleEn}</div>
                         {page.titleKa && <div className="text-[12px] text-brand-400 mt-0.5">{page.titleKa}</div>}
                       </td>
@@ -62,7 +62,7 @@ export default async function PagesListPage() {
                           /{page.slug} <i className="ph ph-arrow-square-out text-[11px]" />
                         </a>
                       </td>
-                      <td className="text-brand-500 text-[13px]">{formatDate(page.updatedAt)}</td>
+                      <td className="hidden sm:table-cell text-brand-500 text-[13px]">{formatDate(page.updatedAt)}</td>
                       <td className="text-right">
                         <div className="flex items-center justify-end gap-2">
                           <Link href={`/admin/pages/${page.id}/edit`} className="btn-icon" title="Edit">
