@@ -1,6 +1,32 @@
 import Link from "next/link";
+import { getAdminStats } from "@/lib/admin/stats";
+import { getSaveHistory } from "@/lib/actions/history";
 
-export default function DashboardPage() {
+export const dynamic = "force-dynamic";
+
+function formatTime(iso: string) {
+  return new Date(iso).toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" });
+}
+
+function formatDate(iso: string) {
+  const d = new Date(iso);
+  const today = new Date();
+  if (d.toDateString() === today.toDateString()) return "Today";
+  return d.toLocaleDateString("en-GB", { day: "numeric", month: "short" });
+}
+
+const ACTION_DOT: Record<string, string> = {
+  created: "bg-green-500",
+  updated: "bg-blue-500",
+  deleted: "bg-red-500",
+};
+
+export default async function DashboardPage() {
+  const [stats, history] = await Promise.all([
+    getAdminStats(),
+    getSaveHistory(5),
+  ]);
+
   return (
     <>
       <div className="page-header">
@@ -18,7 +44,7 @@ export default function DashboardPage() {
               <i className="ph-fill ph-newspaper" />
             </div>
             <div>
-              <div className="text-[32px] font-bold text-brand-900 leading-none">—</div>
+              <div className="text-[32px] font-bold text-brand-900 leading-none">{stats.articles}</div>
               <div className="text-[11px] font-bold text-brand-400 uppercase tracking-wider mt-1.5">News Articles</div>
             </div>
           </div>
@@ -27,7 +53,7 @@ export default function DashboardPage() {
               <i className="ph-fill ph-users" />
             </div>
             <div>
-              <div className="text-[32px] font-bold text-brand-900 leading-none">—</div>
+              <div className="text-[32px] font-bold text-brand-900 leading-none">{stats.teamMembers}</div>
               <div className="text-[11px] font-bold text-brand-400 uppercase tracking-wider mt-1.5">Team Members</div>
             </div>
           </div>
@@ -36,7 +62,7 @@ export default function DashboardPage() {
               <i className="ph-fill ph-briefcase" />
             </div>
             <div>
-              <div className="text-[32px] font-bold text-brand-900 leading-none">—</div>
+              <div className="text-[32px] font-bold text-brand-900 leading-none">{stats.services}</div>
               <div className="text-[11px] font-bold text-brand-400 uppercase tracking-wider mt-1.5">Services</div>
             </div>
           </div>
@@ -45,7 +71,7 @@ export default function DashboardPage() {
               <i className="ph-fill ph-files" />
             </div>
             <div>
-              <div className="text-[32px] font-bold text-brand-900 leading-none">—</div>
+              <div className="text-[32px] font-bold text-brand-900 leading-none">{stats.pages}</div>
               <div className="text-[11px] font-bold text-brand-400 uppercase tracking-wider mt-1.5">Static Pages</div>
             </div>
           </div>
@@ -136,15 +162,33 @@ export default function DashboardPage() {
               </Link>
             </div>
             <div className="divide-y divide-brand-100">
-              <div className="flex items-center justify-between p-5 hover:bg-brand-50 transition-colors">
-                <div className="flex items-start gap-4">
-                  <div className="w-2 h-2 rounded-full bg-blue-500 mt-1.5 shrink-0" />
-                  <div>
-                    <div className="text-[14px] font-semibold text-brand-900">No recent activity yet</div>
-                    <div className="text-[12px] text-brand-500 mt-0.5">Changes will appear here</div>
+              {history.length === 0 ? (
+                <div className="flex items-center justify-between p-5 hover:bg-brand-50 transition-colors">
+                  <div className="flex items-start gap-4">
+                    <div className="w-2 h-2 rounded-full bg-blue-500 mt-1.5 shrink-0" />
+                    <div>
+                      <div className="text-[14px] font-semibold text-brand-900">No recent activity yet</div>
+                      <div className="text-[12px] text-brand-500 mt-0.5">Changes will appear here</div>
+                    </div>
                   </div>
                 </div>
-              </div>
+              ) : (
+                history.map((entry) => (
+                  <div key={entry.id} className="flex items-center justify-between p-5 hover:bg-brand-50 transition-colors">
+                    <div className="flex items-start gap-4">
+                      <div className={`w-2 h-2 rounded-full mt-1.5 shrink-0 ${ACTION_DOT[entry.action] ?? "bg-brand-400"}`} />
+                      <div>
+                        <div className="text-[14px] font-semibold text-brand-900">
+                          {entry.section}: {entry.label}
+                        </div>
+                        <div className="text-[12px] text-brand-500 mt-0.5">
+                          {entry.action} · {formatDate(entry.savedAt)} {formatTime(entry.savedAt)}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))
+              )}
             </div>
           </div>
         </div>
