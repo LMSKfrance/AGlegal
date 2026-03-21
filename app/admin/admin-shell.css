@@ -1,29 +1,67 @@
 /*
- * Admin 2.0 shell styles — matches prototype exactly.
- * Scoped to .admin-shell-root to avoid leaking into public site.
+ * Admin 2.0 Design System — CSS extracted 1:1 from app/admin/admin 2.0/index.html
  *
- * Tailwind directives: generate utility CSS for admin pages.
- * Only loaded on /admin routes (imported in admin layout).
+ * Uses @tailwind utilities ONLY — no @tailwind base (Preflight) to avoid
+ * conflicts with the public site's global CSS reset (which corrupts line-height,
+ * margins, and other inherited values inside the admin panel).
+ *
+ * All component styles below are taken verbatim from the prototype's <style> block.
+ * Scoped to .admin-shell-root so nothing leaks into the public site.
  */
-@tailwind base;
-@tailwind components;
 @tailwind utilities;
 
-/* ─── Shell layout ─── (explicit CSS, not Tailwind, to override global site reset
-   which forces display:block on aside/header/nav elements) */
+/* ─── Scoped micro-reset ─────────────────────────────────────────────────── */
+/* Prevent public-site CSS (resets, line-heights, margins) from bleeding in   */
+
+.admin-shell-root *,
+.admin-shell-root *::before,
+.admin-shell-root *::after { box-sizing: border-box; }
+
 .admin-shell-root {
+  /* Prototype body styles, scoped */
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 13px;
+  line-height: 1.5;           /* ← THE FIX: normalises inherited line-height */
+  color: #374151;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Shell layout */
   display: flex;
   flex-direction: row;
   height: 100vh;
   width: 100vw;
   overflow: hidden;
-  background: #f8fafc;
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  font-size: 13px;
-  color: #374151;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  background: #f9fafb;
 }
+
+/* Elements that may carry browser-default margins/padding from site CSS */
+.admin-shell-root h1,
+.admin-shell-root h2,
+.admin-shell-root h3,
+.admin-shell-root h4,
+.admin-shell-root h5,
+.admin-shell-root h6 { margin: 0; font-weight: inherit; font-size: inherit; }
+.admin-shell-root p  { margin: 0; }
+.admin-shell-root ul,
+.admin-shell-root ol { margin: 0; padding: 0; list-style: none; }
+.admin-shell-root a  { color: inherit; text-decoration: none; }
+.admin-shell-root button,
+.admin-shell-root input,
+.admin-shell-root select,
+.admin-shell-root textarea { font: inherit; }
+.admin-shell-root img,
+.admin-shell-root svg { display: block; }
+
+/* ─── Scrollbar (from prototype) ─── */
+.admin-shell-root ::-webkit-scrollbar       { width: 6px; height: 6px; }
+.admin-shell-root ::-webkit-scrollbar-track { background: transparent; }
+.admin-shell-root ::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 3px; }
+.admin-shell-root ::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   SHELL LAYOUT
+   ═══════════════════════════════════════════════════════════════════════════ */
 
 #left-sidebar {
   width: 260px;
@@ -70,10 +108,9 @@
   height: 100%;
 }
 
-.admin-shell-root ::-webkit-scrollbar { width: 6px; height: 6px; }
-.admin-shell-root ::-webkit-scrollbar-track { background: transparent; }
-.admin-shell-root ::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 3px; }
-.admin-shell-root ::-webkit-scrollbar-thumb:hover { background: #9ca3af; }
+/* ═══════════════════════════════════════════════════════════════════════════
+   DESIGN SYSTEM — extracted verbatim from admin 2.0/index.html <style>
+   ═══════════════════════════════════════════════════════════════════════════ */
 
 /* ─── Inputs ─── */
 .input-base {
@@ -88,7 +125,6 @@
   transition: all 0.15s;
   outline: none;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.02);
-  font-family: inherit;
 }
 textarea.input-base {
   height: auto;
@@ -150,7 +186,6 @@ select.input-base {
   border: 1px solid transparent;
   white-space: nowrap;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  font-family: inherit;
 }
 .btn-primary {
   background-color: #2563eb;
@@ -207,9 +242,7 @@ select.input-base {
   align-items: center;
   justify-content: space-between;
 }
-.card-body {
-  padding: 20px;
-}
+.card-body { padding: 20px; }
 
 /* ─── Tables ─── */
 .table-container { width: 100%; overflow-x: auto; }
@@ -239,7 +272,7 @@ select.input-base {
 }
 .admin-table tbody tr:hover td { background-color: #f9fafb; }
 
-/* ─── Toggle ─── */
+/* ─── Toggle switch ─── */
 .toggle-switch {
   position: relative;
   display: inline-block;
@@ -259,7 +292,7 @@ select.input-base {
 .toggle-switch input:checked + .toggle-slider { background-color: #2563eb; }
 .toggle-switch input:checked + .toggle-slider:before { transform: translateX(20px); }
 
-/* ─── Lang switcher ─── */
+/* ─── Language switcher ─── */
 .lang-switcher {
   display: inline-flex;
   background: #f3f4f6;
@@ -312,13 +345,13 @@ select.input-base {
 .admin-sidebar-nav {
   flex: 1;
   overflow-y: auto;
-  padding: 24px 0;
+  padding: 24px 0;           /* py-6 */
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 4px;                  /* gap-1 = 0.25rem = 4px */
 }
 
-/* ─── Nav items ─── */
+/* ─── Nav items (from prototype) ─── */
 .nav-item {
   display: flex; align-items: center; gap: 12px; padding: 10px 16px; margin: 2px 12px;
   color: #4b5563; font-weight: 500; font-size: 13px; border-radius: 8px;
@@ -328,7 +361,7 @@ select.input-base {
 .nav-item.active { color: #2563eb; background-color: #eff6ff; font-weight: 600; }
 .nav-item i { font-size: 20px; }
 
-/* ─── Sidebar collapse ─── */
+/* ─── Sidebar collapse (from prototype) ─── */
 #left-sidebar.collapsed { width: 64px; }
 #left-sidebar.collapsed .nav-label { display: none; }
 #left-sidebar.collapsed .nav-item { padding: 10px; justify-content: center; margin: 4px; }
@@ -371,7 +404,7 @@ select.input-base {
   z-index: 40;
 }
 
-/* ─── Page layout helpers ─── */
+/* ─── Page layout helpers (from prototype) ─── */
 .page-header {
   display: flex; justify-content: space-between; align-items: flex-end;
   padding: 32px 32px 24px 32px;

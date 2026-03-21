@@ -134,7 +134,7 @@ export default function AdminShell({
         </nav>
 
         {/* User */}
-        <div className="p-4 shrink-0 bg-white border-t border-brand-200 relative group">
+        <div className="p-4 shrink-0 bg-white relative group">
           <Link
             href="/admin/profile"
             className="flex items-center gap-3 w-full p-2 rounded-lg hover:bg-brand-50 transition-colors cursor-pointer"
