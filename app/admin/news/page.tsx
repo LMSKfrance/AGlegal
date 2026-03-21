@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { getNewsList } from "@/lib/actions/news";
-import { deleteNews } from "@/lib/actions/news";
+import { getNewsList, deleteNews } from "@/lib/actions/news";
+import { DeleteButton } from "@/app/admin/_components/DeleteButton";
 
 export const dynamic = "force-dynamic";
 
@@ -80,12 +80,7 @@ export default async function NewsListPage() {
                           <Link href={`/admin/news/${article.id}/edit`} className="btn-icon" title="Edit">
                             <i className="ph ph-pencil text-brand-500" />
                           </Link>
-                          <form action={deleteNews.bind(null, article.id)}>
-                            <button type="submit" className="btn-icon text-red-500 hover:text-red-700" title="Delete"
-                              onClick={(e) => { if (!confirm(`Delete "${article.titleEn}"?`)) e.preventDefault(); }}>
-                              <i className="ph ph-trash" />
-                            </button>
-                          </form>
+                          <DeleteButton action={deleteNews.bind(null, article.id)} label={article.titleEn} />
                         </div>
                       </td>
                     </tr>
