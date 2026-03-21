@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 
 const nav = [
   {
@@ -106,7 +106,7 @@ export default function AdminShell({
         {/* Nav */}
         <nav className="admin-sidebar-nav">
           {nav.map(({ group, items }, gi) => (
-            <div key={group}>
+            <Fragment key={group}>
               {!collapsed && (
                 <div className={`section-label text-[10px] font-bold text-brand-400 uppercase tracking-widest px-6 mb-2${gi > 0 ? " mt-6" : ""}`}>
                   {group}
@@ -129,7 +129,7 @@ export default function AdminShell({
                   )}
                 </Link>
               ))}
-            </div>
+            </Fragment>
           ))}
         </nav>
 
