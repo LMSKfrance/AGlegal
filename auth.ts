@@ -17,6 +17,9 @@ if (!process.env.AUTH_SECRET) {
 export const { handlers, signIn, signOut, auth } = NextAuth({
   ...authConfig,
   secret: process.env.AUTH_SECRET,
+  // Required on Netlify/Vercel: reverse proxy sets X-Forwarded-Host which
+  // NextAuth v5 must trust, otherwise all auth callbacks throw UntrustedHost.
+  trustHost: true,
   providers: [
     Credentials({
       credentials: {
