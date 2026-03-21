@@ -3,12 +3,65 @@
  * Scoped to .admin-shell-root to avoid leaking into public site.
  */
 
+/* ─── Shell layout ─── (explicit CSS, not Tailwind, to override global site reset
+   which forces display:block on aside/header/nav elements) */
 .admin-shell-root {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  background: #f8fafc;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   font-size: 13px;
   color: #374151;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+#left-sidebar {
+  width: 260px;
+  flex-shrink: 0;
+  background: #ffffff;
+  border-right: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+  transition: width 0.3s ease;
+  position: relative;
+  z-index: 30;
+}
+
+.admin-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background: #f8fafc;
+  height: 100%;
+  overflow: hidden;
+}
+
+.admin-header {
+  height: 64px;
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  flex-shrink: 0;
+  z-index: 20;
+}
+
+.admin-content {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .admin-shell-root ::-webkit-scrollbar { width: 6px; height: 6px; }
@@ -248,6 +301,15 @@ select.input-base {
   overflow: hidden;
 }
 .file-upload-zone:hover { border-color: #9ca3af; background: #f3f4f6; }
+
+/* ─── Sidebar nav ─── */
+.admin-sidebar-nav {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px 0;
+  display: flex;
+  flex-direction: column;
+}
 
 /* ─── Nav items ─── */
 .nav-item {

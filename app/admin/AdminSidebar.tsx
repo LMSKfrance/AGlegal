@@ -83,12 +83,12 @@ export default function AdminShell({
   }
 
   return (
-    <div className="admin-shell-root flex h-screen w-screen overflow-hidden text-brand-700 bg-brand-50">
+    <div className="admin-shell-root">
 
       {/* ═══ Sidebar ═══ */}
       <aside
         id="left-sidebar"
-        className={`bg-white border-r border-brand-200 flex flex-col shrink-0 z-30 transition-all duration-300 relative ${collapsed ? "w-16" : "w-[260px]"}`}
+        className={collapsed ? "collapsed" : ""}
       >
         {/* Logo */}
         <div className="h-16 flex items-center px-6 border-b border-brand-200 shrink-0 justify-between">
@@ -105,7 +105,7 @@ export default function AdminShell({
         </div>
 
         {/* Nav */}
-        <nav className="flex-1 overflow-y-auto py-6 flex flex-col gap-1">
+        <nav className="admin-sidebar-nav">
           {nav.map(({ group, items }, gi) => (
             <div key={group}>
               {!collapsed && (
@@ -178,10 +178,10 @@ export default function AdminShell({
       </aside>
 
       {/* ═══ Right area: header + content ═══ */}
-      <div className="flex-1 flex flex-col min-w-0 bg-[#f8fafc] relative h-full">
+      <div className="admin-main">
 
         {/* Header */}
-        <header className="h-16 bg-white border-b border-brand-200 flex items-center justify-between px-6 shrink-0 z-20">
+        <header className="admin-header">
           <div className="flex items-center gap-2 text-[13px]">
             <span className="text-brand-500">Admin</span>
             <i className="ph ph-caret-right text-brand-300 text-[10px]" />
@@ -201,7 +201,7 @@ export default function AdminShell({
         </header>
 
         {/* Page content */}
-        <main className="flex-1 relative overflow-y-auto overflow-x-hidden flex flex-col h-full">
+        <main className="admin-content">
           {children}
         </main>
       </div>
