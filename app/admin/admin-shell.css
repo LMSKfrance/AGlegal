@@ -34,7 +34,7 @@
   flex-direction: column;
   height: 100vh;
   overflow: hidden;
-  transition: width 0.3s ease;
+  transition: all 0.3s ease;
   position: relative;
   z-index: 30;
 }
@@ -315,7 +315,7 @@ select.input-base {
   padding: 24px 0;
   display: flex;
   flex-direction: column;
-  gap: 1px;
+  gap: 4px;
 }
 
 /* ─── Nav items ─── */
