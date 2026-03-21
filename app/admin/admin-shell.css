@@ -427,3 +427,36 @@ select.input-base {
   to   { transform: translateY(0);    opacity: 1; }
 }
 .toast-animate { animation: slideUp 0.3s ease-out forwards; }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   RESPONSIVE — mobile-first adjustments
+   Breakpoints:  768px = tablet  |  640px = small mobile
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 768px) {
+  /* Reduce page header + content padding */
+  .page-header {
+    padding: 20px 16px 16px 16px;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .page-content {
+    padding: 0 16px 24px 16px;
+  }
+
+  /* Action bar */
+  .action-bar { padding: 10px 16px; }
+
+  /* Card body */
+  .card-body { padding: 14px; }
+}
+
+@media (max-width: 640px) {
+  /* Tighter on small phones */
+  .page-header  { padding: 14px 12px 10px 12px; }
+  .page-content { padding: 0 12px 20px 12px; }
+  .admin-header { padding: 0 12px; }
+  .card-body    { padding: 12px; }
+  .action-bar   { padding: 8px 12px; flex-wrap: wrap; gap: 8px; }
+}
