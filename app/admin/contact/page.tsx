@@ -1,162 +1,66 @@
-import { Suspense } from "react";
-import { redirect } from "next/navigation";
-import { Button, TextField, TextArea } from "@/design-system";
-import { AdminLangTabs } from "../components/AdminLangTabs";
-import { AdminToast } from "../components/AdminToast";
-import styles from "../admin.module.css";
-import { getContactSettings, upsertContactSettings } from "@/lib/actions/contact";
-import { SubmitButton } from "../components/SubmitButton";
-
-export default async function AdminContactPage() {
-  const contact = await getContactSettings();
-
-  async function action(formData: FormData) {
-    "use server";
-    const result = await upsertContactSettings({}, formData);
-    if (result.success) redirect("/admin/contact?toast=success");
-    else redirect("/admin/contact?toast=error");
-  }
-
+export default function ContactPage() {
   return (
     <>
-      <div className={styles.pageBar}>
-        <h1 className={styles.pageTitle}>Contact page content</h1>
+      <div className="page-header border-b border-brand-200 sticky top-0 bg-[#f8fafc]/95 backdrop-blur z-10 pb-6 pt-8">
+        <div>
+          <h1 className="text-[28px] font-bold text-brand-900 tracking-tight">Contact Information</h1>
+          <p className="text-brand-500 mt-2">Global contact details and social media links.</p>
+        </div>
+        <div className="lang-switcher">
+          <div className="lang-tab active">EN</div>
+          <div className="lang-tab">KA</div>
+        </div>
       </div>
-      <form action={action} className={styles.formCard}>
-        <AdminLangTabs
-          childrenEn={
-            <div className={styles.formRow}>
-              <TextField
-                label="Title (EN)"
-                name="titleEn"
-                defaultValue={contact?.titleEn ?? ""}
-                size="m"
-              />
-              <div style={{ marginTop: 16 }}>
-                <TextArea
-                  label="Subtitle (EN)"
-                  name="subtitleEn"
-                  rows={2}
-                  defaultValue={contact?.subtitleEn ?? ""}
-                  size="m"
-                />
-              </div>
-              <div style={{ marginTop: 16 }}>
-                <TextArea
-                  label="Address (EN)"
-                  name="addressEn"
-                  rows={3}
-                  defaultValue={contact?.addressEn ?? ""}
-                  size="m"
-                />
-              </div>
+
+      <div className="page-content space-y-6 pb-40 max-w-4xl mx-auto ml-0 pt-6">
+        <div className="card">
+          <div className="card-body space-y-8">
+            <div className="grid grid-cols-2 gap-8">
+              <div><label className="label-base">Page Title</label><input type="text" className="input-base" placeholder="Get in Touch" /></div>
+              <div><label className="label-base">Subtitle</label><textarea className="input-base !h-[38px] !min-h-0 py-2" rows={1} placeholder="Our team is ready to assist you." /></div>
             </div>
-          }
-          childrenKa={
-            <div className={styles.formRow}>
-              <TextField
-                label="Title (KA)"
-                name="titleKa"
-                defaultValue={contact?.titleKa ?? ""}
-                size="m"
-              />
-              <div style={{ marginTop: 16 }}>
-                <TextArea
-                  label="Subtitle (KA)"
-                  name="subtitleKa"
-                  rows={2}
-                  defaultValue={contact?.subtitleKa ?? ""}
-                  size="m"
-                />
+
+            <hr className="border-brand-200" />
+
+            <div className="grid grid-cols-2 gap-8">
+              <div><label className="label-base">Primary Email</label><input type="email" className="input-base" placeholder="info@aglegal.com" /></div>
+              <div>
+                <label className="label-base">Address</label>
+                <textarea className="input-base" rows={3} placeholder={"12 Rustaveli Avenue, Floor 4\nTbilisi 0108, Georgia"} />
               </div>
-              <div style={{ marginTop: 16 }}>
-                <TextArea
-                  label="Address (KA)"
-                  name="addressKa"
-                  rows={3}
-                  defaultValue={contact?.addressKa ?? ""}
-                  size="m"
-                />
-              </div>
+              <div><label className="label-base">Primary Phone</label><input type="text" className="input-base" placeholder="+995 32 2 123 456" /></div>
+              <div><label className="label-base">Secondary Phone</label><input type="text" className="input-base" /></div>
             </div>
-          }
-        />
 
-        <div className={styles.formRow}>
-          <TextField
-            label="Email"
-            name="email"
-            type="email"
-            defaultValue={contact?.email ?? ""}
-            size="m"
-          />
-        </div>
-        <div className={styles.formRow}>
-          <TextField
-            label="Phone"
-            name="phone"
-            defaultValue={contact?.phone ?? ""}
-            size="m"
-          />
-        </div>
-        <div className={styles.formRow}>
-          <TextField
-            label="Secondary phone"
-            name="secondaryPhone"
-            defaultValue={contact?.secondaryPhone ?? ""}
-            size="m"
-          />
-        </div>
+            <hr className="border-brand-200" />
+            <h3 className="font-semibold text-brand-900 text-[15px]">Social Media URLs</h3>
+            <div className="grid grid-cols-2 gap-6">
+              <div><label className="label-base">LinkedIn URL</label><input type="text" className="input-base" placeholder="https://linkedin.com/company/..." /></div>
+              <div><label className="label-base">Facebook URL</label><input type="text" className="input-base" placeholder="https://facebook.com/..." /></div>
+              <div><label className="label-base">X (Twitter) URL</label><input type="text" className="input-base" /></div>
+              <div><label className="label-base">Instagram URL</label><input type="text" className="input-base" /></div>
+            </div>
 
-        <div className={styles.formRow}>
-          <TextField
-            label="Facebook URL"
-            name="facebookUrl"
-            defaultValue={contact?.facebookUrl ?? ""}
-            size="m"
-          />
+            <hr className="border-brand-200" />
+            <div>
+              <label className="label-base">Google Maps Embed Code (iframe src URL)</label>
+              <textarea className="input-base font-mono text-[13px] bg-[#fbfcfd]" rows={3} placeholder="https://www.google.com/maps/embed?pb=..." />
+            </div>
+          </div>
         </div>
-        <div className={styles.formRow}>
-          <TextField
-            label="Instagram URL"
-            name="instagramUrl"
-            defaultValue={contact?.instagramUrl ?? ""}
-            size="m"
-          />
-        </div>
-        <div className={styles.formRow}>
-          <TextField
-            label="LinkedIn URL"
-            name="linkedinUrl"
-            defaultValue={contact?.linkedinUrl ?? ""}
-            size="m"
-          />
-        </div>
-        <div className={styles.formRow}>
-          <TextField
-            label="X (Twitter) URL"
-            name="xUrl"
-            defaultValue={contact?.xUrl ?? ""}
-            size="m"
-          />
-        </div>
-        <div className={styles.formRow}>
-          <TextArea
-            label="Map embed URL or iframe"
-            name="mapEmbedUrl"
-            rows={3}
-            defaultValue={contact?.mapEmbedUrl ?? ""}
-            size="m"
-          />
-        </div>
+      </div>
 
-        <div className={styles.formRow} style={{ marginTop: 24 }}>
-          <SubmitButton />
+      <div className="action-bar">
+        <div className="text-[12px] text-brand-500 flex items-center gap-4">
+          <span className="flex items-center gap-1">
+            <kbd className="bg-brand-100 px-1.5 py-0.5 rounded font-mono text-[10px] text-brand-700">⌘S</kbd> Save
+          </span>
         </div>
-      </form>
-      <Suspense fallback={null}>
-        <AdminToast />
-      </Suspense>
+        <div className="flex gap-3">
+          <button className="btn btn-secondary">Discard Changes</button>
+          <button className="btn btn-primary"><i className="ph ph-floppy-disk" /> Save Contact Info</button>
+        </div>
+      </div>
     </>
   );
 }
