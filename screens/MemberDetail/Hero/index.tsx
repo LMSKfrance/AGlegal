@@ -31,7 +31,7 @@ const Hero = ({ member, otherMembers }: HeroProps) => {
         tl.fromTo(
           cardRef.current,
           { y: 40, opacity: 0 },
-          { y: 0, opacity: 1, duration: 0.9, ease: "power3.out" },
+          { y: 0, opacity: 1, duration: 0.45, ease: "power3.out" },
         );
       }
 
@@ -39,7 +39,7 @@ const Hero = ({ member, otherMembers }: HeroProps) => {
         tl.fromTo(
           contentRef.current.children,
           { y: 30, opacity: 0 },
-          { y: 0, opacity: 1, duration: 0.7, stagger: 0.2, ease: "power2.out" },
+          { y: 0, opacity: 1, duration: 0.35, stagger: 0.1, ease: "power2.out" },
           "-=0.5",
         );
       }
@@ -48,7 +48,7 @@ const Hero = ({ member, otherMembers }: HeroProps) => {
         tl.fromTo(
           teamRef.current.querySelectorAll(`.${styles.other_card}`),
           { y: 30, opacity: 0 },
-          { y: 0, opacity: 1, duration: 0.6, stagger: 0.08, ease: "power2.out" },
+          { y: 0, opacity: 1, duration: 0.3, stagger: 0.04, ease: "power2.out" },
           "-=0.2",
         );
       }

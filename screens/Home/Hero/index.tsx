@@ -52,9 +52,9 @@ const Hero = () => {
             {
               y: 0,
               opacity: 1,
-              stagger: 0.05,
+              stagger: 0.0125,
               ease: "back.out(2)",
-              duration: 1,
+              duration: 0.25,
             },
           );
 
@@ -64,7 +64,7 @@ const Hero = () => {
             {
               opacity: 1,
               x: 0,
-              duration: 1,
+              duration: 0.5,
               ease: "power2.out",
             },
             0,
@@ -76,7 +76,7 @@ const Hero = () => {
             {
               scaleX: 1,
               transformOrigin: "left",
-              duration: 0.5,
+              duration: 0.25,
               ease: "power2.out",
             },
             "-=0.1",
@@ -88,7 +88,7 @@ const Hero = () => {
             {
               opacity: 1,
               scale: 1,
-              duration: 0.5,
+              duration: 0.25,
               ease: "back.out(1.7)",
             },
             "-=0.2",
@@ -100,7 +100,7 @@ const Hero = () => {
             {
               opacity: 1,
               y: 0,
-              duration: 0.5,
+              duration: 0.25,
               ease: "power2.out",
             },
             "-=0.3",

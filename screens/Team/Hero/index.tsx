@@ -27,7 +27,7 @@ const Hero = ({ members }: HeroProps) => {
       timeline.fromTo(
         titleRef.current,
         { y: 40, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.9, ease: "power3.out" },
+        { y: 0, opacity: 1, duration: 0.45, ease: "power3.out" },
       );
 
       membersRef.current.forEach((member, index) => {
@@ -39,7 +39,7 @@ const Hero = ({ members }: HeroProps) => {
               y: 0,
               opacity: 1,
               ease: "power2.out",
-              duration: 0.8,
+              duration: 0.4,
             },
             `-=${0.3 - index * 0.05}`,
           );

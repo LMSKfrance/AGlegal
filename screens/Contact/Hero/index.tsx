@@ -15,6 +15,7 @@ type ContactSettingsRecord = {
   email?: string | null;
   phone?: string | null;
   secondaryPhone?: string | null;
+  mapEmbedUrl?: string | null;
 };
 
 type PageRecord = {
@@ -65,9 +66,9 @@ const Hero = ({ contact, page }: HeroProps) => {
             {
               y: 0,
               opacity: 1,
-              stagger: 0.05,
+              stagger: 0.025,
               ease: "back.out(2)",
-              duration: 1,
+              duration: 0.5,
             },
           );
 
@@ -77,7 +78,7 @@ const Hero = ({ contact, page }: HeroProps) => {
             {
               opacity: 1,
               y: 0,
-              duration: 0.5,
+              duration: 0.25,
               ease: "power2.out",
             },
             "-=0.1",
@@ -89,7 +90,7 @@ const Hero = ({ contact, page }: HeroProps) => {
             {
               scaleX: 1,
               transformOrigin: "left",
-              duration: 0.5,
+              duration: 0.25,
               ease: "power2.out",
             },
             "-=0.3",
@@ -101,7 +102,7 @@ const Hero = ({ contact, page }: HeroProps) => {
             {
               opacity: 1,
               x: 0,
-              duration: 1,
+              duration: 0.5,
               ease: "power2.out",
             },
             0,
@@ -115,9 +116,9 @@ const Hero = ({ contact, page }: HeroProps) => {
                 {
                   opacity: 1,
                   y: 0,
-                  duration: 0.6,
+                  duration: 0.3,
                   ease: "power2.out",
-                  stagger: 0.1,
+                  stagger: 0.05,
                 },
                 `-=${0.2 + index * 0.1}`,
               );
@@ -132,9 +133,9 @@ const Hero = ({ contact, page }: HeroProps) => {
                 {
                   opacity: 1,
                   y: 0,
-                  duration: 0.6,
+                  duration: 0.3,
                   ease: "power2.out",
-                  stagger: 0.1,
+                  stagger: 0.05,
                 },
                 `-=${0.3 + index * 0.1}`,
               );
@@ -147,7 +148,7 @@ const Hero = ({ contact, page }: HeroProps) => {
             {
               opacity: 1,
               y: 0,
-              duration: 1,
+              duration: 0.5,
               ease: "power2.out",
             },
             "-=0.5",
@@ -159,7 +160,7 @@ const Hero = ({ contact, page }: HeroProps) => {
             {
               opacity: 1,
               y: 0,
-              duration: 1,
+              duration: 0.5,
               ease: "power2.out",
             },
             "-=0.5",
@@ -182,6 +183,12 @@ const Hero = ({ contact, page }: HeroProps) => {
   const secondaryPhone = contact?.secondaryPhone?.trim() || "";
 
   const [addressLine1, addressLine2] = addressText.split("\n");
+
+  // Extract src URL from a full <iframe ...> string, or use as-is if it's already a URL
+  const rawMap = contact?.mapEmbedUrl?.trim() ?? "";
+  const mapSrc = rawMap.startsWith("<iframe")
+    ? (rawMap.match(/src="([^"]+)"/) ?? [])[1] ?? ""
+    : rawMap;
 
   return (
     <section ref={container} className={cn("section")}>
@@ -264,12 +271,24 @@ const Hero = ({ contact, page }: HeroProps) => {
         </div>
 
         <div ref={image} className={styles.image_wrapper}>
-          <Image
-            src="/images/contact.jpg"
-            alt="AG Legal"
-            layout="fill"
-            objectFit="cover"
-          />
+          {mapSrc ? (
+            <iframe
+              src={mapSrc}
+              width="100%"
+              height="100%"
+              style={{ border: 0 }}
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
+          ) : (
+            <Image
+              src="/images/contact.jpg"
+              alt="AG Legal"
+              layout="fill"
+              objectFit="cover"
+            />
+          )}
         </div>
 
         <div ref={formTitle} className={cn("heading-3", styles.form_title)}>

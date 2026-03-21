@@ -46,9 +46,9 @@ const Offices = () => {
             {
               y: 0,
               opacity: 1,
-              stagger: 0.05,
+              stagger: 0.025,
               ease: "back.out(2)",
-              duration: 0.8,
+              duration: 0.4,
             },
           );
         }

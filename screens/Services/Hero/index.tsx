@@ -39,7 +39,7 @@ const Hero = ({ services, page }: HeroProps) => {
       timeline.fromTo(
         titleRef.current,
         { y: 40, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.9, ease: "power3.out" },
+        { y: 0, opacity: 1, duration: 0.45, ease: "power3.out" },
       );
 
       if (descRef.current) {
@@ -49,8 +49,8 @@ const Hero = ({ services, page }: HeroProps) => {
           {
             y: 0,
             opacity: 1,
-            duration: 0.7,
-            stagger: 0.15,
+            duration: 0.35,
+            stagger: 0.075,
             ease: "power2.out",
           },
           "-=0.5",
@@ -64,8 +64,8 @@ const Hero = ({ services, page }: HeroProps) => {
           {
             y: 0,
             opacity: 1,
-            duration: 0.5,
-            stagger: 0.04,
+            duration: 0.25,
+            stagger: 0.02,
             ease: "power2.out",
           },
           "-=0.3",

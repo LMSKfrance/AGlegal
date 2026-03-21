@@ -200,7 +200,7 @@ export async function setAboutTeamMembers(
   }
 }
 
-export async function updateAboutTeamMembersFromForm(formData: FormData): Promise<void> {
+export async function updateAboutTeamMembersFromForm(formData: FormData): Promise<{ success: boolean }> {
   try {
     const list = await getTeamList();
     const showOnAboutIds = new Set((formData.getAll("showOnAbout") as string[]).map(Number));
@@ -210,7 +210,9 @@ export async function updateAboutTeamMembersFromForm(formData: FormData): Promis
       aboutOrder: Number(formData.get(`aboutOrder_${member.id}`)) || index,
     }));
     await setAboutTeamMembers(entries);
+    return { success: true };
   } catch (err) {
     console.error("[updateAboutTeamMembersFromForm]", err);
+    return { success: false };
   }
 }

@@ -13,7 +13,7 @@ import { useGSAP } from "@gsap/react";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const CARD_DURATION = 0.45;
+const CARD_DURATION = 0.225;
 const CARD_EASE = "power2.out";
 
 const DEFAULT_MISSION_TITLE = "Our mission: Justice for all.";
@@ -66,9 +66,9 @@ const Mission = () => {
             {
               y: 0,
               opacity: 1,
-              stagger: 0.03,
+              stagger: 0.015,
               ease: "back.out(2)",
-              duration: 1,
+              duration: 0.5,
             },
           );
 
@@ -78,7 +78,7 @@ const Mission = () => {
             {
               y: 0,
               opacity: 1,
-              duration: 0.8,
+              duration: 0.4,
               ease: "power2.out",
             },
             "-=0.4",
@@ -92,7 +92,7 @@ const Mission = () => {
                 opacity: 1,
                 y: 0,
                 scale: 1,
-                duration: 1.2,
+                duration: 0.6,
                 ease: "power2.out",
                 overwrite: true,
               },
@@ -107,7 +107,7 @@ const Mission = () => {
               {
                 opacity: 1,
                 y: 0,
-                duration: 0.6,
+                duration: 0.3,
                 ease: "power2.out",
               },
             );
