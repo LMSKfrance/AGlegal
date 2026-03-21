@@ -172,9 +172,9 @@ const Process = () => {
             {
               y: 0,
               opacity: 1,
-              stagger: 0.03,
+              stagger: 0.015,
               ease: "back.out(2)",
-              duration: 0.8,
+              duration: 0.4,
             },
           );
 
@@ -184,7 +184,7 @@ const Process = () => {
             {
               y: 0,
               opacity: 1,
-              duration: 0.8,
+              duration: 0.4,
               ease: "power2.out",
             },
             "-=0.4",
@@ -196,7 +196,7 @@ const Process = () => {
             {
               opacity: 1,
               y: 0,
-              duration: 0.8,
+              duration: 0.4,
               ease: "power2.out",
             },
           );
@@ -208,7 +208,7 @@ const Process = () => {
               {
                 opacity: 1,
                 y: 0,
-                duration: 0.8,
+                duration: 0.4,
                 ease: "power2.out",
               },
               "-=0.6",

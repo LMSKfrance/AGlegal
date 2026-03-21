@@ -56,6 +56,7 @@ async function NumbersSection() {
     "use server";
     const result = await upsertAboutNumbersSettings(formData);
     if (result.success) redirect("/admin/about?toast=success");
+    else redirect("/admin/about?toast=error");
   }
   return (
     <SectionCard
@@ -91,6 +92,7 @@ async function MissionSection() {
     "use server";
     const result = await upsertAboutMissionSettings(formData);
     if (result.success) redirect("/admin/about?toast=success");
+    else redirect("/admin/about?toast=error");
   }
   return (
     <SectionCard
@@ -126,6 +128,7 @@ async function FeaturesSection() {
     "use server";
     const result = await upsertAboutFeaturesSettings(formData);
     if (result.success) redirect("/admin/about?toast=success");
+    else redirect("/admin/about?toast=error");
   }
   return (
     <SectionCard
@@ -159,6 +162,7 @@ async function PhilosophySection() {
     "use server";
     const result = await upsertAboutPhilosophySettings(formData);
     if (result.success) redirect("/admin/about?toast=success");
+    else redirect("/admin/about?toast=error");
   }
   return (
     <SectionCard
@@ -193,7 +197,9 @@ async function TeamSection() {
   const list = await getTeamList();
   async function action(formData: FormData) {
     "use server";
-    await updateAboutTeamMembersFromForm(formData);
+    const result = await updateAboutTeamMembersFromForm(formData);
+    if (result.success) redirect("/admin/about?toast=success");
+    else redirect("/admin/about?toast=error");
   }
   return (
     <SectionCard

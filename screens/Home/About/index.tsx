@@ -59,9 +59,9 @@ const About = () => {
             {
               y: 0,
               opacity: 1,
-              stagger: 0.03,
+              stagger: 0.015,
               ease: "back.out(2)",
-              duration: 0.8,
+              duration: 0.4,
             },
           );
 
@@ -71,7 +71,7 @@ const About = () => {
             {
               y: 0,
               opacity: 1,
-              duration: 0.8,
+              duration: 0.4,
               ease: "power2.out",
             },
             "-=0.4",
@@ -83,7 +83,7 @@ const About = () => {
             {
               opacity: 1,
               scale: 1,
-              duration: 0.8,
+              duration: 0.4,
               ease: "power2.out",
             },
             "-=0.4",

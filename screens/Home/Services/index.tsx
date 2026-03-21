@@ -53,9 +53,9 @@ const Services = () => {
             {
               y: 0,
               opacity: 1,
-              stagger: 0.03,
+              stagger: 0.015,
               ease: "back.out(2)",
-              duration: 1,
+              duration: 0.5,
             },
           );
 
@@ -65,7 +65,7 @@ const Services = () => {
             {
               y: 0,
               opacity: 1,
-              duration: 0.8,
+              duration: 0.4,
               ease: "power2.out",
             },
             "-=0.4",
@@ -80,7 +80,7 @@ const Services = () => {
                   y: 0,
                   opacity: 1,
                   ease: "power2.out",
-                  duration: 0.8,
+                  duration: 0.4,
                 },
                 `-=${0.3 - index * 0.05}`,
               );
@@ -109,7 +109,7 @@ const Services = () => {
 
       gsap.to(el, {
         scrollLeft: Math.max(0, Math.min(scrollTarget, el.scrollWidth - el.clientWidth)),
-        duration: 2,
+        duration: 1.0,
         ease: "power1.inOut",
         onComplete: onDone,
       });
@@ -135,12 +135,12 @@ const Services = () => {
 
       gsap.to(el, {
         scrollLeft: maxScroll * 0.6,
-        duration: 3.5,
+        duration: 1.75,
         ease: "power1.inOut",
         onComplete: () => {
           gsap.to(el, {
             scrollLeft: 0,
-            duration: 3,
+            duration: 1.5,
             ease: "power1.inOut",
             onComplete: () => {
               step = 0;
