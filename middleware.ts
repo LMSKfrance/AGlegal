@@ -7,5 +7,6 @@ export default auth((_req) => {
 });
 
 export const config = {
-  matcher: ["/admin/:path*"],
+  // Exclude /admin/login from middleware to prevent redirect loops
+  matcher: ["/admin/((?!login$|login/).*)"],
 };
