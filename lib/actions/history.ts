@@ -61,6 +61,7 @@ export async function rollbackSave(historyId: number): Promise<{ success?: boole
     const action = entry.action;
 
     if (type === "news") {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { id: _id, createdAt: _c, ...fields } = data;
       if (action === "updated" && id) {
         await db.update(articles).set({ ...fields, updatedAt: new Date().toISOString() }).where(eq(articles.id, id));
@@ -76,6 +77,7 @@ export async function rollbackSave(historyId: number): Promise<{ success?: boole
       }
 
     } else if (type === "team") {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { id: _id, createdAt: _c, socials, ...fields } = data;
       if (action === "updated" && id) {
         await db.update(teamMembers).set({ ...fields, updatedAt: new Date().toISOString() }).where(eq(teamMembers.id, id));
@@ -103,6 +105,7 @@ export async function rollbackSave(historyId: number): Promise<{ success?: boole
       }
 
     } else if (type === "service") {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { id: _id, createdAt: _c, ...fields } = data;
       if (action === "updated" && id) {
         await db.update(services).set({ ...fields, updatedAt: new Date().toISOString() }).where(eq(services.id, id));
@@ -119,6 +122,7 @@ export async function rollbackSave(historyId: number): Promise<{ success?: boole
       }
 
     } else if (type === "page") {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { id: _id, createdAt: _c, ...fields } = data;
       if (action === "updated" && id) {
         await db.update(pages).set({ ...fields, updatedAt: new Date().toISOString() }).where(eq(pages.id, id));

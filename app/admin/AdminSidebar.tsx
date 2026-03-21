@@ -71,7 +71,6 @@ export default function AdminShell({
   const pathname = usePathname();
   const [collapsed, setCollapsed] = useState(false);
   const [lang, setLang] = useState<"en" | "ka">("en");
-  const [profileOpen, setProfileOpen] = useState(false);
 
   const displayName = userName ?? "Admin User";
   const email = userEmail ?? "admin@aglegal.com";
@@ -83,12 +82,12 @@ export default function AdminShell({
   }
 
   return (
-    <div className="admin-shell-root flex h-screen w-screen overflow-hidden text-brand-700 bg-brand-50">
+    <div className="admin-shell-root">
 
       {/* ═══ Sidebar ═══ */}
       <aside
         id="left-sidebar"
-        className={`bg-white border-r border-brand-200 flex flex-col shrink-0 z-30 transition-all duration-300 relative ${collapsed ? "w-16" : "w-[260px]"}`}
+        className={collapsed ? "collapsed" : ""}
       >
         {/* Logo */}
         <div className="h-16 flex items-center px-6 border-b border-brand-200 shrink-0 justify-between">
@@ -105,11 +104,11 @@ export default function AdminShell({
         </div>
 
         {/* Nav */}
-        <nav className="flex-1 overflow-y-auto py-6 flex flex-col gap-1">
+        <nav className="admin-sidebar-nav">
           {nav.map(({ group, items }, gi) => (
             <div key={group}>
               {!collapsed && (
-                <div className={`section-label text-[10px] font-bold text-brand-400 uppercase tracking-widest px-6 mb-2${gi > 0 ? " mt-4" : ""}`}>
+                <div className={`section-label text-[10px] font-bold text-brand-400 uppercase tracking-widest px-6 mb-2${gi > 0 ? " mt-6" : ""}`}>
                   {group}
                 </div>
               )}
@@ -135,24 +134,25 @@ export default function AdminShell({
         </nav>
 
         {/* User */}
-        <div className="p-4 shrink-0 bg-white relative">
-          <button
-            onClick={() => setProfileOpen((o) => !o)}
-            className="flex items-center gap-3 w-full p-2 rounded-lg hover:bg-brand-50 transition-colors cursor-pointer"
+        <div className="p-4 shrink-0 bg-white relative group">
+          <Link
+            href="/admin/profile"
+            className="flex items-center gap-3 w-full p-2 rounded-lg hover:bg-brand-50 transition-colors"
+            title="Profile"
           >
             <div className="w-9 h-9 rounded-full bg-primary-600 text-white flex items-center justify-center font-semibold text-sm shrink-0">
               {initials}
             </div>
             {!collapsed && (
-              <div className="flex-1 overflow-hidden user-info text-left">
+              <div className="flex-1 overflow-hidden user-info">
                 <div className="text-[13px] font-medium text-brand-900 truncate leading-tight">{displayName}</div>
                 <div className="text-[12px] text-brand-500 truncate">{email}</div>
               </div>
             )}
-          </button>
+          </Link>
 
-          {profileOpen && !collapsed && (
-            <div className="absolute bottom-full left-4 mb-2 w-56 bg-white border border-brand-200 rounded-xl shadow-lg z-50">
+          {!collapsed && (
+            <div className="absolute bottom-full left-4 mb-2 w-56 bg-white border border-brand-200 rounded-xl shadow-lg opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity z-50">
               <div className="p-3 border-b border-brand-100">
                 <div className="text-sm font-semibold text-brand-900">{displayName}</div>
                 <div className="text-xs text-brand-500">{email}</div>
@@ -160,7 +160,6 @@ export default function AdminShell({
               <div className="p-1">
                 <Link
                   href="/admin/profile"
-                  onClick={() => setProfileOpen(false)}
                   className="w-full text-left px-3 py-2 text-sm text-brand-700 hover:bg-brand-50 rounded-lg flex items-center gap-2"
                 >
                   <i className="ph ph-user" /> My Profile
@@ -178,10 +177,10 @@ export default function AdminShell({
       </aside>
 
       {/* ═══ Right area: header + content ═══ */}
-      <div className="flex-1 flex flex-col min-w-0 bg-[#f8fafc] relative h-full">
+      <div className="admin-main">
 
         {/* Header */}
-        <header className="h-16 bg-white border-b border-brand-200 flex items-center justify-between px-6 shrink-0 z-20">
+        <header className="admin-header">
           <div className="flex items-center gap-2 text-[13px]">
             <span className="text-brand-500">Admin</span>
             <i className="ph ph-caret-right text-brand-300 text-[10px]" />
@@ -201,7 +200,7 @@ export default function AdminShell({
         </header>
 
         {/* Page content */}
-        <main className="flex-1 relative overflow-y-auto overflow-x-hidden flex flex-col h-full">
+        <main className="admin-content">
           {children}
         </main>
       </div>

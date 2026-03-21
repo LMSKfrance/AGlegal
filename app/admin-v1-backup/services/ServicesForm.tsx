@@ -6,7 +6,7 @@ import { Button, TextField, TextArea } from "@/design-system";
 import { AdminLangTabs } from "../components/AdminLangTabs";
 import { FileUploadField } from "../components/FileUploadField";
 import type { Service } from "@/lib/db/schema";
-import { createService, updateService, type ServiceFormState } from "@/lib/actions/services";
+import { createService, updateService } from "@/lib/actions/services";
 import styles from "../admin.module.css";
 
 type Props = {
