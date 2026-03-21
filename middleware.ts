@@ -1,12 +1,11 @@
-import { auth } from "@/auth";
-import { NextResponse } from "next/server";
+import NextAuth from "next-auth";
+import { authConfig } from "./auth.config";
 
-export default auth((_req) => {
-  // authorized callback in auth.ts handles redirect to /admin/login when not authenticated
-  return NextResponse.next();
-});
+// Use the Edge-safe config (no bcryptjs / Node.js crypto) for middleware.
+// The full auth.ts config (with Credentials + bcrypt) is only used on the server.
+export default NextAuth(authConfig).auth;
 
 export const config = {
   // Exclude /admin/login from middleware to prevent redirect loops
-  matcher: ["/admin/((?!login$|login/).*)"],
+  matcher: ["/admin/((?!login$|login/).*)", "/api/auth/(.*)"],
 };
