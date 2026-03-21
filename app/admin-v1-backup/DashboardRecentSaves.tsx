@@ -46,17 +46,6 @@ export function DashboardRecentSaves({ entries }: { entries: Entry[] }) {
     } catch {}
   }, []);
 
-  function dismiss(id: number) {
-    setDismissed((prev) => {
-      const next = new Set(prev);
-      next.add(id);
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify([...next]));
-      } catch {}
-      return next;
-    });
-  }
-
   const visible = entries.filter((e) => !dismissed.has(e.id));
 
   if (visible.length === 0) {

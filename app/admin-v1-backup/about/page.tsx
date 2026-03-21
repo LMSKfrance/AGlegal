@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import { redirect } from "next/navigation";
-import { Button, TextField, TextArea } from "@/design-system";
+import Link from "next/link";
+import { TextField, TextArea } from "@/design-system";
 import { AdminLangTabs } from "../components/AdminLangTabs";
 import { AdminToast } from "../components/AdminToast";
 import { AboutSectionVisibilityToggle } from "../components/SectionVisibilityToggle";
@@ -44,7 +45,7 @@ async function HeroSection() {
       headerRight={<AboutSectionVisibilityToggle sectionId="hero" sectionLabel="Hero" visible={sectionVisibility.hero} />}
     >
       <p className={styles.formHelp}>
-        Hero title and content are edited in <a href="/admin/pages">Pages</a> (About page).
+        Hero title and content are edited in <Link href="/admin/pages">Pages</Link> (About page).
       </p>
     </SectionCard>
   );
@@ -223,7 +224,7 @@ async function TeamSection() {
               {list.length === 0 ? (
                 <tr>
                   <td colSpan={3} style={{ color: "var(--gray-500)" }}>
-                    No team members. Add some in <a href="/admin/team">Team</a>.
+                    No team members. Add some in <Link href="/admin/team">Team</Link>.
                   </td>
                 </tr>
               ) : (

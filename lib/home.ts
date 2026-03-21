@@ -7,7 +7,7 @@ import {
   type HomeBenefit,
   type HomeProcessStep,
 } from "@/lib/db/schema";
-import { eq, inArray, asc } from "drizzle-orm";
+import { eq, asc } from "drizzle-orm";
 import { truncateChars } from "@/lib/utils/text";
 import { getHomeTeamMembers } from "@/lib/team";
 import type { TeamMember } from "@/lib/types/team";
