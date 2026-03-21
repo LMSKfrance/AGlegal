@@ -77,6 +77,7 @@ export async function rollbackSave(historyId: number): Promise<{ success?: boole
       }
 
     } else if (type === "team") {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { id: _id, createdAt: _c, socials, ...fields } = data;
       if (action === "updated" && id) {
         await db.update(teamMembers).set({ ...fields, updatedAt: new Date().toISOString() }).where(eq(teamMembers.id, id));
