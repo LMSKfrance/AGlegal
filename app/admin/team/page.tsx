@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getTeamList, deleteTeamMember } from "@/lib/actions/team";
+import { DeleteButton } from "@/app/admin/_components/DeleteButton";
 
 export const dynamic = "force-dynamic";
 
@@ -74,16 +75,7 @@ export default async function TeamListPage() {
                           <Link href={`/admin/team/${member.id}/edit`} className="btn-icon" title="Edit">
                             <i className="ph ph-pencil text-brand-500" />
                           </Link>
-                          <form action={deleteTeamMember.bind(null, member.id)}>
-                            <button
-                              type="submit"
-                              className="btn-icon text-red-500 hover:text-red-700"
-                              title="Delete"
-                              onClick={(e) => { if (!confirm(`Delete "${member.titleEn}"?`)) e.preventDefault(); }}
-                            >
-                              <i className="ph ph-trash" />
-                            </button>
-                          </form>
+                          <DeleteButton action={deleteTeamMember.bind(null, member.id)} label={member.titleEn} />
                         </div>
                       </td>
                     </tr>
