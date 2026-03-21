@@ -1,326 +1,196 @@
 /**
- * Admin Figma design system overrides (Figma nodes: Button 36-10168, Text field 86-2505,
- * Text Area 264-9078, Dropdown 114-10269, Toggle 291-25881, Checkbox & Radio 291-26249).
+ * Admin design system overrides — matches Admin Panel 2.0 prototype exactly.
  * Applied only inside [data-figma-ds="admin"].
  */
-
-/* ─── Button (Figma: pill radius 56px, Primary #0055b8, Secondary #f3f4f6) ─── */
+/* ─── Buttons ─── */
 [data-figma-ds="admin"] .ds-btn {
-  border-radius: 56px;
-  font-size: 16px;
-  line-height: 24px;
+  border-radius: 8px;
+  font-size: 13px;
   font-weight: 500;
+  line-height: 1;
+  height: 38px;
+  padding: 0 16px;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  min-height: unset;
 }
-
 [data-figma-ds="admin"] .ds-btn[class*="size-m"] {
-  padding: 14px 20px;
-  min-height: 52px;
+  height: 38px;
+  padding: 0 16px;
+  font-size: 13px;
+  min-height: unset;
 }
-
 [data-figma-ds="admin"] .ds-btn[class*="size-s"] {
-  padding: 12px 16px;
-  min-height: 44px;
-  font-size: 14px;
-  line-height: 20px;
+  height: 34px;
+  padding: 0 12px;
+  font-size: 13px;
+  border-radius: 6px;
+  min-height: unset;
 }
-
 [data-figma-ds="admin"] .ds-btn[class*="size-xs"] {
-  padding: 10px 12px;
-  min-height: 38px;
+  height: 30px;
+  padding: 0 10px;
   font-size: 12px;
-  line-height: 16px;
+  border-radius: 6px;
+  min-height: unset;
 }
-
-/* Primary dark → Figma Primary #0055b8, hover #0043b1 */
+/* Primary button → Admin 2.0 blue #2563eb */
 [data-figma-ds="admin"] .ds-btn[class*="primary-dark"] {
-  background-color: #0055b8;
-  border-color: #0055b8;
+  background-color: #2563eb;
+  border-color: #2563eb;
+  color: #ffffff;
+  box-shadow: 0 2px 4px 0 rgba(37, 99, 235, 0.2);
 }
-
 [data-figma-ds="admin"] .ds-btn[class*="primary-dark"]:hover:not(:disabled):not([aria-disabled="true"]) {
-  background-color: #0043b1;
-  border-color: #0043b1;
+  background-color: #1d4ed8;
+  border-color: #1d4ed8;
 }
-
-/* Secondary → Figma #f3f4f6, hover #e5e7eb, text #080808 */
+/* Secondary button */
 [data-figma-ds="admin"] .ds-btn[class*="secondary"] {
-  background-color: #f3f4f6;
-  border-color: #f3f4f6;
-  color: #080808;
+  background-color: #ffffff;
+  border-color: #d1d5db;
+  color: #4b5563;
 }
-
 [data-figma-ds="admin"] .ds-btn[class*="secondary"]:hover:not(:disabled) {
-  background-color: #e5e7eb;
-  border-color: #e5e7eb;
-  color: #080808;
+  background-color: #f9fafb;
+  border-color: #9ca3af;
+  color: #111827;
 }
-
-/* Outline → transparent, hover #f3f4f6 */
+/* Outline button */
 [data-figma-ds="admin"] .ds-btn[class*="outline"] {
-  background-color: transparent;
-  color: #080808;
-  border-color: #e5e7eb;
+  background-color: #ffffff;
+  border-color: #d1d5db;
+  color: #4b5563;
 }
-
 [data-figma-ds="admin"] .ds-btn[class*="outline"]:hover:not(:disabled) {
-  background-color: #f3f4f6;
-  border-color: #e5e7eb;
+  background-color: #f9fafb;
+  border-color: #9ca3af;
+  color: #111827;
 }
-
-/* Ghost → transparent, hover #f3f4f6 */
+/* Ghost button */
 [data-figma-ds="admin"] .ds-btn[class*="ghost"] {
   background-color: transparent;
-  color: #080808;
+  color: #6b7280;
+  box-shadow: none;
   border-color: transparent;
 }
-
 [data-figma-ds="admin"] .ds-btn[class*="ghost"]:hover:not(:disabled) {
   background-color: #f3f4f6;
+  color: #111827;
 }
-
-/* ─── Text field (Figma: pill 56px radius, L 56px height, placeholder #6b7280) ─── */
+/* ─── Text fields ─── */
 [data-figma-ds="admin"] .ds-textfield [class*="input"] {
-  border-radius: 56px;
-  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  background-color: #ffffff;
+  font-size: 13px;
+  min-height: unset;
+  height: 38px;
+  padding: 0 12px;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.02);
+  transition: border-color 0.15s, box-shadow 0.15s;
 }
-
 [data-figma-ds="admin"] .ds-textfield [class*="input"]::placeholder {
-  color: #6b7280;
+  color: #9ca3af;
 }
-
-[data-figma-ds="admin"] .ds-textfield[class*="size-l"] [class*="input"] {
-  padding: 16px;
-  min-height: 56px;
-  font-size: 16px;
-  line-height: 24px;
+[data-figma-ds="admin"] .ds-textfield [class*="input"]:hover:not(:disabled):not(:focus) {
+  border-color: #9ca3af;
 }
-
-[data-figma-ds="admin"] .ds-textfield[class*="size-m"] [class*="input"] {
-  padding: 12px;
-  min-height: 48px;
-  font-size: 14px;
-  line-height: 20px;
-}
-
-[data-figma-ds="admin"] .ds-textfield[class*="size-s"] [class*="input"] {
-  padding: 12px;
-  min-height: 42px;
-  font-size: 12px;
-  line-height: 16px;
-}
-
-[data-figma-ds="admin"] .ds-textfield[class*="secondary"] [class*="input"] {
-  background-color: #f3f4f6;
-  border-color: #e5e7eb;
-}
-
 [data-figma-ds="admin"] .ds-textfield [class*="input"]:focus {
-  border-color: #0055b8;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
   outline: none;
-  box-shadow: 0 0 0 1px #0055b8;
 }
-
-/* ─── Text Area (Figma: radius 10px, padding 16/12) ─── */
-[data-figma-ds="admin"] .ds-textarea [class*="textarea"] {
-  border-radius: 10px;
-  border: 1px solid #e2e8f0;
-}
-
-[data-figma-ds="admin"] .ds-textarea [class*="textarea"]::placeholder {
-  color: #6b7280;
-}
-
-[data-figma-ds="admin"] .ds-textarea[class*="size-l"] [class*="textarea"] {
-  padding: 16px;
-  min-height: 120px;
-  font-size: 16px;
-  line-height: 24px;
-}
-
-[data-figma-ds="admin"] .ds-textarea[class*="size-m"] [class*="textarea"],
-[data-figma-ds="admin"] .ds-textarea[class*="size-s"] [class*="textarea"] {
-  padding: 12px;
-  min-height: 100px;
+[data-figma-ds="admin"] .ds-textfield[class*="size-l"] [class*="input"] {
+  height: 42px;
+  padding: 0 14px;
   font-size: 14px;
-  line-height: 20px;
 }
-
-[data-figma-ds="admin"] .ds-textarea[class*="secondary"] [class*="textarea"] {
-  background-color: #f3f4f6;
-  border-color: #e5e7eb;
+[data-figma-ds="admin"] .ds-textfield[class*="size-m"] [class*="input"] {
+  height: 38px;
+  padding: 0 12px;
+  font-size: 13px;
+  min-height: unset;
 }
-
+[data-figma-ds="admin"] .ds-textfield[class*="size-s"] [class*="input"] {
+  height: 34px;
+  padding: 0 10px;
+  font-size: 12px;
+  border-radius: 6px;
+  min-height: unset;
+}
+[data-figma-ds="admin"] .ds-textfield .label {
+  font-size: 12px;
+  font-weight: 500;
+  color: #4b5563;
+  margin-bottom: 6px;
+}
+/* ─── Text areas ─── */
+[data-figma-ds="admin"] .ds-textarea [class*="textarea"] {
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  background-color: #ffffff;
+  font-size: 13px;
+  padding: 10px 12px;
+  line-height: 1.5;
+  resize: vertical;
+  min-height: 80px;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.02);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+[data-figma-ds="admin"] .ds-textarea [class*="textarea"]::placeholder {
+  color: #9ca3af;
+}
+[data-figma-ds="admin"] .ds-textarea [class*="textarea"]:hover:not(:disabled):not(:focus) {
+  border-color: #9ca3af;
+}
 [data-figma-ds="admin"] .ds-textarea [class*="textarea"]:focus {
-  border-color: #0055b8;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
   outline: none;
-  box-shadow: 0 0 0 1px #0055b8;
 }
-
-/* ─── Dropdown (Figma: radius 12px, 56px height, #64748b placeholder) ─── */
+/* ─── Dropdown ─── */
 [data-figma-ds="admin"] .ds-dropdown [class*="trigger"] {
-  border-radius: 12px;
-  padding: 16px;
-  min-height: 56px;
-  font-size: 16px;
-  line-height: 24px;
-  border: 1px solid #e2e8f0;
-  background-color: #fff;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  background-color: #ffffff;
+  font-size: 13px;
+  height: 38px;
+  padding: 0 12px;
+  min-height: unset;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.02);
 }
-
 [data-figma-ds="admin"] .ds-dropdown [class*="placeholder"] {
-  color: #64748b;
+  color: #9ca3af;
 }
-
 [data-figma-ds="admin"] .ds-dropdown [class*="menu"] {
-  border-radius: 12px;
-  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
-
 [data-figma-ds="admin"] .ds-dropdown [class*="trigger"]:hover,
 [data-figma-ds="admin"] .ds-dropdown [class*="trigger"][class*="open"] {
-  border-color: #cbd5e1;
+  border-color: #9ca3af;
 }
-
-/* ─── Toggle (Figma: track #f1f5f9, hover #e2e8f0, L 56x32 thumb 24) ─── */
+/* ─── Toggle ─── */
 [data-figma-ds="admin"] .ds-toggle [class*="track"] {
-  background-color: #f1f5f9 !important;
+  background-color: #d1d5db !important;
   border: none;
   border-radius: 9999px;
+  transition: background-color 0.3s;
 }
-
-[data-figma-ds="admin"] .ds-toggle[class*="size-l"] [class*="track"] {
-  width: 56px;
-  height: 32px;
+[data-figma-ds="admin"] .ds-toggle[class*="on"] [class*="track"] {
+  background-color: #2563eb !important;
 }
-
-[data-figma-ds="admin"] .ds-toggle[class*="size-l"] [class*="thumb"] {
-  width: 24px;
-  height: 24px;
-  left: 4px;
-}
-
-[data-figma-ds="admin"] .ds-toggle[class*="size-l"][class*="on"] [class*="thumb"] {
-  left: calc(56px - 24px - 4px);
-}
-
-[data-figma-ds="admin"] .ds-toggle[class*="size-m"] [class*="track"] {
-  width: 52px;
-  height: 28px;
-}
-
-[data-figma-ds="admin"] .ds-toggle[class*="size-m"] [class*="thumb"] {
-  width: 20px;
-  height: 20px;
-  left: 4px;
-}
-
-[data-figma-ds="admin"] .ds-toggle[class*="size-m"][class*="on"] [class*="thumb"] {
-  left: calc(52px - 20px - 4px);
-}
-
 [data-figma-ds="admin"] .ds-toggle[class*="size-s"] [class*="track"] {
   width: 44px;
   height: 24px;
 }
-
 [data-figma-ds="admin"] .ds-toggle[class*="size-s"] [class*="thumb"] {
-  width: 16px;
-  height: 16px;
-  left: 4px;
-}
-
-[data-figma-ds="admin"] .ds-toggle[class*="size-s"][class*="on"] [class*="thumb"] {
-  left: calc(44px - 16px - 4px);
-}
-
-[data-figma-ds="admin"] .ds-toggle[class*="size-xs"] [class*="track"] {
-  width: 40px;
+  width: 20px;
   height: 20px;
+  left: 2px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-
-[data-figma-ds="admin"] .ds-toggle[class*="size-xs"] [class*="thumb"] {
-  width: 12px;
-  height: 12px;
-  left: 4px;
-}
-
-[data-figma-ds="admin"] .ds-toggle[class*="size-xs"][class*="on"] [class*="thumb"] {
-  left: calc(40px - 12px - 4px);
-}
-
-[data-figma-ds="admin"] .ds-toggle:hover:not([class*="disabled"]):not([class*="on"]) [class*="track"] {
-  background-color: #e2e8f0 !important;
-}
-
-[data-figma-ds="admin"] .ds-toggle[class*="on"] [class*="track"] {
-  background-color: #0055b8 !important;
-}
-
-[data-figma-ds="admin"] .ds-toggle[class*="on"]:hover:not([class*="disabled"]) [class*="track"] {
-  background-color: #0043b1 !important;
-}
-
-/* ─── Checkbox & Radio (Figma: L 24x24, checked #0cb5e2) ─── */
-[data-figma-ds="admin"] .ds-checkbox[class*="size-l"] [class*="control"],
-[data-figma-ds="admin"] .ds-radio[class*="size-l"] [class*="control"] {
-  width: 24px;
-  height: 24px;
-}
-
-[data-figma-ds="admin"] .ds-checkbox[class*="size-m"] [class*="control"],
-[data-figma-ds="admin"] .ds-radio[class*="size-m"] [class*="control"] {
-  width: 21px;
-  height: 21px;
-}
-
-[data-figma-ds="admin"] .ds-checkbox[class*="size-s"] [class*="control"],
-[data-figma-ds="admin"] .ds-radio[class*="size-s"] [class*="control"] {
-  width: 18px;
-  height: 18px;
-}
-
-[data-figma-ds="admin"] .ds-checkbox[class*="size-xs"] [class*="control"],
-[data-figma-ds="admin"] .ds-radio[class*="size-xs"] [class*="control"] {
-  width: 16px;
-  height: 16px;
-}
-
-[data-figma-ds="admin"] .ds-checkbox [class*="control"] {
-  border-radius: 6px;
-}
-
-[data-figma-ds="admin"] .ds-radio [class*="control"] {
-  border-radius: 50%;
-}
-
-[data-figma-ds="admin"] .ds-checkbox[class*="checked"] [class*="control"],
-[data-figma-ds="admin"] .ds-radio[class*="checked"] [class*="control"] {
-  background-color: #0cb5e2;
-  border-color: #0cb5e2;
-}
-
-[data-figma-ds="admin"] .ds-checkbox:hover:not([class*="disabled"]) [class*="control"],
-[data-figma-ds="admin"] .ds-radio:hover:not([class*="disabled"]) [class*="control"] {
-  border-color: #0cb5e2;
-}
-
-[data-figma-ds="admin"] .ds-radio[class*="size-l"] [class*="radio-dot"] {
-  width: 8px;
-  height: 8px;
-}
-
-[data-figma-ds="admin"] .ds-radio[class*="size-m"] [class*="radio-dot"] {
-  width: 7px;
-  height: 7px;
-}
-
-[data-figma-ds="admin"] .ds-radio[class*="size-s"] [class*="radio-dot"] {
-  width: 6px;
-  height: 6px;
-}
-
-[data-figma-ds="admin"] .ds-radio[class*="size-xs"] [class*="radio-dot"] {
-  width: 5px;
-  height: 5px;
+[data-figma-ds="admin"] .ds-toggle[class*="size-s"][class*="on"] [class*="thumb"] {
+  left: calc(44px - 20px - 2px);
 }
