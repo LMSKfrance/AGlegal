@@ -1,7 +1,13 @@
 /*
  * Admin 2.0 shell styles — matches prototype exactly.
  * Scoped to .admin-shell-root to avoid leaking into public site.
+ *
+ * Tailwind directives: generate utility CSS for admin pages.
+ * Only loaded on /admin routes (imported in admin layout).
  */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 /* ─── Shell layout ─── (explicit CSS, not Tailwind, to override global site reset
    which forces display:block on aside/header/nav elements) */
