@@ -56,7 +56,7 @@ export default function ContactForm({ contact, saveAction }: Props) {
 
           <div className="card">
             <div className="card-body space-y-8">
-              <div className="grid grid-cols-2 gap-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
                 <div>
                   <label className="label-base">Page Title {lang === "en" ? "(EN)" : "(KA)"}</label>
                   {lang === "en" ? (
@@ -89,7 +89,7 @@ export default function ContactForm({ contact, saveAction }: Props) {
 
               <hr className="border-brand-200" />
 
-              <div className="grid grid-cols-2 gap-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
                 <div>
                   <label className="label-base">Primary Email</label>
                   <input type="email" name="email" className="input-base" placeholder="info@aglegal.com" defaultValue={contact?.email ?? ""} />
@@ -120,7 +120,7 @@ export default function ContactForm({ contact, saveAction }: Props) {
 
               <hr className="border-brand-200" />
               <h3 className="font-semibold text-brand-900 text-[15px]">Social Media URLs</h3>
-              <div className="grid grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div>
                   <label className="label-base">LinkedIn URL</label>
                   <input type="text" name="linkedinUrl" className="input-base" placeholder="https://linkedin.com/company/..." defaultValue={contact?.linkedinUrl ?? ""} />
