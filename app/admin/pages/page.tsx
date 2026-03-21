@@ -1,22 +1,40 @@
-import { Suspense } from "react";
-import { Button } from "@/design-system";
-import { PagesList } from "./PagesList";
-import { AdminToast } from "../components/AdminToast";
-import styles from "../admin.module.css";
+import Link from "next/link";
 
-export default function AdminPagesPage() {
+export default function PagesListPage() {
   return (
     <>
-      <div className={styles.pageBar}>
-        <h1 className={styles.pageTitle}>Pages</h1>
-        <Button href="/admin/pages/new" variant="primary" colorStyle="dark" size="m">
-          Add page
-        </Button>
+      <div className="page-header">
+        <div>
+          <h1 className="text-[28px] font-bold text-brand-900 tracking-tight">Static Pages</h1>
+          <p className="text-brand-500 mt-2">Manage content for standalone pages.</p>
+        </div>
+        <Link href="/admin/pages/new" className="btn btn-primary">
+          <i className="ph ph-plus" /> Create Page
+        </Link>
       </div>
-      <PagesList />
-      <Suspense fallback={null}>
-        <AdminToast />
-      </Suspense>
+      <div className="page-content">
+        <div className="card overflow-hidden">
+          <div className="table-container">
+            <table className="admin-table">
+              <thead>
+                <tr>
+                  <th className="w-1/3">Page Title</th>
+                  <th className="w-1/3">URL Slug</th>
+                  <th className="w-1/4">Last Modified</th>
+                  <th className="text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td colSpan={4} className="text-center text-brand-400 py-12">
+                    No pages yet. <Link href="/admin/pages/new" className="text-primary-600 font-medium hover:underline">Create the first one →</Link>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
     </>
   );
 }
