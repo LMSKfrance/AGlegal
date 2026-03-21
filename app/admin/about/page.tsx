@@ -1,300 +1,100 @@
-import { Suspense } from "react";
-import { redirect } from "next/navigation";
-import { Button, TextField, TextArea } from "@/design-system";
-import { AdminLangTabs } from "../components/AdminLangTabs";
-import { AdminToast } from "../components/AdminToast";
-import { AboutSectionVisibilityToggle } from "../components/SectionVisibilityToggle";
-import styles from "../admin.module.css";
-import { getAboutSectionSettings } from "@/lib/about";
-import {
-  updateAboutTeamMembersFromForm,
-  upsertAboutNumbersSettings,
-  upsertAboutMissionSettings,
-  upsertAboutFeaturesSettings,
-  upsertAboutPhilosophySettings,
-} from "@/lib/actions/about";
-import { getTeamList } from "@/lib/actions/team";
-import { SubmitButton } from "../components/SubmitButton";
+import Link from "next/link";
 
-function SectionCard({
-  title,
-  children,
-  headerRight,
-}: {
-  title: string;
-  children: React.ReactNode;
-  headerRight?: React.ReactNode;
-}) {
-  return (
-    <section className={styles.formCard} aria-label={title}>
-      <div className={styles.sectionCardHeader}>
-        <h2 className={styles.cardTitle}>{title}</h2>
-        {headerRight}
-      </div>
-      {children}
-    </section>
-  );
-}
-
-async function HeroSection() {
-  const { sectionVisibility } = await getAboutSectionSettings();
-  return (
-    <SectionCard
-      title="Hero"
-      headerRight={<AboutSectionVisibilityToggle sectionId="hero" sectionLabel="Hero" visible={sectionVisibility.hero} />}
-    >
-      <p className={styles.formHelp}>
-        Hero title and content are edited in <a href="/admin/pages">Pages</a> (About page).
-      </p>
-    </SectionCard>
-  );
-}
-
-async function NumbersSection() {
-  const sections = await getAboutSectionSettings();
-  async function action(formData: FormData) {
-    "use server";
-    const result = await upsertAboutNumbersSettings(formData);
-    if (result.success) redirect("/admin/about?toast=success");
-    else redirect("/admin/about?toast=error");
-  }
-  return (
-    <SectionCard
-      title="Numbers"
-      headerRight={<AboutSectionVisibilityToggle sectionId="numbers" sectionLabel="Numbers" visible={sections.sectionVisibility.numbers} />}
-    >
-      <form action={action}>
-        <AdminLangTabs
-          childrenEn={
-            <div className={styles.formGroup}>
-              <TextField label="Title (EN)" name="numbersTitleEn" defaultValue={sections.numbersTitleEn} size="m" />
-              <TextArea label="Description (EN)" name="numbersDescriptionEn" rows={2} defaultValue={sections.numbersDescriptionEn} size="m" />
-            </div>
-          }
-          childrenKa={
-            <div className={styles.formGroup}>
-              <TextField label="Title (KA)" name="numbersTitleKa" defaultValue={sections.numbersTitleKa} size="m" />
-              <TextArea label="Description (KA)" name="numbersDescriptionKa" rows={2} defaultValue={sections.numbersDescriptionKa} size="m" />
-            </div>
-          }
-        />
-        <div className={styles.formActions}>
-          <SubmitButton />
-        </div>
-      </form>
-    </SectionCard>
-  );
-}
-
-async function MissionSection() {
-  const sections = await getAboutSectionSettings();
-  async function action(formData: FormData) {
-    "use server";
-    const result = await upsertAboutMissionSettings(formData);
-    if (result.success) redirect("/admin/about?toast=success");
-    else redirect("/admin/about?toast=error");
-  }
-  return (
-    <SectionCard
-      title="Mission"
-      headerRight={<AboutSectionVisibilityToggle sectionId="mission" sectionLabel="Mission" visible={sections.sectionVisibility.mission} />}
-    >
-      <form action={action}>
-        <AdminLangTabs
-          childrenEn={
-            <div className={styles.formGroup}>
-              <TextField label="Title (EN)" name="missionTitleEn" defaultValue={sections.missionTitleEn} size="m" />
-              <TextArea label="Description (EN)" name="missionDescriptionEn" rows={2} defaultValue={sections.missionDescriptionEn} size="m" />
-            </div>
-          }
-          childrenKa={
-            <div className={styles.formGroup}>
-              <TextField label="Title (KA)" name="missionTitleKa" defaultValue={sections.missionTitleKa} size="m" />
-              <TextArea label="Description (KA)" name="missionDescriptionKa" rows={2} defaultValue={sections.missionDescriptionKa} size="m" />
-            </div>
-          }
-        />
-        <div className={styles.formActions}>
-          <SubmitButton />
-        </div>
-      </form>
-    </SectionCard>
-  );
-}
-
-async function FeaturesSection() {
-  const sections = await getAboutSectionSettings();
-  async function action(formData: FormData) {
-    "use server";
-    const result = await upsertAboutFeaturesSettings(formData);
-    if (result.success) redirect("/admin/about?toast=success");
-    else redirect("/admin/about?toast=error");
-  }
-  return (
-    <SectionCard
-      title="Features"
-      headerRight={<AboutSectionVisibilityToggle sectionId="features" sectionLabel="Features" visible={sections.sectionVisibility.features} />}
-    >
-      <form action={action}>
-        <AdminLangTabs
-          childrenEn={
-            <div className={styles.formGroup}>
-              <TextField label="Title (EN)" name="featuresTitleEn" defaultValue={sections.featuresTitleEn} size="m" />
-            </div>
-          }
-          childrenKa={
-            <div className={styles.formGroup}>
-              <TextField label="Title (KA)" name="featuresTitleKa" defaultValue={sections.featuresTitleKa} size="m" />
-            </div>
-          }
-        />
-        <div className={styles.formActions}>
-          <SubmitButton />
-        </div>
-      </form>
-    </SectionCard>
-  );
-}
-
-async function PhilosophySection() {
-  const sections = await getAboutSectionSettings();
-  async function action(formData: FormData) {
-    "use server";
-    const result = await upsertAboutPhilosophySettings(formData);
-    if (result.success) redirect("/admin/about?toast=success");
-    else redirect("/admin/about?toast=error");
-  }
-  return (
-    <SectionCard
-      title="Philosophy"
-      headerRight={<AboutSectionVisibilityToggle sectionId="philosophy" sectionLabel="Philosophy" visible={sections.sectionVisibility.philosophy} />}
-    >
-      <form action={action}>
-        <AdminLangTabs
-          childrenEn={
-            <div className={styles.formGroup}>
-              <TextField label="Title (EN)" name="philosophyTitleEn" defaultValue={sections.philosophyTitleEn} size="m" />
-              <TextArea label="Description (EN)" name="philosophyDescriptionEn" rows={2} defaultValue={sections.philosophyDescriptionEn} size="m" />
-            </div>
-          }
-          childrenKa={
-            <div className={styles.formGroup}>
-              <TextField label="Title (KA)" name="philosophyTitleKa" defaultValue={sections.philosophyTitleKa} size="m" />
-              <TextArea label="Description (KA)" name="philosophyDescriptionKa" rows={2} defaultValue={sections.philosophyDescriptionKa} size="m" />
-            </div>
-          }
-        />
-        <div className={styles.formActions}>
-          <SubmitButton />
-        </div>
-      </form>
-    </SectionCard>
-  );
-}
-
-async function TeamSection() {
-  const sections = await getAboutSectionSettings();
-  const list = await getTeamList();
-  async function action(formData: FormData) {
-    "use server";
-    const result = await updateAboutTeamMembersFromForm(formData);
-    if (result.success) redirect("/admin/about?toast=success");
-    else redirect("/admin/about?toast=error");
-  }
-  return (
-    <SectionCard
-      title="Team"
-      headerRight={<AboutSectionVisibilityToggle sectionId="team" sectionLabel="Team" visible={sections.sectionVisibility.team} />}
-    >
-      <p className={styles.formHelp} style={{ marginBottom: 16 }}>
-        Choose which team members appear on the About page and set their order.
-      </p>
-      <form action={action}>
-        <div className={styles.tableWrap}>
-          <table className={styles.adminTable}>
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Show on About</th>
-                <th>Order</th>
-              </tr>
-            </thead>
-            <tbody>
-              {list.length === 0 ? (
-                <tr>
-                  <td colSpan={3} style={{ color: "var(--gray-500)" }}>
-                    No team members. Add some in <a href="/admin/team">Team</a>.
-                  </td>
-                </tr>
-              ) : (
-                list.map((member, index) => (
-                  <tr key={member.id}>
-                    <td>{member.titleEn}</td>
-                    <td>
-                      <input
-                        type="checkbox"
-                        name="showOnAbout"
-                        value={member.id}
-                        defaultChecked={!!(member as { showOnAbout?: number }).showOnAbout}
-                      />
-                    </td>
-                    <td>
-                      <input
-                        type="number"
-                        name={`aboutOrder_${member.id}`}
-                        defaultValue={(member as { aboutOrder?: number }).aboutOrder ?? index}
-                        min={0}
-                        style={{ width: 64 }}
-                      />
-                    </td>
-                  </tr>
-                ))
-              )}
-            </tbody>
-          </table>
-        </div>
-        {list.length > 0 && (
-          <div className={styles.formActions}>
-            <SubmitButton label="Save team selection" />
-          </div>
-        )}
-      </form>
-    </SectionCard>
-  );
-}
-
-async function FAQSection() {
-  const sections = await getAboutSectionSettings();
-  return (
-    <SectionCard
-      title="FAQ"
-      headerRight={<AboutSectionVisibilityToggle sectionId="faq" sectionLabel="FAQ" visible={sections.sectionVisibility.faq} />}
-    >
-      <p className={styles.formHelp}>
-        Toggle above controls whether the FAQ block is shown on the About page.
-      </p>
-    </SectionCard>
-  );
-}
-
-export default async function AdminAboutPage() {
+export default function AboutPage() {
   return (
     <>
-      <div className={styles.pageBar}>
-        <h1 className={styles.pageTitle}>About page</h1>
+      <div className="page-header border-b border-brand-200 sticky top-0 bg-[#f8fafc]/95 backdrop-blur z-10 pb-6 pt-8">
+        <div>
+          <h1 className="text-[28px] font-bold text-brand-900 tracking-tight">About Firm Settings</h1>
+          <p className="text-brand-500 mt-2">Manage content for the About Us page sections.</p>
+        </div>
+        <div className="lang-switcher">
+          <div className="lang-tab active">EN</div>
+          <div className="lang-tab">KA</div>
+        </div>
       </div>
-      <div className={styles.formStack}>
-        <Suspense fallback={null}><HeroSection /></Suspense>
-        <Suspense fallback={null}><NumbersSection /></Suspense>
-        <Suspense fallback={null}><MissionSection /></Suspense>
-        <Suspense fallback={null}><FeaturesSection /></Suspense>
-        <Suspense fallback={null}><PhilosophySection /></Suspense>
-        <Suspense fallback={null}><TeamSection /></Suspense>
-        <Suspense fallback={null}><FAQSection /></Suspense>
+
+      <div className="page-content space-y-6 pb-40 max-w-4xl mx-auto ml-0 pt-6">
+        {/* Hero content note */}
+        <div className="card p-6 flex justify-between items-center bg-brand-50 border border-brand-200">
+          <div>
+            <div className="font-semibold text-[14px] text-brand-900">Hero Content is managed in Pages</div>
+            <div className="text-[13px] text-brand-500 mt-1">Edit the main intro text via Pages &gt; About Us.</div>
+          </div>
+          <div className="flex items-center gap-4">
+            <label className="toggle-switch scale-75">
+              <input type="checkbox" defaultChecked />
+              <span className="toggle-slider" />
+            </label>
+            <Link href="/admin/pages" className="btn btn-secondary h-9 px-4 text-[13px]">Go to Pages</Link>
+          </div>
+        </div>
+
+        {/* Key Numbers */}
+        <div className="card">
+          <div className="card-header">
+            <h2 className="font-semibold text-brand-900 text-[15px]">Key Numbers Section</h2>
+            <label className="toggle-switch"><input type="checkbox" defaultChecked /><span className="toggle-slider" /></label>
+          </div>
+          <div className="card-body space-y-5">
+            <div><label className="label-base">Section Title</label><input type="text" className="input-base" placeholder="Our Impact in Numbers" /></div>
+            <div><label className="label-base">Section Description</label><textarea className="input-base" rows={2} /></div>
+          </div>
+        </div>
+
+        {/* Our Mission */}
+        <div className="card">
+          <div className="card-header">
+            <h2 className="font-semibold text-brand-900 text-[15px]">Our Mission Section</h2>
+            <label className="toggle-switch"><input type="checkbox" defaultChecked /><span className="toggle-slider" /></label>
+          </div>
+          <div className="card-body space-y-5">
+            <div><label className="label-base">Title</label><input type="text" className="input-base" placeholder="Driven by Excellence" /></div>
+            <div><label className="label-base">Description</label><textarea className="input-base" rows={2} /></div>
+          </div>
+        </div>
+
+        {/* Core Features */}
+        <div className="card">
+          <div className="card-header">
+            <h2 className="font-semibold text-brand-900 text-[15px]">Core Features Section</h2>
+            <label className="toggle-switch"><input type="checkbox" defaultChecked /><span className="toggle-slider" /></label>
+          </div>
+          <div className="card-body">
+            <div><label className="label-base">Title</label><input type="text" className="input-base" placeholder="What Sets Us Apart" /></div>
+          </div>
+        </div>
+
+        {/* Our Philosophy */}
+        <div className="card">
+          <div className="card-header">
+            <h2 className="font-semibold text-brand-900 text-[15px]">Our Philosophy Section</h2>
+            <label className="toggle-switch"><input type="checkbox" defaultChecked /><span className="toggle-slider" /></label>
+          </div>
+          <div className="card-body space-y-5">
+            <div><label className="label-base">Title</label><input type="text" className="input-base" placeholder="A Client-First Approach" /></div>
+            <div><label className="label-base">Description</label><textarea className="input-base" rows={2} /></div>
+          </div>
+        </div>
+
+        {/* FAQ Visibility */}
+        <div className="card p-6 flex justify-between items-center">
+          <div className="font-semibold text-[15px] text-brand-900">FAQ Section Visibility</div>
+          <label className="toggle-switch"><input type="checkbox" defaultChecked /><span className="toggle-slider" /></label>
+        </div>
       </div>
-      <Suspense fallback={null}>
-        <AdminToast />
-      </Suspense>
+
+      <div className="action-bar">
+        <div className="text-[12px] text-brand-500 flex items-center gap-4">
+          <span className="flex items-center gap-1">
+            <kbd className="bg-brand-100 px-1.5 py-0.5 rounded font-mono text-[10px] text-brand-700">⌘S</kbd> Save
+          </span>
+        </div>
+        <div className="flex gap-3">
+          <button className="btn btn-secondary">Discard Changes</button>
+          <button className="btn btn-primary"><i className="ph ph-floppy-disk" /> Save About Settings</button>
+        </div>
+      </div>
     </>
   );
 }

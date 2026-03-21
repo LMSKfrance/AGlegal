@@ -1,247 +1,151 @@
 import Link from "next/link";
-import { getAdminStats } from "@/lib/admin/stats";
-import { getSaveHistory } from "@/lib/actions/history";
-import styles from "./admin.module.css";
-import { DashboardRecentSaves } from "./DashboardRecentSaves";
 
-// ─── Stat card icons ──────────────────────────────────────────────────────────
-
-function IconNews() {
-  return (
-    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M4 4h16v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" /><path d="M8 9h8M8 13h5" />
-    </svg>
-  );
-}
-function IconTeam() {
-  return (
-    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <circle cx="9" cy="7" r="3" /><path d="M3 21v-2a4 4 0 014-4h4a4 4 0 014 4v2" />
-      <path d="M16 3.13a4 4 0 010 7.75" /><path d="M21 21v-2a4 4 0 00-3-3.87" />
-    </svg>
-  );
-}
-function IconBriefcase() {
-  return (
-    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <rect x="2" y="7" width="20" height="14" rx="2" /><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2" />
-    </svg>
-  );
-}
-function IconPages() {
-  return (
-    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
-      <path d="M14 2v6h6" /><path d="M8 13h8M8 17h5" />
-    </svg>
-  );
-}
-
-// ─── Inline section icons ─────────────────────────────────────────────────────
-
-function IconWarning({ color = "#f59e0b" }: { color?: string }) {
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <circle cx="12" cy="12" r="9" /><path d="M12 8v4M12 16h.01" />
-    </svg>
-  );
-}
-function IconLightning() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563eb" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
-      <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
-    </svg>
-  );
-}
-function IconClock() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6b7280" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
-      <circle cx="12" cy="12" r="9" /><polyline points="12 7 12 12 15 15" />
-    </svg>
-  );
-}
-
-// ─── Status card icons ────────────────────────────────────────────────────────
-
-function IconTranslate() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M5 8l6 6" /><path d="M4 6h7M2 4h9M7 4v2" />
-      <path d="M22 20l-5-10-5 10M14 17h6" />
-    </svg>
-  );
-}
-function IconImageBroken() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <rect x="3" y="3" width="18" height="18" rx="2" />
-      <circle cx="8.5" cy="8.5" r="1.5" /><polyline points="21 15 16 10 5 21" />
-    </svg>
-  );
-}
-function IconUserMinus() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
-      <circle cx="8.5" cy="7" r="4" /><line x1="23" y1="11" x2="17" y2="11" />
-    </svg>
-  );
-}
-
-// ─── Page ─────────────────────────────────────────────────────────────────────
-
-export default async function AdminPage() {
-  let stats = { articles: 0, teamMembers: 0, services: 0, pages: 0 };
-  let recentHistory: Awaited<ReturnType<typeof getSaveHistory>> = [];
-
-  try {
-    [stats, recentHistory] = await Promise.all([
-      getAdminStats(),
-      getSaveHistory(5),
-    ]);
-  } catch (err) {
-    console.error("[AdminPage]", err);
-  }
-
+export default function DashboardPage() {
   return (
     <>
-      {/* Page header */}
-      <div className={styles.pageHeader}>
+      <div className="page-header">
         <div>
-          <h1 className={styles.pageTitle}>Dashboard</h1>
-          <p className={styles.pageSubtitle}>Overview of your CMS content and recent activity.</p>
+          <h1 className="text-[28px] font-bold text-brand-900 tracking-tight">Dashboard</h1>
+          <p className="text-brand-500 mt-2">Overview of your CMS content and recent activity.</p>
         </div>
       </div>
 
-      <div className={styles.pageBody}>
-        {/* Stats grid */}
-        <div className={styles.statsGrid}>
-          <div className={styles.statCard}>
-            <div className={`${styles.statCardIcon} ${styles.statCardIconBlue}`}>
-              <IconNews />
+      <div className="page-content pb-12">
+        {/* Stats */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <div className="card p-6 flex items-center gap-5">
+            <div className="w-14 h-14 rounded-xl bg-[#eff6ff] text-[#2563eb] flex items-center justify-center text-[28px]">
+              <i className="ph-fill ph-newspaper" />
             </div>
             <div>
-              <p className={styles.statCardNum}>{stats.articles}</p>
-              <p className={styles.statLabel}>News Articles</p>
+              <div className="text-[32px] font-bold text-brand-900 leading-none">—</div>
+              <div className="text-[11px] font-bold text-brand-400 uppercase tracking-wider mt-1.5">News Articles</div>
             </div>
           </div>
-          <div className={styles.statCard}>
-            <div className={`${styles.statCardIcon} ${styles.statCardIconIndigo}`}>
-              <IconTeam />
+          <div className="card p-6 flex items-center gap-5">
+            <div className="w-14 h-14 rounded-xl bg-[#e0e7ff] text-[#4f46e5] flex items-center justify-center text-[28px]">
+              <i className="ph-fill ph-users" />
             </div>
             <div>
-              <p className={styles.statCardNum}>{stats.teamMembers}</p>
-              <p className={styles.statLabel}>Team Members</p>
+              <div className="text-[32px] font-bold text-brand-900 leading-none">—</div>
+              <div className="text-[11px] font-bold text-brand-400 uppercase tracking-wider mt-1.5">Team Members</div>
             </div>
           </div>
-          <div className={styles.statCard}>
-            <div className={`${styles.statCardIcon} ${styles.statCardIconGreen}`}>
-              <IconBriefcase />
+          <div className="card p-6 flex items-center gap-5">
+            <div className="w-14 h-14 rounded-xl bg-[#d1fae5] text-[#059669] flex items-center justify-center text-[28px]">
+              <i className="ph-fill ph-briefcase" />
             </div>
             <div>
-              <p className={styles.statCardNum}>{stats.services}</p>
-              <p className={styles.statLabel}>Services</p>
+              <div className="text-[32px] font-bold text-brand-900 leading-none">—</div>
+              <div className="text-[11px] font-bold text-brand-400 uppercase tracking-wider mt-1.5">Services</div>
             </div>
           </div>
-          <div className={styles.statCard}>
-            <div className={`${styles.statCardIcon} ${styles.statCardIconAmber}`}>
-              <IconPages />
+          <div className="card p-6 flex items-center gap-5">
+            <div className="w-14 h-14 rounded-xl bg-[#fef3c7] text-[#d97706] flex items-center justify-center text-[28px]">
+              <i className="ph-fill ph-files" />
             </div>
             <div>
-              <p className={styles.statCardNum}>{stats.pages}</p>
-              <p className={styles.statLabel}>Static Pages</p>
+              <div className="text-[32px] font-bold text-brand-900 leading-none">—</div>
+              <div className="text-[11px] font-bold text-brand-400 uppercase tracking-wider mt-1.5">Static Pages</div>
             </div>
           </div>
         </div>
 
         {/* Content Status */}
-        <div className={styles.dsCard}>
-          <div className={styles.dsCardHeader}>
-            <h2 className={styles.dsCardHeaderTitle}>
-              <IconWarning />
-              Content Status
+        <div className="card mb-6">
+          <div className="card-header">
+            <h2 className="font-semibold text-brand-900 flex items-center gap-2 text-[15px]">
+              <i className="ph ph-warning-circle text-amber-500" /> Content Status
             </h2>
-            <Link href="/admin/notifications" className={styles.dsCardHeaderLink}>View all tasks</Link>
+            <Link href="/admin/notifications" className="text-[12px] font-bold text-primary-600 hover:text-primary-800 uppercase tracking-wider">
+              View all tasks
+            </Link>
           </div>
-          <div className={styles.dsCardBody}>
-            <div className={styles.statusGrid}>
-              <div className={`${styles.statusItem} ${styles.statusItemAmber}`}>
-                <div className={styles.statusItemIcon} style={{ background: "rgba(245,158,11,0.1)", color: "#f59e0b" }}>
-                  <IconTranslate />
+          <div className="card-body p-6">
+            <div className="grid grid-cols-3 gap-6">
+              <div className="flex items-center gap-4 p-5 bg-[#fefce8] rounded-xl border border-[#fef08a]">
+                <div className="w-10 h-10 rounded-full bg-amber-100/50 text-amber-500 flex items-center justify-center shrink-0">
+                  <i className="ph ph-translate text-[20px]" />
                 </div>
                 <div>
-                  <p className={styles.statusItemTitle}>3 Missing Translations</p>
-                  <p className={styles.statusItemDesc}>News articles</p>
+                  <div className="text-[14px] font-semibold text-brand-900">3 Missing Translations</div>
+                  <div className="text-[12px] text-brand-500 mt-0.5">News articles</div>
                 </div>
               </div>
-              <div className={`${styles.statusItem} ${styles.statusItemRed}`}>
-                <div className={styles.statusItemIcon} style={{ background: "rgba(239,68,68,0.1)", color: "#ef4444" }}>
-                  <IconImageBroken />
+              <div className="flex items-center gap-4 p-5 bg-[#fef2f2] rounded-xl border border-[#fecaca]">
+                <div className="w-10 h-10 rounded-full bg-red-100/50 text-red-500 flex items-center justify-center shrink-0">
+                  <i className="ph ph-image text-[20px]" />
                 </div>
                 <div>
-                  <p className={styles.statusItemTitle}>1 Missing Photo</p>
-                  <p className={styles.statusItemDesc}>Team member</p>
+                  <div className="text-[14px] font-semibold text-brand-900">1 Missing Photo</div>
+                  <div className="text-[12px] text-brand-500 mt-0.5">Team member</div>
                 </div>
               </div>
-              <div className={`${styles.statusItem} ${styles.statusItemBlue}`}>
-                <div className={styles.statusItemIcon} style={{ background: "rgba(37,99,235,0.1)", color: "#2563eb" }}>
-                  <IconUserMinus />
+              <div className="flex items-center gap-4 p-5 bg-[#eff6ff] rounded-xl border border-[#bfdbfe]">
+                <div className="w-10 h-10 rounded-full bg-blue-100/50 text-blue-500 flex items-center justify-center shrink-0">
+                  <i className="ph ph-user-circle-minus text-[20px]" />
                 </div>
                 <div>
-                  <p className={styles.statusItemTitle}>Incomplete Profile</p>
-                  <p className={styles.statusItemDesc}>1 Service page</p>
+                  <div className="text-[14px] font-semibold text-brand-900">Incomplete Profile</div>
+                  <div className="text-[12px] text-brand-500 mt-0.5">1 Service page</div>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* 2-column grid: Quick Actions + Recent Activity */}
-        <div className={styles.dashGrid2}>
-          {/* Quick Actions */}
-          <div className={styles.dsCard} style={{ marginBottom: 0 }}>
-            <div className={styles.dsCardHeader}>
-              <h2 className={styles.dsCardHeaderTitle}>
-                <IconLightning />
-                Quick Actions
+        {/* Quick Actions + Recent Activity */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="card h-fit">
+            <div className="card-header">
+              <h2 className="font-semibold text-brand-900 flex items-center gap-2 text-[15px]">
+                <i className="ph ph-lightning text-primary-600" /> Quick Actions
               </h2>
             </div>
-            <div className={styles.dsCardBody}>
-              <div className={styles.quickActionsGrid}>
-                <Link href="/admin/news/new" className={styles.quickActionBtn}>
-                  <div className={styles.quickActionIcon}>
-                    <IconNews />
+            <div className="card-body p-6">
+              <div className="grid grid-cols-3 gap-4">
+                <Link href="/admin/news/new" className="btn flex-col h-auto py-5 px-3 gap-3 bg-white border border-brand-200 hover:bg-brand-50 hover:border-brand-300 group transition-all rounded-xl shadow-sm">
+                  <div className="w-12 h-12 rounded-xl bg-primary-50 text-primary-600 flex items-center justify-center group-hover:bg-primary-100 transition-colors">
+                    <i className="ph-fill ph-newspaper text-2xl" />
                   </div>
-                  <span className={styles.quickActionLabel}>New Article</span>
+                  <span className="text-[13px] font-medium text-brand-900 text-center">New Article</span>
                 </Link>
-                <Link href="/admin/team/new" className={styles.quickActionBtn}>
-                  <div className={styles.quickActionIconNeutral}>
-                    <IconTeam />
+                <Link href="/admin/team/new" className="btn flex-col h-auto py-5 px-3 gap-3 bg-white border border-brand-200 hover:bg-brand-50 hover:border-brand-300 group transition-all rounded-xl shadow-sm">
+                  <div className="w-12 h-12 rounded-xl bg-brand-50 text-brand-600 flex items-center justify-center group-hover:bg-brand-100 transition-colors">
+                    <i className="ph-fill ph-users text-2xl" />
                   </div>
-                  <span className={styles.quickActionLabel}>Add Member</span>
+                  <span className="text-[13px] font-medium text-brand-900 text-center">Add Member</span>
                 </Link>
-                <Link href="/admin/services/new" className={styles.quickActionBtn}>
-                  <div className={styles.quickActionIconNeutral}>
-                    <IconBriefcase />
+                <Link href="/admin/services/new" className="btn flex-col h-auto py-5 px-3 gap-3 bg-white border border-brand-200 hover:bg-brand-50 hover:border-brand-300 group transition-all rounded-xl shadow-sm">
+                  <div className="w-12 h-12 rounded-xl bg-brand-50 text-brand-600 flex items-center justify-center group-hover:bg-brand-100 transition-colors">
+                    <i className="ph-fill ph-briefcase text-2xl" />
                   </div>
-                  <span className={styles.quickActionLabel}>Add Service</span>
+                  <span className="text-[13px] font-medium text-brand-900 text-center">Add Service</span>
                 </Link>
               </div>
             </div>
           </div>
 
-          {/* Recent Activity */}
-          <div className={styles.dsCard} style={{ marginBottom: 0 }}>
-            <div className={styles.dsCardHeader}>
-              <h2 className={styles.dsCardHeaderTitle}>
-                <IconClock />
-                Recent Activity
+          <div className="card">
+            <div className="card-header">
+              <h2 className="font-semibold text-brand-900 flex items-center gap-2 text-[15px]">
+                <i className="ph ph-clock-counter-clockwise text-brand-500" /> Recent Activity
               </h2>
-              <Link href="/admin/history" className={styles.dsCardHeaderLink}>
+              <Link href="/admin/history" className="text-[11px] font-bold text-primary-600 hover:text-primary-800 uppercase tracking-wider">
                 View full history
               </Link>
             </div>
-            <DashboardRecentSaves entries={recentHistory} />
+            <div className="divide-y divide-brand-100">
+              <div className="flex items-center justify-between p-5 hover:bg-brand-50 transition-colors">
+                <div className="flex items-start gap-4">
+                  <div className="w-2 h-2 rounded-full bg-blue-500 mt-1.5 shrink-0" />
+                  <div>
+                    <div className="text-[14px] font-semibold text-brand-900">No recent activity yet</div>
+                    <div className="text-[12px] text-brand-500 mt-0.5">Changes will appear here</div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
