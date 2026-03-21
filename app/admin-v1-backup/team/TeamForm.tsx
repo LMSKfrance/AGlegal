@@ -7,7 +7,7 @@ import { AdminLangTabs } from "../components/AdminLangTabs";
 import { FileUploadField } from "../components/FileUploadField";
 import type { TeamMember } from "@/lib/db/schema";
 import type { TeamMemberSocial } from "@/lib/db/schema";
-import { createTeamMember, updateTeamMember, type TeamFormState } from "@/lib/actions/team";
+import { createTeamMember, updateTeamMember } from "@/lib/actions/team";
 import styles from "../admin.module.css";
 
 type MemberWithSocials = TeamMember & { socials?: TeamMemberSocial[] };

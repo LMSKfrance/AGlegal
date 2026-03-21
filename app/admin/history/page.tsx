@@ -64,7 +64,7 @@ export default async function HistoryPage() {
                           <div className="text-[14px] text-brand-900">
                             <span className="font-bold">Admin</span>{" "}
                             {entry.action}{" "}
-                            <span className="font-semibold">"{entry.label}"</span>
+                            <span className="font-semibold">&quot;{entry.label}&quot;</span>
                           </div>
                           <div className="text-[12px] text-brand-500 mt-1.5 flex items-center gap-2">
                             <span className={`badge ${ACTION_BADGE[entry.action] ?? "badge-gray"} !text-[10px] uppercase tracking-wider`}>

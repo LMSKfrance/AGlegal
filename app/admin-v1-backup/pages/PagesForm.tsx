@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { Button, TextField, TextArea } from "@/design-system";
 import { AdminLangTabs } from "../components/AdminLangTabs";
 import type { Page } from "@/lib/db/schema";
-import { createPage, updatePage, type PageFormState } from "@/lib/actions/pages";
+import { createPage, updatePage } from "@/lib/actions/pages";
 import styles from "../admin.module.css";
 
 type Props = {

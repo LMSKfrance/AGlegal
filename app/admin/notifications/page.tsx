@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function NotificationsPage() {
   return (
     <>
@@ -29,9 +31,9 @@ export default function NotificationsPage() {
                 </div>
                 <p className="text-[13px] text-brand-600 mb-2.5">A news article is missing Georgian (KA) translation.</p>
                 <div className="flex items-center gap-4">
-                  <a href="/admin/news" className="text-[13px] font-bold text-primary-600 hover:text-primary-800 flex items-center gap-1.5">
+                  <Link href="/admin/news" className="text-[13px] font-bold text-primary-600 hover:text-primary-800 flex items-center gap-1.5">
                     <i className="ph ph-arrow-right" /> Go to News
-                  </a>
+                  </Link>
                 </div>
               </div>
               <button className="btn-icon opacity-0 group-hover:opacity-100 text-brand-400 hover:text-brand-600">
@@ -51,9 +53,9 @@ export default function NotificationsPage() {
                 </div>
                 <p className="text-[13px] text-brand-600 mb-2.5">A team member has no profile photo uploaded.</p>
                 <div className="flex items-center gap-4">
-                  <a href="/admin/team" className="text-[13px] font-bold text-primary-600 hover:text-primary-800 flex items-center gap-1.5">
+                  <Link href="/admin/team" className="text-[13px] font-bold text-primary-600 hover:text-primary-800 flex items-center gap-1.5">
                     <i className="ph ph-arrow-right" /> Go to Team
-                  </a>
+                  </Link>
                 </div>
               </div>
               <button className="btn-icon opacity-0 group-hover:opacity-100 text-brand-400 hover:text-brand-600">

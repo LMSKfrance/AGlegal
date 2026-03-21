@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import { redirect } from "next/navigation";
+import Link from "next/link";
 import { Button, TextField, TextArea } from "@/design-system";
 import { AdminLangTabs } from "../components/AdminLangTabs";
 import { AdminToast } from "../components/AdminToast";
@@ -192,7 +193,7 @@ function ServicesSection({ visibility }: { visibility: HomeSectionVisibility }) 
     >
       <p className={styles.formHelp}>
         Manage which services appear on the homepage in the{" "}
-        <a href="/admin/services">Services</a> section. Each service has flags for
+        <Link href="/admin/services">Services</Link> section. Each service has flags for
         &quot;Show on home&quot;, card order, short description, and custom &quot;Learn more&quot;
         link.
       </p>
@@ -208,7 +209,7 @@ function TeamSection({ visibility }: { visibility: HomeSectionVisibility }) {
     >
       <p className={styles.formHelp}>
         Choose which team members appear on the homepage. Use &quot;Show on home&quot; and
-        &quot;Home order&quot; on each member in the <a href="/admin/team">Team</a> section.
+        &quot;Home order&quot; on each member in the <Link href="/admin/team">Team</Link> section.
       </p>
     </SectionCard>
   );
