@@ -161,12 +161,12 @@ export default async function AdminPage() {
               <IconWarning />
               Content Status
             </h2>
-            <Link href="/admin/history" className={styles.dsCardHeaderLink}>View all tasks</Link>
+            <Link href="/admin/notifications" className={styles.dsCardHeaderLink}>View all tasks</Link>
           </div>
           <div className={styles.dsCardBody}>
             <div className={styles.statusGrid}>
               <div className={`${styles.statusItem} ${styles.statusItemAmber}`}>
-                <div className={`${styles.statusItemIcon}`} style={{ background: "rgba(245,158,11,0.1)", color: "#f59e0b" }}>
+                <div className={styles.statusItemIcon} style={{ background: "rgba(245,158,11,0.1)", color: "#f59e0b" }}>
                   <IconTranslate />
                 </div>
                 <div>
@@ -175,7 +175,7 @@ export default async function AdminPage() {
                 </div>
               </div>
               <div className={`${styles.statusItem} ${styles.statusItemRed}`}>
-                <div className={`${styles.statusItemIcon}`} style={{ background: "rgba(239,68,68,0.1)", color: "#ef4444" }}>
+                <div className={styles.statusItemIcon} style={{ background: "rgba(239,68,68,0.1)", color: "#ef4444" }}>
                   <IconImageBroken />
                 </div>
                 <div>
@@ -184,7 +184,7 @@ export default async function AdminPage() {
                 </div>
               </div>
               <div className={`${styles.statusItem} ${styles.statusItemBlue}`}>
-                <div className={`${styles.statusItemIcon}`} style={{ background: "rgba(37,99,235,0.1)", color: "#2563eb" }}>
+                <div className={styles.statusItemIcon} style={{ background: "rgba(37,99,235,0.1)", color: "#2563eb" }}>
                   <IconUserMinus />
                 </div>
                 <div>
@@ -196,7 +196,7 @@ export default async function AdminPage() {
           </div>
         </div>
 
-        {/* 2-column: Quick Actions + Recent Activity */}
+        {/* 2-column grid: Quick Actions + Recent Activity */}
         <div className={styles.dashGrid2}>
           {/* Quick Actions */}
           <div className={styles.dsCard} style={{ marginBottom: 0 }}>

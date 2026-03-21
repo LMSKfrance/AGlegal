@@ -118,6 +118,14 @@ function IconSignOut() {
     </svg>
   );
 }
+function IconUser() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="8" r="4" />
+      <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
+    </svg>
+  );
+}
 
 // ─── Nav structure ────────────────────────────────────────────────────────────
 
@@ -144,7 +152,7 @@ const navStructure = [
     label: "System",
     items: [
       { href: "/admin/history", label: "History Log", Icon: IconHistory },
-      { href: "/admin/history", label: "Tasks & Notifications", Icon: IconBell, badge: 4 },
+      { href: "/admin/notifications", label: "Tasks & Notifications", Icon: IconBell, badge: "4" },
     ],
   },
 ];
@@ -159,6 +167,7 @@ const SECTION_LABELS: Record<string, string> = {
   contact: "Contact",
   history: "History",
   profile: "My Profile",
+  notifications: "Tasks & Notifications",
 };
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -319,7 +328,7 @@ export default function AdminShell({
 
         {/* User area */}
         <div className={styles.sidebarBottom}>
-          <div className={styles.sidebarUserRow}>
+          <div className={styles.sidebarUserGroup}>
             <Link
               href="/admin/profile"
               className={`${styles.sidebarUserLink} ${pathname === "/admin/profile" ? styles.sidebarUserActive : ""}`}
@@ -333,12 +342,23 @@ export default function AdminShell({
               )}
             </Link>
             {!collapsed && (
-              <form method="post" action="/api/auth/signout">
-                <input type="hidden" name="callbackUrl" value="/admin/login" />
-                <button type="submit" className={styles.sidebarSignOut} title="Sign out" aria-label="Sign out">
-                  <IconSignOut />
-                </button>
-              </form>
+              <div className={styles.sidebarUserPopup}>
+                <div className={styles.sidebarUserPopupHeader}>
+                  <div className={styles.sidebarUserPopupName}>{displayName}</div>
+                  <div className={styles.sidebarUserPopupEmail}>{userEmail}</div>
+                </div>
+                <div className={styles.sidebarUserPopupBody}>
+                  <Link href="/admin/profile" className={styles.sidebarUserPopupItem}>
+                    <IconUser /> My Profile
+                  </Link>
+                  <form method="post" action="/api/auth/signout">
+                    <input type="hidden" name="callbackUrl" value="/admin/login" />
+                    <button type="submit" className={`${styles.sidebarUserPopupItem} ${styles.sidebarUserPopupSignOut}`}>
+                      <IconSignOut /> Sign Out
+                    </button>
+                  </form>
+                </div>
+              </div>
             )}
           </div>
         </div>
@@ -363,10 +383,10 @@ export default function AdminShell({
           </nav>
 
           <div className={styles.topbarRight}>
-            <button className={styles.bellBtn} type="button" aria-label="Notifications">
+            <Link href="/admin/notifications" className={styles.bellBtn} aria-label="Notifications">
               <IconBellHeader />
               <span className={styles.bellDot} aria-hidden="true" />
-            </button>
+            </Link>
             <div className={styles.headerDivider} />
             <LangSwitcher />
             <Suspense fallback={null}>

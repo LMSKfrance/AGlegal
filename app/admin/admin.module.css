@@ -1309,3 +1309,137 @@
   border-top: 1px solid rgba(255, 255, 255, 0.08);
   animation: statusBarIn 0.22s ease;
 }
+
+/* ─── Nav badge ──────────────────────────────────────────────────────────────── */
+
+.navBadge {
+  margin-left: auto;
+  background: #ef4444;
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 9999px;
+  line-height: 1.4;
+  flex-shrink: 0;
+}
+
+/* ─── Sidebar user group + hover popup ───────────────────────────────────────── */
+
+.sidebarUserGroup {
+  position: relative;
+}
+
+.sidebarUserPopup {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  margin-bottom: 8px;
+  width: 224px;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s;
+  z-index: 50;
+}
+
+.sidebarUserGroup:hover .sidebarUserPopup {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.sidebarUserPopupHeader {
+  padding: 12px 14px;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.sidebarUserPopupName {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.sidebarUserPopupEmail {
+  font-size: 12px;
+  color: #6b7280;
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sidebarUserPopupBody {
+  padding: 4px;
+}
+
+.sidebarUserPopupItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 14px;
+  color: #374151;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.12s;
+  text-align: left;
+}
+
+.sidebarUserPopupItem:hover {
+  background: #f9fafb;
+}
+
+.sidebarUserPopupSignOut {
+  color: #ef4444;
+}
+
+.sidebarUserPopupSignOut:hover {
+  background: #fef2f2 !important;
+}
+
+/* ─── Content Status card (dashboard) ───────────────────────────────────────── */
+
+.contentStatusGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.contentStatusItem {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 20px;
+  border-radius: 12px;
+  border: 1px solid;
+}
+
+.contentStatusIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.contentStatusTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.contentStatusSub {
+  font-size: 12px;
+  color: #6b7280;
+  margin-top: 2px;
+}
