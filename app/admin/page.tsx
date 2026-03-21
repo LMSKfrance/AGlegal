@@ -38,40 +38,40 @@ export default async function DashboardPage() {
 
       <div className="page-content pb-12">
         {/* Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <div className="card p-6 flex items-center gap-5">
-            <div className="w-14 h-14 rounded-xl bg-[#eff6ff] text-[#2563eb] flex items-center justify-center text-[28px]">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8">
+          <div className="card p-4 md:p-6 flex items-center gap-4 md:gap-5">
+            <div className="w-10 h-10 md:w-14 md:h-14 rounded-xl bg-[#eff6ff] text-[#2563eb] flex items-center justify-center text-xl md:text-[28px]">
               <i className="ph-fill ph-newspaper" />
             </div>
             <div>
-              <div className="text-[32px] font-bold text-brand-900 leading-none">{stats.articles}</div>
+              <div className="text-2xl md:text-[32px] font-bold text-brand-900 leading-none">{stats.articles}</div>
               <div className="text-[11px] font-bold text-brand-400 uppercase tracking-wider mt-1.5">News Articles</div>
             </div>
           </div>
-          <div className="card p-6 flex items-center gap-5">
-            <div className="w-14 h-14 rounded-xl bg-[#e0e7ff] text-[#4f46e5] flex items-center justify-center text-[28px]">
+          <div className="card p-4 md:p-6 flex items-center gap-4 md:gap-5">
+            <div className="w-10 h-10 md:w-14 md:h-14 rounded-xl bg-[#e0e7ff] text-[#4f46e5] flex items-center justify-center text-xl md:text-[28px]">
               <i className="ph-fill ph-users" />
             </div>
             <div>
-              <div className="text-[32px] font-bold text-brand-900 leading-none">{stats.teamMembers}</div>
+              <div className="text-2xl md:text-[32px] font-bold text-brand-900 leading-none">{stats.teamMembers}</div>
               <div className="text-[11px] font-bold text-brand-400 uppercase tracking-wider mt-1.5">Team Members</div>
             </div>
           </div>
-          <div className="card p-6 flex items-center gap-5">
-            <div className="w-14 h-14 rounded-xl bg-[#d1fae5] text-[#059669] flex items-center justify-center text-[28px]">
+          <div className="card p-4 md:p-6 flex items-center gap-4 md:gap-5">
+            <div className="w-10 h-10 md:w-14 md:h-14 rounded-xl bg-[#d1fae5] text-[#059669] flex items-center justify-center text-xl md:text-[28px]">
               <i className="ph-fill ph-briefcase" />
             </div>
             <div>
-              <div className="text-[32px] font-bold text-brand-900 leading-none">{stats.services}</div>
+              <div className="text-2xl md:text-[32px] font-bold text-brand-900 leading-none">{stats.services}</div>
               <div className="text-[11px] font-bold text-brand-400 uppercase tracking-wider mt-1.5">Services</div>
             </div>
           </div>
-          <div className="card p-6 flex items-center gap-5">
-            <div className="w-14 h-14 rounded-xl bg-[#fef3c7] text-[#d97706] flex items-center justify-center text-[28px]">
+          <div className="card p-4 md:p-6 flex items-center gap-4 md:gap-5">
+            <div className="w-10 h-10 md:w-14 md:h-14 rounded-xl bg-[#fef3c7] text-[#d97706] flex items-center justify-center text-xl md:text-[28px]">
               <i className="ph-fill ph-files" />
             </div>
             <div>
-              <div className="text-[32px] font-bold text-brand-900 leading-none">{stats.pages}</div>
+              <div className="text-2xl md:text-[32px] font-bold text-brand-900 leading-none">{stats.pages}</div>
               <div className="text-[11px] font-bold text-brand-400 uppercase tracking-wider mt-1.5">Static Pages</div>
             </div>
           </div>
@@ -88,7 +88,7 @@ export default async function DashboardPage() {
             </Link>
           </div>
           <div className="card-body p-6">
-            <div className="grid grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div className="flex items-center gap-4 p-5 bg-[#fefce8] rounded-xl border border-[#fef08a]">
                 <div className="w-10 h-10 rounded-full bg-amber-100/50 text-amber-500 flex items-center justify-center shrink-0">
                   <i className="ph ph-translate text-[20px]" />
