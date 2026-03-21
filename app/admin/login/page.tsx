@@ -1,24 +1,29 @@
 import { signIn } from "@/auth";
+import { AuthError } from "next-auth";
 import { redirect } from "next/navigation";
 import Script from "next/script";
 import "../admin-shell.css";
 
-export default function LoginPage({
+export default async function LoginPage({
   searchParams,
 }: {
-  searchParams: { error?: string };
+  searchParams: Promise<{ error?: string }>;
 }) {
+  const params = await searchParams;
+
   async function handleLogin(formData: FormData) {
     "use server";
-    const result = await signIn("credentials", {
-      email: formData.get("email"),
-      password: formData.get("password"),
-      redirect: false,
-    });
-    if (result?.error) {
-      redirect("/admin/login?error=1");
-    } else {
-      redirect("/admin");
+    try {
+      await signIn("credentials", {
+        email: formData.get("email"),
+        password: formData.get("password"),
+        redirectTo: "/admin",
+      });
+    } catch (error) {
+      if (error instanceof AuthError) {
+        redirect("/admin/login?error=1");
+      }
+      throw error;
     }
   }
 
@@ -33,9 +38,9 @@ export default function LoginPage({
             <p className="text-brand-500 mt-1">Sign in to admin panel</p>
           </div>
 
-          {searchParams.error && (
+          {params.error && (
             <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700">
-              Invalid email or password.
+              Invalid username or password.
             </div>
           )}
 

@@ -16,7 +16,7 @@ const db = drizzle(client, { schema });
 
 const NAME = "Admin";
 const EMAIL = process.env.ADMIN_EMAIL ?? "admin@aglegal.ge";
-const PASSWORD = "123456";
+const PASSWORD = process.env.ADMIN_PASSWORD ?? "123456";
 
 async function main() {
   const passwordHash = await bcrypt.hash(PASSWORD, 12);
