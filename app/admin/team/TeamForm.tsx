@@ -1,0 +1,221 @@
+"use client";
+
+import Link from "next/link";
+import { useActionState, useState, useRef, useEffect } from "react";
+import type { TeamFormState } from "@/lib/actions/team";
+
+type Social = { platform: string; link: string };
+
+type Member = {
+  id: number;
+  slug: string;
+  titleEn: string;
+  titleKa: string | null;
+  positionEn: string | null;
+  positionKa: string | null;
+  descriptionEn: string | null;
+  descriptionKa: string | null;
+  quoteEn: string | null;
+  quoteKa: string | null;
+  text1En: string | null;
+  text1Ka: string | null;
+  text2En: string | null;
+  text2Ka: string | null;
+  image: string | null;
+  showOnHome: number | null;
+  homeOrder: number | null;
+  socials: Social[];
+};
+
+type Props = {
+  action: (prev: TeamFormState, formData: FormData) => Promise<TeamFormState>;
+  member?: Member;
+};
+
+const INITIAL: TeamFormState = {};
+
+export default function TeamForm({ action, member }: Props) {
+  const [state, formAction, pending] = useActionState(action, INITIAL);
+  const [lang, setLang] = useState<"en" | "ka">("en");
+  const [imagePreview, setImagePreview] = useState<string | null>(
+    member?.image ? `/api/images/${member.image}` : null
+  );
+  const fileRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (state.success) {
+      window.location.href = "/admin/team";
+    }
+  }, [state.success]);
+
+  function handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (file) setImagePreview(URL.createObjectURL(file));
+  }
+
+  const socialPlatforms = member?.socials?.map((s) => s.platform).join("\n") ?? "";
+  const socialLinks = member?.socials?.map((s) => s.link).join("\n") ?? "";
+
+  return (
+    <form action={formAction} className="relative bg-white flex flex-col min-h-full">
+      <div className="border-b border-brand-200 px-8 py-5 flex justify-between items-center sticky top-0 bg-white/95 backdrop-blur z-10">
+        <div className="flex items-center gap-4">
+          <Link href="/admin/team" className="btn-icon bg-white border border-brand-200 shadow-sm">
+            <i className="ph ph-arrow-left" />
+          </Link>
+          <h1 className="text-xl font-bold text-brand-900">{member ? "Edit Team Member" : "Add Team Member"}</h1>
+        </div>
+        <div className="lang-switcher">
+          <div className={`lang-tab${lang === "en" ? " active" : ""}`} onClick={() => setLang("en")}>EN</div>
+          <div className={`lang-tab${lang === "ka" ? " active" : ""}`} onClick={() => setLang("ka")}>KA</div>
+        </div>
+      </div>
+
+      {state.error && (
+        <div className="mx-8 mt-4 p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700">
+          {state.error}
+        </div>
+      )}
+
+      <div className="flex-1 overflow-y-auto p-8 max-w-4xl mx-auto w-full space-y-8 pb-24">
+        <div className="flex gap-8 items-start">
+          {/* Photo */}
+          <div className="w-48 shrink-0">
+            <label className="label-base">Profile Photo</label>
+            <div
+              className="file-upload-zone w-full aspect-square rounded-2xl flex flex-col items-center justify-center gap-3 cursor-pointer overflow-hidden"
+              onClick={() => fileRef.current?.click()}
+            >
+              {imagePreview ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
+              ) : (
+                <>
+                  <i className="ph ph-camera text-3xl text-brand-400" />
+                  <span className="text-[12px] font-medium text-brand-600">Upload Photo</span>
+                </>
+              )}
+              <input
+                ref={fileRef}
+                type="file"
+                name="image"
+                accept="image/*"
+                className="hidden"
+                onChange={handleImageChange}
+              />
+            </div>
+          </div>
+
+          <div className="flex-1 space-y-6">
+            <div className="grid grid-cols-2 gap-6">
+              <div>
+                <label className="label-base required">Name {lang === "en" ? "(EN)" : "(KA)"}</label>
+                {lang === "en" ? (
+                  <input type="text" name="titleEn" className="input-base" placeholder="Full name" defaultValue={member?.titleEn ?? ""} required />
+                ) : (
+                  <input type="text" name="titleKa" className="input-base" placeholder="Full name (Georgian)" defaultValue={member?.titleKa ?? ""} />
+                )}
+              </div>
+              <div>
+                <label className="label-base">Position {lang === "en" ? "(EN)" : "(KA)"}</label>
+                {lang === "en" ? (
+                  <input type="text" name="positionEn" className="input-base" placeholder="e.g. Managing Partner" defaultValue={member?.positionEn ?? ""} />
+                ) : (
+                  <input type="text" name="positionKa" className="input-base" placeholder="Position (Georgian)" defaultValue={member?.positionKa ?? ""} />
+                )}
+              </div>
+            </div>
+            <div className="flex items-center gap-6 p-5 bg-brand-50 rounded-xl border border-brand-200">
+              <div className="flex items-center justify-between w-56">
+                <span className="text-[14px] font-semibold text-brand-900">Show on Homepage</span>
+                <label className="toggle-switch">
+                  <input type="checkbox" name="showOnHome" defaultChecked={!!member?.showOnHome} />
+                  <span className="toggle-slider" />
+                </label>
+              </div>
+              <div className="flex-1 border-l border-brand-200 pl-6 flex items-center gap-4">
+                <label className="label-base !mb-0">Display Order</label>
+                <input type="number" name="homeOrder" className="input-base w-24" defaultValue={member?.homeOrder ?? 1} min={0} />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="space-y-6 border-t border-brand-200 pt-8">
+          <div>
+            <label className="label-base">Description (Short bio) {lang === "en" ? "(EN)" : "(KA)"}</label>
+            {lang === "en" ? (
+              <textarea name="descriptionEn" className="input-base" rows={3} placeholder="Brief professional summary..." defaultValue={member?.descriptionEn ?? ""} />
+            ) : (
+              <textarea name="descriptionKa" className="input-base" rows={3} placeholder="Brief professional summary (Georgian)..." defaultValue={member?.descriptionKa ?? ""} />
+            )}
+          </div>
+          <div>
+            <label className="label-base">Personal Quote {lang === "en" ? "(EN)" : "(KA)"}</label>
+            {lang === "en" ? (
+              <textarea name="quoteEn" className="input-base italic" rows={2} placeholder='"Quote..."' defaultValue={member?.quoteEn ?? ""} />
+            ) : (
+              <textarea name="quoteKa" className="input-base italic" rows={2} placeholder='"Quote (Georgian)..."' defaultValue={member?.quoteKa ?? ""} />
+            )}
+          </div>
+          <div>
+            <label className="label-base">Detailed Bio (Text 1) {lang === "en" ? "(EN)" : "(KA)"}</label>
+            {lang === "en" ? (
+              <textarea name="text1En" className="input-base min-h-[150px]" placeholder="Extended biography..." defaultValue={member?.text1En ?? ""} />
+            ) : (
+              <textarea name="text1Ka" className="input-base min-h-[150px]" placeholder="Extended biography (Georgian)..." defaultValue={member?.text1Ka ?? ""} />
+            )}
+          </div>
+          <div>
+            <label className="label-base">Additional Info (Text 2) {lang === "en" ? "(EN)" : "(KA)"}</label>
+            {lang === "en" ? (
+              <textarea name="text2En" className="input-base min-h-[100px]" placeholder="Education, admissions..." defaultValue={member?.text2En ?? ""} />
+            ) : (
+              <textarea name="text2Ka" className="input-base min-h-[100px]" placeholder="Education, admissions (Georgian)..." defaultValue={member?.text2Ka ?? ""} />
+            )}
+          </div>
+        </div>
+
+        <div className="space-y-5 border-t border-brand-200 pt-8 bg-brand-50 -mx-8 px-8 py-8 rounded-b-xl">
+          <h3 className="font-semibold text-brand-900 text-[15px]">Social Profiles</h3>
+          <div className="grid grid-cols-2 gap-8">
+            <div>
+              <label className="label-base">Social Platforms</label>
+              <textarea
+                name="socialPlatforms"
+                className="input-base font-mono text-xs leading-relaxed bg-white"
+                rows={4}
+                placeholder={"LinkedIn\nTwitter\nEmail"}
+                defaultValue={socialPlatforms}
+              />
+            </div>
+            <div>
+              <label className="label-base">Social URLs</label>
+              <textarea
+                name="socialLinks"
+                className="input-base font-mono text-xs leading-relaxed bg-white"
+                rows={4}
+                placeholder={"https://...\nhttps://...\nmailto:..."}
+                defaultValue={socialLinks}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="action-bar">
+        <div />
+        <div className="flex gap-3">
+          <Link href="/admin/team" className="btn btn-secondary">Cancel</Link>
+          <button type="submit" className="btn btn-primary" disabled={pending}>
+            {pending ? (
+              <><i className="ph ph-spinner animate-spin" /> Saving...</>
+            ) : (
+              <><i className="ph ph-floppy-disk" /> {member ? "Save Changes" : "Save Profile"}</>
+            )}
+          </button>
+        </div>
+      </div>
+    </form>
+  );
+}

@@ -1,6 +1,11 @@
 import Link from "next/link";
+import { getServicesList, deleteService } from "@/lib/actions/services";
 
-export default function ServicesListPage() {
+export const dynamic = "force-dynamic";
+
+export default async function ServicesListPage() {
+  const servicesList = await getServicesList();
+
   return (
     <>
       <div className="page-header">
@@ -25,11 +30,47 @@ export default function ServicesListPage() {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td colSpan={4} className="text-center text-brand-400 py-12">
-                    No services yet. <Link href="/admin/services/new" className="text-primary-600 font-medium hover:underline">Add the first one →</Link>
-                  </td>
-                </tr>
+                {servicesList.length === 0 ? (
+                  <tr>
+                    <td colSpan={4} className="text-center text-brand-400 py-12">
+                      No services yet. <Link href="/admin/services/new" className="text-primary-600 font-medium hover:underline">Add the first one →</Link>
+                    </td>
+                  </tr>
+                ) : (
+                  servicesList.map((service) => (
+                    <tr key={service.id}>
+                      <td>
+                        <div className="font-medium text-brand-900">{service.titleEn}</div>
+                        {service.titleKa && <div className="text-[12px] text-brand-400 mt-0.5">{service.titleKa}</div>}
+                      </td>
+                      <td className="text-center">
+                        {service.showOnHome ? (
+                          <span className="badge badge-green text-[11px]">Yes</span>
+                        ) : (
+                          <span className="text-brand-300 text-[12px]">No</span>
+                        )}
+                      </td>
+                      <td className="text-center text-brand-500 text-[13px]">{service.homeOrder}</td>
+                      <td className="text-right">
+                        <div className="flex items-center justify-end gap-2">
+                          <Link href={`/admin/services/${service.id}/edit`} className="btn-icon" title="Edit">
+                            <i className="ph ph-pencil text-brand-500" />
+                          </Link>
+                          <form action={deleteService.bind(null, service.id)}>
+                            <button
+                              type="submit"
+                              className="btn-icon text-red-500 hover:text-red-700"
+                              title="Delete"
+                              onClick={(e) => { if (!confirm(`Delete "${service.titleEn}"?`)) e.preventDefault(); }}
+                            >
+                              <i className="ph ph-trash" />
+                            </button>
+                          </form>
+                        </div>
+                      </td>
+                    </tr>
+                  ))
+                )}
               </tbody>
             </table>
           </div>

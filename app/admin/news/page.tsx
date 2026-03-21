@@ -1,6 +1,20 @@
 import Link from "next/link";
+import { getNewsList } from "@/lib/actions/news";
+import { deleteNews } from "@/lib/actions/news";
 
-export default function NewsListPage() {
+export const dynamic = "force-dynamic";
+
+function formatDate(dateStr: string) {
+  try {
+    return new Date(dateStr).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
+  } catch {
+    return dateStr;
+  }
+}
+
+export default async function NewsListPage() {
+  const articles = await getNewsList();
+
   return (
     <>
       <div className="page-header">
@@ -40,11 +54,43 @@ export default function NewsListPage() {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td colSpan={4} className="text-center text-brand-400 py-12">
-                    No articles yet. <Link href="/admin/news/new" className="text-primary-600 font-medium hover:underline">Add the first one →</Link>
-                  </td>
-                </tr>
+                {articles.length === 0 ? (
+                  <tr>
+                    <td colSpan={4} className="text-center text-brand-400 py-12">
+                      No articles yet. <Link href="/admin/news/new" className="text-primary-600 font-medium hover:underline">Add the first one →</Link>
+                    </td>
+                  </tr>
+                ) : (
+                  articles.map((article) => (
+                    <tr key={article.id}>
+                      <td className="text-brand-500 text-[13px]">{formatDate(article.date)}</td>
+                      <td>
+                        <div className="font-medium text-brand-900">{article.titleEn}</div>
+                        {article.titleKa && <div className="text-[12px] text-brand-400 mt-0.5">{article.titleKa}</div>}
+                      </td>
+                      <td>
+                        {article.type ? (
+                          <span className="badge badge-gray text-[11px]">{article.type}</span>
+                        ) : (
+                          <span className="text-brand-300">—</span>
+                        )}
+                      </td>
+                      <td className="text-right">
+                        <div className="flex items-center justify-end gap-2">
+                          <Link href={`/admin/news/${article.id}/edit`} className="btn-icon" title="Edit">
+                            <i className="ph ph-pencil text-brand-500" />
+                          </Link>
+                          <form action={deleteNews.bind(null, article.id)}>
+                            <button type="submit" className="btn-icon text-red-500 hover:text-red-700" title="Delete"
+                              onClick={(e) => { if (!confirm(`Delete "${article.titleEn}"?`)) e.preventDefault(); }}>
+                              <i className="ph ph-trash" />
+                            </button>
+                          </form>
+                        </div>
+                      </td>
+                    </tr>
+                  ))
+                )}
               </tbody>
             </table>
           </div>
