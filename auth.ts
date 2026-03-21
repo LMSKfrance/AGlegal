@@ -3,6 +3,7 @@ import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { db } from "@/lib/db";
 import { adminProfile } from "@/lib/db/schema";
+import { authConfig } from "./auth.config";
 
 // Warn loudly but don't crash when AUTH_SECRET is missing (e.g. first deploy)
 if (!process.env.AUTH_SECRET) {
@@ -14,6 +15,7 @@ if (!process.env.AUTH_SECRET) {
 }
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
+  ...authConfig,
   secret: process.env.AUTH_SECRET,
   providers: [
     Credentials({
@@ -46,32 +48,4 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
     }),
   ],
-  pages: {
-    signIn: "/admin/login",
-  },
-  session: { strategy: "jwt" },
-  callbacks: {
-    jwt({ token, user }) {
-      if (user) {
-        token.id = user.id;
-        token.email = user.email;
-        token.name = user.name;
-      }
-      return token;
-    },
-    session({ session, token }) {
-      if (session.user) {
-        session.user.id = token.id as string;
-        session.user.email = token.email as string;
-        session.user.name = token.name as string;
-      }
-      return session;
-    },
-    authorized({ request, auth }) {
-      const path = request.nextUrl.pathname;
-      if (path.startsWith("/admin/login")) return true;
-      if (path.startsWith("/admin")) return !!auth;
-      return true;
-    },
-  },
 });
