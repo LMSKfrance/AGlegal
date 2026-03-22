@@ -16,9 +16,9 @@ function formatDate(iso: string) {
 }
 
 const ACTION_DOT: Record<string, string> = {
-  created: "bg-green-500",
-  updated: "bg-blue-500",
-  deleted: "bg-red-500",
+  created: "bg-[#107E3E]",
+  updated: "bg-[#0854A0]",
+  deleted: "bg-[#AB0000]",
 };
 
 export default async function DashboardPage() {
@@ -30,58 +30,55 @@ export default async function DashboardPage() {
   return (
     <>
       <div className="page-header">
-        <div>
-          <h1 className="text-[28px] font-bold text-brand-900 tracking-tight">Dashboard</h1>
-          <p className="text-brand-500 mt-2">Overview of your CMS content and recent activity.</p>
-        </div>
+        <h1 className="text-[28px] font-bold text-brand-900 tracking-tight">Dashboard</h1>
       </div>
 
       <div className="page-content pb-12">
-        {/* Stats */}
+        {/* Stats — clickable cards */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8">
-          <div className="card p-4 md:p-6 flex items-center gap-4 md:gap-5">
-            <div className="w-10 h-10 md:w-14 md:h-14 rounded-xl bg-[#eff6ff] text-[#2563eb] flex items-center justify-center text-xl md:text-[28px]">
+          <Link href="/admin/news" className="card p-4 md:p-6 flex items-center gap-4 md:gap-5 hover:shadow-md transition-shadow">
+            <div className="w-10 h-10 md:w-14 md:h-14 rounded-xl bg-[#E0EDFF] text-[#0070F2] flex items-center justify-center text-xl md:text-[28px]">
               <i className="ph-fill ph-newspaper" />
             </div>
             <div>
               <div className="text-2xl md:text-[32px] font-bold text-brand-900 leading-none">{stats.articles}</div>
               <div className="text-[11px] font-bold text-brand-400 uppercase tracking-wider mt-1.5">News Articles</div>
             </div>
-          </div>
-          <div className="card p-4 md:p-6 flex items-center gap-4 md:gap-5">
-            <div className="w-10 h-10 md:w-14 md:h-14 rounded-xl bg-[#e0e7ff] text-[#4f46e5] flex items-center justify-center text-xl md:text-[28px]">
+          </Link>
+          <Link href="/admin/team" className="card p-4 md:p-6 flex items-center gap-4 md:gap-5 hover:shadow-md transition-shadow">
+            <div className="w-10 h-10 md:w-14 md:h-14 rounded-xl bg-[#F0ECF9] text-[#5A1E96] flex items-center justify-center text-xl md:text-[28px]">
               <i className="ph-fill ph-users" />
             </div>
             <div>
               <div className="text-2xl md:text-[32px] font-bold text-brand-900 leading-none">{stats.teamMembers}</div>
               <div className="text-[11px] font-bold text-brand-400 uppercase tracking-wider mt-1.5">Team Members</div>
             </div>
-          </div>
-          <div className="card p-4 md:p-6 flex items-center gap-4 md:gap-5">
-            <div className="w-10 h-10 md:w-14 md:h-14 rounded-xl bg-[#d1fae5] text-[#059669] flex items-center justify-center text-xl md:text-[28px]">
+          </Link>
+          <Link href="/admin/services" className="card p-4 md:p-6 flex items-center gap-4 md:gap-5 hover:shadow-md transition-shadow">
+            <div className="w-10 h-10 md:w-14 md:h-14 rounded-xl bg-[#EBF5E0] text-[#107E3E] flex items-center justify-center text-xl md:text-[28px]">
               <i className="ph-fill ph-briefcase" />
             </div>
             <div>
               <div className="text-2xl md:text-[32px] font-bold text-brand-900 leading-none">{stats.services}</div>
               <div className="text-[11px] font-bold text-brand-400 uppercase tracking-wider mt-1.5">Services</div>
             </div>
-          </div>
-          <div className="card p-4 md:p-6 flex items-center gap-4 md:gap-5">
-            <div className="w-10 h-10 md:w-14 md:h-14 rounded-xl bg-[#fef3c7] text-[#d97706] flex items-center justify-center text-xl md:text-[28px]">
+          </Link>
+          <Link href="/admin/pages" className="card p-4 md:p-6 flex items-center gap-4 md:gap-5 hover:shadow-md transition-shadow">
+            <div className="w-10 h-10 md:w-14 md:h-14 rounded-xl bg-[#FFF8D6] text-[#B44F00] flex items-center justify-center text-xl md:text-[28px]">
               <i className="ph-fill ph-files" />
             </div>
             <div>
               <div className="text-2xl md:text-[32px] font-bold text-brand-900 leading-none">{stats.pages}</div>
               <div className="text-[11px] font-bold text-brand-400 uppercase tracking-wider mt-1.5">Static Pages</div>
             </div>
-          </div>
+          </Link>
         </div>
 
         {/* Content Status */}
         <div className="card mb-6">
           <div className="card-header">
             <h2 className="font-semibold text-brand-900 flex items-center gap-2 text-[15px]">
-              <i className="ph ph-warning-circle text-amber-500" /> Content Status
+              <i className="ph ph-warning-circle text-[#B44F00]" /> Content Status
             </h2>
             <Link href="/admin/notifications" className="text-[12px] font-bold text-primary-600 hover:text-primary-800 uppercase tracking-wider">
               View all tasks
@@ -89,33 +86,36 @@ export default async function DashboardPage() {
           </div>
           <div className="card-body p-6">
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <div className="flex items-center gap-4 p-5 bg-[#fefce8] rounded-xl border border-[#fef08a]">
-                <div className="w-10 h-10 rounded-full bg-amber-100/50 text-amber-500 flex items-center justify-center shrink-0">
+              {/* SAP Fiori Warning */}
+              <Link href="/admin/news" className="flex items-center gap-4 p-5 bg-[#FFF8D6] rounded-xl border border-[#F0AB00] hover:brightness-95 transition-all">
+                <div className="w-10 h-10 rounded-full bg-[#FFF3B7] text-[#B44F00] flex items-center justify-center shrink-0">
                   <i className="ph ph-translate text-[20px]" />
                 </div>
                 <div>
                   <div className="text-[14px] font-semibold text-brand-900">3 Missing Translations</div>
-                  <div className="text-[12px] text-brand-500 mt-0.5">News articles</div>
+                  <div className="text-[12px] text-[#B44F00] mt-0.5">News articles</div>
                 </div>
-              </div>
-              <div className="flex items-center gap-4 p-5 bg-[#fef2f2] rounded-xl border border-[#fecaca]">
-                <div className="w-10 h-10 rounded-full bg-red-100/50 text-red-500 flex items-center justify-center shrink-0">
+              </Link>
+              {/* SAP Fiori Critical */}
+              <Link href="/admin/team" className="flex items-center gap-4 p-5 bg-[#FFEBEB] rounded-xl border border-[#E8A5A5] hover:brightness-95 transition-all">
+                <div className="w-10 h-10 rounded-full bg-[#FFD6D6] text-[#AB0000] flex items-center justify-center shrink-0">
                   <i className="ph ph-image text-[20px]" />
                 </div>
                 <div>
                   <div className="text-[14px] font-semibold text-brand-900">1 Missing Photo</div>
-                  <div className="text-[12px] text-brand-500 mt-0.5">Team member</div>
+                  <div className="text-[12px] text-[#AB0000] mt-0.5">Team member</div>
                 </div>
-              </div>
-              <div className="flex items-center gap-4 p-5 bg-[#eff6ff] rounded-xl border border-[#bfdbfe]">
-                <div className="w-10 h-10 rounded-full bg-blue-100/50 text-blue-500 flex items-center justify-center shrink-0">
+              </Link>
+              {/* SAP Fiori Information */}
+              <Link href="/admin/services" className="flex items-center gap-4 p-5 bg-[#E8F4FD] rounded-xl border border-[#91C8F6] hover:brightness-95 transition-all">
+                <div className="w-10 h-10 rounded-full bg-[#D4ECF8] text-[#0854A0] flex items-center justify-center shrink-0">
                   <i className="ph ph-user-circle-minus text-[20px]" />
                 </div>
                 <div>
                   <div className="text-[14px] font-semibold text-brand-900">Incomplete Profile</div>
-                  <div className="text-[12px] text-brand-500 mt-0.5">1 Service page</div>
+                  <div className="text-[12px] text-[#0854A0] mt-0.5">1 Service page</div>
                 </div>
-              </div>
+              </Link>
             </div>
           </div>
         </div>
@@ -131,19 +131,19 @@ export default async function DashboardPage() {
             <div className="card-body p-6">
               <div className="grid grid-cols-3 gap-4">
                 <Link href="/admin/news/new" className="btn flex-col h-auto py-5 px-3 gap-3 bg-white border border-brand-200 hover:bg-brand-50 hover:border-brand-300 group transition-all rounded-xl shadow-sm">
-                  <div className="w-12 h-12 rounded-xl bg-primary-50 text-primary-600 flex items-center justify-center group-hover:bg-primary-100 transition-colors">
+                  <div className="w-12 h-12 rounded-xl bg-[#E0EDFF] text-[#0070F2] flex items-center justify-center group-hover:brightness-95 transition-all">
                     <i className="ph-fill ph-newspaper text-2xl" />
                   </div>
                   <span className="text-[13px] font-medium text-brand-900 text-center">New Article</span>
                 </Link>
                 <Link href="/admin/team/new" className="btn flex-col h-auto py-5 px-3 gap-3 bg-white border border-brand-200 hover:bg-brand-50 hover:border-brand-300 group transition-all rounded-xl shadow-sm">
-                  <div className="w-12 h-12 rounded-xl bg-brand-50 text-brand-600 flex items-center justify-center group-hover:bg-brand-100 transition-colors">
+                  <div className="w-12 h-12 rounded-xl bg-[#F0ECF9] text-[#5A1E96] flex items-center justify-center group-hover:brightness-95 transition-all">
                     <i className="ph-fill ph-users text-2xl" />
                   </div>
                   <span className="text-[13px] font-medium text-brand-900 text-center">Add Member</span>
                 </Link>
                 <Link href="/admin/services/new" className="btn flex-col h-auto py-5 px-3 gap-3 bg-white border border-brand-200 hover:bg-brand-50 hover:border-brand-300 group transition-all rounded-xl shadow-sm">
-                  <div className="w-12 h-12 rounded-xl bg-brand-50 text-brand-600 flex items-center justify-center group-hover:bg-brand-100 transition-colors">
+                  <div className="w-12 h-12 rounded-xl bg-[#EBF5E0] text-[#107E3E] flex items-center justify-center group-hover:brightness-95 transition-all">
                     <i className="ph-fill ph-briefcase text-2xl" />
                   </div>
                   <span className="text-[13px] font-medium text-brand-900 text-center">Add Service</span>
@@ -165,7 +165,7 @@ export default async function DashboardPage() {
               {history.length === 0 ? (
                 <div className="flex items-center justify-between p-5 hover:bg-brand-50 transition-colors">
                   <div className="flex items-start gap-4">
-                    <div className="w-2 h-2 rounded-full bg-blue-500 mt-1.5 shrink-0" />
+                    <div className="w-2 h-2 rounded-full bg-[#0854A0] mt-1.5 shrink-0" />
                     <div>
                       <div className="text-[14px] font-semibold text-brand-900">No recent activity yet</div>
                       <div className="text-[12px] text-brand-500 mt-0.5">Changes will appear here</div>

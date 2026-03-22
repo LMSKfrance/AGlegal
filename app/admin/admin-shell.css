@@ -327,11 +327,12 @@ select.input-base {
   display: inline-flex; align-items: center; padding: 2px 8px;
   border-radius: 9999px; font-size: 11px; font-weight: 600;
 }
-.badge-green  { background: #dcfce7; color: #166534; }
-.badge-blue   { background: #eff6ff; color: #1e40af; }
-.badge-red    { background: #fef2f2; color: #991b1b; }
-.badge-gray   { background: #f3f4f6; color: #374151; }
-.badge-amber  { background: #fef3c7; color: #92400e; }
+/* SAP Fiori semantic badge colors */
+.badge-green  { background: #EBF5E0; color: #107E3E; }
+.badge-blue   { background: #E0EDFF; color: #0854A0; }
+.badge-red    { background: #FFEBEB; color: #AB0000; }
+.badge-gray   { background: #F4F4F4; color: #32363A; }
+.badge-amber  { background: #FFF8D6; color: #B44F00; }
 
 /* ─── File upload zone ─── */
 .file-upload-zone {
