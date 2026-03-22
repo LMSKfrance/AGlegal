@@ -78,6 +78,11 @@ export default function HomeForm({
     <>
       <div className="page-content space-y-6 pb-24 pt-6">
 
+        <div className="pb-2">
+          <h1 className="text-[22px] font-bold text-brand-900 tracking-tight">Homepage Manager</h1>
+          <p className="text-[13px] text-brand-500 mt-1">Edit and manage all homepage sections from here.</p>
+        </div>
+
         {/* ── Hero Section ────────────────────────────────────────────────── */}
         <form action={heroFormAction}>
           <div className="card">
