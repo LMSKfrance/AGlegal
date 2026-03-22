@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useState, useEffect } from "react";
 import { useAdminLang } from "../AdminLangContext";
 import type { ContactFormState } from "@/lib/actions/contact";
 
@@ -31,7 +31,12 @@ const INITIAL: ContactFormState = {};
 
 export default function ContactForm({ contact, saveAction }: Props) {
   const [state, formAction, pending] = useActionState(saveAction, INITIAL);
+  const [hasSaved, setHasSaved] = useState(false);
   const lang = useAdminLang();
+
+  useEffect(() => {
+    if (state.success) setHasSaved(true);
+  }, [state.success]);
 
   return (
     <>
@@ -144,15 +149,21 @@ export default function ContactForm({ contact, saveAction }: Props) {
         </div>
 
         <div className="action-bar">
-          <div className="hidden sm:flex text-[12px] text-brand-500 items-center gap-4">
-            <span className="flex items-center gap-1">
-              <kbd className="bg-brand-100 px-1.5 py-0.5 rounded font-mono text-[10px] text-brand-700">⌘S</kbd> Save
-            </span>
+          <div className="text-[12px] flex items-center gap-1.5">
+            {state.error ? (
+              <><span className="w-2 h-2 rounded-full bg-red-500 shrink-0 inline-block" /><span className="text-red-600 font-medium truncate max-w-xs">{state.error}</span></>
+            ) : pending ? (
+              <><span className="w-2 h-2 rounded-full bg-blue-400 shrink-0 inline-block animate-pulse" /><span className="text-brand-500 font-medium">Saving…</span></>
+            ) : hasSaved ? (
+              <><span className="w-2 h-2 rounded-full bg-green-500 shrink-0 inline-block" /><span className="text-brand-500">All changes saved</span></>
+            ) : (
+              <><span className="w-2 h-2 rounded-full bg-brand-300 shrink-0 inline-block" /><span className="text-brand-400">You have not made any changes</span></>
+            )}
           </div>
           <div className="flex gap-3">
             <button type="reset" className="btn btn-secondary">Discard Changes</button>
             <button type="submit" className="btn btn-primary" disabled={pending}>
-              {pending ? <><i className="ph ph-spinner animate-spin" /> Saving...</> : <><i className="ph ph-floppy-disk" /> Save Contact Info</>}
+              {pending ? <><i key="spinner" className="ph ph-spinner animate-spin" /> Saving...</> : <><i key="save" className="ph ph-floppy-disk" /> Save Contact Info</>}
             </button>
           </div>
         </div>

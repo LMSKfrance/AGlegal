@@ -52,6 +52,9 @@
 .admin-shell-root ol { margin: 0; padding: 0; list-style: none; }
 .admin-shell-root a:not(.btn)  { color: inherit; text-decoration: none; }
 .admin-shell-root a.btn { text-decoration: none; }
+/* Ensure explicit Tailwind text-color classes always win over color: inherit */
+.admin-shell-root a.text-white  { color: #ffffff; }
+.admin-shell-root a.text-primary-600 { color: #2563eb; }
 .admin-shell-root button,
 .admin-shell-root input,
 .admin-shell-root select,
@@ -109,10 +112,9 @@
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
+  min-height: 0;
 }
+
 
 /* ═══════════════════════════════════════════════════════════════════════════
    DESIGN SYSTEM — extracted verbatim from admin 2.0/index.html <style>
@@ -233,11 +235,25 @@ select.input-base {
 }
 .btn-icon:hover { color: #111827; background-color: #f3f4f6; }
 
+/* Per-card save button: idle = ghost blue border, hover = filled blue */
+.btn-save {
+  padding: 0; width: 32px; height: 32px; border-radius: 8px;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 16px;
+  color: #2563eb; background: #eff6ff; border: 1.5px solid #bfdbfe;
+  cursor: pointer; transition: all 0.15s;
+}
+.btn-save:hover:not(:disabled) {
+  color: #ffffff; background: #2563eb; border-color: #2563eb;
+  box-shadow: 0 2px 8px rgba(37,99,235,0.25);
+}
+.btn-save:disabled { opacity: 0.6; cursor: not-allowed; }
+
 /* ─── Cards ─── */
 .card {
   background: #ffffff;
   border: 1px solid #e5e7eb;
-  border-radius: 0.75rem;
+  border-radius: 8px;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
   overflow: hidden;
 }
@@ -302,10 +318,10 @@ select.input-base {
 /* ─── Language switcher ─── */
 .lang-switcher {
   display: inline-flex;
-  background: #f3f4f6;
+  background: #dde3ea;
   padding: 2px;
   border-radius: 8px;
-  border: 1px solid #e5e7eb;
+  border: 1px solid #c9d1da;
 }
 .lang-tab {
   padding: 4px 10px;
@@ -314,19 +330,24 @@ select.input-base {
   border-radius: 6px;
   cursor: pointer;
   color: #6b7280;
-  transition: all 0.15s;
+  transition: background 0.15s, color 0.15s, box-shadow 0.15s;
+  border: 1px solid transparent;
 }
 .lang-tab.active {
   background: #ffffff;
   color: #111827;
   font-weight: 600;
   box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  border: 1px solid #0cb5e2;
+}
+.lang-tab-ka {
+  font-family: 'Noto Sans Georgian', sans-serif;
 }
 
 /* ─── Badges ─── */
 .badge {
   display: inline-flex; align-items: center; padding: 2px 8px;
-  border-radius: 9999px; font-size: 11px; font-weight: 600;
+  border-radius: 4px; font-size: 11px; font-weight: 600;
 }
 /* SAP Fiori semantic badge colors */
 .badge-green  { background: #EBF5E0; color: #107E3E; }
@@ -338,7 +359,7 @@ select.input-base {
 /* ─── File upload zone ─── */
 .file-upload-zone {
   border: 2px dashed #d1d5db;
-  border-radius: 12px;
+  border-radius: 8px;
   padding: 32px;
   text-align: center;
   transition: all 0.2s;
@@ -560,6 +581,70 @@ select.input-base {
   .page-content { padding: 0 12px 20px 12px; }
   .admin-header { padding: 0 12px; }
   .card-body    { padding: 12px; }
+}
+
+/* ─── Site status indicator (header) ─── */
+.site-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #6b7280;
+  cursor: pointer;
+  text-decoration: none;
+  padding: 4px 0;
+  transition: color 0.15s;
+  white-space: nowrap;
+}
+.site-status:hover { color: #111827; }
+.site-status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition: opacity 0.15s;
+}
+.site-status.online  .site-status-dot { background: #22c55e; }
+.site-status.offline .site-status-dot { background: #ef4444; }
+.site-status.offline { color: #6b7280; }
+.site-status-label { font-weight: 500; }
+
+/* ─── Offline notice bar ─── */
+.offline-notice {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 24px;
+  height: 36px;
+  background: #ffffff;
+  border-bottom: 1px solid #fecaca;
+  border-left: 3px solid #ef4444;
+  flex-shrink: 0;
+  font-size: 12px;
+  color: #6b7280;
+}
+.offline-notice-text { flex: 1; letter-spacing: 0.01em; }
+.offline-notice-text strong { color: #374151; font-weight: 600; }
+.offline-notice-action {
+  font-size: 12px;
+  font-weight: 500;
+  color: #6b7280;
+  text-decoration: none;
+  padding: 0 8px;
+  height: 26px;
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  background: #f9fafb;
+  white-space: nowrap;
+  transition: border-color 0.15s, color 0.15s;
+  gap: 4px;
+}
+.offline-notice-action:hover { border-color: #d1d5db; color: #111827; background: #f3f4f6; }
+
+@media (max-width: 640px) {
+  .offline-notice { padding: 0 12px; height: auto; min-height: 36px; padding-top: 8px; padding-bottom: 8px; flex-wrap: wrap; }
 }
 
 /* ─── Global button readability improvements ─── */

@@ -64,7 +64,7 @@ export default function ProfileForm({ name, email, initials, action }: Props) {
                 <input type="password" name="confirmPassword" className="input-base max-w-md" />
               </div>
               <button type="submit" className="btn btn-primary mt-2" disabled={pending}>
-                {pending ? <><i className="ph ph-spinner animate-spin" /> Saving...</> : "Update Profile"}
+                {pending ? <><i key="spinner" className="ph ph-spinner animate-spin" /> Saving...</> : "Update Profile"}
               </button>
             </div>
           </div>

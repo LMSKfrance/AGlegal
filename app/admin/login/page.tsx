@@ -30,8 +30,8 @@ export default async function LoginPage({
   return (
     <>
       <Script src="https://unpkg.com/@phosphor-icons/web" strategy="beforeInteractive" />
-      <div className="admin-shell-root flex h-screen w-screen items-center justify-center bg-brand-50">
-        <div className="w-full max-w-md p-8 bg-white rounded-2xl shadow-lg border border-gray-100">
+      <div className="admin-shell-root flex h-screen w-screen items-center justify-center" style={{ background: "#0055b8" }}>
+        <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-lg border border-gray-100">
           <div className="flex flex-col items-center mb-8">
             <img src="/favicon.svg" alt="AG Legal" className="w-12 h-12 mb-4" />
             <h1 className="text-2xl font-bold text-brand-900">AG Legal CMS</h1>

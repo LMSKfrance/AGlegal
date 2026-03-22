@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useActionState, useState, useRef, useEffect } from "react";
 import { useAdminLang } from "../AdminLangContext";
 import type { ServiceFormState } from "@/lib/actions/services";
+import OgImageUpload from "../OgImageUpload";
 
 type Service = {
   id: number;
@@ -21,11 +22,21 @@ type Service = {
   image: string | null;
   thumbnailImage: string | null;
   homeCardImage: string | null;
+  clickable: number | null;
   showOnHome: number | null;
   homeOrder: number | null;
   homeShortDescriptionEn: string | null;
   homeShortDescriptionKa: string | null;
   homeLearnMoreUrl: string | null;
+  metaDescriptionEn: string | null;
+  metaDescriptionKa: string | null;
+  seoTitleEn: string | null;
+  seoTitleKa: string | null;
+  ogTitleEn: string | null;
+  ogTitleKa: string | null;
+  ogDescriptionEn: string | null;
+  ogDescriptionKa: string | null;
+  ogImage: string | null;
 };
 
 type Props = {
@@ -37,18 +48,20 @@ const INITIAL: ServiceFormState = {};
 
 export default function ServiceForm({ action, service }: Props) {
   const [state, formAction, pending] = useActionState(action, INITIAL);
+  const [hasSaved, setHasSaved] = useState(false);
   const lang = useAdminLang();
 
   const mainImgRef = useRef<HTMLInputElement>(null);
   const thumbImgRef = useRef<HTMLInputElement>(null);
   const homeCardImgRef = useRef<HTMLInputElement>(null);
 
-  const [mainPreview, setMainPreview] = useState<string | null>(service?.image ? `/api/images/${service.image}` : null);
-  const [thumbPreview, setThumbPreview] = useState<string | null>(service?.thumbnailImage ? `/api/images/${service.thumbnailImage}` : null);
-  const [homeCardPreview, setHomeCardPreview] = useState<string | null>(service?.homeCardImage ? `/api/images/${service.homeCardImage}` : null);
+  const [mainPreview, setMainPreview] = useState<string | null>(service?.image ?? null);
+  const [thumbPreview, setThumbPreview] = useState<string | null>(service?.thumbnailImage ?? null);
+  const [homeCardPreview, setHomeCardPreview] = useState<string | null>(service?.homeCardImage ?? null);
 
   useEffect(() => {
     if (state.success) {
+      setHasSaved(true);
       window.location.href = "/admin/services";
     }
   }, [state.success]);
@@ -69,7 +82,15 @@ export default function ServiceForm({ action, service }: Props) {
       )}
 
       <div className="flex-1 overflow-y-auto p-8 max-w-4xl mx-auto w-full space-y-8 pb-24">
-        <div className="card p-6 bg-brand-50 border border-brand-200 flex flex-wrap items-center gap-8 rounded-xl">
+        <div className="card p-6 bg-brand-50 border border-brand-200 flex flex-wrap items-center gap-8 rounded-lg">
+          <div className="flex items-center justify-between w-56">
+            <span className="text-[14px] font-semibold text-brand-900">Clickable in Services List</span>
+            <label className="toggle-switch">
+              <input type="checkbox" name="clickable" defaultChecked={service ? !!service.clickable : true} />
+              <span className="toggle-slider" />
+            </label>
+          </div>
+          <div className="w-px h-8 bg-brand-200" />
           <div className="flex items-center justify-between w-56">
             <span className="text-[14px] font-semibold text-brand-900">Show on Homepage</span>
             <label className="toggle-switch">
@@ -238,16 +259,72 @@ export default function ServiceForm({ action, service }: Props) {
             )}
           </div>
         </div>
+
+        {/* SEO & Open Graph */}
+        <div className="card">
+          <div className="card-header py-4 bg-brand-50">
+            <h3 className="font-semibold text-brand-900 text-[14px]">
+              <i className="ph ph-magnifying-glass mr-2 text-brand-500" /> SEO &amp; Open Graph {lang === "en" ? "(En)" : "(ქარ)"}
+            </h3>
+          </div>
+          <div className="card-body space-y-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div>
+                <label className="label-base">SEO Title</label>
+                {lang === "en"
+                  ? <input type="text" name="seoTitleEn" className="input-base" defaultValue={service?.seoTitleEn ?? ""} />
+                  : <input type="text" name="seoTitleKa" className="input-base" defaultValue={service?.seoTitleKa ?? ""} />}
+              </div>
+              <div>
+                <label className="label-base">OG Title</label>
+                {lang === "en"
+                  ? <input type="text" name="ogTitleEn" className="input-base" defaultValue={service?.ogTitleEn ?? ""} />
+                  : <input type="text" name="ogTitleKa" className="input-base" defaultValue={service?.ogTitleKa ?? ""} />}
+              </div>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div>
+                <label className="label-base">Meta Description</label>
+                {lang === "en"
+                  ? <textarea name="metaDescriptionEn" className="input-base" rows={2} defaultValue={service?.metaDescriptionEn ?? ""} />
+                  : <textarea name="metaDescriptionKa" className="input-base" rows={2} defaultValue={service?.metaDescriptionKa ?? ""} />}
+              </div>
+              <div>
+                <label className="label-base">OG Description</label>
+                {lang === "en"
+                  ? <textarea name="ogDescriptionEn" className="input-base" rows={2} defaultValue={service?.ogDescriptionEn ?? ""} />
+                  : <textarea name="ogDescriptionKa" className="input-base" rows={2} defaultValue={service?.ogDescriptionKa ?? ""} />}
+              </div>
+            </div>
+            <div>
+              <OgImageUpload
+                existing={service?.ogImage ?? null}
+                fallback={service?.image ?? null}
+              />
+            </div>
+          </div>
+        </div>
       </div>
 
       <div className="action-bar">
-        <div className="flex gap-3 w-full justify-end">
+        <div className="text-[12px] flex items-center gap-1.5">
+          {state.error ? (
+            <><span className="w-2 h-2 rounded-full bg-red-500 shrink-0 inline-block" /><span className="text-red-600 font-medium truncate max-w-xs">{state.error}</span></>
+          ) : pending ? (
+            <><span className="w-2 h-2 rounded-full bg-blue-400 shrink-0 inline-block animate-pulse" /><span className="text-brand-500 font-medium">Saving…</span></>
+          ) : hasSaved ? (
+            <><span className="w-2 h-2 rounded-full bg-green-500 shrink-0 inline-block" /><span className="text-brand-500">All changes saved</span></>
+          ) : (
+            <><span className="w-2 h-2 rounded-full bg-brand-300 shrink-0 inline-block" /><span className="text-brand-400">You have not made any changes</span></>
+          )}
+        </div>
+        <div className="flex gap-3">
           <Link href="/admin/services" className="btn btn-secondary">Cancel</Link>
           <button type="submit" className="btn btn-primary" disabled={pending}>
             {pending ? (
-              <><i className="ph ph-spinner animate-spin" /> Saving...</>
+              <><i key="spinner" className="ph ph-spinner animate-spin" /> Saving...</>
             ) : (
-              <><i className="ph ph-floppy-disk" /> {service ? "Save Changes" : "Save Service"}</>
+              <><i key="save" className="ph ph-floppy-disk" /> {service ? "Save Changes" : "Save Service"}</>
             )}
           </button>
         </div>

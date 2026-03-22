@@ -47,7 +47,7 @@ export async function getNotificationTasks(): Promise<NotificationTask[]> {
       severity: "warning",
       badge: "Translation",
       title: `${newsNoKa.length} Missing Georgian Translation${newsNoKa.length > 1 ? "s" : ""}`,
-      description: `${newsNoKa.length} news article${newsNoKa.length > 1 ? "s are" : " is"} missing Georgian (KA) translation.`,
+      description: `${newsNoKa.length} news article${newsNoKa.length > 1 ? "s are" : " is"} missing Georgian (ქარ) translation.`,
       count: newsNoKa.length,
       href: "/admin/news",
     });
@@ -90,7 +90,7 @@ export async function getNotificationTasks(): Promise<NotificationTask[]> {
       id: "team-missing-ka",
       severity: "warning",
       badge: "Translation",
-      title: `${teamNoKa.length} Team Member${teamNoKa.length > 1 ? "s" : ""} Missing KA Info`,
+      title: `${teamNoKa.length} Team Member${teamNoKa.length > 1 ? "s" : ""} Missing ქარ Info`,
       description: `${teamNoKa.length} team member${teamNoKa.length > 1 ? "s are" : " is"} missing Georgian name or position.`,
       count: teamNoKa.length,
       href: "/admin/team",
@@ -106,7 +106,7 @@ export async function getNotificationTasks(): Promise<NotificationTask[]> {
       id: "services-missing-ka",
       severity: "warning",
       badge: "Translation",
-      title: `${servicesNoKa.length} Service${servicesNoKa.length > 1 ? "s" : ""} Missing KA Translation`,
+      title: `${servicesNoKa.length} Service${servicesNoKa.length > 1 ? "s" : ""} Missing ქარ Translation`,
       description: `${servicesNoKa.length} service page${servicesNoKa.length > 1 ? "s are" : " is"} missing Georgian translation.`,
       count: servicesNoKa.length,
       href: "/admin/services",
@@ -136,10 +136,84 @@ export async function getNotificationTasks(): Promise<NotificationTask[]> {
       id: "pages-missing-ka",
       severity: "warning",
       badge: "Translation",
-      title: `${pagesNoKa.length} Page${pagesNoKa.length > 1 ? "s" : ""} Missing KA Translation`,
+      title: `${pagesNoKa.length} Page${pagesNoKa.length > 1 ? "s" : ""} Missing ქარ Translation`,
       description: `${pagesNoKa.length} static page${pagesNoKa.length > 1 ? "s are" : " is"} missing Georgian translation.`,
       count: pagesNoKa.length,
       href: "/admin/pages",
+    });
+  }
+
+  // ── News: missing SEO meta description ──────────────────────────────────────
+  const newsNoSeo = allArticles.filter((a) => empty(a.metaDescriptionEn));
+  if (newsNoSeo.length > 0) {
+    tasks.push({
+      id: "news-missing-seo",
+      severity: "warning",
+      badge: "SEO",
+      title: `${newsNoSeo.length} Article${newsNoSeo.length > 1 ? "s" : ""} Missing SEO Data`,
+      description: `${newsNoSeo.length} news article${newsNoSeo.length > 1 ? "s have" : " has"} no meta description — won't appear well in search results.`,
+      count: newsNoSeo.length,
+      href: "/admin/news",
+    });
+  }
+
+  // ── Services: missing SEO meta description ───────────────────────────────────
+  const servicesNoSeo = allServices.filter((s) => empty(s.metaDescriptionEn));
+  if (servicesNoSeo.length > 0) {
+    tasks.push({
+      id: "services-missing-seo",
+      severity: "warning",
+      badge: "SEO",
+      title: `${servicesNoSeo.length} Service${servicesNoSeo.length > 1 ? "s" : ""} Missing SEO Data`,
+      description: `${servicesNoSeo.length} service page${servicesNoSeo.length > 1 ? "s have" : " has"} no meta description set.`,
+      count: servicesNoSeo.length,
+      href: "/admin/services",
+    });
+  }
+
+  // ── Team: missing SEO meta description ───────────────────────────────────────
+  const teamNoSeo = allTeam.filter((m) => empty(m.metaDescriptionEn));
+  if (teamNoSeo.length > 0) {
+    tasks.push({
+      id: "team-missing-seo",
+      severity: "warning",
+      badge: "SEO",
+      title: `${teamNoSeo.length} Team Member${teamNoSeo.length > 1 ? "s" : ""} Missing SEO Data`,
+      description: `${teamNoSeo.length} team member page${teamNoSeo.length > 1 ? "s have" : " has"} no meta description set.`,
+      count: teamNoSeo.length,
+      href: "/admin/team",
+    });
+  }
+
+  // ── Pages: missing SEO meta description ──────────────────────────────────────
+  const pagesNoSeo = allPages.filter((p) => empty(p.metaDescriptionEn));
+  if (pagesNoSeo.length > 0) {
+    tasks.push({
+      id: "pages-missing-seo",
+      severity: "warning",
+      badge: "SEO",
+      title: `${pagesNoSeo.length} Page${pagesNoSeo.length > 1 ? "s" : ""} Missing SEO Data`,
+      description: `${pagesNoSeo.length} static page${pagesNoSeo.length > 1 ? "s have" : " has"} no meta description set.`,
+      count: pagesNoSeo.length,
+      href: "/admin/pages",
+    });
+  }
+
+  // ── OG Image missing across all content ──────────────────────────────────────
+  const noOgCount =
+    allArticles.filter((a) => empty(a.ogImage)).length +
+    allServices.filter((s) => empty(s.ogImage)).length +
+    allTeam.filter((m) => empty(m.ogImage)).length +
+    allPages.filter((p) => empty(p.ogImage)).length;
+  if (noOgCount > 0) {
+    tasks.push({
+      id: "content-missing-og-image",
+      severity: "info",
+      badge: "OG Image",
+      title: `${noOgCount} Page${noOgCount > 1 ? "s" : ""} Missing OG Image`,
+      description: `${noOgCount} content page${noOgCount > 1 ? "s have" : " has"} no Open Graph image — social share previews will lack a thumbnail.`,
+      count: noOgCount,
+      href: "/admin/notifications",
     });
   }
 

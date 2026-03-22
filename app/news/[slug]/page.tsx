@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title: `${article.title} | AG Legal`,
       description: article.description,
-      images: article.image ? [{ url: article.image, alt: article.title }] : [],
+      images: (article.ogImage ?? article.image) ? [{ url: (article.ogImage ?? article.image)!, alt: article.title }] : [],
     },
   };
 }

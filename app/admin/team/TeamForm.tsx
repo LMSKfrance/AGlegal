@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useActionState, useState, useRef, useEffect } from "react";
 import { useAdminLang } from "../AdminLangContext";
 import type { TeamFormState } from "@/lib/actions/team";
+import OgImageUpload from "../OgImageUpload";
 
 type Social = { platform: string; link: string };
 
@@ -25,6 +26,15 @@ type Member = {
   image: string | null;
   showOnHome: number | null;
   homeOrder: number | null;
+  metaDescriptionEn: string | null;
+  metaDescriptionKa: string | null;
+  seoTitleEn: string | null;
+  seoTitleKa: string | null;
+  ogTitleEn: string | null;
+  ogTitleKa: string | null;
+  ogDescriptionEn: string | null;
+  ogDescriptionKa: string | null;
+  ogImage: string | null;
   socials: Social[];
 };
 
@@ -37,14 +47,16 @@ const INITIAL: TeamFormState = {};
 
 export default function TeamForm({ action, member }: Props) {
   const [state, formAction, pending] = useActionState(action, INITIAL);
+  const [hasSaved, setHasSaved] = useState(false);
   const lang = useAdminLang();
   const [imagePreview, setImagePreview] = useState<string | null>(
-    member?.image ? `/api/images/${member.image}` : null
+    member?.image ?? null
   );
   const fileRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (state.success) {
+      setHasSaved(true);
       window.location.href = "/admin/team";
     }
   }, [state.success]);
@@ -78,7 +90,7 @@ export default function TeamForm({ action, member }: Props) {
           <div className="w-48 shrink-0">
             <label className="label-base">Profile Photo</label>
             <div
-              className="file-upload-zone w-full aspect-square rounded-2xl flex flex-col items-center justify-center gap-3 cursor-pointer overflow-hidden"
+              className="file-upload-zone w-full aspect-square rounded-lg flex flex-col items-center justify-center gap-3 cursor-pointer overflow-hidden"
               onClick={() => fileRef.current?.click()}
             >
               {imagePreview ? (
@@ -120,7 +132,7 @@ export default function TeamForm({ action, member }: Props) {
                 )}
               </div>
             </div>
-            <div className="flex flex-wrap items-center gap-4 p-4 bg-brand-50 rounded-xl border border-brand-200">
+            <div className="flex flex-wrap items-center gap-4 p-4 bg-brand-50 rounded-lg border border-brand-200">
               <div className="flex items-center justify-between gap-4 min-w-[180px]">
                 <span className="text-[14px] font-semibold text-brand-900">Show on Homepage</span>
                 <label className="toggle-switch">
@@ -196,17 +208,72 @@ export default function TeamForm({ action, member }: Props) {
             </div>
           </div>
         </div>
+
+        {/* SEO & Open Graph */}
+        <div className="card">
+          <div className="card-header py-4 bg-brand-50">
+            <h3 className="font-semibold text-brand-900 text-[14px]">
+              <i className="ph ph-magnifying-glass mr-2 text-brand-500" /> SEO &amp; Open Graph {lang === "en" ? "(En)" : "(ქარ)"}
+            </h3>
+          </div>
+          <div className="card-body space-y-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div>
+                <label className="label-base">SEO Title</label>
+                {lang === "en"
+                  ? <input type="text" name="seoTitleEn" className="input-base" defaultValue={member?.seoTitleEn ?? ""} />
+                  : <input type="text" name="seoTitleKa" className="input-base" defaultValue={member?.seoTitleKa ?? ""} />}
+              </div>
+              <div>
+                <label className="label-base">OG Title</label>
+                {lang === "en"
+                  ? <input type="text" name="ogTitleEn" className="input-base" defaultValue={member?.ogTitleEn ?? ""} />
+                  : <input type="text" name="ogTitleKa" className="input-base" defaultValue={member?.ogTitleKa ?? ""} />}
+              </div>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div>
+                <label className="label-base">Meta Description</label>
+                {lang === "en"
+                  ? <textarea name="metaDescriptionEn" className="input-base" rows={2} defaultValue={member?.metaDescriptionEn ?? ""} />
+                  : <textarea name="metaDescriptionKa" className="input-base" rows={2} defaultValue={member?.metaDescriptionKa ?? ""} />}
+              </div>
+              <div>
+                <label className="label-base">OG Description</label>
+                {lang === "en"
+                  ? <textarea name="ogDescriptionEn" className="input-base" rows={2} defaultValue={member?.ogDescriptionEn ?? ""} />
+                  : <textarea name="ogDescriptionKa" className="input-base" rows={2} defaultValue={member?.ogDescriptionKa ?? ""} />}
+              </div>
+            </div>
+            <div>
+              <OgImageUpload
+                existing={member?.ogImage ?? null}
+                fallback={member?.image ?? null}
+              />
+            </div>
+          </div>
+        </div>
       </div>
 
       <div className="action-bar">
-        <div />
+        <div className="text-[12px] flex items-center gap-1.5">
+          {state.error ? (
+            <><span className="w-2 h-2 rounded-full bg-red-500 shrink-0 inline-block" /><span className="text-red-600 font-medium truncate max-w-xs">{state.error}</span></>
+          ) : pending ? (
+            <><span className="w-2 h-2 rounded-full bg-blue-400 shrink-0 inline-block animate-pulse" /><span className="text-brand-500 font-medium">Saving…</span></>
+          ) : hasSaved ? (
+            <><span className="w-2 h-2 rounded-full bg-green-500 shrink-0 inline-block" /><span className="text-brand-500">All changes saved</span></>
+          ) : (
+            <><span className="w-2 h-2 rounded-full bg-brand-300 shrink-0 inline-block" /><span className="text-brand-400">You have not made any changes</span></>
+          )}
+        </div>
         <div className="flex gap-3">
           <Link href="/admin/team" className="btn btn-secondary">Cancel</Link>
           <button type="submit" className="btn btn-primary" disabled={pending}>
             {pending ? (
-              <><i className="ph ph-spinner animate-spin" /> Saving...</>
+              <><i key="spinner" className="ph ph-spinner animate-spin" /> Saving...</>
             ) : (
-              <><i className="ph ph-floppy-disk" /> {member ? "Save Changes" : "Save Profile"}</>
+              <><i key="save" className="ph ph-floppy-disk" /> {member ? "Save Changes" : "Save Profile"}</>
             )}
           </button>
         </div>

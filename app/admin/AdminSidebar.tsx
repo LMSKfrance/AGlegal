@@ -29,6 +29,7 @@ const nav = [
     items: [
       { href: "/admin/history",       label: "History Log",           view: "history",       icon: "ph-clock-counter-clockwise" },
       { href: "/admin/notifications", label: "Tasks & Notifications", view: "notifications", icon: "ph-bell" },
+      { href: "/admin/settings",      label: "Site Settings",         view: "settings",      icon: "ph-gear" },
     ],
   },
 ];
@@ -44,6 +45,7 @@ const LABELS: Record<string, string> = {
   "/admin/contact":       "Contact",
   "/admin/history":       "History Log",
   "/admin/notifications": "Tasks & Notifications",
+  "/admin/settings":      "Site Settings",
   "/admin/profile":       "My Profile",
 };
 
@@ -64,11 +66,13 @@ export default function AdminShell({
   userName,
   userEmail,
   notificationCount,
+  siteOnline,
   children,
 }: {
   userName: string | null;
   userEmail: string | null;
   notificationCount: number;
+  siteOnline: boolean;
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
@@ -188,13 +192,26 @@ export default function AdminShell({
         {/* Lang switcher — mobile drawer only */}
         <div className="sidebar-lang px-4 py-3 border-t border-brand-100">
           <div className="lang-switcher w-full justify-center">
-            <div className={`lang-tab flex-1 text-center${lang === "en" ? " active" : ""}`} onClick={() => setLang("en")}>EN</div>
-            <div className={`lang-tab flex-1 text-center${lang === "ka" ? " active" : ""}`} onClick={() => setLang("ka")}>KA</div>
+            <div className={`lang-tab flex-1 text-center${lang === "en" ? " active" : ""}`} onClick={() => setLang("en")}>ENG</div>
+            <div className={`lang-tab lang-tab-ka flex-1 text-center${lang === "ka" ? " active" : ""}`} onClick={() => setLang("ka")}>ქარ</div>
           </div>
         </div>
 
+        {/* Credits */}
+        {showLabels && (
+          <div className="px-6 pb-3 text-[10px] text-brand-300 leading-relaxed">
+            AG Legal Admin 1.0<br />
+            Built by{" "}
+            <a href="https://sk01.fr" target="_blank" rel="noreferrer" className="text-brand-400 hover:text-primary-600 transition-colors">
+              Sandro Kozmanishvili
+            </a>{" "}
+            · Sk01.fr Studio
+          </div>
+        )}
+
         {/* User */}
-        <div className="p-4 shrink-0 bg-white relative group">
+        <div className="p-4 shrink-0 bg-white">
+          <div className="relative group">
           <Link
             href="/admin/profile"
             className="sidebar-user-link flex items-center gap-3 w-full p-2 rounded-lg hover:bg-brand-50 transition-colors cursor-pointer"
@@ -212,7 +229,7 @@ export default function AdminShell({
           </Link>
 
           {showLabels && (
-            <div className="absolute bottom-full left-4 mb-2 w-56 bg-white border border-brand-200 rounded-xl shadow-lg opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity z-50">
+            <div className="absolute bottom-full left-0 mb-1 w-56 bg-white border border-brand-200 rounded-lg shadow-lg opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity z-50">
               <div className="p-3 border-b border-brand-100">
                 <div className="text-sm font-semibold text-brand-900">{displayName}</div>
                 <div className="text-xs text-brand-500">{email}</div>
@@ -233,6 +250,7 @@ export default function AdminShell({
               </div>
             </div>
           )}
+          </div>
         </div>
       </aside>
 
@@ -257,6 +275,16 @@ export default function AdminShell({
             </div>
           </div>
           <div className="flex items-center gap-4">
+            {/* Site status */}
+            <Link
+              href="/admin/settings"
+              title="Site availability — click to manage"
+              className={`site-status ${siteOnline ? "online" : "offline"}`}
+            >
+              <span className="site-status-dot" />
+              <span className="site-status-label">{siteOnline ? "Online" : "Offline"}</span>
+            </Link>
+
             <Link href="/admin/notifications" className="btn-icon relative" title="Notifications">
               <i className="ph ph-bell text-[20px]" />
               {notificationCount > 0 && (
@@ -265,11 +293,23 @@ export default function AdminShell({
             </Link>
             <div className="hidden md:block w-px h-5 bg-brand-200" />
             <div className="hidden md:flex lang-switcher">
-              <div className={`lang-tab${lang === "en" ? " active" : ""}`} onClick={() => setLang("en")}>EN</div>
-              <div className={`lang-tab${lang === "ka" ? " active" : ""}`} onClick={() => setLang("ka")}>KA</div>
+              <div className={`lang-tab${lang === "en" ? " active" : ""}`} onClick={() => setLang("en")}>ENG</div>
+              <div className={`lang-tab lang-tab-ka${lang === "ka" ? " active" : ""}`} onClick={() => setLang("ka")}>ქარ</div>
             </div>
           </div>
         </header>
+
+        {/* Offline notice */}
+        {!siteOnline && (
+          <div className="offline-notice">
+            <span className="offline-notice-text">
+              <strong>Website is offline</strong> · visitors are seeing the maintenance page
+            </span>
+            <Link href="/admin/settings" className="offline-notice-action">
+              Settings <i className="ph ph-arrow-right" />
+            </Link>
+          </div>
+        )}
 
         {/* Page content */}
         <main className="admin-content">

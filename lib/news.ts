@@ -5,6 +5,7 @@ export type NewsArticleData = {
   id: string;
   contentHtml: string;
   image: string;
+  ogImage?: string | null;
   title: string;
   description?: string;
   date: string;
@@ -21,6 +22,7 @@ export async function getNewsArticleBySlug(
       id: data.id,
       contentHtml: data.contentHtml,
       image: data.image || "",
+      ogImage: data.ogImage,
       title: data.title,
       description: data.description ?? undefined,
       date: data.date,

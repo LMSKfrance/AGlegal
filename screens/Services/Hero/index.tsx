@@ -103,15 +103,24 @@ const Hero = ({ services, page }: HeroProps) => {
           <div ref={gridRef} className={styles.grid}>
             {[0, 1, 2].map((colIndex) => (
               <div key={colIndex} className={styles.column}>
-                {services.map((service) => (
-                  <Link
-                    key={`${colIndex}-${service.id}`}
-                    href={`/services/${service.slug}`}
-                    className={styles.service_item}
-                  >
-                    {service.title}
-                  </Link>
-                ))}
+                {services.map((service) =>
+                  service.clickable ? (
+                    <Link
+                      key={`${colIndex}-${service.id}`}
+                      href={`/services/${service.slug}`}
+                      className={styles.service_item}
+                    >
+                      {service.title}
+                    </Link>
+                  ) : (
+                    <span
+                      key={`${colIndex}-${service.id}`}
+                      className={`${styles.service_item} ${styles.service_item_static}`}
+                    >
+                      {service.title}
+                    </span>
+                  )
+                )}
               </div>
             ))}
           </div>

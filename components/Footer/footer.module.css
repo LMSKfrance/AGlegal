@@ -215,6 +215,7 @@
   }
 }
 
+
 @media (max-width: 480px) {
   .input_wrapper {
     flex-direction: column;

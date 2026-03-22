@@ -16,6 +16,16 @@ export const articles = sqliteTable("articles", {
   tags: text("tags", { mode: "json" }).$type<string[]>(),
   type: text("type"),
   sortOrder: integer("sort_order").default(0),
+  // SEO / Open Graph
+  metaDescriptionEn: text("meta_description_en"),
+  metaDescriptionKa: text("meta_description_ka"),
+  seoTitleEn: text("seo_title_en"),
+  seoTitleKa: text("seo_title_ka"),
+  ogTitleEn: text("og_title_en"),
+  ogTitleKa: text("og_title_ka"),
+  ogDescriptionEn: text("og_description_en"),
+  ogDescriptionKa: text("og_description_ka"),
+  ogImage: text("og_image"),
   createdAt: text("created_at").notNull().$defaultFn(() => new Date().toISOString()),
   updatedAt: text("updated_at").notNull().$defaultFn(() => new Date().toISOString()),
 });
@@ -44,6 +54,18 @@ export const services = sqliteTable("services", {
   homeShortDescriptionKa: text("home_short_description_ka"),
   homeLearnMoreUrl: text("home_learn_more_url"),
   homeCardImage: text("home_card_image"),
+  // Clickable from the services listing page
+  clickable: integer("clickable").default(1),
+  // SEO / Open Graph
+  metaDescriptionEn: text("meta_description_en"),
+  metaDescriptionKa: text("meta_description_ka"),
+  seoTitleEn: text("seo_title_en"),
+  seoTitleKa: text("seo_title_ka"),
+  ogTitleEn: text("og_title_en"),
+  ogTitleKa: text("og_title_ka"),
+  ogDescriptionEn: text("og_description_en"),
+  ogDescriptionKa: text("og_description_ka"),
+  ogImage: text("og_image"),
   createdAt: text("created_at").notNull().$defaultFn(() => new Date().toISOString()),
   updatedAt: text("updated_at").notNull().$defaultFn(() => new Date().toISOString()),
 });
@@ -70,6 +92,16 @@ export const teamMembers = sqliteTable("team_members", {
   homeOrder: integer("home_order").default(0),
   showOnAbout: integer("show_on_about").default(0),
   aboutOrder: integer("about_order").default(0),
+  // SEO / Open Graph
+  metaDescriptionEn: text("meta_description_en"),
+  metaDescriptionKa: text("meta_description_ka"),
+  seoTitleEn: text("seo_title_en"),
+  seoTitleKa: text("seo_title_ka"),
+  ogTitleEn: text("og_title_en"),
+  ogTitleKa: text("og_title_ka"),
+  ogDescriptionEn: text("og_description_en"),
+  ogDescriptionKa: text("og_description_ka"),
+  ogImage: text("og_image"),
   createdAt: text("created_at").notNull().$defaultFn(() => new Date().toISOString()),
   updatedAt: text("updated_at").notNull().$defaultFn(() => new Date().toISOString()),
 });

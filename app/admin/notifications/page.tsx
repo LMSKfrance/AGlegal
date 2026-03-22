@@ -22,14 +22,19 @@ const SEVERITY_STYLES = {
 };
 
 const CATEGORY_ICON: Record<string, string> = {
-  "news-missing-ka":        "ph-translate",
-  "news-missing-image":     "ph-image",
-  "team-missing-photo":     "ph-image",
-  "team-missing-ka":        "ph-translate",
-  "services-missing-ka":    "ph-translate",
-  "services-missing-image": "ph-image",
-  "pages-missing-ka":       "ph-translate",
-  "contact-incomplete":     "ph-address-book",
+  "news-missing-ka":           "ph-translate",
+  "news-missing-image":        "ph-image",
+  "news-missing-seo":          "ph-magnifying-glass",
+  "team-missing-photo":        "ph-image",
+  "team-missing-ka":           "ph-translate",
+  "team-missing-seo":          "ph-magnifying-glass",
+  "services-missing-ka":       "ph-translate",
+  "services-missing-image":    "ph-image",
+  "services-missing-seo":      "ph-magnifying-glass",
+  "pages-missing-ka":          "ph-translate",
+  "pages-missing-seo":         "ph-magnifying-glass",
+  "content-missing-og-image":  "ph-share-network",
+  "contact-incomplete":        "ph-address-book",
 };
 
 function TaskRow({ task }: { task: NotificationTask }) {
@@ -38,7 +43,7 @@ function TaskRow({ task }: { task: NotificationTask }) {
 
   return (
     <div className="flex items-start gap-4 p-5 hover:bg-brand-50 transition-colors">
-      <div className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 ${style.icon}`}>
+      <div className={`w-12 h-12 rounded-lg flex items-center justify-center shrink-0 ${style.icon}`}>
         <i className={`ph ${icon} text-2xl`} />
       </div>
       <div className="flex-1 min-w-0">

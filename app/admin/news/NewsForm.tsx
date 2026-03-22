@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useActionState, useState, useRef, useEffect } from "react";
 import { useAdminLang } from "../AdminLangContext";
 import type { NewsFormState } from "@/lib/actions/news";
+import OgImageUpload from "../OgImageUpload";
 
 type Article = {
   id: number;
@@ -19,6 +20,15 @@ type Article = {
   time: string | null;
   tags: string[] | null;
   type: string | null;
+  metaDescriptionEn: string | null;
+  metaDescriptionKa: string | null;
+  seoTitleEn: string | null;
+  seoTitleKa: string | null;
+  ogTitleEn: string | null;
+  ogTitleKa: string | null;
+  ogDescriptionEn: string | null;
+  ogDescriptionKa: string | null;
+  ogImage: string | null;
 };
 
 type Props = {
@@ -39,15 +49,17 @@ function slugPreview(title: string) {
 
 export default function NewsForm({ action, article }: Props) {
   const [state, formAction, pending] = useActionState(action, INITIAL);
+  const [hasSaved, setHasSaved] = useState(false);
   const lang = useAdminLang();
   const [titleEn, setTitleEn] = useState(article?.titleEn ?? "");
-  const [imagePreview, setImagePreview] = useState<string | null>(article?.image ? `/api/images/${article.image}` : null);
+  const [imagePreview, setImagePreview] = useState<string | null>(article?.image ?? null);
   const fileRef = useRef<HTMLInputElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
 
   // Redirect on success
   useEffect(() => {
     if (state.success) {
+      setHasSaved(true);
       window.location.href = "/admin/news";
     }
   }, [state.success]);
@@ -137,7 +149,7 @@ export default function NewsForm({ action, article }: Props) {
         </div>
 
         {/* Meta */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 p-6 bg-brand-50 rounded-xl border border-brand-200">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 p-6 bg-brand-50 rounded-lg border border-brand-200">
           <div>
             <label className="label-base required">Content Type</label>
             <select name="type" className="input-base bg-white" defaultValue={article?.type ?? ""}>
@@ -344,20 +356,71 @@ export default function NewsForm({ action, article }: Props) {
             />
           )}
         </div>
+
+        {/* SEO & Open Graph */}
+        <div className="card">
+          <div className="card-header py-4 bg-brand-50">
+            <h3 className="font-semibold text-brand-900 text-[14px]">
+              <i className="ph ph-magnifying-glass mr-2 text-brand-500" /> SEO &amp; Open Graph {lang === "en" ? "(En)" : "(ქარ)"}
+            </h3>
+          </div>
+          <div className="card-body space-y-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div>
+                <label className="label-base">SEO Title</label>
+                {lang === "en"
+                  ? <input type="text" name="seoTitleEn" className="input-base" defaultValue={article?.seoTitleEn ?? ""} />
+                  : <input type="text" name="seoTitleKa" className="input-base" defaultValue={article?.seoTitleKa ?? ""} />}
+              </div>
+              <div>
+                <label className="label-base">OG Title</label>
+                {lang === "en"
+                  ? <input type="text" name="ogTitleEn" className="input-base" defaultValue={article?.ogTitleEn ?? ""} />
+                  : <input type="text" name="ogTitleKa" className="input-base" defaultValue={article?.ogTitleKa ?? ""} />}
+              </div>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div>
+                <label className="label-base">Meta Description</label>
+                {lang === "en"
+                  ? <textarea name="metaDescriptionEn" className="input-base" rows={2} defaultValue={article?.metaDescriptionEn ?? ""} />
+                  : <textarea name="metaDescriptionKa" className="input-base" rows={2} defaultValue={article?.metaDescriptionKa ?? ""} />}
+              </div>
+              <div>
+                <label className="label-base">OG Description</label>
+                {lang === "en"
+                  ? <textarea name="ogDescriptionEn" className="input-base" rows={2} defaultValue={article?.ogDescriptionEn ?? ""} />
+                  : <textarea name="ogDescriptionKa" className="input-base" rows={2} defaultValue={article?.ogDescriptionKa ?? ""} />}
+              </div>
+            </div>
+            <OgImageUpload
+              existing={article?.ogImage ?? null}
+              fallback={article?.image ?? null}
+            />
+          </div>
+        </div>
       </div>
 
       {/* Action bar */}
       <div className="action-bar">
-        <div className="flex gap-2">
-          <span className="badge badge-gray">{article ? "Saved" : "Draft"}</span>
+        <div className="text-[12px] flex items-center gap-1.5">
+          {state.error ? (
+            <><span className="w-2 h-2 rounded-full bg-red-500 shrink-0 inline-block" /><span className="text-red-600 font-medium truncate max-w-xs">{state.error}</span></>
+          ) : pending ? (
+            <><span className="w-2 h-2 rounded-full bg-blue-400 shrink-0 inline-block animate-pulse" /><span className="text-brand-500 font-medium">Saving…</span></>
+          ) : hasSaved ? (
+            <><span className="w-2 h-2 rounded-full bg-green-500 shrink-0 inline-block" /><span className="text-brand-500">All changes saved</span></>
+          ) : (
+            <><span className="w-2 h-2 rounded-full bg-brand-300 shrink-0 inline-block" /><span className="text-brand-400">You have not made any changes</span></>
+          )}
         </div>
         <div className="flex gap-3">
           <Link href="/admin/news" className="btn btn-secondary">Cancel</Link>
           <button type="submit" className="btn btn-primary" disabled={pending}>
             {pending ? (
-              <><i className="ph ph-spinner animate-spin" /> Saving...</>
+              <><i key="spinner" className="ph ph-spinner animate-spin" /> Saving...</>
             ) : (
-              <><i className="ph ph-paper-plane-tilt" /> {article ? "Update Article" : "Publish Article"}</>
+              <><i key="send" className="ph ph-paper-plane-tilt" /> {article ? "Update Article" : "Publish Article"}</>
             )}
           </button>
         </div>

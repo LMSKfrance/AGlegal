@@ -2,11 +2,70 @@
 
 import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
-import { services } from "@/lib/db/schema";
+import { services, pages } from "@/lib/db/schema";
 import { eq, asc } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { slugify } from "@/lib/utils/slug";
 import { logSave } from "./history";
+
+export type ServicesPageFormState = { success?: boolean; error?: string };
+
+export async function upsertServicesPageContent(
+  _prev: ServicesPageFormState,
+  formData: FormData
+): Promise<ServicesPageFormState> {
+  try {
+    const trim = (key: string) => (formData.get(key) as string)?.trim() || null;
+
+    const existing = await db.select().from(pages).where(eq(pages.slug, "services")).limit(1);
+    let ogImagePath: string | null = existing[0]?.ogImage ?? null;
+    const removeOg = formData.get("removeOgImage") === "1";
+    if (removeOg) {
+      ogImagePath = null;
+    } else {
+      const ogImageFile = formData.get("ogImage");
+      if (ogImageFile && ogImageFile instanceof File && ogImageFile.size > 0) {
+        const { uploadImage } = await import("@/lib/actions/upload");
+        const fd = new FormData();
+        fd.append("image", ogImageFile);
+        const result = await uploadImage(fd);
+        if (result.success) ogImagePath = result.path;
+      }
+    }
+
+    const payload = {
+      slug: "services",
+      titleEn: trim("titleEn") ?? "Services",
+      titleKa: trim("titleKa"),
+      contentEn: trim("contentEn"),
+      contentKa: trim("contentKa"),
+      metaDescriptionEn: trim("metaDescriptionEn"),
+      metaDescriptionKa: trim("metaDescriptionKa"),
+      seoTitleEn: trim("seoTitleEn"),
+      seoTitleKa: trim("seoTitleKa"),
+      ogTitleEn: trim("ogTitleEn"),
+      ogTitleKa: trim("ogTitleKa"),
+      ogDescriptionEn: trim("ogDescriptionEn"),
+      ogDescriptionKa: trim("ogDescriptionKa"),
+      ogImage: ogImagePath,
+      updatedAt: new Date().toISOString(),
+    };
+
+    if (existing.length) {
+      await db.update(pages).set(payload).where(eq(pages.slug, "services"));
+    } else {
+      await db.insert(pages).values(payload);
+    }
+
+    revalidatePath("/services");
+    revalidatePath("/admin/services");
+    await logSave("Services", "Landing page content", "updated");
+    return { success: true };
+  } catch (err) {
+    console.error("[upsertServicesPageContent]", err);
+    return { error: "Failed to save. Please try again." };
+  }
+}
 
 export type ServiceFormState = { success?: boolean; error?: string; fieldErrors?: Record<string, string> };
 
@@ -68,30 +127,52 @@ export async function createService(prev: ServiceFormState, formData: FormData):
       if (result.success) homeCardPath = result.path;
     }
 
+    const ogImageFile = formData.get("ogImage");
+    let ogImagePath: string | null = null;
+    if (ogImageFile && ogImageFile instanceof File && ogImageFile.size > 0) {
+      const { uploadImage } = await import("@/lib/actions/upload");
+      const fd = new FormData();
+      fd.append("image", ogImageFile);
+      const result = await uploadImage(fd);
+      if (result.success) ogImagePath = result.path;
+    }
+
     const showOnHome = formData.get("showOnHome") ? 1 : 0;
     const homeOrderRaw = (formData.get("homeOrder") as string | null) ?? "0";
     const homeOrder = Number.parseInt(homeOrderRaw, 10) || 0;
+    const clickable = formData.get("clickable") ? 1 : 0;
 
+    const trim = (key: string) => (formData.get(key) as string)?.trim() || null;
     await db.insert(services).values({
       slug,
       titleEn,
-      titleKa: (formData.get("titleKa") as string)?.trim() || null,
-      descriptionEn: (formData.get("descriptionEn") as string)?.trim() || null,
-      descriptionKa: (formData.get("descriptionKa") as string)?.trim() || null,
-      text1En: (formData.get("text1En") as string)?.trim() || null,
-      text1Ka: (formData.get("text1Ka") as string)?.trim() || null,
-      text2En: (formData.get("text2En") as string)?.trim() || null,
-      text2Ka: (formData.get("text2Ka") as string)?.trim() || null,
-      quoteEn: (formData.get("quoteEn") as string)?.trim() || null,
-      quoteKa: (formData.get("quoteKa") as string)?.trim() || null,
+      titleKa: trim("titleKa"),
+      descriptionEn: trim("descriptionEn"),
+      descriptionKa: trim("descriptionKa"),
+      text1En: trim("text1En"),
+      text1Ka: trim("text1Ka"),
+      text2En: trim("text2En"),
+      text2Ka: trim("text2Ka"),
+      quoteEn: trim("quoteEn"),
+      quoteKa: trim("quoteKa"),
       image: imagePath,
       thumbnailImage: thumbPath,
       showOnHome,
       homeOrder,
-      homeShortDescriptionEn: (formData.get("homeShortDescriptionEn") as string)?.trim() || null,
-      homeShortDescriptionKa: (formData.get("homeShortDescriptionKa") as string)?.trim() || null,
-      homeLearnMoreUrl: (formData.get("homeLearnMoreUrl") as string)?.trim() || null,
+      homeShortDescriptionEn: trim("homeShortDescriptionEn"),
+      homeShortDescriptionKa: trim("homeShortDescriptionKa"),
+      homeLearnMoreUrl: trim("homeLearnMoreUrl"),
       homeCardImage: homeCardPath,
+      clickable,
+      metaDescriptionEn: trim("metaDescriptionEn"),
+      metaDescriptionKa: trim("metaDescriptionKa"),
+      seoTitleEn: trim("seoTitleEn"),
+      seoTitleKa: trim("seoTitleKa"),
+      ogTitleEn: trim("ogTitleEn"),
+      ogTitleKa: trim("ogTitleKa"),
+      ogDescriptionEn: trim("ogDescriptionEn"),
+      ogDescriptionKa: trim("ogDescriptionKa"),
+      ogImage: ogImagePath,
       updatedAt: new Date().toISOString(),
     });
 
@@ -151,32 +232,54 @@ export async function updateService(id: number, prev: ServiceFormState, formData
       if (result.success) homeCardPath = result.path;
     }
 
+    const ogImageFile = formData.get("ogImage");
+    let ogImagePath: string | null = existing.ogImage;
+    if (ogImageFile && ogImageFile instanceof File && ogImageFile.size > 0) {
+      const { uploadImage } = await import("@/lib/actions/upload");
+      const fd = new FormData();
+      fd.append("image", ogImageFile);
+      const result = await uploadImage(fd);
+      if (result.success) ogImagePath = result.path;
+    }
+
     const showOnHome = formData.get("showOnHome") ? 1 : 0;
     const homeOrderRaw = (formData.get("homeOrder") as string | null) ?? `${existing.homeOrder ?? 0}`;
     const homeOrder = Number.parseInt(homeOrderRaw, 10) || 0;
+    const clickable = formData.get("clickable") ? 1 : 0;
 
+    const trim = (key: string) => (formData.get(key) as string)?.trim() || null;
     await db
       .update(services)
       .set({
         slug: newSlug,
         titleEn,
-        titleKa: (formData.get("titleKa") as string)?.trim() || null,
-        descriptionEn: (formData.get("descriptionEn") as string)?.trim() || null,
-        descriptionKa: (formData.get("descriptionKa") as string)?.trim() || null,
-        text1En: (formData.get("text1En") as string)?.trim() || null,
-        text1Ka: (formData.get("text1Ka") as string)?.trim() || null,
-        text2En: (formData.get("text2En") as string)?.trim() || null,
-        text2Ka: (formData.get("text2Ka") as string)?.trim() || null,
-        quoteEn: (formData.get("quoteEn") as string)?.trim() || null,
-        quoteKa: (formData.get("quoteKa") as string)?.trim() || null,
+        titleKa: trim("titleKa"),
+        descriptionEn: trim("descriptionEn"),
+        descriptionKa: trim("descriptionKa"),
+        text1En: trim("text1En"),
+        text1Ka: trim("text1Ka"),
+        text2En: trim("text2En"),
+        text2Ka: trim("text2Ka"),
+        quoteEn: trim("quoteEn"),
+        quoteKa: trim("quoteKa"),
         image: imagePath,
         thumbnailImage: thumbPath,
         showOnHome,
         homeOrder,
-        homeShortDescriptionEn: (formData.get("homeShortDescriptionEn") as string)?.trim() || null,
-        homeShortDescriptionKa: (formData.get("homeShortDescriptionKa") as string)?.trim() || null,
-        homeLearnMoreUrl: (formData.get("homeLearnMoreUrl") as string)?.trim() || null,
+        homeShortDescriptionEn: trim("homeShortDescriptionEn"),
+        homeShortDescriptionKa: trim("homeShortDescriptionKa"),
+        homeLearnMoreUrl: trim("homeLearnMoreUrl"),
         homeCardImage: homeCardPath,
+        clickable,
+        metaDescriptionEn: trim("metaDescriptionEn"),
+        metaDescriptionKa: trim("metaDescriptionKa"),
+        seoTitleEn: trim("seoTitleEn"),
+        seoTitleKa: trim("seoTitleKa"),
+        ogTitleEn: trim("ogTitleEn"),
+        ogTitleKa: trim("ogTitleKa"),
+        ogDescriptionEn: trim("ogDescriptionEn"),
+        ogDescriptionKa: trim("ogDescriptionKa"),
+        ogImage: ogImagePath,
         updatedAt: new Date().toISOString(),
       })
       .where(eq(services.id, id));
@@ -210,4 +313,19 @@ export async function deleteService(id: number): Promise<void> {
     console.error("[deleteService]", err);
   }
   redirect(deleted ? "/admin/services?toast=success" : "/admin/services?toast=error");
+}
+
+export async function reorderServices(orderedIds: number[]): Promise<void> {
+  try {
+    await Promise.all(
+      orderedIds.map((id, index) =>
+        db.update(services).set({ sortOrder: index }).where(eq(services.id, id))
+      )
+    );
+    revalidatePath("/admin/services");
+    revalidatePath("/");
+    revalidatePath("/services", "layout");
+  } catch (err) {
+    console.error("[reorderServices]", err);
+  }
 }

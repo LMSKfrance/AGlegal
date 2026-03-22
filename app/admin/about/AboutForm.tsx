@@ -1,88 +1,207 @@
 "use client";
 
-import Link from "next/link";
-import { useActionState } from "react";
+import { useActionState, useState, useEffect } from "react";
 import type { AboutSectionSettings } from "@/lib/about";
 import { useAdminLang } from "../AdminLangContext";
+import OgImageUpload from "../OgImageUpload";
+import FaqEditor from "./FaqEditor";
 
 type FormState = { success?: boolean; error?: string };
 
+type PageRecord = {
+  id: number;
+  titleEn: string;
+  titleKa: string | null;
+  contentEn: string | null;
+  contentKa: string | null;
+  metaDescriptionEn: string | null;
+  metaDescriptionKa: string | null;
+  seoTitleEn: string | null;
+  seoTitleKa: string | null;
+  ogTitleEn: string | null;
+  ogTitleKa: string | null;
+  ogDescriptionEn: string | null;
+  ogDescriptionKa: string | null;
+  ogImage: string | null;
+} | null;
+
+type FaqRow = {
+  id: number;
+  questionEn: string;
+  questionKa: string | null;
+  answerEn: string;
+  answerKa: string | null;
+  sortOrder: number | null;
+};
+
 type Props = {
   settings: AboutSectionSettings;
-  saveAction: (_prev: FormState, formData: FormData) => Promise<FormState>;
+  saveSettingsAction: (_prev: FormState, formData: FormData) => Promise<FormState>;
+  visibilityAction: (formData: FormData) => Promise<void>;
+  page: PageRecord;
+  saveHeroAction: (_prev: FormState, formData: FormData) => Promise<FormState>;
+  faqs: FaqRow[];
 };
 
 const INITIAL: FormState = {};
 
-export default function AboutForm({ settings, saveAction }: Props) {
-  const [state, formAction, pending] = useActionState(saveAction, INITIAL);
-  const lang = useAdminLang();
+function SectionToggle({
+  on,
+  name,
+  visibilityAction,
+}: {
+  on: boolean;
+  name: string;
+  visibilityAction: (fd: FormData) => Promise<void>;
+}) {
+  const [checked, setChecked] = useState(on);
+  const [pending, setPending] = useState(false);
 
-  function field(enKey: keyof AboutSectionSettings, kaKey: keyof AboutSectionSettings) {
-    return lang === "en" ? (settings[enKey] as string) ?? "" : (settings[kaKey] as string) ?? "";
-  }
-
-  function hiddenFields(enName: string, kaName: string, enKey: keyof AboutSectionSettings, kaKey: keyof AboutSectionSettings) {
-    if (lang === "en") {
-      return <input type="hidden" name={kaName} value={(settings[kaKey] as string) ?? ""} />;
-    }
-    return <input type="hidden" name={enName} value={(settings[enKey] as string) ?? ""} />;
+  async function toggle() {
+    const next = !checked;
+    setChecked(next);
+    setPending(true);
+    const fd = new FormData();
+    fd.set("sectionId", name);
+    fd.set("visible", next ? "1" : "0");
+    await visibilityAction(fd);
+    setPending(false);
   }
 
   return (
+    <div className="flex items-center gap-2 shrink-0">
+      <i className={`ph ph-eye text-[18px] transition-colors ${checked ? "text-primary-600" : "text-brand-300"}`} />
+      <label className={`toggle-switch${pending ? " opacity-50" : ""}`}>
+        <input type="checkbox" checked={checked} onChange={toggle} disabled={pending} />
+        <span className="toggle-slider" />
+      </label>
+    </div>
+  );
+}
+
+export default function AboutForm({ settings, saveSettingsAction, visibilityAction, page, saveHeroAction, faqs }: Props) {
+  const [heroState, heroFormAction, heroPending] = useActionState(saveHeroAction, INITIAL);
+  const [settingsState, settingsFormAction, settingsPending] = useActionState(saveSettingsAction, INITIAL);
+  const [settingsSaved, setSettingsSaved] = useState(false);
+  const lang = useAdminLang();
+
+  useEffect(() => { if (settingsState.success) setSettingsSaved(true); }, [settingsState.success]);
+
+  function field<T extends object>(obj: T, enKey: keyof T, kaKey: keyof T) {
+    return lang === "en" ? (obj[enKey] as string) ?? "" : (obj[kaKey] as string) ?? "";
+  }
+
+  function hidden<T extends object>(obj: T, enName: string, kaName: string, enKey: keyof T, kaKey: keyof T) {
+    if (lang === "en") return <input type="hidden" name={kaName} value={(obj[kaKey] as string) ?? ""} />;
+    return <input type="hidden" name={enName} value={(obj[enKey] as string) ?? ""} />;
+  }
+
+  const p = page ?? {
+    id: 0, titleEn: "", titleKa: null, contentEn: null, contentKa: null,
+    metaDescriptionEn: null, metaDescriptionKa: null, seoTitleEn: null, seoTitleKa: null,
+    ogTitleEn: null, ogTitleKa: null, ogDescriptionEn: null, ogDescriptionKa: null, ogImage: null,
+  };
+
+  return (
     <>
+      {/* ─── Page Header ──────────────────────────────────────────── */}
       <div className="pb-6 pt-8 border-b border-brand-200 px-8">
-        <h1 className="text-[28px] font-bold text-brand-900 tracking-tight">About Firm Settings</h1>
-        <p className="text-brand-500 mt-2">Manage content for the About Us page sections.</p>
+        <h1 className="text-[28px] font-bold text-brand-900 tracking-tight">About Page</h1>
+        <p className="text-brand-500 mt-2">Manage hero content, section settings, FAQs, and SEO for the About page.</p>
       </div>
 
-      <form action={formAction}>
-        <div className="page-content space-y-6 pb-40 max-w-4xl mx-auto ml-0 pt-6">
-          {state.error && (
-            <div className="p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700">{state.error}</div>
-          )}
-          {state.success && (
-            <div className="p-3 bg-green-50 border border-green-200 rounded-lg text-sm text-green-700">About settings saved successfully.</div>
-          )}
-
-          {/* Hero content note */}
-          <div className="card p-6 flex justify-between items-center bg-brand-50 border border-brand-200">
-            <div>
-              <div className="font-semibold text-[14px] text-brand-900">Hero Content is managed in Pages</div>
-              <div className="text-[13px] text-brand-500 mt-1">Edit the main intro text via Pages &gt; About Us.</div>
-            </div>
-            <div className="flex items-center gap-4">
-              <Link href="/admin/pages" className="btn btn-secondary h-9 px-4 text-[13px]">Go to Pages</Link>
+      {/* ─── Hero Content ─────────────────────────────────────────── */}
+      <div className="px-8 pt-7 pb-8 border-b border-brand-100">
+        <h2 className="text-[13px] font-bold text-brand-400 uppercase tracking-widest mb-6">Hero Content</h2>
+        <form action={heroFormAction}>
+          <div className="max-w-4xl ml-0">
+            <div className="card">
+              <div className="flex items-center justify-between px-5 pt-4 pb-3 border-b border-brand-100">
+                <div className="text-[13px] font-semibold text-brand-900">Page Title &amp; Content</div>
+                <div className="flex items-center gap-2">
+                  {heroState.error && <span className="text-[11px] text-red-600 font-medium">{heroState.error}</span>}
+                  {heroState.success && <span className="text-[11px] text-green-600 font-medium">Saved!</span>}
+                  <button type="submit" className="btn-save" disabled={heroPending} title="Save hero content">
+                    {heroPending ? <i className="ph ph-spinner animate-spin" /> : <i className="ph ph-floppy-disk" />}
+                  </button>
+                </div>
+              </div>
+              <div className="card-body space-y-5">
+                <div>
+                  <label className="label-base">Page Title {lang === "en" ? "(EN)" : "(ქარ)"} <span className="text-red-400">*</span></label>
+                  <input
+                    type="text"
+                    name={lang === "en" ? "titleEn" : "titleKa"}
+                    className="input-base"
+                    placeholder="About the Firm"
+                    defaultValue={field(p, "titleEn", "titleKa")}
+                  />
+                  {hidden(p, "titleEn", "titleKa", "titleEn", "titleKa")}
+                </div>
+                <div>
+                  <label className="label-base">Intro Text / Content {lang === "en" ? "(EN)" : "(ქარ)"}</label>
+                  <textarea
+                    name={lang === "en" ? "contentEn" : "contentKa"}
+                    className="input-base"
+                    rows={4}
+                    defaultValue={field(p, "contentEn", "contentKa")}
+                  />
+                  {hidden(p, "contentEn", "contentKa", "contentEn", "contentKa")}
+                </div>
+                {/* Pass SEO/OG fields through as hidden so they aren't wiped on hero save */}
+                <input type="hidden" name="seoTitleEn" value={p.seoTitleEn ?? ""} />
+                <input type="hidden" name="seoTitleKa" value={p.seoTitleKa ?? ""} />
+                <input type="hidden" name="ogTitleEn" value={p.ogTitleEn ?? ""} />
+                <input type="hidden" name="ogTitleKa" value={p.ogTitleKa ?? ""} />
+                <input type="hidden" name="metaDescriptionEn" value={p.metaDescriptionEn ?? ""} />
+                <input type="hidden" name="metaDescriptionKa" value={p.metaDescriptionKa ?? ""} />
+                <input type="hidden" name="ogDescriptionEn" value={p.ogDescriptionEn ?? ""} />
+                <input type="hidden" name="ogDescriptionKa" value={p.ogDescriptionKa ?? ""} />
+              </div>
             </div>
           </div>
+        </form>
+      </div>
+
+      {/* ─── Section Settings ─────────────────────────────────────── */}
+      <div className="px-8 pt-7 pb-3">
+        <h2 className="text-[13px] font-bold text-brand-400 uppercase tracking-widest">Section Settings</h2>
+      </div>
+
+      {/* Form id so the action-bar buttons outside can reference it */}
+      <form id="about-section-settings" action={settingsFormAction}>
+        <div className="px-8 pb-4 space-y-5 max-w-4xl ml-0">
+          {settingsState.error && (
+            <div className="p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700">{settingsState.error}</div>
+          )}
 
           {/* Key Numbers */}
           <div className="card">
             <div className="card-header">
-              <h2 className="font-semibold text-brand-900 text-[15px]">Key Numbers Section</h2>
-              <label className="toggle-switch"><input type="checkbox" defaultChecked={settings.sectionVisibility.numbers} /><span className="toggle-slider" /></label>
+              <h3 className="font-semibold text-brand-900 text-[15px]">Key Numbers Section</h3>
+              <SectionToggle on={settings.sectionVisibility.numbers} name="numbers" visibilityAction={visibilityAction} />
             </div>
             <div className="card-body space-y-5">
               <div>
-                <label className="label-base">Section Title {lang === "en" ? "(En)" : "(ქარ)"}</label>
+                <label className="label-base">Section Title {lang === "en" ? "(EN)" : "(ქარ)"}</label>
                 <input
                   type="text"
                   name={lang === "en" ? "numbersTitleEn" : "numbersTitleKa"}
                   className="input-base"
                   placeholder="Our Impact in Numbers"
-                  defaultValue={field("numbersTitleEn", "numbersTitleKa")}
+                  defaultValue={field(settings, "numbersTitleEn", "numbersTitleKa")}
                 />
-                {hiddenFields("numbersTitleEn", "numbersTitleKa", "numbersTitleEn", "numbersTitleKa")}
+                {hidden(settings, "numbersTitleEn", "numbersTitleKa", "numbersTitleEn", "numbersTitleKa")}
               </div>
               <div>
-                <label className="label-base">Section Description {lang === "en" ? "(En)" : "(ქარ)"}</label>
+                <label className="label-base">Section Description {lang === "en" ? "(EN)" : "(ქარ)"}</label>
                 <textarea
                   name={lang === "en" ? "numbersDescriptionEn" : "numbersDescriptionKa"}
                   className="input-base"
                   rows={2}
-                  defaultValue={field("numbersDescriptionEn", "numbersDescriptionKa")}
+                  defaultValue={field(settings, "numbersDescriptionEn", "numbersDescriptionKa")}
                 />
-                {hiddenFields("numbersDescriptionEn", "numbersDescriptionKa", "numbersDescriptionEn", "numbersDescriptionKa")}
+                {hidden(settings, "numbersDescriptionEn", "numbersDescriptionKa", "numbersDescriptionEn", "numbersDescriptionKa")}
               </div>
             </div>
           </div>
@@ -90,30 +209,30 @@ export default function AboutForm({ settings, saveAction }: Props) {
           {/* Our Mission */}
           <div className="card">
             <div className="card-header">
-              <h2 className="font-semibold text-brand-900 text-[15px]">Our Mission Section</h2>
-              <label className="toggle-switch"><input type="checkbox" defaultChecked={settings.sectionVisibility.mission} /><span className="toggle-slider" /></label>
+              <h3 className="font-semibold text-brand-900 text-[15px]">Our Mission Section</h3>
+              <SectionToggle on={settings.sectionVisibility.mission} name="mission" visibilityAction={visibilityAction} />
             </div>
             <div className="card-body space-y-5">
               <div>
-                <label className="label-base">Title {lang === "en" ? "(En)" : "(ქარ)"}</label>
+                <label className="label-base">Title {lang === "en" ? "(EN)" : "(ქარ)"}</label>
                 <input
                   type="text"
                   name={lang === "en" ? "missionTitleEn" : "missionTitleKa"}
                   className="input-base"
                   placeholder="Driven by Excellence"
-                  defaultValue={field("missionTitleEn", "missionTitleKa")}
+                  defaultValue={field(settings, "missionTitleEn", "missionTitleKa")}
                 />
-                {hiddenFields("missionTitleEn", "missionTitleKa", "missionTitleEn", "missionTitleKa")}
+                {hidden(settings, "missionTitleEn", "missionTitleKa", "missionTitleEn", "missionTitleKa")}
               </div>
               <div>
-                <label className="label-base">Description {lang === "en" ? "(En)" : "(ქარ)"}</label>
+                <label className="label-base">Description {lang === "en" ? "(EN)" : "(ქარ)"}</label>
                 <textarea
                   name={lang === "en" ? "missionDescriptionEn" : "missionDescriptionKa"}
                   className="input-base"
                   rows={2}
-                  defaultValue={field("missionDescriptionEn", "missionDescriptionKa")}
+                  defaultValue={field(settings, "missionDescriptionEn", "missionDescriptionKa")}
                 />
-                {hiddenFields("missionDescriptionEn", "missionDescriptionKa", "missionDescriptionEn", "missionDescriptionKa")}
+                {hidden(settings, "missionDescriptionEn", "missionDescriptionKa", "missionDescriptionEn", "missionDescriptionKa")}
               </div>
             </div>
           </div>
@@ -121,20 +240,20 @@ export default function AboutForm({ settings, saveAction }: Props) {
           {/* Core Features */}
           <div className="card">
             <div className="card-header">
-              <h2 className="font-semibold text-brand-900 text-[15px]">Core Features Section</h2>
-              <label className="toggle-switch"><input type="checkbox" defaultChecked={settings.sectionVisibility.features} /><span className="toggle-slider" /></label>
+              <h3 className="font-semibold text-brand-900 text-[15px]">Core Features Section</h3>
+              <SectionToggle on={settings.sectionVisibility.features} name="features" visibilityAction={visibilityAction} />
             </div>
             <div className="card-body">
               <div>
-                <label className="label-base">Title {lang === "en" ? "(En)" : "(ქარ)"}</label>
+                <label className="label-base">Title {lang === "en" ? "(EN)" : "(ქარ)"}</label>
                 <input
                   type="text"
                   name={lang === "en" ? "featuresTitleEn" : "featuresTitleKa"}
                   className="input-base"
                   placeholder="What Sets Us Apart"
-                  defaultValue={field("featuresTitleEn", "featuresTitleKa")}
+                  defaultValue={field(settings, "featuresTitleEn", "featuresTitleKa")}
                 />
-                {hiddenFields("featuresTitleEn", "featuresTitleKa", "featuresTitleEn", "featuresTitleKa")}
+                {hidden(settings, "featuresTitleEn", "featuresTitleKa", "featuresTitleEn", "featuresTitleKa")}
               </div>
             </div>
           </div>
@@ -142,55 +261,142 @@ export default function AboutForm({ settings, saveAction }: Props) {
           {/* Our Philosophy */}
           <div className="card">
             <div className="card-header">
-              <h2 className="font-semibold text-brand-900 text-[15px]">Our Philosophy Section</h2>
-              <label className="toggle-switch"><input type="checkbox" defaultChecked={settings.sectionVisibility.philosophy} /><span className="toggle-slider" /></label>
+              <h3 className="font-semibold text-brand-900 text-[15px]">Our Philosophy Section</h3>
+              <SectionToggle on={settings.sectionVisibility.philosophy} name="philosophy" visibilityAction={visibilityAction} />
             </div>
             <div className="card-body space-y-5">
               <div>
-                <label className="label-base">Title {lang === "en" ? "(En)" : "(ქარ)"}</label>
+                <label className="label-base">Title {lang === "en" ? "(EN)" : "(ქარ)"}</label>
                 <input
                   type="text"
                   name={lang === "en" ? "philosophyTitleEn" : "philosophyTitleKa"}
                   className="input-base"
                   placeholder="A Client-First Approach"
-                  defaultValue={field("philosophyTitleEn", "philosophyTitleKa")}
+                  defaultValue={field(settings, "philosophyTitleEn", "philosophyTitleKa")}
                 />
-                {hiddenFields("philosophyTitleEn", "philosophyTitleKa", "philosophyTitleEn", "philosophyTitleKa")}
+                {hidden(settings, "philosophyTitleEn", "philosophyTitleKa", "philosophyTitleEn", "philosophyTitleKa")}
               </div>
               <div>
-                <label className="label-base">Description {lang === "en" ? "(En)" : "(ქარ)"}</label>
+                <label className="label-base">Description {lang === "en" ? "(EN)" : "(ქარ)"}</label>
                 <textarea
                   name={lang === "en" ? "philosophyDescriptionEn" : "philosophyDescriptionKa"}
                   className="input-base"
                   rows={2}
-                  defaultValue={field("philosophyDescriptionEn", "philosophyDescriptionKa")}
+                  defaultValue={field(settings, "philosophyDescriptionEn", "philosophyDescriptionKa")}
                 />
-                {hiddenFields("philosophyDescriptionEn", "philosophyDescriptionKa", "philosophyDescriptionEn", "philosophyDescriptionKa")}
+                {hidden(settings, "philosophyDescriptionEn", "philosophyDescriptionKa", "philosophyDescriptionEn", "philosophyDescriptionKa")}
               </div>
             </div>
           </div>
-
-          {/* FAQ Visibility */}
-          <div className="card p-6 flex justify-between items-center">
-            <div className="font-semibold text-[15px] text-brand-900">FAQ Section Visibility</div>
-            <label className="toggle-switch"><input type="checkbox" defaultChecked={settings.sectionVisibility.faq} /><span className="toggle-slider" /></label>
-          </div>
-        </div>
-
-        <div className="action-bar">
-          <div className="hidden sm:flex text-[12px] text-brand-500 items-center gap-4">
-            <span className="flex items-center gap-1">
-              <kbd className="bg-brand-100 px-1.5 py-0.5 rounded font-mono text-[10px] text-brand-700">⌘S</kbd> Save
-            </span>
-          </div>
-          <div className="flex gap-3">
-            <button type="reset" className="btn btn-secondary">Discard Changes</button>
-            <button type="submit" className="btn btn-primary" disabled={pending}>
-              {pending ? <><i className="ph ph-spinner animate-spin" /> Saving...</> : <><i className="ph ph-floppy-disk" /> Save About Settings</>}
-            </button>
-          </div>
         </div>
       </form>
+
+      {/* Sticky action bar — outside the form so sticky works across all sections below */}
+      <div className="action-bar">
+        <div className="text-[12px] flex items-center gap-1.5">
+          {settingsState.error ? (
+            <><span className="w-2 h-2 rounded-full bg-red-500 shrink-0 inline-block" /><span className="text-red-600 font-medium truncate max-w-xs">{settingsState.error}</span></>
+          ) : settingsPending ? (
+            <><span className="w-2 h-2 rounded-full bg-blue-400 shrink-0 inline-block animate-pulse" /><span className="text-brand-500 font-medium">Saving…</span></>
+          ) : settingsSaved ? (
+            <><span className="w-2 h-2 rounded-full bg-green-500 shrink-0 inline-block" /><span className="text-brand-500">All changes saved</span></>
+          ) : (
+            <><span className="w-2 h-2 rounded-full bg-brand-300 shrink-0 inline-block" /><span className="text-brand-400">You have not made any changes</span></>
+          )}
+        </div>
+        <div className="flex gap-3">
+          <button type="reset" form="about-section-settings" className="btn btn-secondary">Discard Changes</button>
+          <button type="submit" form="about-section-settings" className="btn btn-primary" disabled={settingsPending}>
+            {settingsPending ? <><i className="ph ph-spinner animate-spin" /> Saving...</> : <><i className="ph ph-floppy-disk" /> Save Section Settings</>}
+          </button>
+        </div>
+      </div>
+
+      {/* ─── FAQ Entries ──────────────────────────────────────────── */}
+      <div className="px-8 pt-7 pb-8 border-t border-brand-100">
+        <div className="flex items-center justify-between mb-6 max-w-4xl ml-0">
+          <h2 className="text-[13px] font-bold text-brand-400 uppercase tracking-widest">FAQ Entries</h2>
+          <SectionToggle on={settings.sectionVisibility.faq} name="faq" visibilityAction={visibilityAction} />
+        </div>
+        <div className="max-w-4xl ml-0">
+          <FaqEditor initialFaqs={faqs} />
+        </div>
+      </div>
+
+      {/* ─── SEO & Open Graph (last) ──────────────────────────────── */}
+      <div className="px-8 pt-7 pb-10 border-t border-brand-100">
+        <h2 className="text-[13px] font-bold text-brand-400 uppercase tracking-widest mb-6">SEO &amp; Open Graph</h2>
+        <form action={heroFormAction}>
+          <div className="max-w-4xl ml-0">
+            <div className="card">
+              <div className="flex items-center justify-between px-5 pt-4 pb-3 border-b border-brand-100">
+                <div className="text-[13px] font-semibold text-brand-900">SEO &amp; Open Graph</div>
+                <div className="flex items-center gap-2">
+                  {heroState.error && <span className="text-[11px] text-red-600 font-medium">{heroState.error}</span>}
+                  {heroState.success && <span className="text-[11px] text-green-600 font-medium">Saved!</span>}
+                  <button type="submit" className="btn-save" disabled={heroPending} title="Save SEO settings">
+                    {heroPending ? <i className="ph ph-spinner animate-spin" /> : <i className="ph ph-floppy-disk" />}
+                  </button>
+                </div>
+              </div>
+              <div className="card-body space-y-5">
+                {/* Pass hero fields through hidden so they aren't wiped on SEO save */}
+                <input type="hidden" name="titleEn" value={p.titleEn ?? ""} />
+                <input type="hidden" name="titleKa" value={p.titleKa ?? ""} />
+                <input type="hidden" name="contentEn" value={p.contentEn ?? ""} />
+                <input type="hidden" name="contentKa" value={p.contentKa ?? ""} />
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="label-base">SEO Title {lang === "en" ? "(EN)" : "(ქარ)"}</label>
+                    <input
+                      type="text"
+                      name={lang === "en" ? "seoTitleEn" : "seoTitleKa"}
+                      className="input-base"
+                      placeholder="About AG Legal — Law Firm"
+                      defaultValue={field(p, "seoTitleEn", "seoTitleKa")}
+                    />
+                    {hidden(p, "seoTitleEn", "seoTitleKa", "seoTitleEn", "seoTitleKa")}
+                  </div>
+                  <div>
+                    <label className="label-base">OG Title {lang === "en" ? "(EN)" : "(ქარ)"}</label>
+                    <input
+                      type="text"
+                      name={lang === "en" ? "ogTitleEn" : "ogTitleKa"}
+                      className="input-base"
+                      defaultValue={field(p, "ogTitleEn", "ogTitleKa")}
+                    />
+                    {hidden(p, "ogTitleEn", "ogTitleKa", "ogTitleEn", "ogTitleKa")}
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="label-base">Meta Description {lang === "en" ? "(EN)" : "(ქარ)"}</label>
+                    <textarea
+                      name={lang === "en" ? "metaDescriptionEn" : "metaDescriptionKa"}
+                      className="input-base"
+                      rows={2}
+                      defaultValue={field(p, "metaDescriptionEn", "metaDescriptionKa")}
+                    />
+                    {hidden(p, "metaDescriptionEn", "metaDescriptionKa", "metaDescriptionEn", "metaDescriptionKa")}
+                  </div>
+                  <div>
+                    <label className="label-base">OG Description {lang === "en" ? "(EN)" : "(ქარ)"}</label>
+                    <textarea
+                      name={lang === "en" ? "ogDescriptionEn" : "ogDescriptionKa"}
+                      className="input-base"
+                      rows={2}
+                      defaultValue={field(p, "ogDescriptionEn", "ogDescriptionKa")}
+                    />
+                    {hidden(p, "ogDescriptionEn", "ogDescriptionKa", "ogDescriptionEn", "ogDescriptionKa")}
+                  </div>
+                </div>
+                <OgImageUpload existing={p.ogImage} />
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
     </>
   );
 }

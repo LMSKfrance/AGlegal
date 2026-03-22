@@ -1,10 +1,26 @@
 import { getAboutSectionSettings } from "@/lib/about";
-import { upsertAboutSectionSettings } from "@/lib/actions/about";
+import { upsertAboutSectionSettings, upsertAboutHeroContent, setAboutSectionVisibilityFromForm } from "@/lib/actions/about";
+import { getPageBySlug } from "@/lib/actions/pages";
+import { getFaqList } from "@/lib/actions/faq";
 import AboutForm from "./AboutForm";
 
 export const dynamic = "force-dynamic";
 
 export default async function AboutPage() {
-  const settings = await getAboutSectionSettings();
-  return <AboutForm settings={settings} saveAction={upsertAboutSectionSettings} />;
+  const [settings, page, faqs] = await Promise.all([
+    getAboutSectionSettings(),
+    getPageBySlug("about"),
+    getFaqList(),
+  ]);
+
+  return (
+    <AboutForm
+      settings={settings}
+      saveSettingsAction={upsertAboutSectionSettings}
+      visibilityAction={setAboutSectionVisibilityFromForm}
+      page={page}
+      saveHeroAction={upsertAboutHeroContent}
+      faqs={faqs}
+    />
+  );
 }

@@ -880,7 +880,7 @@ const ui = {
   footer: {
     download: "Download Presentation",
     size: "PDF, 3 MB",
-    copyright: "© 2025 AG Legal. All rights reserved.",
+    copyright: "© 2026 AG Legal. All rights reserved.",
     terms: "Terms & conditions",
     privacy: "Privacy Policy",
   },

@@ -3,6 +3,16 @@ import Script from "next/script";
 import AdminShell from "./AdminSidebar";
 import "./admin-shell.css";
 import { getNotificationCount } from "@/lib/admin/notifications";
+import { getSiteOnlineStatus } from "@/lib/actions/settings";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  icons: {
+    icon: [
+      { url: "/admin-favicon.svg", type: "image/svg+xml" },
+    ],
+  },
+};
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const session = await auth();
@@ -16,7 +26,10 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     return <>{children}</>;
   }
 
-  const notificationCount = await getNotificationCount();
+  const [notificationCount, siteOnline] = await Promise.all([
+    getNotificationCount(),
+    getSiteOnlineStatus(),
+  ]);
 
   return (
     <>
@@ -25,6 +38,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
         userName={session.user.name ?? null}
         userEmail={session.user.email ?? null}
         notificationCount={notificationCount}
+        siteOnline={siteOnline}
       >
         {children}
       </AdminShell>
