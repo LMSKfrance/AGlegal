@@ -71,12 +71,27 @@ export default function AdminShell({
   const pathname = usePathname();
   // SSR: start collapsed to avoid hydration mismatch; expand on desktop after mount
   const [collapsed, setCollapsed] = useState(true);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const [lang, setLang] = useState<"en" | "ka">("en");
 
   useEffect(() => {
-    // On mount: expand sidebar on desktop, keep collapsed on mobile
-    if (window.innerWidth > 768) setCollapsed(false);
+    if (window.innerWidth >= 768) setCollapsed(false);
   }, []);
+
+  // Close mobile drawer on navigation
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [pathname]);
+
+  // Lock body scroll when mobile drawer is open
+  useEffect(() => {
+    if (mobileOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => { document.body.style.overflow = ""; };
+  }, [mobileOpen]);
 
   const displayName = userName ?? "Admin User";
   const email = userEmail ?? "admin@aglegal.com";
@@ -87,13 +102,29 @@ export default function AdminShell({
     return pathname.startsWith(href);
   }
 
+  function handleDesktopToggle() {
+    setCollapsed((c) => !c);
+  }
+
   return (
     <div className="admin-shell-root">
+
+      {/* ═══ Mobile backdrop ═══ */}
+      {mobileOpen && (
+        <div
+          className="sidebar-backdrop"
+          onClick={() => setMobileOpen(false)}
+          aria-hidden="true"
+        />
+      )}
 
       {/* ═══ Sidebar ═══ */}
       <aside
         id="left-sidebar"
-        className={collapsed ? "collapsed" : ""}
+        className={[
+          collapsed ? "collapsed" : "",
+          mobileOpen ? "mobile-open" : "",
+        ].filter(Boolean).join(" ")}
       >
         {/* Logo */}
         <div className="h-16 flex items-center px-6 border-b border-brand-200 shrink-0 justify-between">
@@ -101,11 +132,20 @@ export default function AdminShell({
             <i className="ph-fill ph-scales text-primary-600 text-[24px] shrink-0" />
             {!collapsed && <span className="logo-text truncate">AG Legal</span>}
           </div>
+          {/* Desktop: collapse toggle | Mobile: close drawer (X) */}
           <button
-            onClick={() => setCollapsed((c) => !c)}
-            className="btn-icon -mr-2 text-brand-400 hover:text-brand-600"
+            onClick={handleDesktopToggle}
+            className="btn-icon -mr-2 text-brand-400 hover:text-brand-600 sidebar-desktop-toggle"
+            aria-label="Toggle sidebar"
           >
             <i className="ph ph-list text-lg" />
+          </button>
+          <button
+            onClick={() => setMobileOpen(false)}
+            className="btn-icon -mr-2 text-brand-400 hover:text-brand-600 sidebar-mobile-close"
+            aria-label="Close menu"
+          >
+            <i className="ph ph-x text-lg" />
           </button>
         </div>
 
@@ -187,10 +227,20 @@ export default function AdminShell({
 
         {/* Header */}
         <header className="admin-header">
-          <div className="flex items-center gap-2 text-[13px]">
-            <span className="text-brand-500">Admin</span>
-            <i className="ph ph-caret-right text-brand-300 text-[10px]" />
-            <span className="text-brand-900 font-medium">{getBreadcrumb(pathname)}</span>
+          <div className="flex items-center gap-2">
+            {/* Mobile hamburger — opens drawer */}
+            <button
+              onClick={() => setMobileOpen(true)}
+              className="btn-icon mobile-menu-btn text-brand-600"
+              aria-label="Open menu"
+            >
+              <i className="ph ph-list text-[20px]" />
+            </button>
+            <div className="flex items-center gap-2 text-[13px]">
+              <span className="text-brand-500">Admin</span>
+              <i className="ph ph-caret-right text-brand-300 text-[10px]" />
+              <span className="text-brand-900 font-medium">{getBreadcrumb(pathname)}</span>
+            </div>
           </div>
           <div className="flex items-center gap-4">
             <Link href="/admin/notifications" className="btn-icon relative" title="Notifications">

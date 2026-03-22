@@ -434,6 +434,68 @@ select.input-base {
    Breakpoints:  768px = tablet  |  640px = small mobile
    ═══════════════════════════════════════════════════════════════════════════ */
 
+/* ─── Mobile sidebar drawer ─── */
+
+/* Backdrop */
+.sidebar-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(2px);
+  z-index: 40;
+  animation: backdropIn 0.2s ease;
+}
+
+@keyframes backdropIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Desktop: show collapse toggle, hide mobile close */
+.sidebar-mobile-close { display: none; }
+
+@media (max-width: 767px) {
+  /* Backdrop visible */
+  .sidebar-backdrop { display: block; }
+
+  /* Sidebar becomes a fixed drawer */
+  #left-sidebar,
+  #left-sidebar.collapsed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 260px !important;
+    transform: translateX(-100%);
+    transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 50;
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.12);
+  }
+
+  #left-sidebar.mobile-open {
+    transform: translateX(0);
+  }
+
+  /* On mobile always show labels (drawer is always full width) */
+  #left-sidebar.collapsed .nav-label { display: inline; }
+  #left-sidebar.collapsed .nav-item  { padding: 10px 16px; justify-content: flex-start; margin: 2px 8px; }
+  #left-sidebar.collapsed .logo-text,
+  #left-sidebar.collapsed .section-label,
+  #left-sidebar.collapsed .user-info  { display: revert; }
+  #left-sidebar.collapsed .nav-item::after { display: none; }
+
+  /* Toggle buttons: show X, hide hamburger */
+  .sidebar-desktop-toggle { display: none; }
+  .sidebar-mobile-close   { display: flex; }
+
+  /* Mobile menu button in header */
+  .mobile-menu-btn { display: flex !important; }
+}
+
+/* Hide mobile hamburger on desktop */
+.mobile-menu-btn { display: none; }
+
 @media (max-width: 768px) {
   /* Tighter table cells */
   .admin-table th,
