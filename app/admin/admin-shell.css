@@ -38,7 +38,7 @@
 /* Counter site-wide [class^="section"] { padding: 80px 0 } from section.css
    which would otherwise add 80px top/bottom padding to every .section-label div */
 .admin-shell-root [class^="section"],
-.admin-shell-root [class*=" section"] { padding: 0; position: static; }
+.admin-shell-root [class*=" section"] { padding-top: 0; padding-bottom: 0; position: static; }
 
 /* Elements that may carry browser-default margins/padding from site CSS */
 .admin-shell-root h1,
