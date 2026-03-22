@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { getNewsList } from "@/lib/actions/news";
-import { deleteNews } from "@/lib/actions/news";
+import { getNewsList, deleteNews } from "@/lib/actions/news";
+import { DeleteButton } from "@/app/admin/_components/DeleteButton";
 
 export const dynamic = "force-dynamic";
 
@@ -29,28 +29,28 @@ export default async function NewsListPage() {
 
       <div className="page-content">
         <div className="card overflow-hidden">
-          <div className="p-5 border-b border-brand-200 flex justify-between items-center bg-white">
-            <div className="flex gap-2">
-              <select className="input-base w-48 h-9 text-[13px]">
-                <option>All Types</option>
-                <option>In-depth Article</option>
-                <option>News Notice</option>
-                <option>Press Release</option>
-              </select>
-            </div>
-            <div className="relative w-72">
-              <i className="ph ph-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-brand-400 text-lg" />
-              <input type="text" className="input-base pl-10 h-9 text-[13px]" placeholder="Search articles..." />
+          <div className="p-4 border-b border-brand-200 flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between bg-white">
+            <select className="input-base h-9 text-[13px] sm:w-48">
+              <option>All Types</option>
+              <option>In-depth Article</option>
+              <option>News Notice</option>
+              <option>Press Release</option>
+            </select>
+            <div className="relative">
+              <span className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+                <i className="ph ph-magnifying-glass text-brand-400 text-[17px]" />
+              </span>
+              <input type="text" className="input-base input-with-icon h-9 text-[13px] w-full sm:w-72" placeholder="Search articles..." />
             </div>
           </div>
           <div className="table-container">
             <table className="admin-table">
               <thead>
                 <tr>
-                  <th className="w-48">Date Published</th>
+                  <th className="hidden sm:table-cell w-40">Date Published</th>
                   <th>Title</th>
-                  <th className="w-32">Type</th>
-                  <th className="w-24 text-right">Actions</th>
+                  <th className="w-28">Type</th>
+                  <th className="w-20 text-right">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -63,10 +63,11 @@ export default async function NewsListPage() {
                 ) : (
                   articles.map((article) => (
                     <tr key={article.id}>
-                      <td className="text-brand-500 text-[13px]">{formatDate(article.date)}</td>
+                      <td className="hidden sm:table-cell text-brand-500 text-[13px]">{formatDate(article.date)}</td>
                       <td>
                         <div className="font-medium text-brand-900">{article.titleEn}</div>
                         {article.titleKa && <div className="text-[12px] text-brand-400 mt-0.5">{article.titleKa}</div>}
+                        <div className="sm:hidden text-[11px] text-brand-400 mt-1">{formatDate(article.date)}</div>
                       </td>
                       <td>
                         {article.type ? (
@@ -80,12 +81,7 @@ export default async function NewsListPage() {
                           <Link href={`/admin/news/${article.id}/edit`} className="btn-icon" title="Edit">
                             <i className="ph ph-pencil text-brand-500" />
                           </Link>
-                          <form action={deleteNews.bind(null, article.id)}>
-                            <button type="submit" className="btn-icon text-red-500 hover:text-red-700" title="Delete"
-                              onClick={(e) => { if (!confirm(`Delete "${article.titleEn}"?`)) e.preventDefault(); }}>
-                              <i className="ph ph-trash" />
-                            </button>
-                          </form>
+                          <DeleteButton action={deleteNews.bind(null, article.id)} label={article.titleEn} />
                         </div>
                       </td>
                     </tr>

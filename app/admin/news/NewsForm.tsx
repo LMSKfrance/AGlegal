@@ -81,7 +81,7 @@ export default function NewsForm({ action, article }: Props) {
   return (
     <form ref={formRef} action={formAction} className="relative bg-white flex flex-col min-h-full">
       {/* Sticky top bar */}
-      <div className="border-b border-brand-200 px-8 py-5 flex justify-between items-center sticky top-0 bg-white/95 backdrop-blur z-10">
+      <div className="border-b border-brand-200 px-4 sm:px-8 py-4 flex justify-between items-center sticky top-0 bg-white/95 backdrop-blur z-10">
         <div className="flex items-center gap-4">
           <Link href="/admin/news" className="btn-icon bg-white border border-brand-200 shadow-sm">
             <i className="ph ph-arrow-left" />
@@ -105,7 +105,7 @@ export default function NewsForm({ action, article }: Props) {
         </div>
       )}
 
-      <div className="flex-1 overflow-y-auto p-8 max-w-4xl mx-auto w-full space-y-8 pb-24">
+      <div className="flex-1 overflow-y-auto p-4 sm:p-8 max-w-4xl mx-auto w-full space-y-8 pb-24">
         {/* Title */}
         <div className="space-y-4">
           <div>
@@ -143,7 +143,7 @@ export default function NewsForm({ action, article }: Props) {
         </div>
 
         {/* Meta */}
-        <div className="grid grid-cols-2 gap-6 p-6 bg-brand-50 rounded-xl border border-brand-200">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 p-6 bg-brand-50 rounded-xl border border-brand-200">
           <div>
             <label className="label-base required">Content Type</label>
             <select name="type" className="input-base bg-white" defaultValue={article?.type ?? ""}>

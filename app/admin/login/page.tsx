@@ -33,7 +33,7 @@ export default async function LoginPage({
       <div className="admin-shell-root flex h-screen w-screen items-center justify-center bg-brand-50">
         <div className="w-full max-w-md p-8 bg-white rounded-2xl shadow-lg border border-gray-100">
           <div className="flex flex-col items-center mb-8">
-            <i className="ph-fill ph-scales text-primary-600 text-5xl mb-4" />
+            <img src="/favicon.svg" alt="AG Legal" className="w-12 h-12 mb-4" />
             <h1 className="text-2xl font-bold text-brand-900">AG Legal CMS</h1>
             <p className="text-brand-500 mt-1">Sign in to admin panel</p>
           </div>

@@ -58,7 +58,7 @@ export default function TeamForm({ action, member }: Props) {
 
   return (
     <form action={formAction} className="relative bg-white flex flex-col min-h-full">
-      <div className="border-b border-brand-200 px-8 py-5 flex justify-between items-center sticky top-0 bg-white/95 backdrop-blur z-10">
+      <div className="border-b border-brand-200 px-4 sm:px-8 py-4 flex justify-between items-center sticky top-0 bg-white/95 backdrop-blur z-10">
         <div className="flex items-center gap-4">
           <Link href="/admin/team" className="btn-icon bg-white border border-brand-200 shadow-sm">
             <i className="ph ph-arrow-left" />
@@ -77,8 +77,8 @@ export default function TeamForm({ action, member }: Props) {
         </div>
       )}
 
-      <div className="flex-1 overflow-y-auto p-8 max-w-4xl mx-auto w-full space-y-8 pb-24">
-        <div className="flex gap-8 items-start">
+      <div className="flex-1 overflow-y-auto p-5 sm:p-8 max-w-4xl mx-auto w-full space-y-8 pb-24">
+        <div className="flex flex-col sm:flex-row gap-6 sm:gap-8 items-start">
           {/* Photo */}
           <div className="w-48 shrink-0">
             <label className="label-base">Profile Photo</label>
@@ -107,7 +107,7 @@ export default function TeamForm({ action, member }: Props) {
           </div>
 
           <div className="flex-1 space-y-6">
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div>
                 <label className="label-base required">Name {lang === "en" ? "(EN)" : "(KA)"}</label>
                 {lang === "en" ? (
@@ -125,8 +125,8 @@ export default function TeamForm({ action, member }: Props) {
                 )}
               </div>
             </div>
-            <div className="flex items-center gap-6 p-5 bg-brand-50 rounded-xl border border-brand-200">
-              <div className="flex items-center justify-between w-56">
+            <div className="flex flex-wrap items-center gap-4 p-4 bg-brand-50 rounded-xl border border-brand-200">
+              <div className="flex items-center justify-between gap-4 min-w-[180px]">
                 <span className="text-[14px] font-semibold text-brand-900">Show on Homepage</span>
                 <label className="toggle-switch">
                   <input type="checkbox" name="showOnHome" defaultChecked={!!member?.showOnHome} />
@@ -178,7 +178,7 @@ export default function TeamForm({ action, member }: Props) {
 
         <div className="space-y-5 border-t border-brand-200 pt-8 bg-brand-50 -mx-8 px-8 py-8 rounded-b-xl">
           <h3 className="font-semibold text-brand-900 text-[15px]">Social Profiles</h3>
-          <div className="grid grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
             <div>
               <label className="label-base">Social Platforms</label>
               <textarea

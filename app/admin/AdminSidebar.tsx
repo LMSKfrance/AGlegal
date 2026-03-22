@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { Fragment, useEffect, useState } from "react";
+import { AdminLangContext } from "./AdminLangContext";
 
 const nav = [
   {
@@ -27,7 +28,7 @@ const nav = [
     group: "System",
     items: [
       { href: "/admin/history",       label: "History Log",           view: "history",       icon: "ph-clock-counter-clockwise" },
-      { href: "/admin/notifications", label: "Tasks & Notifications", view: "notifications", icon: "ph-bell", badge: "4" },
+      { href: "/admin/notifications", label: "Tasks & Notifications", view: "notifications", icon: "ph-bell" },
     ],
   },
 ];
@@ -62,15 +63,41 @@ function getInitials(name: string) {
 export default function AdminShell({
   userName,
   userEmail,
+  notificationCount,
   children,
 }: {
   userName: string | null;
   userEmail: string | null;
+  notificationCount: number;
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const [collapsed, setCollapsed] = useState(false);
+  // SSR: start collapsed to avoid hydration mismatch; expand on desktop after mount
+  const [collapsed, setCollapsed] = useState(true);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const [lang, setLang] = useState<"en" | "ka">("en");
+
+  useEffect(() => {
+    if (window.innerWidth >= 768) setCollapsed(false);
+  }, []);
+
+  // Close mobile drawer on navigation
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [pathname]);
+
+  // Lock body scroll when mobile drawer is open
+  useEffect(() => {
+    if (mobileOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => { document.body.style.overflow = ""; };
+  }, [mobileOpen]);
+
+  // Show labels when expanded (desktop) OR when mobile drawer is open
+  const showLabels = !collapsed || mobileOpen;
 
   const displayName = userName ?? "Admin User";
   const email = userEmail ?? "admin@aglegal.com";
@@ -81,38 +108,63 @@ export default function AdminShell({
     return pathname.startsWith(href);
   }
 
+  function handleDesktopToggle() {
+    setCollapsed((c) => !c);
+  }
+
   return (
     <div className="admin-shell-root">
+
+      {/* ═══ Mobile backdrop ═══ */}
+      {mobileOpen && (
+        <div
+          className="sidebar-backdrop"
+          onClick={() => setMobileOpen(false)}
+          aria-hidden="true"
+        />
+      )}
 
       {/* ═══ Sidebar ═══ */}
       <aside
         id="left-sidebar"
-        className={collapsed ? "collapsed" : ""}
+        className={[
+          collapsed ? "collapsed" : "",
+          mobileOpen ? "mobile-open" : "",
+        ].filter(Boolean).join(" ")}
       >
         {/* Logo */}
         <div className="h-16 flex items-center px-6 border-b border-brand-200 shrink-0 justify-between">
           <div className="flex items-center gap-3 text-brand-900 font-semibold tracking-tight text-lg overflow-hidden">
-            <i className="ph-fill ph-scales text-primary-600 text-[24px] shrink-0" />
-            {!collapsed && <span className="logo-text truncate">AG Legal</span>}
+            <img src="/favicon.svg" alt="AG Legal" className="w-6 h-6 shrink-0" />
+            {showLabels && <span className="logo-text truncate">AG Legal</span>}
           </div>
+          {/* Desktop: collapse toggle | Mobile: close drawer (X) */}
           <button
-            onClick={() => setCollapsed((c) => !c)}
-            className="btn-icon -mr-2 text-brand-400 hover:text-brand-600"
+            onClick={handleDesktopToggle}
+            className="btn-icon -mr-2 text-brand-400 hover:text-brand-600 sidebar-desktop-toggle"
+            aria-label="Toggle sidebar"
           >
             <i className="ph ph-list text-lg" />
+          </button>
+          <button
+            onClick={() => setMobileOpen(false)}
+            className="btn-icon -mr-2 text-brand-400 hover:text-brand-600 sidebar-mobile-close"
+            aria-label="Close menu"
+          >
+            <i className="ph ph-x text-lg" />
           </button>
         </div>
 
         {/* Nav */}
         <nav className="admin-sidebar-nav">
           {nav.map(({ group, items }, gi) => (
-            <div key={group}>
-              {!collapsed && (
+            <Fragment key={group}>
+              {showLabels && (
                 <div className={`section-label text-[10px] font-bold text-brand-400 uppercase tracking-widest px-6 mb-2${gi > 0 ? " mt-6" : ""}`}>
                   {group}
                 </div>
               )}
-              {items.map(({ href, label, view, icon, badge }) => (
+              {items.map(({ href, label, view, icon }) => (
                 <Link
                   key={href}
                   href={href}
@@ -121,29 +173,37 @@ export default function AdminShell({
                   className={`nav-item${isActive(href) ? " active" : ""}`}
                 >
                   <i className={`ph ${icon}`} />
-                  {!collapsed && <span className="nav-label">{label}</span>}
-                  {!collapsed && badge && (
-                    <span className="ml-auto bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">
-                      {badge}
+                  {showLabels && <span className="nav-label">{label}</span>}
+                  {showLabels && href === "/admin/notifications" && notificationCount > 0 && (
+                    <span className="ml-auto bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center">
+                      {notificationCount}
                     </span>
                   )}
                 </Link>
               ))}
-            </div>
+            </Fragment>
           ))}
         </nav>
+
+        {/* Lang switcher — mobile drawer only */}
+        <div className="sidebar-lang px-4 py-3 border-t border-brand-100">
+          <div className="lang-switcher w-full justify-center">
+            <div className={`lang-tab flex-1 text-center${lang === "en" ? " active" : ""}`} onClick={() => setLang("en")}>EN</div>
+            <div className={`lang-tab flex-1 text-center${lang === "ka" ? " active" : ""}`} onClick={() => setLang("ka")}>KA</div>
+          </div>
+        </div>
 
         {/* User */}
         <div className="p-4 shrink-0 bg-white relative group">
           <Link
             href="/admin/profile"
-            className="flex items-center gap-3 w-full p-2 rounded-lg hover:bg-brand-50 transition-colors"
+            className="flex items-center gap-3 w-full p-2 rounded-lg hover:bg-brand-50 transition-colors cursor-pointer"
             title="Profile"
           >
             <div className="w-9 h-9 rounded-full bg-primary-600 text-white flex items-center justify-center font-semibold text-sm shrink-0">
               {initials}
             </div>
-            {!collapsed && (
+            {showLabels && (
               <div className="flex-1 overflow-hidden user-info">
                 <div className="text-[13px] font-medium text-brand-900 truncate leading-tight">{displayName}</div>
                 <div className="text-[12px] text-brand-500 truncate">{email}</div>
@@ -151,7 +211,7 @@ export default function AdminShell({
             )}
           </Link>
 
-          {!collapsed && (
+          {showLabels && (
             <div className="absolute bottom-full left-4 mb-2 w-56 bg-white border border-brand-200 rounded-xl shadow-lg opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity z-50">
               <div className="p-3 border-b border-brand-100">
                 <div className="text-sm font-semibold text-brand-900">{displayName}</div>
@@ -181,18 +241,30 @@ export default function AdminShell({
 
         {/* Header */}
         <header className="admin-header">
-          <div className="flex items-center gap-2 text-[13px]">
-            <span className="text-brand-500">Admin</span>
-            <i className="ph ph-caret-right text-brand-300 text-[10px]" />
-            <span className="text-brand-900 font-medium">{getBreadcrumb(pathname)}</span>
+          <div className="flex items-center gap-2">
+            {/* Mobile hamburger — opens drawer */}
+            <button
+              onClick={() => setMobileOpen(true)}
+              className="btn-icon mobile-menu-btn text-brand-600"
+              aria-label="Open menu"
+            >
+              <i className="ph ph-list text-[20px]" />
+            </button>
+            <div className="flex items-center gap-2 text-[13px]">
+              <span className="text-brand-500">Admin</span>
+              <i className="ph ph-caret-right text-brand-300 text-[10px]" />
+              <h1 className="text-brand-900 font-medium text-[13px] m-0">{getBreadcrumb(pathname)}</h1>
+            </div>
           </div>
           <div className="flex items-center gap-4">
             <Link href="/admin/notifications" className="btn-icon relative" title="Notifications">
               <i className="ph ph-bell text-[20px]" />
-              <span className="absolute top-1 right-1.5 w-[8px] h-[8px] bg-red-500 rounded-full border border-white" />
+              {notificationCount > 0 && (
+                <span className="absolute top-1 right-1.5 w-[8px] h-[8px] bg-red-500 rounded-full border border-white" />
+              )}
             </Link>
-            <div className="w-px h-5 bg-brand-200" />
-            <div className="lang-switcher">
+            <div className="hidden md:block w-px h-5 bg-brand-200" />
+            <div className="hidden md:flex lang-switcher">
               <div className={`lang-tab${lang === "en" ? " active" : ""}`} onClick={() => setLang("en")}>EN</div>
               <div className={`lang-tab${lang === "ka" ? " active" : ""}`} onClick={() => setLang("ka")}>KA</div>
             </div>
@@ -201,7 +273,9 @@ export default function AdminShell({
 
         {/* Page content */}
         <main className="admin-content">
-          {children}
+          <AdminLangContext.Provider value={lang}>
+            {children}
+          </AdminLangContext.Provider>
         </main>
       </div>
     </div>

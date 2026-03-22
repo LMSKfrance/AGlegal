@@ -1,21 +1,74 @@
 "use client";
 
-import { useActionState, useState, useRef } from "react";
-import type { HomeFormState, HomeHeroSettings, HomeAboutSettings } from "@/lib/actions/home";
+import { useActionState, useRef, useState, useTransition } from "react";
+import { setHomeSectionVisible } from "@/lib/actions/home";
+import type {
+  HomeFormState,
+  HomeHeroSettings,
+  HomeAboutSettings,
+  HomeSectionHeadingsSettings,
+} from "@/lib/actions/home";
+import type { HomeBenefit, HomeProcessStep } from "@/lib/db/schema";
+import type { HomeSectionId, HomeSectionVisibility } from "@/lib/home";
+import HomeBenefitsSection from "./HomeBenefitsSection";
+import HomeProcessSection from "./HomeProcessSection";
+import { useAdminLang } from "../AdminLangContext";
 
 type Props = {
   heroAction: (prev: HomeFormState, formData: FormData) => Promise<HomeFormState>;
   aboutAction: (prev: HomeFormState, formData: FormData) => Promise<HomeFormState>;
+  headingsAction: (prev: HomeFormState, formData: FormData) => Promise<HomeFormState>;
   hero: HomeHeroSettings;
   about: HomeAboutSettings;
+  headings: HomeSectionHeadingsSettings;
+  benefits: HomeBenefit[];
+  processSteps: HomeProcessStep[];
+  visibility: HomeSectionVisibility;
 };
 
 const INITIAL: HomeFormState = {};
 
-export default function HomeForm({ heroAction, aboutAction, hero, about }: Props) {
+function SectionToggle({
+  sectionId,
+  initialValue,
+}: {
+  sectionId: HomeSectionId;
+  initialValue: boolean;
+}) {
+  const [pending, startTransition] = useTransition();
+  const [on, setOn] = useState(initialValue);
+
+  function toggle() {
+    const next = !on;
+    setOn(next);
+    startTransition(async () => {
+      await setHomeSectionVisible(sectionId, next);
+    });
+  }
+
+  return (
+    <label className={`toggle-switch shrink-0${pending ? " opacity-50" : ""}`}>
+      <input type="checkbox" checked={on} onChange={toggle} disabled={pending} />
+      <span className="toggle-slider" />
+    </label>
+  );
+}
+
+export default function HomeForm({
+  heroAction,
+  aboutAction,
+  headingsAction,
+  hero,
+  about,
+  headings,
+  benefits,
+  processSteps,
+  visibility,
+}: Props) {
   const [heroState, heroFormAction, heroPending] = useActionState(heroAction, INITIAL);
   const [aboutState, aboutFormAction, aboutPending] = useActionState(aboutAction, INITIAL);
-  const [lang, setLang] = useState<"en" | "ka">("en");
+  const [headingsState, headingsFormAction, headingsPending] = useActionState(headingsAction, INITIAL);
+  const lang = useAdminLang();
   const heroImgRef = useRef<HTMLInputElement>(null);
   const aboutImgRef = useRef<HTMLInputElement>(null);
   const [heroImgPreview, setHeroImgPreview] = useState<string | null>(hero.image ? `/api/images/${hero.image}` : null);
@@ -23,25 +76,21 @@ export default function HomeForm({ heroAction, aboutAction, hero, about }: Props
 
   return (
     <>
-      <div className="page-header border-b border-brand-200 sticky top-0 bg-[#f8fafc]/95 backdrop-blur z-10 pb-6 pt-8">
-        <div>
+      <div className="page-content space-y-6 pb-24 pt-6">
+
+        <div className="pb-6 pt-8 border-b border-brand-200">
           <h1 className="text-[28px] font-bold text-brand-900 tracking-tight">Homepage Manager</h1>
           <p className="text-brand-500 mt-2">Configure sections and layout for the main landing page.</p>
         </div>
-        <div className="lang-switcher">
-          <div className={`lang-tab${lang === "en" ? " active" : ""}`} onClick={() => setLang("en")}>EN</div>
-          <div className={`lang-tab${lang === "ka" ? " active" : ""}`} onClick={() => setLang("ka")}>KA</div>
-        </div>
-      </div>
 
-      <div className="page-content space-y-6 pb-24 pt-6">
-        {/* Hero Section */}
+        {/* ── Hero Section ────────────────────────────────────────────────── */}
         <form action={heroFormAction}>
           <div className="card">
             <div className="card-header">
               <h2 className="font-semibold text-brand-900 flex items-center gap-2 text-[15px]">
-                <i className="ph ph-monitor text-primary-600" /> Hero Section
+                <i className="ph ph-monitor text-primary-600" /> Hero Banner
               </h2>
+              <SectionToggle sectionId="hero" initialValue={visibility.hero} />
             </div>
             <div className="card-body space-y-6">
               {heroState.error && (
@@ -50,7 +99,7 @@ export default function HomeForm({ heroAction, aboutAction, hero, about }: Props
               {heroState.success && (
                 <div className="p-3 bg-green-50 border border-green-200 rounded-lg text-sm text-green-700">Hero section saved successfully.</div>
               )}
-              <div className="grid grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div>
                   <label className="label-base">Brand Label <span className="text-[10px] text-brand-400 font-normal ml-2">(Max 40)</span></label>
                   <input type="text" name={lang === "en" ? "brandEn" : "brandKa"} className="input-base" placeholder="AG Legal" maxLength={40} defaultValue={lang === "en" ? hero.brandEn : hero.brandKa} />
@@ -95,14 +144,8 @@ export default function HomeForm({ heroAction, aboutAction, hero, about }: Props
                     </>
                   )}
                 </div>
-                <input
-                  ref={heroImgRef}
-                  type="file"
-                  name="heroImage"
-                  accept="image/*"
-                  className="hidden"
-                  onChange={(e) => { const f = e.target.files?.[0]; if (f) setHeroImgPreview(URL.createObjectURL(f)); }}
-                />
+                <input ref={heroImgRef} type="file" name="heroImage" accept="image/*" className="hidden"
+                  onChange={(e) => { const f = e.target.files?.[0]; if (f) setHeroImgPreview(URL.createObjectURL(f)); }} />
               </div>
               <div className="flex justify-end">
                 <button type="submit" className="btn btn-primary" disabled={heroPending}>
@@ -113,13 +156,14 @@ export default function HomeForm({ heroAction, aboutAction, hero, about }: Props
           </div>
         </form>
 
-        {/* Who We Are */}
+        {/* ── Who We Are ──────────────────────────────────────────────────── */}
         <form action={aboutFormAction}>
           <div className="card">
             <div className="card-header">
               <h2 className="font-semibold text-brand-900 flex items-center gap-2 text-[15px]">
-                <i className="ph ph-users-three text-primary-600" /> Who We Are Section
+                <i className="ph ph-users-three text-primary-600" /> Who We Are
               </h2>
+              <SectionToggle sectionId="about" initialValue={visibility.about} />
             </div>
             <div className="card-body space-y-6">
               {aboutState.error && (
@@ -158,14 +202,8 @@ export default function HomeForm({ heroAction, aboutAction, hero, about }: Props
                     </>
                   )}
                 </div>
-                <input
-                  ref={aboutImgRef}
-                  type="file"
-                  name="aboutImage"
-                  accept="image/*"
-                  className="hidden"
-                  onChange={(e) => { const f = e.target.files?.[0]; if (f) setAboutImgPreview(URL.createObjectURL(f)); }}
-                />
+                <input ref={aboutImgRef} type="file" name="aboutImage" accept="image/*" className="hidden"
+                  onChange={(e) => { const f = e.target.files?.[0]; if (f) setAboutImgPreview(URL.createObjectURL(f)); }} />
               </div>
               <div className="flex justify-end">
                 <button type="submit" className="btn btn-primary" disabled={aboutPending}>
@@ -175,6 +213,160 @@ export default function HomeForm({ heroAction, aboutAction, hero, about }: Props
             </div>
           </div>
         </form>
+
+        {/* ── Section Headings ─────────────────────────────────────────────── */}
+        <form action={headingsFormAction}>
+          <div className="card">
+            <div className="card-header">
+              <h2 className="font-semibold text-brand-900 flex items-center gap-2 text-[15px]">
+                <i className="ph ph-text-aa text-primary-600" /> Section Headings
+              </h2>
+            </div>
+            <div className="card-body space-y-6">
+              {headingsState.error && (
+                <div className="p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700">{headingsState.error}</div>
+              )}
+              {headingsState.success && (
+                <div className="p-3 bg-green-50 border border-green-200 rounded-lg text-sm text-green-700">Section headings saved.</div>
+              )}
+
+              {/* Services */}
+              <div>
+                <div className="text-[12px] font-bold text-brand-400 uppercase tracking-wider mb-3">Our Services Section</div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-3">
+                  <div>
+                    <label className="label-base">Title (EN)</label>
+                    <input type="text" name="servicesTitleEn" className="input-base" defaultValue={headings.servicesTitleEn} />
+                  </div>
+                  <div>
+                    <label className="label-base">Title (KA)</label>
+                    <input type="text" name="servicesTitleKa" className="input-base" defaultValue={headings.servicesTitleKa} />
+                  </div>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="label-base">Subtitle (EN)</label>
+                    <textarea name="servicesDescriptionEn" className="input-base" rows={2} defaultValue={headings.servicesDescriptionEn} />
+                  </div>
+                  <div>
+                    <label className="label-base">Subtitle (KA)</label>
+                    <textarea name="servicesDescriptionKa" className="input-base" rows={2} defaultValue={headings.servicesDescriptionKa} />
+                  </div>
+                </div>
+              </div>
+
+              <div className="border-t border-brand-100" />
+
+              {/* Benefits */}
+              <div>
+                <div className="text-[12px] font-bold text-brand-400 uppercase tracking-wider mb-3">Why Work With Us Section</div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="label-base">Title (EN)</label>
+                    <input type="text" name="benefitsTitleEn" className="input-base" defaultValue={headings.benefitsTitleEn} />
+                  </div>
+                  <div>
+                    <label className="label-base">Title (KA)</label>
+                    <input type="text" name="benefitsTitleKa" className="input-base" defaultValue={headings.benefitsTitleKa} />
+                  </div>
+                </div>
+              </div>
+
+              <div className="border-t border-brand-100" />
+
+              {/* Process */}
+              <div>
+                <div className="text-[12px] font-bold text-brand-400 uppercase tracking-wider mb-3">How We Work Section</div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-3">
+                  <div>
+                    <label className="label-base">Title (EN)</label>
+                    <input type="text" name="processTitleEn" className="input-base" defaultValue={headings.processTitleEn} />
+                  </div>
+                  <div>
+                    <label className="label-base">Title (KA)</label>
+                    <input type="text" name="processTitleKa" className="input-base" defaultValue={headings.processTitleKa} />
+                  </div>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="label-base">Subtitle (EN)</label>
+                    <textarea name="processDescriptionEn" className="input-base" rows={2} defaultValue={headings.processDescriptionEn} />
+                  </div>
+                  <div>
+                    <label className="label-base">Subtitle (KA)</label>
+                    <textarea name="processDescriptionKa" className="input-base" rows={2} defaultValue={headings.processDescriptionKa} />
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex justify-end">
+                <button type="submit" className="btn btn-primary" disabled={headingsPending}>
+                  {headingsPending ? <><i className="ph ph-spinner animate-spin" /> Saving...</> : <><i className="ph ph-floppy-disk" /> Save Headings</>}
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+
+        {/* ── Benefits (Why Work With Us) ──────────────────────────────────── */}
+        <div className="card">
+          <div className="card-header">
+            <h2 className="font-semibold text-brand-900 flex items-center gap-2 text-[15px]">
+              <i className="ph ph-star text-primary-600" /> Why Work With Us
+              <span className="text-[11px] font-normal text-brand-400 ml-1">(max 4 cards)</span>
+            </h2>
+            <SectionToggle sectionId="benefits" initialValue={visibility.benefits} />
+          </div>
+          <div className="card-body">
+            <HomeBenefitsSection initialBenefits={benefits} lang={lang} />
+          </div>
+        </div>
+
+        {/* ── Process Steps (How We Work) ──────────────────────────────────── */}
+        <div className="card">
+          <div className="card-header">
+            <h2 className="font-semibold text-brand-900 flex items-center gap-2 text-[15px]">
+              <i className="ph ph-arrows-clockwise text-primary-600" /> How We Work
+              <span className="text-[11px] font-normal text-brand-400 ml-1">(max 4 steps)</span>
+            </h2>
+            <SectionToggle sectionId="process" initialValue={visibility.process} />
+          </div>
+          <div className="card-body">
+            <HomeProcessSection initialSteps={processSteps} lang={lang} />
+          </div>
+        </div>
+
+        {/* ── News & CTA Visibility ─────────────────────────────────────────── */}
+        <div className="card">
+          <div className="card-header">
+            <h2 className="font-semibold text-brand-900 flex items-center gap-2 text-[15px]">
+              <i className="ph ph-eye text-primary-600" /> Section Visibility
+            </h2>
+          </div>
+          <div className="card-body space-y-0 divide-y divide-brand-100">
+            {[
+              { id: "services" as HomeSectionId, label: "Our Services", icon: "ph-briefcase" },
+              { id: "team" as HomeSectionId, label: "Meet the Team", icon: "ph-users" },
+              { id: "news" as HomeSectionId, label: "Latest News", icon: "ph-newspaper" },
+              { id: "cta" as HomeSectionId, label: "Call to Action", icon: "ph-megaphone" },
+            ].map(({ id, label, icon }) => (
+              <div key={id} className="flex items-center justify-between px-1 py-4">
+                <div className="flex items-center gap-3">
+                  <i className={`ph ${icon} text-[18px] text-brand-500`} />
+                  <span className="text-[14px] font-medium text-brand-900">{label}</span>
+                </div>
+                <SectionToggle sectionId={id} initialValue={visibility[id]} />
+              </div>
+            ))}
+            <div className="pt-4">
+              <div className="flex items-start gap-2 p-3 bg-brand-50 rounded-lg text-[12px] text-brand-500">
+                <i className="ph ph-info text-[16px] shrink-0 mt-0.5" />
+                <span>Hero, Who We Are, Benefits, and Process visibility are managed in their respective sections above.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </>
   );

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getTeamList, deleteTeamMember } from "@/lib/actions/team";
+import { DeleteButton } from "@/app/admin/_components/DeleteButton";
 
 export const dynamic = "force-dynamic";
 
@@ -11,7 +12,6 @@ export default async function TeamListPage() {
       <div className="page-header">
         <div>
           <h1 className="text-[28px] font-bold text-brand-900 tracking-tight">Team Directory</h1>
-          <p className="text-brand-500 mt-2">Manage lawyers, partners, and staff profiles.</p>
         </div>
         <Link href="/admin/team/new" className="btn btn-primary">
           <i className="ph ph-plus" /> Add Member
@@ -24,12 +24,12 @@ export default async function TeamListPage() {
             <table className="admin-table">
               <thead>
                 <tr>
-                  <th className="w-16" />
+                  <th className="hidden sm:table-cell w-16" />
                   <th>Name</th>
                   <th>Position</th>
-                  <th className="text-center w-24">Homepage</th>
-                  <th className="text-center w-20">Order</th>
-                  <th className="text-right w-24">Actions</th>
+                  <th className="hidden sm:table-cell text-center w-24">Homepage</th>
+                  <th className="hidden sm:table-cell text-center w-20">Order</th>
+                  <th className="text-right w-20">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -42,7 +42,7 @@ export default async function TeamListPage() {
                 ) : (
                   members.map((member) => (
                     <tr key={member.id}>
-                      <td>
+                      <td className="hidden sm:table-cell">
                         {member.image ? (
                           // eslint-disable-next-line @next/next/no-img-element
                           <img
@@ -61,29 +61,20 @@ export default async function TeamListPage() {
                         {member.titleKa && <div className="text-[12px] text-brand-400 mt-0.5">{member.titleKa}</div>}
                       </td>
                       <td className="text-brand-600 text-[13px]">{member.positionEn ?? <span className="text-brand-300">—</span>}</td>
-                      <td className="text-center">
+                      <td className="hidden sm:table-cell text-center">
                         {member.showOnHome ? (
                           <span className="badge badge-green text-[11px]">Yes</span>
                         ) : (
                           <span className="text-brand-300 text-[12px]">No</span>
                         )}
                       </td>
-                      <td className="text-center text-brand-500 text-[13px]">{member.homeOrder}</td>
+                      <td className="hidden sm:table-cell text-center text-brand-500 text-[13px]">{member.homeOrder}</td>
                       <td className="text-right">
                         <div className="flex items-center justify-end gap-2">
                           <Link href={`/admin/team/${member.id}/edit`} className="btn-icon" title="Edit">
                             <i className="ph ph-pencil text-brand-500" />
                           </Link>
-                          <form action={deleteTeamMember.bind(null, member.id)}>
-                            <button
-                              type="submit"
-                              className="btn-icon text-red-500 hover:text-red-700"
-                              title="Delete"
-                              onClick={(e) => { if (!confirm(`Delete "${member.titleEn}"?`)) e.preventDefault(); }}
-                            >
-                              <i className="ph ph-trash" />
-                            </button>
-                          </form>
+                          <DeleteButton action={deleteTeamMember.bind(null, member.id)} label={member.titleEn} />
                         </div>
                       </td>
                     </tr>

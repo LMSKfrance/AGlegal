@@ -41,7 +41,7 @@ export default function PageForm({ action, page }: Props) {
 
   return (
     <form action={formAction} className="relative bg-white flex flex-col min-h-full">
-      <div className="border-b border-brand-200 px-8 py-5 flex justify-between items-center sticky top-0 bg-white/95 backdrop-blur z-10">
+      <div className="border-b border-brand-200 px-4 sm:px-8 py-4 flex justify-between items-center sticky top-0 bg-white/95 backdrop-blur z-10">
         <div className="flex items-center gap-4">
           <Link href="/admin/pages" className="btn-icon bg-white border border-brand-200 shadow-sm">
             <i className="ph ph-arrow-left" />
@@ -60,8 +60,8 @@ export default function PageForm({ action, page }: Props) {
         </div>
       )}
 
-      <div className="flex-1 overflow-y-auto p-8 max-w-4xl mx-auto w-full space-y-8 pb-24">
-        <div className="grid grid-cols-2 gap-8">
+      <div className="flex-1 overflow-y-auto p-4 sm:p-8 max-w-4xl mx-auto w-full space-y-8 pb-24">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
           <div>
             <label className="label-base required">Page Title {lang === "en" ? "(EN)" : "(KA)"}</label>
             {lang === "en" ? (
@@ -118,7 +118,7 @@ export default function PageForm({ action, page }: Props) {
             </h3>
           </div>
           <div className="card-body space-y-5">
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div>
                 <label className="label-base">SEO Title</label>
                 {lang === "en" ? (
@@ -136,7 +136,7 @@ export default function PageForm({ action, page }: Props) {
                 )}
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div>
                 <label className="label-base">Meta Description</label>
                 {lang === "en" ? (
