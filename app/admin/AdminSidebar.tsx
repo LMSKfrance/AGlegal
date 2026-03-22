@@ -253,7 +253,7 @@ export default function AdminShell({
             <div className="flex items-center gap-2 text-[13px]">
               <span className="text-brand-500">Admin</span>
               <i className="ph ph-caret-right text-brand-300 text-[10px]" />
-              <span className="text-brand-900 font-medium">{getBreadcrumb(pathname)}</span>
+              <h1 className="text-brand-900 font-medium text-[13px] m-0">{getBreadcrumb(pathname)}</h1>
             </div>
           </div>
           <div className="flex items-center gap-4">
