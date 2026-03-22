@@ -37,6 +37,8 @@ export type AboutSectionSettings = {
   philosophyTitleKa: string;
   philosophyDescriptionEn: string;
   philosophyDescriptionKa: string;
+  philosophyCard1Image: string;
+  philosophyCard2Image: string;
   sectionVisibility: AboutSectionVisibility;
 };
 
@@ -53,6 +55,8 @@ const ABOUT_KEYS = [
   "about.features.title",
   "about.philosophy.title",
   "about.philosophy.description",
+  "about.philosophy.card1.image",
+  "about.philosophy.card2.image",
 ] as const;
 
 const ABOUT_VISIBILITY_KEYS = ABOUT_SECTION_IDS.map((id) => `about.section.${id}.visible`);
@@ -95,6 +99,8 @@ const DEFAULT_ABOUT_SECTION_SETTINGS: AboutSectionSettings = {
   philosophyTitleKa: "",
   philosophyDescriptionEn: "",
   philosophyDescriptionKa: "",
+  philosophyCard1Image: "",
+  philosophyCard2Image: "",
   sectionVisibility: {
     hero: true,
     numbers: true,
@@ -138,6 +144,8 @@ export async function getAboutSectionSettings(): Promise<AboutSectionSettings> {
       philosophyTitleKa: get("about.philosophy.title", "valueKa"),
       philosophyDescriptionEn: get("about.philosophy.description", "valueEn"),
       philosophyDescriptionKa: get("about.philosophy.description", "valueKa"),
+      philosophyCard1Image: get("about.philosophy.card1.image", "valueEn"),
+      philosophyCard2Image: get("about.philosophy.card2.image", "valueEn"),
       sectionVisibility,
     };
   } catch (err) {

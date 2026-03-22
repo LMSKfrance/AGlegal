@@ -114,7 +114,7 @@ const Philosophy = () => {
         <div className={styles.values}>
           <div ref={addToRef(0)}>
             <Value
-              image="/images/values/integrity-2.jpg"
+              image={aboutCtx?.sections?.philosophyCard1Image?.trim() || "/images/values/integrity-2.jpg"}
               value="Integrity"
               title="Justice and fairness"
               description="We are dedicated to upholding justice and ensuring every client’s rights are protected. Our approach is rooted in fairness, advocacy, and delivering equitable solutions."
@@ -122,7 +122,7 @@ const Philosophy = () => {
           </div>
           <div ref={addToRef(1)}>
             <Value
-              image="/images/values/dedication.jpg"
+              image={aboutCtx?.sections?.philosophyCard2Image?.trim() || "/images/values/dedication.jpg"}
               value="Dedication"
               title="Transparency and trust"
               description="Open communication and honesty are pillars of our philosophy. We keep our clients informed at every stage, fostering trust and confidence in our legal process."
