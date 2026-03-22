@@ -37,8 +37,10 @@ export default async function NewsListPage() {
               <option>Press Release</option>
             </select>
             <div className="relative">
-              <i className="ph ph-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-brand-400 text-lg" />
-              <input type="text" className="input-base pl-10 h-9 text-[13px] w-full sm:w-72" placeholder="Search articles..." />
+              <span className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+                <i className="ph ph-magnifying-glass text-brand-400 text-[17px]" />
+              </span>
+              <input type="text" className="input-base pl-9 h-9 text-[13px] w-full sm:w-72" placeholder="Search articles..." />
             </div>
           </div>
           <div className="table-container">
