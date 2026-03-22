@@ -68,6 +68,16 @@
   color: var(--ag-blue-800);
 }
 
+.service_item_static {
+  cursor: default;
+  color: var(--gray-950);
+  opacity: 0.55;
+}
+
+.service_item_static:hover {
+  color: var(--gray-950);
+}
+
 @media (max-width: 1280px) {
   .title {
     font-size: 64px;

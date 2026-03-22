@@ -45,5 +45,6 @@ function mapRow(
     quote: pick(locale, row.quoteEn, row.quoteKa) ?? "",
     image: row.image ?? "",
     thumbnail_image: row.thumbnailImage ?? "",
+    clickable: row.clickable ?? 1,
   };
 }

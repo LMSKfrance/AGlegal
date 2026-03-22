@@ -71,6 +71,7 @@ export async function createService(prev: ServiceFormState, formData: FormData):
     const showOnHome = formData.get("showOnHome") ? 1 : 0;
     const homeOrderRaw = (formData.get("homeOrder") as string | null) ?? "0";
     const homeOrder = Number.parseInt(homeOrderRaw, 10) || 0;
+    const clickable = formData.get("clickable") ? 1 : 0;
 
     const trim = (key: string) => (formData.get(key) as string)?.trim() || null;
     await db.insert(services).values({
@@ -93,6 +94,7 @@ export async function createService(prev: ServiceFormState, formData: FormData):
       homeShortDescriptionKa: trim("homeShortDescriptionKa"),
       homeLearnMoreUrl: trim("homeLearnMoreUrl"),
       homeCardImage: homeCardPath,
+      clickable,
       metaDescriptionEn: trim("metaDescriptionEn"),
       metaDescriptionKa: trim("metaDescriptionKa"),
       seoTitleEn: trim("seoTitleEn"),
@@ -164,6 +166,7 @@ export async function updateService(id: number, prev: ServiceFormState, formData
     const showOnHome = formData.get("showOnHome") ? 1 : 0;
     const homeOrderRaw = (formData.get("homeOrder") as string | null) ?? `${existing.homeOrder ?? 0}`;
     const homeOrder = Number.parseInt(homeOrderRaw, 10) || 0;
+    const clickable = formData.get("clickable") ? 1 : 0;
 
     const trim = (key: string) => (formData.get(key) as string)?.trim() || null;
     await db
@@ -188,6 +191,7 @@ export async function updateService(id: number, prev: ServiceFormState, formData
         homeShortDescriptionKa: trim("homeShortDescriptionKa"),
         homeLearnMoreUrl: trim("homeLearnMoreUrl"),
         homeCardImage: homeCardPath,
+        clickable,
         metaDescriptionEn: trim("metaDescriptionEn"),
         metaDescriptionKa: trim("metaDescriptionKa"),
         seoTitleEn: trim("seoTitleEn"),

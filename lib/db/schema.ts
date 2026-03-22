@@ -54,6 +54,8 @@ export const services = sqliteTable("services", {
   homeShortDescriptionKa: text("home_short_description_ka"),
   homeLearnMoreUrl: text("home_learn_more_url"),
   homeCardImage: text("home_card_image"),
+  // Clickable from the services listing page
+  clickable: integer("clickable").default(1),
   // SEO / Open Graph
   metaDescriptionEn: text("meta_description_en"),
   metaDescriptionKa: text("meta_description_ka"),
