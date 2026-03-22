@@ -396,6 +396,10 @@ export default function HomeForm({
             <>
               <kbd className="bg-brand-100 px-1.5 py-0.5 rounded font-mono text-[10px] text-brand-700">⌘S</kbd>
               <span>Save</span>
+              <span className="text-brand-300 mx-1">·</span>
+              <a href="/" target="_blank" rel="noopener noreferrer" className="text-brand-400 hover:text-primary-600 transition-colors flex items-center gap-1">
+                View site <i className="ph ph-arrow-square-out text-[12px]" />
+              </a>
             </>
           )}
         </div>
