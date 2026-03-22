@@ -33,8 +33,10 @@ export default async function DashboardPage() {
   const translationTasks = tasks.filter((t) => t.badge === "Translation");
   const photoTasks = tasks.filter((t) => t.id.includes("photo") || t.id.includes("image"));
   const incompleteTasks = tasks.filter((t) => t.badge === "Required" || t.id.includes("incomplete"));
+  const seoTasks = tasks.filter((t) => t.badge === "SEO" || t.badge === "OG Image");
   const totalTranslationCount = translationTasks.reduce((s, t) => s + t.count, 0);
   const totalPhotoCount = photoTasks.reduce((s, t) => s + t.count, 0);
+  const totalSeoCount = seoTasks.reduce((s, t) => s + t.count, 0);
 
   return (
     <>
@@ -139,6 +141,18 @@ export default async function DashboardPage() {
                     <div>
                       <div className="text-[14px] font-semibold text-brand-900">{incompleteTasks.length} Incomplete Section{incompleteTasks.length > 1 ? "s" : ""}</div>
                       <div className="text-[12px] text-[#0854A0] mt-0.5">{incompleteTasks.map((t) => t.href.replace("/admin/", "")).join(", ")}</div>
+                    </div>
+                  </Link>
+                )}
+                {/* SEO / OG */}
+                {totalSeoCount > 0 && (
+                  <Link href="/admin/notifications" className="flex items-center gap-4 p-5 bg-[#F0ECF9] rounded-lg border border-[#C9B8E8] hover:brightness-95 transition-all">
+                    <div className="w-10 h-10 rounded-full bg-[#E4D9F5] text-[#5A1E96] flex items-center justify-center shrink-0">
+                      <i className="ph ph-magnifying-glass text-[20px]" />
+                    </div>
+                    <div>
+                      <div className="text-[14px] font-semibold text-brand-900">{totalSeoCount} Missing SEO / OG</div>
+                      <div className="text-[12px] text-[#5A1E96] mt-0.5">{seoTasks.map((t) => t.href.replace("/admin/", "")).join(", ")}</div>
                     </div>
                   </Link>
                 )}
