@@ -1,6 +1,64 @@
 import Link from "next/link";
+import { getNotificationTasks, type NotificationTask } from "@/lib/admin/notifications";
 
-export default function NotificationsPage() {
+export const dynamic = "force-dynamic";
+
+const SEVERITY_STYLES = {
+  critical: {
+    icon: "bg-[#FFEBEB] text-[#AB0000]",
+    badge: "badge-red",
+  },
+  warning: {
+    icon: "bg-[#FFF8D6] text-[#B44F00]",
+    badge: "badge-amber",
+  },
+  info: {
+    icon: "bg-[#E8F4FD] text-[#0854A0]",
+    badge: "badge-blue",
+  },
+};
+
+const CATEGORY_ICON: Record<string, string> = {
+  "news-missing-ka":        "ph-translate",
+  "news-missing-image":     "ph-image",
+  "team-missing-photo":     "ph-image",
+  "team-missing-ka":        "ph-translate",
+  "services-missing-ka":    "ph-translate",
+  "services-missing-image": "ph-image",
+  "pages-missing-ka":       "ph-translate",
+  "contact-incomplete":     "ph-address-book",
+};
+
+function TaskRow({ task }: { task: NotificationTask }) {
+  const style = SEVERITY_STYLES[task.severity];
+  const icon = CATEGORY_ICON[task.id] ?? "ph-warning-circle";
+
+  return (
+    <div className="flex items-start gap-4 p-5 hover:bg-brand-50 transition-colors">
+      <div className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 ${style.icon}`}>
+        <i className={`ph ${icon} text-2xl`} />
+      </div>
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center gap-3 mb-1.5 flex-wrap">
+          <span className="text-[14px] font-bold text-brand-900">{task.title}</span>
+          <span className={`badge ${style.badge}`}>{task.badge}</span>
+        </div>
+        <p className="text-[13px] text-brand-600 mb-2.5">{task.description}</p>
+        <Link
+          href={task.href}
+          className="text-[13px] font-bold text-primary-600 hover:text-primary-800 flex items-center gap-1.5"
+        >
+          <i className="ph ph-arrow-right" /> Go to {task.href.replace("/admin/", "").replace(/^\w/, (c) => c.toUpperCase())}
+        </Link>
+      </div>
+    </div>
+  );
+}
+
+export default async function NotificationsPage() {
+  const tasks = await getNotificationTasks();
+  const count = tasks.length;
+
   return (
     <>
       <div className="page-header border-b border-brand-200 sticky top-0 bg-[#f8fafc]/95 backdrop-blur z-10 pb-6 pt-8">
@@ -12,52 +70,33 @@ export default function NotificationsPage() {
           <div className="card-header">
             <h2 className="font-semibold text-brand-900 flex items-center gap-2 text-[15px]">
               <i className="ph ph-warning-circle text-[#B44F00]" /> Pending Tasks
-              <span className="ml-2 text-[11px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider bg-[#FFF8D6] text-[#B44F00]">4 items</span>
+              {count > 0 ? (
+                <span className="ml-2 text-[11px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider bg-[#FFF8D6] text-[#B44F00]">
+                  {count} item{count > 1 ? "s" : ""}
+                </span>
+              ) : (
+                <span className="ml-2 text-[11px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider bg-[#EBF5E0] text-[#107E3E]">
+                  All clear
+                </span>
+              )}
             </h2>
           </div>
-          <div className="divide-y divide-brand-100">
 
-            {/* SAP Fiori Warning — Missing translation */}
-            <div className="flex items-start gap-4 p-5 hover:bg-brand-50 transition-colors group">
-              <div className="w-12 h-12 rounded-xl bg-[#FFF8D6] text-[#B44F00] flex items-center justify-center shrink-0">
-                <i className="ph ph-translate text-2xl" />
+          {count === 0 ? (
+            <div className="p-10 flex flex-col items-center gap-3 text-center">
+              <div className="w-14 h-14 rounded-full bg-[#EBF5E0] text-[#107E3E] flex items-center justify-center text-3xl">
+                <i className="ph ph-check-circle" />
               </div>
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-3 mb-1.5">
-                  <span className="text-[14px] font-bold text-brand-900">Missing Georgian Translation</span>
-                  <span className="badge badge-amber">Translation</span>
-                </div>
-                <p className="text-[13px] text-brand-600 mb-2.5">A news article is missing Georgian (KA) translation.</p>
-                <Link href="/admin/news" className="text-[13px] font-bold text-primary-600 hover:text-primary-800 flex items-center gap-1.5">
-                  <i className="ph ph-arrow-right" /> Go to News
-                </Link>
-              </div>
-              <button className="btn-icon opacity-0 group-hover:opacity-100 text-brand-400 hover:text-brand-600">
-                <i className="ph ph-check-circle text-xl" />
-              </button>
+              <div className="text-[15px] font-semibold text-brand-900">Everything is complete!</div>
+              <div className="text-[13px] text-brand-500">All content is filled in and translated.</div>
             </div>
-
-            {/* SAP Fiori Critical — Missing photo */}
-            <div className="flex items-start gap-4 p-5 hover:bg-brand-50 transition-colors group">
-              <div className="w-12 h-12 rounded-xl bg-[#FFEBEB] text-[#AB0000] flex items-center justify-center shrink-0">
-                <i className="ph ph-image text-2xl" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-3 mb-1.5">
-                  <span className="text-[14px] font-bold text-brand-900">Missing Profile Photo</span>
-                  <span className="badge badge-red">Photo Required</span>
-                </div>
-                <p className="text-[13px] text-brand-600 mb-2.5">A team member has no profile photo uploaded.</p>
-                <Link href="/admin/team" className="text-[13px] font-bold text-primary-600 hover:text-primary-800 flex items-center gap-1.5">
-                  <i className="ph ph-arrow-right" /> Go to Team
-                </Link>
-              </div>
-              <button className="btn-icon opacity-0 group-hover:opacity-100 text-brand-400 hover:text-brand-600">
-                <i className="ph ph-check-circle text-xl" />
-              </button>
+          ) : (
+            <div className="divide-y divide-brand-100">
+              {tasks.map((task) => (
+                <TaskRow key={task.id} task={task} />
+              ))}
             </div>
-
-          </div>
+          )}
         </div>
       </div>
     </>

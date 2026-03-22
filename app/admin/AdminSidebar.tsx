@@ -27,7 +27,7 @@ const nav = [
     group: "System",
     items: [
       { href: "/admin/history",       label: "History Log",           view: "history",       icon: "ph-clock-counter-clockwise" },
-      { href: "/admin/notifications", label: "Tasks & Notifications", view: "notifications", icon: "ph-bell", badge: "4" },
+      { href: "/admin/notifications", label: "Tasks & Notifications", view: "notifications", icon: "ph-bell" },
     ],
   },
 ];
@@ -62,10 +62,12 @@ function getInitials(name: string) {
 export default function AdminShell({
   userName,
   userEmail,
+  notificationCount,
   children,
 }: {
   userName: string | null;
   userEmail: string | null;
+  notificationCount: number;
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
@@ -161,7 +163,7 @@ export default function AdminShell({
                   {group}
                 </div>
               )}
-              {items.map(({ href, label, view, icon, badge }) => (
+              {items.map(({ href, label, view, icon }) => (
                 <Link
                   key={href}
                   href={href}
@@ -171,9 +173,9 @@ export default function AdminShell({
                 >
                   <i className={`ph ${icon}`} />
                   {showLabels && <span className="nav-label">{label}</span>}
-                  {showLabels && badge && (
-                    <span className="ml-auto bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">
-                      {badge}
+                  {showLabels && href === "/admin/notifications" && notificationCount > 0 && (
+                    <span className="ml-auto bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center">
+                      {notificationCount}
                     </span>
                   )}
                 </Link>
@@ -256,7 +258,9 @@ export default function AdminShell({
           <div className="flex items-center gap-4">
             <Link href="/admin/notifications" className="btn-icon relative" title="Notifications">
               <i className="ph ph-bell text-[20px]" />
-              <span className="absolute top-1 right-1.5 w-[8px] h-[8px] bg-red-500 rounded-full border border-white" />
+              {notificationCount > 0 && (
+                <span className="absolute top-1 right-1.5 w-[8px] h-[8px] bg-red-500 rounded-full border border-white" />
+              )}
             </Link>
             <div className="hidden md:block w-px h-5 bg-brand-200" />
             <div className="hidden md:flex lang-switcher">

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getAdminStats } from "@/lib/admin/stats";
 import { getSaveHistory } from "@/lib/actions/history";
+import { getNotificationTasks } from "@/lib/admin/notifications";
 
 export const dynamic = "force-dynamic";
 
@@ -22,10 +23,18 @@ const ACTION_DOT: Record<string, string> = {
 };
 
 export default async function DashboardPage() {
-  const [stats, history] = await Promise.all([
+  const [stats, history, tasks] = await Promise.all([
     getAdminStats(),
     getSaveHistory(5),
+    getNotificationTasks(),
   ]);
+
+  // Group tasks by severity for the Content Status summary
+  const translationTasks = tasks.filter((t) => t.badge === "Translation");
+  const photoTasks = tasks.filter((t) => t.id.includes("photo") || t.id.includes("image"));
+  const incompleteTasks = tasks.filter((t) => t.badge === "Required" || t.id.includes("incomplete"));
+  const totalTranslationCount = translationTasks.reduce((s, t) => s + t.count, 0);
+  const totalPhotoCount = photoTasks.reduce((s, t) => s + t.count, 0);
 
   return (
     <>
@@ -85,38 +94,56 @@ export default async function DashboardPage() {
             </Link>
           </div>
           <div className="card-body p-6">
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              {/* SAP Fiori Warning */}
-              <Link href="/admin/news" className="flex items-center gap-4 p-5 bg-[#FFF8D6] rounded-xl border border-[#F0AB00] hover:brightness-95 transition-all">
-                <div className="w-10 h-10 rounded-full bg-[#FFF3B7] text-[#B44F00] flex items-center justify-center shrink-0">
-                  <i className="ph ph-translate text-[20px]" />
+            {tasks.length === 0 ? (
+              <div className="flex items-center gap-4 p-5 bg-[#EBF5E0] rounded-xl border border-[#ABD77A]">
+                <div className="w-10 h-10 rounded-full bg-[#D4EEC0] text-[#107E3E] flex items-center justify-center shrink-0">
+                  <i className="ph ph-check-circle text-[20px]" />
                 </div>
                 <div>
-                  <div className="text-[14px] font-semibold text-brand-900">3 Missing Translations</div>
-                  <div className="text-[12px] text-[#B44F00] mt-0.5">News articles</div>
+                  <div className="text-[14px] font-semibold text-brand-900">All content is complete</div>
+                  <div className="text-[12px] text-[#107E3E] mt-0.5">No pending tasks</div>
                 </div>
-              </Link>
-              {/* SAP Fiori Critical */}
-              <Link href="/admin/team" className="flex items-center gap-4 p-5 bg-[#FFEBEB] rounded-xl border border-[#E8A5A5] hover:brightness-95 transition-all">
-                <div className="w-10 h-10 rounded-full bg-[#FFD6D6] text-[#AB0000] flex items-center justify-center shrink-0">
-                  <i className="ph ph-image text-[20px]" />
-                </div>
-                <div>
-                  <div className="text-[14px] font-semibold text-brand-900">1 Missing Photo</div>
-                  <div className="text-[12px] text-[#AB0000] mt-0.5">Team member</div>
-                </div>
-              </Link>
-              {/* SAP Fiori Information */}
-              <Link href="/admin/services" className="flex items-center gap-4 p-5 bg-[#E8F4FD] rounded-xl border border-[#91C8F6] hover:brightness-95 transition-all">
-                <div className="w-10 h-10 rounded-full bg-[#D4ECF8] text-[#0854A0] flex items-center justify-center shrink-0">
-                  <i className="ph ph-user-circle-minus text-[20px]" />
-                </div>
-                <div>
-                  <div className="text-[14px] font-semibold text-brand-900">Incomplete Profile</div>
-                  <div className="text-[12px] text-[#0854A0] mt-0.5">1 Service page</div>
-                </div>
-              </Link>
-            </div>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                {/* Translations */}
+                {totalTranslationCount > 0 && (
+                  <Link href="/admin/notifications" className="flex items-center gap-4 p-5 bg-[#FFF8D6] rounded-xl border border-[#F0AB00] hover:brightness-95 transition-all">
+                    <div className="w-10 h-10 rounded-full bg-[#FFF3B7] text-[#B44F00] flex items-center justify-center shrink-0">
+                      <i className="ph ph-translate text-[20px]" />
+                    </div>
+                    <div>
+                      <div className="text-[14px] font-semibold text-brand-900">{totalTranslationCount} Missing Translation{totalTranslationCount > 1 ? "s" : ""}</div>
+                      <div className="text-[12px] text-[#B44F00] mt-0.5">{translationTasks.map((t) => t.href.replace("/admin/", "")).join(", ")}</div>
+                    </div>
+                  </Link>
+                )}
+                {/* Photos / Images */}
+                {totalPhotoCount > 0 && (
+                  <Link href="/admin/notifications" className="flex items-center gap-4 p-5 bg-[#FFEBEB] rounded-xl border border-[#E8A5A5] hover:brightness-95 transition-all">
+                    <div className="w-10 h-10 rounded-full bg-[#FFD6D6] text-[#AB0000] flex items-center justify-center shrink-0">
+                      <i className="ph ph-image text-[20px]" />
+                    </div>
+                    <div>
+                      <div className="text-[14px] font-semibold text-brand-900">{totalPhotoCount} Missing Photo{totalPhotoCount > 1 ? "s" : ""}</div>
+                      <div className="text-[12px] text-[#AB0000] mt-0.5">{photoTasks.map((t) => t.href.replace("/admin/", "")).join(", ")}</div>
+                    </div>
+                  </Link>
+                )}
+                {/* Incomplete / Required */}
+                {incompleteTasks.length > 0 && (
+                  <Link href="/admin/notifications" className="flex items-center gap-4 p-5 bg-[#E8F4FD] rounded-xl border border-[#91C8F6] hover:brightness-95 transition-all">
+                    <div className="w-10 h-10 rounded-full bg-[#D4ECF8] text-[#0854A0] flex items-center justify-center shrink-0">
+                      <i className="ph ph-warning text-[20px]" />
+                    </div>
+                    <div>
+                      <div className="text-[14px] font-semibold text-brand-900">{incompleteTasks.length} Incomplete Section{incompleteTasks.length > 1 ? "s" : ""}</div>
+                      <div className="text-[12px] text-[#0854A0] mt-0.5">{incompleteTasks.map((t) => t.href.replace("/admin/", "")).join(", ")}</div>
+                    </div>
+                  </Link>
+                )}
+              </div>
+            )}
           </div>
         </div>
 
