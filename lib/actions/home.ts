@@ -538,6 +538,71 @@ export async function deleteHomeProcessStep(id: number): Promise<void> {
   }
 }
 
+// ─── CTA Section ──────────────────────────────────────────────────────────────
+
+const CTA_KEYS = [
+  "home_cta_subtitle",
+  "home_cta_title",
+  "home_cta_button",
+  "home_cta_button_url",
+] as const;
+
+export type HomeCTASettings = {
+  subtitleEn: string;
+  subtitleKa: string;
+  titleEn: string;
+  titleKa: string;
+  buttonEn: string;
+  buttonKa: string;
+  buttonUrl: string;
+};
+
+export async function getHomeCTASettings(): Promise<HomeCTASettings> {
+  const rows = await getSettings(CTA_KEYS as unknown as string[]);
+  const get = (key: (typeof CTA_KEYS)[number], which: "valueEn" | "valueKa") =>
+    rows[key]?.[which] ?? "";
+
+  return {
+    subtitleEn: get("home_cta_subtitle", "valueEn"),
+    subtitleKa: get("home_cta_subtitle", "valueKa"),
+    titleEn: get("home_cta_title", "valueEn"),
+    titleKa: get("home_cta_title", "valueKa"),
+    buttonEn: get("home_cta_button", "valueEn"),
+    buttonKa: get("home_cta_button", "valueKa"),
+    buttonUrl: get("home_cta_button_url", "valueEn"),
+  };
+}
+
+export async function upsertHomeCTASettings(
+  prev: HomeFormState,
+  formData: FormData,
+): Promise<HomeFormState> {
+  try {
+    const getStr = (name: string) => ((formData.get(name) as string | null) ?? "").trim();
+
+    const subtitleEn = truncateChars(getStr("subtitleEn"), 80);
+    const subtitleKa = truncateChars(getStr("subtitleKa"), 80);
+    const titleEn = truncateChars(getStr("titleEn"), 80);
+    const titleKa = truncateChars(getStr("titleKa"), 80);
+    const buttonEn = truncateChars(getStr("buttonEn"), 32);
+    const buttonKa = truncateChars(getStr("buttonKa"), 32);
+    const buttonUrl = getStr("buttonUrl") || "/appointment";
+
+    await upsertSetting("home_cta_subtitle", "home_cta", subtitleEn, subtitleKa);
+    await upsertSetting("home_cta_title", "home_cta", titleEn, titleKa);
+    await upsertSetting("home_cta_button", "home_cta", buttonEn, buttonKa);
+    await upsertSetting("home_cta_button_url", "home_cta", buttonUrl, buttonUrl);
+
+    revalidatePath("/");
+    revalidatePath("/admin/home");
+    await logSave("Home", "CTA section", "updated");
+    return { success: true };
+  } catch (err) {
+    console.error("[upsertHomeCTASettings]", err);
+    return { error: "Failed to save. Please try again." };
+  }
+}
+
 // ─── Home section visibility (show/hide sections on homepage) ─────────────────
 
 import type { HomeSectionId } from "@/lib/home";

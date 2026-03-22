@@ -21,6 +21,7 @@ const EMPTY_HOME_CONTENT: HomeContent = {
   benefits: [],
   tabs: [],
   teamMembers: [],
+  cta: { subtitle: "", title: "", button: "", buttonUrl: "/appointment" },
 };
 
 const ALL_VISIBLE: HomeSectionVisibility = Object.fromEntries(
