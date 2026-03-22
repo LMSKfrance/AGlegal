@@ -8,6 +8,8 @@ import { revalidatePath } from "next/cache";
 const SITE_ONLINE_KEY = "site.online";
 const OFFLINE_TITLE_KEY = "site.offline_title";
 const OFFLINE_MESSAGE_KEY = "site.offline_message";
+const BOOKING_EMAIL_KEY = "notifications.booking_email";
+const CONTACT_EMAIL_KEY = "notifications.contact_email";
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
@@ -75,4 +77,39 @@ export async function saveOfflinePageContent(title: string, message: string) {
   ]);
   revalidatePath("/", "layout");
   revalidatePath("/admin/settings");
+}
+
+// ─── Notification email recipients ───────────────────────────────────────────
+
+export async function getEmailSettings(): Promise<{ bookingEmail: string; contactEmail: string }> {
+  const [bookingEmail, contactEmail] = await Promise.all([
+    getSetting(BOOKING_EMAIL_KEY),
+    getSetting(CONTACT_EMAIL_KEY),
+  ]);
+  return {
+    bookingEmail: bookingEmail ?? "",
+    contactEmail: contactEmail ?? "",
+  };
+}
+
+export type EmailSettingsState = { success?: boolean; error?: string };
+
+export async function saveEmailSettings(
+  _prev: EmailSettingsState,
+  formData: FormData
+): Promise<EmailSettingsState> {
+  try {
+    const bookingEmail = (formData.get("bookingEmail") as string)?.trim() ?? "";
+    const contactEmail = (formData.get("contactEmail") as string)?.trim() ?? "";
+
+    await Promise.all([
+      upsertSetting(BOOKING_EMAIL_KEY, bookingEmail),
+      upsertSetting(CONTACT_EMAIL_KEY, contactEmail),
+    ]);
+
+    revalidatePath("/admin/settings");
+    return { success: true };
+  } catch {
+    return { error: "Failed to save. Please try again." };
+  }
 }
