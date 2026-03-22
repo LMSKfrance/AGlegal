@@ -47,42 +47,24 @@ export default async function DashboardPage() {
       <div className="page-content pb-12">
         {/* Stats — clickable cards */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8">
-          <Link href="/admin/news" className="card p-4 md:p-6 flex items-center gap-4 md:gap-5 hover:shadow-md transition-shadow">
-            <div className="w-10 h-10 md:w-14 md:h-14 rounded-lg bg-brand-100 text-brand-500 flex items-center justify-center text-xl md:text-[28px]">
-              <i className="ph-fill ph-newspaper" />
-            </div>
-            <div>
-              <div className="text-2xl md:text-[32px] font-bold text-brand-900 leading-none">{stats.articles}</div>
-              <div className="text-[11px] font-bold text-brand-400 uppercase tracking-wider mt-1.5">News Articles</div>
-            </div>
-          </Link>
-          <Link href="/admin/team" className="card p-4 md:p-6 flex items-center gap-4 md:gap-5 hover:shadow-md transition-shadow">
-            <div className="w-10 h-10 md:w-14 md:h-14 rounded-lg bg-brand-100 text-brand-500 flex items-center justify-center text-xl md:text-[28px]">
-              <i className="ph-fill ph-users" />
-            </div>
-            <div>
-              <div className="text-2xl md:text-[32px] font-bold text-brand-900 leading-none">{stats.teamMembers}</div>
-              <div className="text-[11px] font-bold text-brand-400 uppercase tracking-wider mt-1.5">Team Members</div>
-            </div>
-          </Link>
-          <Link href="/admin/services" className="card p-4 md:p-6 flex items-center gap-4 md:gap-5 hover:shadow-md transition-shadow">
-            <div className="w-10 h-10 md:w-14 md:h-14 rounded-lg bg-brand-100 text-brand-500 flex items-center justify-center text-xl md:text-[28px]">
-              <i className="ph-fill ph-briefcase" />
-            </div>
-            <div>
-              <div className="text-2xl md:text-[32px] font-bold text-brand-900 leading-none">{stats.services}</div>
-              <div className="text-[11px] font-bold text-brand-400 uppercase tracking-wider mt-1.5">Services</div>
-            </div>
-          </Link>
-          <Link href="/admin/pages" className="card p-4 md:p-6 flex items-center gap-4 md:gap-5 hover:shadow-md transition-shadow">
-            <div className="w-10 h-10 md:w-14 md:h-14 rounded-lg bg-brand-100 text-brand-500 flex items-center justify-center text-xl md:text-[28px]">
-              <i className="ph-fill ph-files" />
-            </div>
-            <div>
-              <div className="text-2xl md:text-[32px] font-bold text-brand-900 leading-none">{stats.pages}</div>
-              <div className="text-[11px] font-bold text-brand-400 uppercase tracking-wider mt-1.5">Static Pages</div>
-            </div>
-          </Link>
+          {[
+            { href: "/admin/news",     count: stats.articles,    label: "News Articles",  icon: "ph-fill ph-newspaper" },
+            { href: "/admin/team",     count: stats.teamMembers, label: "Team Members",   icon: "ph-fill ph-users" },
+            { href: "/admin/services", count: stats.services,    label: "Services",       icon: "ph-fill ph-briefcase" },
+            { href: "/admin/pages",    count: stats.pages,       label: "Static Pages",   icon: "ph-fill ph-files" },
+          ].map(({ href, count, label, icon }) => (
+            <Link
+              key={href}
+              href={href}
+              className="card p-5 md:p-6 relative overflow-hidden hover:border-primary-200 transition-colors group"
+            >
+              <i className={`${icon} absolute -right-3 -bottom-2 text-[80px] text-brand-100 group-hover:text-primary-100 transition-colors select-none pointer-events-none`} />
+              <div className="relative">
+                <div className="text-[34px] md:text-[42px] font-bold text-brand-900 leading-none tracking-tight">{count}</div>
+                <div className="text-[11px] font-semibold text-brand-400 uppercase tracking-widest mt-2">{label}</div>
+              </div>
+            </Link>
+          ))}
         </div>
 
         {/* Content Status */}
