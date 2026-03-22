@@ -135,7 +135,8 @@ export default function AdminShell({
         {/* Logo */}
         <div className="h-16 flex items-center px-6 border-b border-brand-200 shrink-0 justify-between">
           <div className="flex items-center gap-3 text-brand-900 font-semibold tracking-tight text-lg overflow-hidden">
-            {showLabels && <h1 className="logo-text truncate text-lg font-bold text-brand-900">AG Legal</h1>}
+            <img src="/favicon.svg" alt="AG Legal" className="w-6 h-6 shrink-0" />
+            {showLabels && <span className="logo-text truncate">AG Legal</span>}
           </div>
           {/* Desktop: collapse toggle | Mobile: close drawer (X) */}
           <button
