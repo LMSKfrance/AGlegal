@@ -52,6 +52,9 @@
 .admin-shell-root ol { margin: 0; padding: 0; list-style: none; }
 .admin-shell-root a:not(.btn)  { color: inherit; text-decoration: none; }
 .admin-shell-root a.btn { text-decoration: none; }
+/* Ensure explicit Tailwind text-color classes always win over color: inherit */
+.admin-shell-root a.text-white  { color: #ffffff; }
+.admin-shell-root a.text-primary-600 { color: #2563eb; }
 .admin-shell-root button,
 .admin-shell-root input,
 .admin-shell-root select,
