@@ -178,11 +178,7 @@ export default function AboutForm({ settings, saveAction }: Props) {
         </div>
 
         <div className="action-bar">
-          <div className="hidden sm:flex text-[12px] text-brand-500 items-center gap-4">
-            <span className="flex items-center gap-1">
-              <kbd className="bg-brand-100 px-1.5 py-0.5 rounded font-mono text-[10px] text-brand-700">⌘S</kbd> Save
-            </span>
-          </div>
+          <div />
           <div className="flex gap-3">
             <button type="reset" className="btn btn-secondary">Discard Changes</button>
             <button type="submit" className="btn btn-primary" disabled={pending}>

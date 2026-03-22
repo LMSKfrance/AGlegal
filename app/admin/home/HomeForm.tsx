@@ -489,12 +489,8 @@ export default function HomeForm({
             </>
           ) : (
             <>
-              <span className="w-2 h-2 rounded-full bg-green-500 shrink-0 inline-block" />
-              <span className="text-brand-500">All changes saved</span>
-              <span className="text-brand-300 mx-1">·</span>
-              <a href="/" target="_blank" rel="noopener noreferrer" className="text-brand-400 hover:text-primary-600 transition-colors flex items-center gap-1">
-                View site <i className="ph ph-arrow-square-out text-[12px]" />
-              </a>
+              <span className="w-2 h-2 rounded-full bg-brand-300 shrink-0 inline-block" />
+              <span className="text-brand-400">You have not made any changes</span>
             </>
           )}
         </div>
