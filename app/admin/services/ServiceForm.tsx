@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useActionState, useState, useRef, useEffect } from "react";
+import { useAdminLang } from "../AdminLangContext";
 import type { ServiceFormState } from "@/lib/actions/services";
 
 type Service = {
@@ -36,7 +37,7 @@ const INITIAL: ServiceFormState = {};
 
 export default function ServiceForm({ action, service }: Props) {
   const [state, formAction, pending] = useActionState(action, INITIAL);
-  const [lang, setLang] = useState<"en" | "ka">("en");
+  const lang = useAdminLang();
 
   const mainImgRef = useRef<HTMLInputElement>(null);
   const thumbImgRef = useRef<HTMLInputElement>(null);
@@ -54,17 +55,11 @@ export default function ServiceForm({ action, service }: Props) {
 
   return (
     <form action={formAction} className="relative bg-white flex flex-col min-h-full">
-      <div className="border-b border-brand-200 px-8 py-5 flex justify-between items-center sticky top-0 bg-white/95 backdrop-blur z-10">
-        <div className="flex items-center gap-4">
-          <Link href="/admin/services" className="btn-icon bg-white border border-brand-200 shadow-sm">
-            <i className="ph ph-arrow-left" />
-          </Link>
-          <h1 className="text-xl font-bold text-brand-900">{service ? "Edit Service" : "New Service"}</h1>
-        </div>
-        <div className="lang-switcher">
-          <div className={`lang-tab${lang === "en" ? " active" : ""}`} onClick={() => setLang("en")}>EN</div>
-          <div className={`lang-tab${lang === "ka" ? " active" : ""}`} onClick={() => setLang("ka")}>KA</div>
-        </div>
+      <div className="border-b border-brand-200 px-8 py-5 flex items-center gap-4 bg-brand-50">
+        <Link href="/admin/services" className="btn-icon bg-white border border-brand-200 shadow-sm">
+          <i className="ph ph-arrow-left" />
+        </Link>
+        <h1 className="text-xl font-bold text-brand-900">{service ? "Edit Service" : "New Service"}</h1>
       </div>
 
       {state.error && (
@@ -95,7 +90,7 @@ export default function ServiceForm({ action, service }: Props) {
         </div>
 
         <div>
-          <label className="label-base required">Service Title {lang === "en" ? "(EN)" : "(KA)"}</label>
+          <label className="label-base required">Service Title {lang === "en" ? "(En)" : "(ქარ)"}</label>
           {lang === "en" ? (
             <input
               type="text"
@@ -201,7 +196,7 @@ export default function ServiceForm({ action, service }: Props) {
         </div>
 
         <div>
-          <label className="label-base">Homepage Short Description {lang === "en" ? "(EN)" : "(KA)"}</label>
+          <label className="label-base">Homepage Short Description {lang === "en" ? "(En)" : "(ქარ)"}</label>
           {lang === "en" ? (
             <textarea name="homeShortDescriptionEn" className="input-base" rows={2} placeholder="Brief summary for homepage card..." defaultValue={service?.homeShortDescriptionEn ?? ""} />
           ) : (
@@ -211,7 +206,7 @@ export default function ServiceForm({ action, service }: Props) {
 
         <div className="border-t border-brand-200 pt-8 space-y-6">
           <div>
-            <label className="label-base">Full Description {lang === "en" ? "(EN)" : "(KA)"}</label>
+            <label className="label-base">Full Description {lang === "en" ? "(En)" : "(ქარ)"}</label>
             {lang === "en" ? (
               <textarea name="descriptionEn" className="input-base" rows={3} defaultValue={service?.descriptionEn ?? ""} />
             ) : (
@@ -219,7 +214,7 @@ export default function ServiceForm({ action, service }: Props) {
             )}
           </div>
           <div>
-            <label className="label-base">Text Section 1 {lang === "en" ? "(EN)" : "(KA)"}</label>
+            <label className="label-base">Text Section 1 {lang === "en" ? "(En)" : "(ქარ)"}</label>
             {lang === "en" ? (
               <textarea name="text1En" className="input-base" rows={3} defaultValue={service?.text1En ?? ""} />
             ) : (
@@ -227,7 +222,7 @@ export default function ServiceForm({ action, service }: Props) {
             )}
           </div>
           <div>
-            <label className="label-base">Text Section 2 {lang === "en" ? "(EN)" : "(KA)"}</label>
+            <label className="label-base">Text Section 2 {lang === "en" ? "(En)" : "(ქარ)"}</label>
             {lang === "en" ? (
               <textarea name="text2En" className="input-base" rows={3} defaultValue={service?.text2En ?? ""} />
             ) : (
@@ -235,7 +230,7 @@ export default function ServiceForm({ action, service }: Props) {
             )}
           </div>
           <div>
-            <label className="label-base">Highlight Quote {lang === "en" ? "(EN)" : "(KA)"}</label>
+            <label className="label-base">Highlight Quote {lang === "en" ? "(En)" : "(ქარ)"}</label>
             {lang === "en" ? (
               <textarea name="quoteEn" className="input-base italic" rows={2} defaultValue={service?.quoteEn ?? ""} />
             ) : (

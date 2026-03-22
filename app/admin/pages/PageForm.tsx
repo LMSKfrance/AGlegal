@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useActionState, useState, useEffect } from "react";
+import { useActionState, useEffect } from "react";
+import { useAdminLang } from "../AdminLangContext";
 import type { PageFormState } from "@/lib/actions/pages";
 
 type Page = {
@@ -31,7 +32,7 @@ const INITIAL: PageFormState = {};
 
 export default function PageForm({ action, page }: Props) {
   const [state, formAction, pending] = useActionState(action, INITIAL);
-  const [lang, setLang] = useState<"en" | "ka">("en");
+  const lang = useAdminLang();
 
   useEffect(() => {
     if (state.success) {
@@ -41,17 +42,11 @@ export default function PageForm({ action, page }: Props) {
 
   return (
     <form action={formAction} className="relative bg-white flex flex-col min-h-full">
-      <div className="border-b border-brand-200 px-4 sm:px-8 py-4 flex justify-between items-center sticky top-0 bg-white/95 backdrop-blur z-10">
-        <div className="flex items-center gap-4">
-          <Link href="/admin/pages" className="btn-icon bg-white border border-brand-200 shadow-sm">
-            <i className="ph ph-arrow-left" />
-          </Link>
-          <h1 className="text-xl font-bold text-brand-900">{page ? "Edit Page" : "Create Page"}</h1>
-        </div>
-        <div className="lang-switcher">
-          <div className={`lang-tab${lang === "en" ? " active" : ""}`} onClick={() => setLang("en")}>EN</div>
-          <div className={`lang-tab${lang === "ka" ? " active" : ""}`} onClick={() => setLang("ka")}>KA</div>
-        </div>
+      <div className="border-b border-brand-200 px-4 sm:px-8 py-4 flex items-center gap-4 bg-brand-50">
+        <Link href="/admin/pages" className="btn-icon bg-white border border-brand-200 shadow-sm">
+          <i className="ph ph-arrow-left" />
+        </Link>
+        <h1 className="text-xl font-bold text-brand-900">{page ? "Edit Page" : "Create Page"}</h1>
       </div>
 
       {state.error && (
@@ -63,7 +58,7 @@ export default function PageForm({ action, page }: Props) {
       <div className="flex-1 overflow-y-auto p-4 sm:p-8 max-w-4xl mx-auto w-full space-y-8 pb-24">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
           <div>
-            <label className="label-base required">Page Title {lang === "en" ? "(EN)" : "(KA)"}</label>
+            <label className="label-base required">Page Title {lang === "en" ? "(En)" : "(ქარ)"}</label>
             {lang === "en" ? (
               <input type="text" name="titleEn" className="input-base" placeholder="e.g. Privacy Policy" defaultValue={page?.titleEn ?? ""} required />
             ) : (
@@ -89,7 +84,7 @@ export default function PageForm({ action, page }: Props) {
         <div className="md-editor-wrap">
           <div className="md-toolbar">
             <span className="text-[11px] font-bold text-brand-400 uppercase tracking-wider px-2">
-              Page Content (Markdown) {lang === "en" ? "— EN" : "— KA"}
+              Page Content (Markdown) {lang === "en" ? "— En" : "— ქარ"}
             </span>
           </div>
           {lang === "en" ? (
@@ -114,7 +109,7 @@ export default function PageForm({ action, page }: Props) {
         <div className="card">
           <div className="card-header py-4 bg-brand-50">
             <h3 className="font-semibold text-brand-900 text-[14px]">
-              <i className="ph ph-magnifying-glass mr-2 text-brand-500" /> SEO &amp; Open Graph Data {lang === "en" ? "(EN)" : "(KA)"}
+              <i className="ph ph-magnifying-glass mr-2 text-brand-500" /> SEO &amp; Open Graph Data {lang === "en" ? "(En)" : "(ქარ)"}
             </h3>
           </div>
           <div className="card-body space-y-5">

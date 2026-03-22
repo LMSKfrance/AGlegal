@@ -1,6 +1,7 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import { useActionState } from "react";
+import { useAdminLang } from "../AdminLangContext";
 import type { ContactFormState } from "@/lib/actions/contact";
 
 type ContactRow = {
@@ -30,19 +31,13 @@ const INITIAL: ContactFormState = {};
 
 export default function ContactForm({ contact, saveAction }: Props) {
   const [state, formAction, pending] = useActionState(saveAction, INITIAL);
-  const [lang, setLang] = useState<"en" | "ka">("en");
+  const lang = useAdminLang();
 
   return (
     <>
-      <div className="page-header border-b border-brand-200 sticky top-0 bg-[#f8fafc]/95 backdrop-blur z-10 pb-6 pt-8">
-        <div>
-          <h1 className="text-[28px] font-bold text-brand-900 tracking-tight">Contact Information</h1>
-          <p className="text-brand-500 mt-2">Global contact details and social media links.</p>
-        </div>
-        <div className="lang-switcher">
-          <div className={`lang-tab${lang === "en" ? " active" : ""}`} onClick={() => setLang("en")}>EN</div>
-          <div className={`lang-tab${lang === "ka" ? " active" : ""}`} onClick={() => setLang("ka")}>KA</div>
-        </div>
+      <div className="pb-6 pt-8 border-b border-brand-200 px-8">
+        <h1 className="text-[28px] font-bold text-brand-900 tracking-tight">Contact Information</h1>
+        <p className="text-brand-500 mt-2">Global contact details and social media links.</p>
       </div>
 
       <form action={formAction}>
@@ -58,7 +53,7 @@ export default function ContactForm({ contact, saveAction }: Props) {
             <div className="card-body space-y-8">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
                 <div>
-                  <label className="label-base">Page Title {lang === "en" ? "(EN)" : "(KA)"}</label>
+                  <label className="label-base">Page Title {lang === "en" ? "(En)" : "(ქარ)"}</label>
                   {lang === "en" ? (
                     <>
                       <input type="text" name="titleEn" className="input-base" placeholder="Get in Touch" defaultValue={contact?.titleEn ?? ""} />
@@ -72,7 +67,7 @@ export default function ContactForm({ contact, saveAction }: Props) {
                   )}
                 </div>
                 <div>
-                  <label className="label-base">Subtitle {lang === "en" ? "(EN)" : "(KA)"}</label>
+                  <label className="label-base">Subtitle {lang === "en" ? "(En)" : "(ქარ)"}</label>
                   {lang === "en" ? (
                     <>
                       <textarea name="subtitleEn" className="input-base !h-[38px] !min-h-0 py-2" rows={1} placeholder="Our team is ready to assist you." defaultValue={contact?.subtitleEn ?? ""} />
@@ -95,7 +90,7 @@ export default function ContactForm({ contact, saveAction }: Props) {
                   <input type="email" name="email" className="input-base" placeholder="info@aglegal.com" defaultValue={contact?.email ?? ""} />
                 </div>
                 <div>
-                  <label className="label-base">Address {lang === "en" ? "(EN)" : "(KA)"}</label>
+                  <label className="label-base">Address {lang === "en" ? "(En)" : "(ქარ)"}</label>
                   {lang === "en" ? (
                     <>
                       <textarea name="addressEn" className="input-base" rows={3} placeholder={"12 Rustaveli Avenue, Floor 4\nTbilisi 0108, Georgia"} defaultValue={contact?.addressEn ?? ""} />

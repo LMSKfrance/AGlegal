@@ -1,11 +1,19 @@
 import Link from "next/link";
 import { getTeamList, deleteTeamMember } from "@/lib/actions/team";
 import { DeleteButton } from "@/app/admin/_components/DeleteButton";
+import { Pagination } from "@/app/admin/_components/Pagination";
 
 export const dynamic = "force-dynamic";
 
-export default async function TeamListPage() {
+const PER_PAGE = 8;
+
+export default async function TeamListPage({ searchParams }: { searchParams: Promise<{ page?: string }> }) {
+  const { page } = await searchParams;
   const members = await getTeamList();
+
+  const currentPage = Math.max(1, parseInt(page ?? "1") || 1);
+  const totalPages = Math.ceil(members.length / PER_PAGE);
+  const paged = members.slice((currentPage - 1) * PER_PAGE, currentPage * PER_PAGE);
 
   return (
     <>
@@ -40,7 +48,7 @@ export default async function TeamListPage() {
                     </td>
                   </tr>
                 ) : (
-                  members.map((member) => (
+                  paged.map((member) => (
                     <tr key={member.id}>
                       <td className="hidden sm:table-cell">
                         {member.image ? (
@@ -83,6 +91,7 @@ export default async function TeamListPage() {
               </tbody>
             </table>
           </div>
+          <Pagination currentPage={currentPage} totalPages={totalPages} basePath="/admin/team" />
         </div>
       </div>
     </>

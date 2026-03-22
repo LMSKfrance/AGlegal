@@ -15,11 +15,9 @@ export default async function ProfilePage() {
 
   return (
     <>
-      <div className="page-header border-b border-brand-200 sticky top-0 bg-[#f8fafc]/95 backdrop-blur z-10 pb-6 pt-8">
-        <div>
-          <h1 className="text-[28px] font-bold text-brand-900 tracking-tight">Admin Profile</h1>
-          <p className="text-brand-500 mt-2">Manage your account settings and password.</p>
-        </div>
+      <div className="pb-6 pt-8 border-b border-brand-200 px-8">
+        <h1 className="text-[28px] font-bold text-brand-900 tracking-tight">Admin Profile</h1>
+        <p className="text-brand-500 mt-2">Manage your account settings and password.</p>
       </div>
 
       <ProfileForm

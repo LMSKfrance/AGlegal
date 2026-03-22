@@ -1,8 +1,11 @@
 import Link from "next/link";
 import { getNewsList, deleteNews } from "@/lib/actions/news";
 import { DeleteButton } from "@/app/admin/_components/DeleteButton";
+import { Pagination } from "@/app/admin/_components/Pagination";
 
 export const dynamic = "force-dynamic";
+
+const PER_PAGE = 8;
 
 function formatDate(dateStr: string) {
   try {
@@ -12,8 +15,13 @@ function formatDate(dateStr: string) {
   }
 }
 
-export default async function NewsListPage() {
+export default async function NewsListPage({ searchParams }: { searchParams: Promise<{ page?: string }> }) {
+  const { page } = await searchParams;
   const articles = await getNewsList();
+
+  const currentPage = Math.max(1, parseInt(page ?? "1") || 1);
+  const totalPages = Math.ceil(articles.length / PER_PAGE);
+  const paged = articles.slice((currentPage - 1) * PER_PAGE, currentPage * PER_PAGE);
 
   return (
     <>
@@ -61,7 +69,7 @@ export default async function NewsListPage() {
                     </td>
                   </tr>
                 ) : (
-                  articles.map((article) => (
+                  paged.map((article) => (
                     <tr key={article.id}>
                       <td className="hidden sm:table-cell text-brand-500 text-[13px]">{formatDate(article.date)}</td>
                       <td>
@@ -90,6 +98,7 @@ export default async function NewsListPage() {
               </tbody>
             </table>
           </div>
+          <Pagination currentPage={currentPage} totalPages={totalPages} basePath="/admin/news" />
         </div>
       </div>
     </>
