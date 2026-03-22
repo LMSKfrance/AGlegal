@@ -6,7 +6,7 @@
 export interface TeamMemberSocial {
   id: number | string;
   name: string;
-  platform: "instagram" | "facebook" | "linkedin" | "youtube" | "twitter";
+  platform: "linkedin" | "twitter";
   link: string;
 }
 

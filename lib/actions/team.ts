@@ -99,15 +99,10 @@ export async function createTeamMember(prev: TeamFormState, formData: FormData):
     const [inserted] = await db.select({ id: teamMembers.id }).from(teamMembers).where(eq(teamMembers.slug, slug));
     const memberId = inserted?.id;
     if (memberId) {
-      const platforms = (formData.get("socialPlatforms") as string)?.split("\n").filter(Boolean) ?? [];
-      const links = (formData.get("socialLinks") as string)?.split("\n").filter(Boolean) ?? [];
-      for (let i = 0; i < Math.min(platforms.length, links.length); i++) {
-        const platform = platforms[i].trim();
-        const link = links[i].trim();
-        if (platform && link) {
-          await db.insert(teamMemberSocials).values({ teamMemberId: memberId, platform, link });
-        }
-      }
+      const linkedinUrl = (formData.get("linkedinUrl") as string)?.trim();
+      const twitterUrl = (formData.get("twitterUrl") as string)?.trim();
+      if (linkedinUrl) await db.insert(teamMemberSocials).values({ teamMemberId: memberId, platform: "linkedin", link: linkedinUrl });
+      if (twitterUrl) await db.insert(teamMemberSocials).values({ teamMemberId: memberId, platform: "twitter", link: twitterUrl });
     }
 
     revalidatePath("/admin/team");
@@ -195,15 +190,10 @@ export async function updateTeamMember(id: number, prev: TeamFormState, formData
       .where(eq(teamMembers.id, id));
 
     await db.delete(teamMemberSocials).where(eq(teamMemberSocials.teamMemberId, id));
-    const platforms = (formData.get("socialPlatforms") as string)?.split("\n").filter(Boolean) ?? [];
-    const links = (formData.get("socialLinks") as string)?.split("\n").filter(Boolean) ?? [];
-    for (let i = 0; i < Math.min(platforms.length, links.length); i++) {
-      const platform = platforms[i].trim();
-      const link = links[i].trim();
-      if (platform && link) {
-        await db.insert(teamMemberSocials).values({ teamMemberId: id, platform, link });
-      }
-    }
+    const linkedinUrl = (formData.get("linkedinUrl") as string)?.trim();
+    const twitterUrl = (formData.get("twitterUrl") as string)?.trim();
+    if (linkedinUrl) await db.insert(teamMemberSocials).values({ teamMemberId: id, platform: "linkedin", link: linkedinUrl });
+    if (twitterUrl) await db.insert(teamMemberSocials).values({ teamMemberId: id, platform: "twitter", link: twitterUrl });
 
     revalidatePath("/admin/team");
     revalidatePath("/admin");
