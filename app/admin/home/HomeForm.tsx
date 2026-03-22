@@ -411,6 +411,7 @@ export default function HomeForm({
           <button
             type="button"
             className="btn btn-primary"
+            style={{ minWidth: "190px" }}
             onClick={handleSaveAll}
             disabled={anySaving}
           >
