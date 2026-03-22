@@ -12,7 +12,6 @@ export default async function TeamListPage() {
       <div className="page-header">
         <div>
           <h1 className="text-[28px] font-bold text-brand-900 tracking-tight">Team Directory</h1>
-          <p className="text-brand-500 mt-2">Manage lawyers, partners, and staff profiles.</p>
         </div>
         <Link href="/admin/team/new" className="btn btn-primary">
           <i className="ph ph-plus" /> Add Member
