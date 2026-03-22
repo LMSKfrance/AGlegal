@@ -84,7 +84,6 @@ function BenefitForm({
 
 export default function HomeBenefitsSection({
   initialBenefits,
-  lang,
 }: {
   initialBenefits: HomeBenefit[];
   lang: "en" | "ka";
