@@ -445,9 +445,38 @@ export default function HomeForm({
           </div>
         </form>
 
+        {/* ── News & CTA Visibility ─────────────────────────────────────────── */}
+        <div className="card">
+          <div className="card-header">
+            <h2 className="font-semibold text-brand-900 flex items-center gap-2 text-[15px]">
+              <i className="ph ph-eye text-primary-600" /> Section Visibility
+            </h2>
+          </div>
+          <div className="card-body space-y-0 divide-y divide-brand-100">
+            {[
+              { id: "services" as HomeSectionId, label: "Our Services", icon: "ph-briefcase" },
+              { id: "team" as HomeSectionId, label: "Meet the Team", icon: "ph-users" },
+              { id: "news" as HomeSectionId, label: "Latest News", icon: "ph-newspaper" },
+            ].map(({ id, label, icon }) => (
+              <div key={id} className="flex items-center justify-between px-1 py-4">
+                <div className="flex items-center gap-3">
+                  <i className={`ph ${icon} text-[18px] text-brand-500`} />
+                  <span className="text-[14px] font-medium text-brand-900">{label}</span>
+                </div>
+                <SectionToggle sectionId={id} initialValue={visibility[id]} />
+              </div>
+            ))}
+            <div className="pt-4">
+              <div className="flex items-start gap-2 p-3 bg-brand-50 rounded-lg text-[12px] text-brand-500">
+                <i className="ph ph-info text-[16px] shrink-0 mt-0.5" />
+                <span>Hero, Who We Are, Benefits, Process, and Call to Action visibility are managed in their respective sections above.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* ── Homepage SEO ─────────────────────────────────────────────────── */}
         <form action={seoFormAction}>
-          {/* Pass through the other language's values as hidden inputs */}
           {lang === "en" && <>
             <input type="hidden" name="seoTitleKa" value={seo.seoTitleKa} />
             <input type="hidden" name="metaDescriptionKa" value={seo.metaDescriptionKa} />
@@ -460,7 +489,6 @@ export default function HomeForm({
             <input type="hidden" name="ogTitleEn" value={seo.ogTitleEn} />
             <input type="hidden" name="ogDescriptionEn" value={seo.ogDescriptionEn} />
           </>}
-          {/* Pass current OG image path so action can preserve it if no new file */}
           <input type="hidden" name="ogImageCurrent" value={seo.ogImage} />
           <div className="card">
             <div className="card-header">
@@ -512,36 +540,6 @@ export default function HomeForm({
             </div>
           </div>
         </form>
-
-        {/* ── News & CTA Visibility ─────────────────────────────────────────── */}
-        <div className="card">
-          <div className="card-header">
-            <h2 className="font-semibold text-brand-900 flex items-center gap-2 text-[15px]">
-              <i className="ph ph-eye text-primary-600" /> Section Visibility
-            </h2>
-          </div>
-          <div className="card-body space-y-0 divide-y divide-brand-100">
-            {[
-              { id: "services" as HomeSectionId, label: "Our Services", icon: "ph-briefcase" },
-              { id: "team" as HomeSectionId, label: "Meet the Team", icon: "ph-users" },
-              { id: "news" as HomeSectionId, label: "Latest News", icon: "ph-newspaper" },
-            ].map(({ id, label, icon }) => (
-              <div key={id} className="flex items-center justify-between px-1 py-4">
-                <div className="flex items-center gap-3">
-                  <i className={`ph ${icon} text-[18px] text-brand-500`} />
-                  <span className="text-[14px] font-medium text-brand-900">{label}</span>
-                </div>
-                <SectionToggle sectionId={id} initialValue={visibility[id]} />
-              </div>
-            ))}
-            <div className="pt-4">
-              <div className="flex items-start gap-2 p-3 bg-brand-50 rounded-lg text-[12px] text-brand-500">
-                <i className="ph ph-info text-[16px] shrink-0 mt-0.5" />
-                <span>Hero, Who We Are, Benefits, Process, and Call to Action visibility are managed in their respective sections above.</span>
-              </div>
-            </div>
-          </div>
-        </div>
 
       </div>
 
