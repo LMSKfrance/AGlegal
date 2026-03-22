@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useState, useTransition } from "react";
+import { useActionState, useState } from "react";
 import type { AboutSectionSettings } from "@/lib/about";
 import { useAdminLang } from "../AdminLangContext";
 import OgImageUpload from "../OgImageUpload";
