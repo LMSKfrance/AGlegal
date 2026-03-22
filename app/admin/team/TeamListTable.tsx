@@ -112,10 +112,10 @@ export function TeamListTable({ initialMembers }: { initialMembers: Member[] }) 
                     <img
                       src={member.image}
                       alt={member.titleEn}
-                      className="w-10 h-10 rounded-full object-cover"
+                      className="w-10 h-10 rounded-[4px] object-cover"
                     />
                   ) : (
-                    <div className="w-10 h-10 rounded-full bg-brand-100 flex items-center justify-center text-brand-400">
+                    <div className="w-10 h-10 rounded-[4px] bg-brand-100 flex items-center justify-center text-brand-400">
                       <i className="ph ph-user" />
                     </div>
                   )}
