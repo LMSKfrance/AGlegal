@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Suspense } from "react";
 import { getNewsList, deleteNews } from "@/lib/actions/news";
 import { DeleteButton } from "@/app/admin/_components/DeleteButton";
 import { Pagination } from "@/app/admin/_components/Pagination";
@@ -44,7 +45,9 @@ export default async function NewsListPage({ searchParams }: { searchParams: Pro
 
       <div className="page-content">
         <div className="card overflow-hidden">
-          <NewsFilters q={q} type={type} />
+          <Suspense fallback={<div className="p-4 border-b border-brand-200 h-[61px]" />}>
+            <NewsFilters q={q} type={type} />
+          </Suspense>
           <div className="table-container">
             <table className="admin-table">
               <thead>
