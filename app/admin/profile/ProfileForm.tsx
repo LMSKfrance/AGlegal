@@ -7,13 +7,12 @@ type Props = {
   name: string;
   email: string;
   initials: string;
-  currentPassword?: string;
   action: (prev: ProfileFormState, formData: FormData) => Promise<ProfileFormState>;
 };
 
 const INITIAL: ProfileFormState = {};
 
-export default function ProfileForm({ name, email, initials, currentPassword = "", action }: Props) {
+export default function ProfileForm({ name, email, initials, action }: Props) {
   const [state, formAction, pending] = useActionState(action, INITIAL);
 
   return (
@@ -56,7 +55,7 @@ export default function ProfileForm({ name, email, initials, currentPassword = "
                 <input type="hidden" name="email" value={email} />
               </div>
               <div><label className="label-base">Current Password <span className="text-brand-400 text-xs font-normal">(required to save changes)</span></label>
-                <input type="password" name="currentPassword" className="input-base max-w-md" defaultValue={currentPassword} />
+                <input type="password" name="currentPassword" className="input-base max-w-md" />
               </div>
               <div><label className="label-base">New Password <span className="text-brand-400 text-xs font-normal">(leave blank to keep current)</span></label>
                 <input type="password" name="newPassword" className="input-base max-w-md" />
