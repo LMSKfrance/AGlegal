@@ -144,6 +144,7 @@ textarea.input-base {
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 .input-base::placeholder { color: #9ca3af; }
+.input-with-icon { padding-left: 2.25rem; }
 .input-base:disabled {
   background-color: #f3f4f6;
   color: #6b7280;

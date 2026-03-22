@@ -40,7 +40,7 @@ export default async function NewsListPage() {
               <span className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
                 <i className="ph ph-magnifying-glass text-brand-400 text-[17px]" />
               </span>
-              <input type="text" className="input-base pl-9 h-9 text-[13px] w-full sm:w-72" placeholder="Search articles..." />
+              <input type="text" className="input-base input-with-icon h-9 text-[13px] w-full sm:w-72" placeholder="Search articles..." />
             </div>
           </div>
           <div className="table-container">
