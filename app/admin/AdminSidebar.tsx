@@ -29,6 +29,7 @@ const nav = [
     items: [
       { href: "/admin/history",       label: "History Log",           view: "history",       icon: "ph-clock-counter-clockwise" },
       { href: "/admin/notifications", label: "Tasks & Notifications", view: "notifications", icon: "ph-bell" },
+      { href: "/admin/settings",      label: "Site Settings",         view: "settings",      icon: "ph-gear" },
     ],
   },
 ];
@@ -44,6 +45,7 @@ const LABELS: Record<string, string> = {
   "/admin/contact":       "Contact",
   "/admin/history":       "History Log",
   "/admin/notifications": "Tasks & Notifications",
+  "/admin/settings":      "Site Settings",
   "/admin/profile":       "My Profile",
 };
 
