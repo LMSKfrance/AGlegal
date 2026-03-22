@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useRef, useState, useTransition } from "react";
+import { useActionState, useEffect, useRef, useState, useTransition } from "react";
 import { setHomeSectionVisible } from "@/lib/actions/home";
 import type {
   HomeFormState,
@@ -69,14 +69,58 @@ export default function HomeForm({
   const [aboutState, aboutFormAction, aboutPending] = useActionState(aboutAction, INITIAL);
   const [headingsState, headingsFormAction, headingsPending] = useActionState(headingsAction, INITIAL);
   const lang = useAdminLang();
+
+  const heroFormRef = useRef<HTMLFormElement>(null);
+  const aboutFormRef = useRef<HTMLFormElement>(null);
+  const headingsFormRef = useRef<HTMLFormElement>(null);
+
   const heroImgRef = useRef<HTMLInputElement>(null);
   const aboutImgRef = useRef<HTMLInputElement>(null);
   const [heroImgPreview, setHeroImgPreview] = useState<string | null>(hero.image ? `/api/images/${hero.image}` : null);
   const [aboutImgPreview, setAboutImgPreview] = useState<string | null>(about.image ? `/api/images/${about.image}` : null);
 
+  const [isDirty, setIsDirty] = useState(false);
+  const anySaving = heroPending || aboutPending || headingsPending;
+
+  // Reset dirty state after all sections save successfully
+  useEffect(() => {
+    if (heroState.success && aboutState.success && headingsState.success) {
+      setIsDirty(false);
+    }
+  }, [heroState.success, aboutState.success, headingsState.success]);
+
+  function handleSaveAll() {
+    heroFormRef.current?.requestSubmit();
+    aboutFormRef.current?.requestSubmit();
+    headingsFormRef.current?.requestSubmit();
+  }
+
+  function handleDiscard() {
+    heroFormRef.current?.reset();
+    aboutFormRef.current?.reset();
+    headingsFormRef.current?.reset();
+    setHeroImgPreview(hero.image ? `/api/images/${hero.image}` : null);
+    setAboutImgPreview(about.image ? `/api/images/${about.image}` : null);
+    setIsDirty(false);
+  }
+
+  // ⌘S / Ctrl+S keyboard shortcut
+  useEffect(() => {
+    function onKeyDown(e: KeyboardEvent) {
+      if ((e.metaKey || e.ctrlKey) && e.key === "s") {
+        e.preventDefault();
+        handleSaveAll();
+      }
+    }
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <>
-      <div className="page-content space-y-6 pb-24 pt-6">
+      {/* onChange on wrapper captures all field edits to track dirty state */}
+      <div className="page-content space-y-6 pb-24 pt-6" onChange={() => setIsDirty(true)}>
 
         <div className="pb-6 pt-8 border-b border-brand-200">
           <h1 className="text-[28px] font-bold text-brand-900 tracking-tight">Homepage Manager</h1>
@@ -84,11 +128,11 @@ export default function HomeForm({
         </div>
 
         {/* ── Hero Section ────────────────────────────────────────────────── */}
-        <form action={heroFormAction}>
+        <form ref={heroFormRef} action={heroFormAction}>
           <div className="card">
             <div className="card-header">
               <h2 className="font-semibold text-brand-900 flex items-center gap-2 text-[15px]">
-                <i className="ph ph-monitor text-primary-600" /> Hero Banner
+                <i className="ph ph-monitor text-primary-600" /> Hero Section
               </h2>
               <SectionToggle sectionId="hero" initialValue={visibility.hero} />
             </div>
@@ -145,23 +189,18 @@ export default function HomeForm({
                   )}
                 </div>
                 <input ref={heroImgRef} type="file" name="heroImage" accept="image/*" className="hidden"
-                  onChange={(e) => { const f = e.target.files?.[0]; if (f) setHeroImgPreview(URL.createObjectURL(f)); }} />
-              </div>
-              <div className="flex justify-end">
-                <button type="submit" className="btn btn-primary" disabled={heroPending}>
-                  {heroPending ? <><i className="ph ph-spinner animate-spin" /> Saving...</> : <><i className="ph ph-floppy-disk" /> Save Hero</>}
-                </button>
+                  onChange={(e) => { const f = e.target.files?.[0]; if (f) { setHeroImgPreview(URL.createObjectURL(f)); setIsDirty(true); } }} />
               </div>
             </div>
           </div>
         </form>
 
         {/* ── Who We Are ──────────────────────────────────────────────────── */}
-        <form action={aboutFormAction}>
+        <form ref={aboutFormRef} action={aboutFormAction}>
           <div className="card">
             <div className="card-header">
               <h2 className="font-semibold text-brand-900 flex items-center gap-2 text-[15px]">
-                <i className="ph ph-users-three text-primary-600" /> Who We Are
+                <i className="ph ph-users-three text-primary-600" /> Who We Are Section
               </h2>
               <SectionToggle sectionId="about" initialValue={visibility.about} />
             </div>
@@ -203,19 +242,29 @@ export default function HomeForm({
                   )}
                 </div>
                 <input ref={aboutImgRef} type="file" name="aboutImage" accept="image/*" className="hidden"
-                  onChange={(e) => { const f = e.target.files?.[0]; if (f) setAboutImgPreview(URL.createObjectURL(f)); }} />
-              </div>
-              <div className="flex justify-end">
-                <button type="submit" className="btn btn-primary" disabled={aboutPending}>
-                  {aboutPending ? <><i className="ph ph-spinner animate-spin" /> Saving...</> : <><i className="ph ph-floppy-disk" /> Save Who We Are</>}
-                </button>
+                  onChange={(e) => { const f = e.target.files?.[0]; if (f) { setAboutImgPreview(URL.createObjectURL(f)); setIsDirty(true); } }} />
               </div>
             </div>
           </div>
         </form>
 
         {/* ── Section Headings ─────────────────────────────────────────────── */}
-        <form action={headingsFormAction}>
+        <form ref={headingsFormRef} action={headingsFormAction}>
+          {/* Pass through the other language's values as hidden inputs */}
+          {lang === "en" && <>
+            <input type="hidden" name="servicesTitleKa" value={headings.servicesTitleKa} />
+            <input type="hidden" name="servicesDescriptionKa" value={headings.servicesDescriptionKa} />
+            <input type="hidden" name="benefitsTitleKa" value={headings.benefitsTitleKa} />
+            <input type="hidden" name="processTitleKa" value={headings.processTitleKa} />
+            <input type="hidden" name="processDescriptionKa" value={headings.processDescriptionKa} />
+          </>}
+          {lang === "ka" && <>
+            <input type="hidden" name="servicesTitleEn" value={headings.servicesTitleEn} />
+            <input type="hidden" name="servicesDescriptionEn" value={headings.servicesDescriptionEn} />
+            <input type="hidden" name="benefitsTitleEn" value={headings.benefitsTitleEn} />
+            <input type="hidden" name="processTitleEn" value={headings.processTitleEn} />
+            <input type="hidden" name="processDescriptionEn" value={headings.processDescriptionEn} />
+          </>}
           <div className="card">
             <div className="card-header">
               <h2 className="font-semibold text-brand-900 flex items-center gap-2 text-[15px]">
@@ -232,25 +281,15 @@ export default function HomeForm({
 
               {/* Services */}
               <div>
-                <div className="text-[12px] font-bold text-brand-400 uppercase tracking-wider mb-3">Our Services Section</div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-3">
+                <div className="text-[13px] font-semibold text-brand-800 mb-3">Services Section</div>
+                <div className="space-y-4">
                   <div>
-                    <label className="label-base">Title (EN)</label>
-                    <input type="text" name="servicesTitleEn" className="input-base" defaultValue={headings.servicesTitleEn} />
+                    <label className="label-base">Title</label>
+                    <input type="text" name={lang === "en" ? "servicesTitleEn" : "servicesTitleKa"} className="input-base" defaultValue={lang === "en" ? headings.servicesTitleEn : headings.servicesTitleKa} />
                   </div>
                   <div>
-                    <label className="label-base">Title (KA)</label>
-                    <input type="text" name="servicesTitleKa" className="input-base" defaultValue={headings.servicesTitleKa} />
-                  </div>
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="label-base">Subtitle (EN)</label>
-                    <textarea name="servicesDescriptionEn" className="input-base" rows={2} defaultValue={headings.servicesDescriptionEn} />
-                  </div>
-                  <div>
-                    <label className="label-base">Subtitle (KA)</label>
-                    <textarea name="servicesDescriptionKa" className="input-base" rows={2} defaultValue={headings.servicesDescriptionKa} />
+                    <label className="label-base">Description</label>
+                    <textarea name={lang === "en" ? "servicesDescriptionEn" : "servicesDescriptionKa"} className="input-base" rows={2} defaultValue={lang === "en" ? headings.servicesDescriptionEn : headings.servicesDescriptionKa} />
                   </div>
                 </div>
               </div>
@@ -259,16 +298,10 @@ export default function HomeForm({
 
               {/* Benefits */}
               <div>
-                <div className="text-[12px] font-bold text-brand-400 uppercase tracking-wider mb-3">Why Work With Us Section</div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="label-base">Title (EN)</label>
-                    <input type="text" name="benefitsTitleEn" className="input-base" defaultValue={headings.benefitsTitleEn} />
-                  </div>
-                  <div>
-                    <label className="label-base">Title (KA)</label>
-                    <input type="text" name="benefitsTitleKa" className="input-base" defaultValue={headings.benefitsTitleKa} />
-                  </div>
+                <div className="text-[13px] font-semibold text-brand-800 mb-3">Benefits Section</div>
+                <div>
+                  <label className="label-base">Title</label>
+                  <input type="text" name={lang === "en" ? "benefitsTitleEn" : "benefitsTitleKa"} className="input-base" defaultValue={lang === "en" ? headings.benefitsTitleEn : headings.benefitsTitleKa} />
                 </div>
               </div>
 
@@ -276,33 +309,17 @@ export default function HomeForm({
 
               {/* Process */}
               <div>
-                <div className="text-[12px] font-bold text-brand-400 uppercase tracking-wider mb-3">How We Work Section</div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-3">
+                <div className="text-[13px] font-semibold text-brand-800 mb-3">Working Process Section</div>
+                <div className="space-y-4">
                   <div>
-                    <label className="label-base">Title (EN)</label>
-                    <input type="text" name="processTitleEn" className="input-base" defaultValue={headings.processTitleEn} />
+                    <label className="label-base">Title</label>
+                    <input type="text" name={lang === "en" ? "processTitleEn" : "processTitleKa"} className="input-base" defaultValue={lang === "en" ? headings.processTitleEn : headings.processTitleKa} />
                   </div>
                   <div>
-                    <label className="label-base">Title (KA)</label>
-                    <input type="text" name="processTitleKa" className="input-base" defaultValue={headings.processTitleKa} />
-                  </div>
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="label-base">Subtitle (EN)</label>
-                    <textarea name="processDescriptionEn" className="input-base" rows={2} defaultValue={headings.processDescriptionEn} />
-                  </div>
-                  <div>
-                    <label className="label-base">Subtitle (KA)</label>
-                    <textarea name="processDescriptionKa" className="input-base" rows={2} defaultValue={headings.processDescriptionKa} />
+                    <label className="label-base">Description</label>
+                    <textarea name={lang === "en" ? "processDescriptionEn" : "processDescriptionKa"} className="input-base" rows={2} defaultValue={lang === "en" ? headings.processDescriptionEn : headings.processDescriptionKa} />
                   </div>
                 </div>
-              </div>
-
-              <div className="flex justify-end">
-                <button type="submit" className="btn btn-primary" disabled={headingsPending}>
-                  {headingsPending ? <><i className="ph ph-spinner animate-spin" /> Saving...</> : <><i className="ph ph-floppy-disk" /> Save Headings</>}
-                </button>
               </div>
             </div>
           </div>
@@ -312,10 +329,12 @@ export default function HomeForm({
         <div className="card">
           <div className="card-header">
             <h2 className="font-semibold text-brand-900 flex items-center gap-2 text-[15px]">
-              <i className="ph ph-star text-primary-600" /> Why Work With Us
-              <span className="text-[11px] font-normal text-brand-400 ml-1">(max 4 cards)</span>
+              <i className="ph ph-star text-primary-600" /> Benefits (Why Work With Us)
             </h2>
-            <SectionToggle sectionId="benefits" initialValue={visibility.benefits} />
+            <div className="flex items-center gap-3">
+              <span className="text-[12px] text-brand-400">{benefits.length} of 4 cards used</span>
+              <SectionToggle sectionId="benefits" initialValue={visibility.benefits} />
+            </div>
           </div>
           <div className="card-body">
             <HomeBenefitsSection initialBenefits={benefits} lang={lang} />
@@ -326,10 +345,12 @@ export default function HomeForm({
         <div className="card">
           <div className="card-header">
             <h2 className="font-semibold text-brand-900 flex items-center gap-2 text-[15px]">
-              <i className="ph ph-arrows-clockwise text-primary-600" /> How We Work
-              <span className="text-[11px] font-normal text-brand-400 ml-1">(max 4 steps)</span>
+              <i className="ph ph-arrows-clockwise text-primary-600" /> Working Process Steps
             </h2>
-            <SectionToggle sectionId="process" initialValue={visibility.process} />
+            <div className="flex items-center gap-3">
+              <span className="text-[12px] text-brand-400">{processSteps.length} of 4 steps used</span>
+              <SectionToggle sectionId="process" initialValue={visibility.process} />
+            </div>
           </div>
           <div className="card-body">
             <HomeProcessSection initialSteps={processSteps} lang={lang} />
@@ -367,6 +388,44 @@ export default function HomeForm({
           </div>
         </div>
 
+      </div>
+
+      {/* ── Sticky Action Bar ─────────────────────────────────────────────── */}
+      <div className="action-bar">
+        <div className="text-[12px] text-brand-500 flex items-center gap-1.5">
+          {isDirty ? (
+            <>
+              <span className="w-2 h-2 rounded-full bg-amber-400 shrink-0 inline-block" />
+              <span className="text-amber-600 font-medium">Unsaved changes</span>
+            </>
+          ) : (
+            <>
+              <kbd className="bg-brand-100 px-1.5 py-0.5 rounded font-mono text-[10px] text-brand-700">⌘S</kbd>
+              <span>Save</span>
+            </>
+          )}
+        </div>
+        <div className="flex gap-3">
+          <button
+            type="button"
+            className="btn btn-secondary"
+            onClick={handleDiscard}
+            disabled={anySaving || !isDirty}
+          >
+            Discard Changes
+          </button>
+          <button
+            type="button"
+            className="btn btn-primary"
+            onClick={handleSaveAll}
+            disabled={anySaving}
+          >
+            {anySaving
+              ? <><i className="ph ph-spinner animate-spin" /> Saving...</>
+              : <><i className="ph ph-floppy-disk" /> Save &amp; Publish Layout</>
+            }
+          </button>
+        </div>
       </div>
     </>
   );
