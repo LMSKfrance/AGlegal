@@ -405,7 +405,14 @@ export default function HomeForm({
       {/* ── Sticky Action Bar ─────────────────────────────────────────────── */}
       <div className="action-bar">
         <div className="text-[12px] text-brand-500 flex items-center gap-1.5">
-          {isDirty ? (
+          {(heroState.error || aboutState.error || headingsState.error) ? (
+            <>
+              <span className="w-2 h-2 rounded-full bg-red-500 shrink-0 inline-block" />
+              <span className="text-red-600 font-medium truncate max-w-xs">
+                {heroState.error || aboutState.error || headingsState.error}
+              </span>
+            </>
+          ) : isDirty ? (
             <>
               <span className="w-2 h-2 rounded-full bg-amber-400 shrink-0 inline-block" />
               <span className="text-amber-600 font-medium">Unsaved changes</span>
