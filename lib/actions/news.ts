@@ -181,6 +181,16 @@ export async function updateNews(id: number, prev: NewsFormState, formData: Form
   }
 }
 
+export async function toggleArticlePublished(id: number, published: number): Promise<void> {
+  try {
+    await db.update(articles).set({ published, updatedAt: new Date().toISOString() }).where(eq(articles.id, id));
+    revalidatePath("/admin/news");
+    revalidatePath("/news");
+  } catch (err) {
+    console.error("[toggleArticlePublished]", err);
+  }
+}
+
 export async function deleteNews(id: number): Promise<void> {
   let deleted = false;
   try {

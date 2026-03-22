@@ -315,6 +315,16 @@ export async function deleteService(id: number): Promise<void> {
   redirect(deleted ? "/admin/services?toast=success" : "/admin/services?toast=error");
 }
 
+export async function toggleServicePublished(id: number, published: number): Promise<void> {
+  try {
+    await db.update(services).set({ published, updatedAt: new Date().toISOString() }).where(eq(services.id, id));
+    revalidatePath("/admin/services");
+    revalidatePath("/services", "layout");
+  } catch (err) {
+    console.error("[toggleServicePublished]", err);
+  }
+}
+
 export async function reorderServices(orderedIds: number[]): Promise<void> {
   try {
     await Promise.all(

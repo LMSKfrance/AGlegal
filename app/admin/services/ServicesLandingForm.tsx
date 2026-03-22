@@ -26,9 +26,11 @@ const INITIAL: ServicesPageFormState = {};
 export default function ServicesLandingForm({
   page,
   saveAction,
+  section = "all",
 }: {
   page: PageRecord;
   saveAction: (_prev: ServicesPageFormState, fd: FormData) => Promise<ServicesPageFormState>;
+  section?: "content" | "seo" | "all";
 }) {
   const [heroState, heroFormAction, heroPending] = useActionState(saveAction, INITIAL);
   const [seoState, seoFormAction, seoPending] = useActionState(saveAction, INITIAL);
@@ -48,7 +50,7 @@ export default function ServicesLandingForm({
   return (
     <>
       {/* ── Landing Page Content card ─────────────────────────────── */}
-      <form action={heroFormAction}>
+      {(section === "all" || section === "content") && <form action={heroFormAction}>
         {/* Preserve SEO fields so hero save doesn't wipe them */}
         <input type="hidden" name="seoTitleEn" value={p.seoTitleEn ?? ""} />
         <input type="hidden" name="seoTitleKa" value={p.seoTitleKa ?? ""} />
@@ -100,7 +102,7 @@ export default function ServicesLandingForm({
       </form>
 
       {/* ── SEO & Open Graph card ──────────────────────────────────── */}
-      <form action={seoFormAction}>
+      {(section === "all" || section === "seo") && <form action={seoFormAction}>
         {/* Preserve hero fields so SEO save doesn't wipe them */}
         <input type="hidden" name="titleEn" value={p.titleEn} />
         <input type="hidden" name="titleKa" value={p.titleKa ?? ""} />
@@ -155,7 +157,7 @@ export default function ServicesLandingForm({
             <OgImageUpload existing={p.ogImage} />
           </div>
         </div>
-      </form>
+      </form>}
     </>
   );
 }
