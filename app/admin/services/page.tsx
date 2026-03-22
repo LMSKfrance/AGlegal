@@ -13,42 +13,43 @@ export default async function ServicesListPage() {
   ]);
 
   return (
-    <>
-      {/* ─── Page Header ──────────────────────────────────────────── */}
-      <div className="pb-6 pt-8 border-b border-brand-200 px-8">
+    <div className="page-content space-y-6 pb-8 pt-6">
+
+      {/* ── Page Header ──────────────────────────────────────────── */}
+      <div className="pb-6 pt-8 border-b border-brand-200">
         <h1 className="text-[28px] font-bold text-brand-900 tracking-tight">Services</h1>
         <p className="text-brand-500 mt-2">Manage the services landing page content and individual practice areas.</p>
       </div>
 
-      {/* ─── Landing Page + SEO (client forms) ───────────────────── */}
+      {/* ── Landing Page Content + SEO cards (client forms) ──────── */}
       <ServicesLandingForm page={landingPage} saveAction={upsertServicesPageContent} />
 
-      {/* ─── Practice Areas List ──────────────────────────────────── */}
-      <div className="px-8 pt-7 pb-10">
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-[13px] font-bold text-brand-400 uppercase tracking-widest">Practice Areas</h2>
+      {/* ── Practice Areas ───────────────────────────────────────── */}
+      <div className="card overflow-hidden">
+        <div className="card-header">
+          <h2 className="font-semibold text-brand-900 flex items-center gap-2 text-[15px]">
+            <i className="ph ph-briefcase text-primary-600" /> Practice Areas
+          </h2>
           <Link href="/admin/services/new" className="btn btn-primary">
             <i className="ph ph-plus" /> Add Service
           </Link>
         </div>
-
-        <div className="max-w-5xl ml-0">
-          <div className="card overflow-hidden">
-            {servicesList.length === 0 ? (
-              <div className="text-center text-brand-400 py-12">
-                No services yet.{" "}
-                <Link href="/admin/services/new" className="text-primary-600 font-medium hover:underline">
-                  Add the first one →
-                </Link>
-              </div>
-            ) : (
-              <div className="table-container">
-                <ServicesListTable initialServices={servicesList} />
-              </div>
-            )}
-          </div>
+        <div className="card-body p-0">
+          {servicesList.length === 0 ? (
+            <div className="text-center text-brand-400 py-12">
+              No services yet.{" "}
+              <Link href="/admin/services/new" className="text-primary-600 font-medium hover:underline">
+                Add the first one →
+              </Link>
+            </div>
+          ) : (
+            <div className="table-container">
+              <ServicesListTable initialServices={servicesList} />
+            </div>
+          )}
         </div>
       </div>
-    </>
+
+    </div>
   );
 }
