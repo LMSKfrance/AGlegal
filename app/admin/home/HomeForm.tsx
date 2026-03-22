@@ -1,20 +1,46 @@
 "use client";
 
 import { useActionState, useState, useRef } from "react";
-import type { HomeFormState, HomeHeroSettings, HomeAboutSettings } from "@/lib/actions/home";
+import type {
+  HomeFormState,
+  HomeHeroSettings,
+  HomeAboutSettings,
+  HomeSectionHeadingsSettings,
+} from "@/lib/actions/home";
+import type { HomeBenefit, HomeProcessStep } from "@/lib/db/schema";
+import type { HomeSectionVisibility } from "@/lib/home";
+import HomeSectionsVisibility from "./HomeSectionsVisibility";
+import HomeBenefitsSection from "./HomeBenefitsSection";
+import HomeProcessSection from "./HomeProcessSection";
 
 type Props = {
   heroAction: (prev: HomeFormState, formData: FormData) => Promise<HomeFormState>;
   aboutAction: (prev: HomeFormState, formData: FormData) => Promise<HomeFormState>;
+  headingsAction: (prev: HomeFormState, formData: FormData) => Promise<HomeFormState>;
   hero: HomeHeroSettings;
   about: HomeAboutSettings;
+  headings: HomeSectionHeadingsSettings;
+  benefits: HomeBenefit[];
+  processSteps: HomeProcessStep[];
+  visibility: HomeSectionVisibility;
 };
 
 const INITIAL: HomeFormState = {};
 
-export default function HomeForm({ heroAction, aboutAction, hero, about }: Props) {
+export default function HomeForm({
+  heroAction,
+  aboutAction,
+  headingsAction,
+  hero,
+  about,
+  headings,
+  benefits,
+  processSteps,
+  visibility,
+}: Props) {
   const [heroState, heroFormAction, heroPending] = useActionState(heroAction, INITIAL);
   const [aboutState, aboutFormAction, aboutPending] = useActionState(aboutAction, INITIAL);
+  const [headingsState, headingsFormAction, headingsPending] = useActionState(headingsAction, INITIAL);
   const [lang, setLang] = useState<"en" | "ka">("en");
   const heroImgRef = useRef<HTMLInputElement>(null);
   const aboutImgRef = useRef<HTMLInputElement>(null);
@@ -25,17 +51,18 @@ export default function HomeForm({ heroAction, aboutAction, hero, about }: Props
     <>
       <div className="page-header border-b border-brand-200 sticky top-0 bg-[#f8fafc]/95 backdrop-blur z-10 pb-6 pt-8">
         <h1 className="text-[28px] font-bold text-brand-900 tracking-tight">Homepage Manager</h1>
+        <div className="lang-switcher">
+          <div className={`lang-tab${lang === "en" ? " active" : ""}`} onClick={() => setLang("en")}>EN</div>
+          <div className={`lang-tab${lang === "ka" ? " active" : ""}`} onClick={() => setLang("ka")}>KA</div>
+        </div>
       </div>
 
       <div className="page-content space-y-6 pb-24 pt-6">
-        <div className="flex justify-end">
-          <div className="lang-switcher">
-            <div className={`lang-tab${lang === "en" ? " active" : ""}`} onClick={() => setLang("en")}>EN</div>
-            <div className={`lang-tab${lang === "ka" ? " active" : ""}`} onClick={() => setLang("ka")}>KA</div>
-          </div>
-        </div>
 
-        {/* Hero Section */}
+        {/* ── Section Visibility ─────────────────────────────────────────── */}
+        <HomeSectionsVisibility visibility={visibility} />
+
+        {/* ── Hero Section ────────────────────────────────────────────────── */}
         <form action={heroFormAction}>
           <div className="card">
             <div className="card-header">
@@ -95,14 +122,8 @@ export default function HomeForm({ heroAction, aboutAction, hero, about }: Props
                     </>
                   )}
                 </div>
-                <input
-                  ref={heroImgRef}
-                  type="file"
-                  name="heroImage"
-                  accept="image/*"
-                  className="hidden"
-                  onChange={(e) => { const f = e.target.files?.[0]; if (f) setHeroImgPreview(URL.createObjectURL(f)); }}
-                />
+                <input ref={heroImgRef} type="file" name="heroImage" accept="image/*" className="hidden"
+                  onChange={(e) => { const f = e.target.files?.[0]; if (f) setHeroImgPreview(URL.createObjectURL(f)); }} />
               </div>
               <div className="flex justify-end">
                 <button type="submit" className="btn btn-primary" disabled={heroPending}>
@@ -113,7 +134,7 @@ export default function HomeForm({ heroAction, aboutAction, hero, about }: Props
           </div>
         </form>
 
-        {/* Who We Are */}
+        {/* ── Who We Are ──────────────────────────────────────────────────── */}
         <form action={aboutFormAction}>
           <div className="card">
             <div className="card-header">
@@ -158,14 +179,8 @@ export default function HomeForm({ heroAction, aboutAction, hero, about }: Props
                     </>
                   )}
                 </div>
-                <input
-                  ref={aboutImgRef}
-                  type="file"
-                  name="aboutImage"
-                  accept="image/*"
-                  className="hidden"
-                  onChange={(e) => { const f = e.target.files?.[0]; if (f) setAboutImgPreview(URL.createObjectURL(f)); }}
-                />
+                <input ref={aboutImgRef} type="file" name="aboutImage" accept="image/*" className="hidden"
+                  onChange={(e) => { const f = e.target.files?.[0]; if (f) setAboutImgPreview(URL.createObjectURL(f)); }} />
               </div>
               <div className="flex justify-end">
                 <button type="submit" className="btn btn-primary" disabled={aboutPending}>
@@ -175,6 +190,107 @@ export default function HomeForm({ heroAction, aboutAction, hero, about }: Props
             </div>
           </div>
         </form>
+
+        {/* ── Section Headings ─────────────────────────────────────────────── */}
+        <form action={headingsFormAction}>
+          <div className="card">
+            <div className="card-header">
+              <h2 className="font-semibold text-brand-900 flex items-center gap-2 text-[15px]">
+                <i className="ph ph-text-aa text-primary-600" /> Section Headings
+              </h2>
+            </div>
+            <div className="card-body space-y-6">
+              {headingsState.error && (
+                <div className="p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700">{headingsState.error}</div>
+              )}
+              {headingsState.success && (
+                <div className="p-3 bg-green-50 border border-green-200 rounded-lg text-sm text-green-700">Section headings saved.</div>
+              )}
+
+              {/* Services */}
+              <div>
+                <div className="text-[12px] font-bold text-brand-400 uppercase tracking-wider mb-3">Our Services Section</div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-3">
+                  <div>
+                    <label className="label-base">Title (EN)</label>
+                    <input type="text" name="servicesTitleEn" className="input-base" defaultValue={headings.servicesTitleEn} />
+                  </div>
+                  <div>
+                    <label className="label-base">Title (KA)</label>
+                    <input type="text" name="servicesTitleKa" className="input-base" defaultValue={headings.servicesTitleKa} />
+                  </div>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="label-base">Subtitle (EN)</label>
+                    <textarea name="servicesDescriptionEn" className="input-base" rows={2} defaultValue={headings.servicesDescriptionEn} />
+                  </div>
+                  <div>
+                    <label className="label-base">Subtitle (KA)</label>
+                    <textarea name="servicesDescriptionKa" className="input-base" rows={2} defaultValue={headings.servicesDescriptionKa} />
+                  </div>
+                </div>
+              </div>
+
+              <div className="border-t border-brand-100" />
+
+              {/* Benefits */}
+              <div>
+                <div className="text-[12px] font-bold text-brand-400 uppercase tracking-wider mb-3">Why Work With Us Section</div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="label-base">Title (EN)</label>
+                    <input type="text" name="benefitsTitleEn" className="input-base" defaultValue={headings.benefitsTitleEn} />
+                  </div>
+                  <div>
+                    <label className="label-base">Title (KA)</label>
+                    <input type="text" name="benefitsTitleKa" className="input-base" defaultValue={headings.benefitsTitleKa} />
+                  </div>
+                </div>
+              </div>
+
+              <div className="border-t border-brand-100" />
+
+              {/* Process */}
+              <div>
+                <div className="text-[12px] font-bold text-brand-400 uppercase tracking-wider mb-3">How We Work Section</div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-3">
+                  <div>
+                    <label className="label-base">Title (EN)</label>
+                    <input type="text" name="processTitleEn" className="input-base" defaultValue={headings.processTitleEn} />
+                  </div>
+                  <div>
+                    <label className="label-base">Title (KA)</label>
+                    <input type="text" name="processTitleKa" className="input-base" defaultValue={headings.processTitleKa} />
+                  </div>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="label-base">Subtitle (EN)</label>
+                    <textarea name="processDescriptionEn" className="input-base" rows={2} defaultValue={headings.processDescriptionEn} />
+                  </div>
+                  <div>
+                    <label className="label-base">Subtitle (KA)</label>
+                    <textarea name="processDescriptionKa" className="input-base" rows={2} defaultValue={headings.processDescriptionKa} />
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex justify-end">
+                <button type="submit" className="btn btn-primary" disabled={headingsPending}>
+                  {headingsPending ? <><i className="ph ph-spinner animate-spin" /> Saving...</> : <><i className="ph ph-floppy-disk" /> Save Headings</>}
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+
+        {/* ── Benefits (Why Work With Us) ──────────────────────────────────── */}
+        <HomeBenefitsSection initialBenefits={benefits} lang={lang} />
+
+        {/* ── Process Steps (How We Work) ──────────────────────────────────── */}
+        <HomeProcessSection initialSteps={processSteps} lang={lang} />
+
       </div>
     </>
   );
