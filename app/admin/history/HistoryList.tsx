@@ -67,7 +67,7 @@ export function HistoryList({ groups }: { groups: Record<string, Entry[]> }) {
                         {formatTime(entry.savedAt)}
                       </div>
                     </div>
-                    {entry.snapshotType && entry.snapshot && isSelected && (
+                    {isSelected && (
                       <div className="shrink-0" onClick={(e) => e.stopPropagation()}>
                         <RestoreButton historyId={entry.id} />
                       </div>
