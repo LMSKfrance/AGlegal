@@ -188,8 +188,8 @@ export default function AdminShell({
         {/* Lang switcher — mobile drawer only */}
         <div className="sidebar-lang px-4 py-3 border-t border-brand-100">
           <div className="lang-switcher w-full justify-center">
-            <div className={`lang-tab flex-1 text-center${lang === "en" ? " active" : ""}`} onClick={() => setLang("en")}>EN</div>
-            <div className={`lang-tab lang-tab-ka flex-1 text-center${lang === "ka" ? " active" : ""}`} onClick={() => setLang("ka")}>ᲕᲐᲠ</div>
+            <div className={`lang-tab flex-1 text-center${lang === "en" ? " active" : ""}`} onClick={() => setLang("en")}>ENG</div>
+            <div className={`lang-tab lang-tab-ka flex-1 text-center${lang === "ka" ? " active" : ""}`} onClick={() => setLang("ka")}>ქარ</div>
           </div>
         </div>
 
@@ -265,8 +265,8 @@ export default function AdminShell({
             </Link>
             <div className="hidden md:block w-px h-5 bg-brand-200" />
             <div className="hidden md:flex lang-switcher">
-              <div className={`lang-tab${lang === "en" ? " active" : ""}`} onClick={() => setLang("en")}>EN</div>
-              <div className={`lang-tab lang-tab-ka${lang === "ka" ? " active" : ""}`} onClick={() => setLang("ka")}>ᲕᲐᲠ</div>
+              <div className={`lang-tab${lang === "en" ? " active" : ""}`} onClick={() => setLang("en")}>ENG</div>
+              <div className={`lang-tab lang-tab-ka${lang === "ka" ? " active" : ""}`} onClick={() => setLang("ka")}>ქარ</div>
             </div>
           </div>
         </header>

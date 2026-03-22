@@ -302,10 +302,10 @@ select.input-base {
 /* ─── Language switcher ─── */
 .lang-switcher {
   display: inline-flex;
-  background: #f3f4f6;
+  background: #dde3ea;
   padding: 2px;
   border-radius: 8px;
-  border: 1px solid #e5e7eb;
+  border: 1px solid #c9d1da;
 }
 .lang-tab {
   padding: 4px 10px;
@@ -314,7 +314,8 @@ select.input-base {
   border-radius: 6px;
   cursor: pointer;
   color: #6b7280;
-  transition: all 0.15s;
+  transition: background 0.15s, color 0.15s, box-shadow 0.15s;
+  border: 1px solid transparent;
 }
 .lang-tab.active {
   background: #ffffff;
