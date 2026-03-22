@@ -2,6 +2,7 @@ import Link from "next/link";
 import { getNewsList, deleteNews } from "@/lib/actions/news";
 import { DeleteButton } from "@/app/admin/_components/DeleteButton";
 import { Pagination } from "@/app/admin/_components/Pagination";
+import { NewsFilters } from "./NewsFilters";
 
 export const dynamic = "force-dynamic";
 
@@ -15,13 +16,19 @@ function formatDate(dateStr: string) {
   }
 }
 
-export default async function NewsListPage({ searchParams }: { searchParams: Promise<{ page?: string }> }) {
-  const { page } = await searchParams;
-  const articles = await getNewsList();
+export default async function NewsListPage({ searchParams }: { searchParams: Promise<{ page?: string; q?: string; type?: string }> }) {
+  const { page, q = "", type = "" } = await searchParams;
+  const allArticles = await getNewsList();
+
+  const filtered = allArticles.filter((a) => {
+    const matchesQ = !q || a.titleEn?.toLowerCase().includes(q.toLowerCase()) || a.titleKa?.toLowerCase().includes(q.toLowerCase());
+    const matchesType = !type || a.type === type;
+    return matchesQ && matchesType;
+  });
 
   const currentPage = Math.max(1, parseInt(page ?? "1") || 1);
-  const totalPages = Math.ceil(articles.length / PER_PAGE);
-  const paged = articles.slice((currentPage - 1) * PER_PAGE, currentPage * PER_PAGE);
+  const totalPages = Math.ceil(filtered.length / PER_PAGE);
+  const paged = filtered.slice((currentPage - 1) * PER_PAGE, currentPage * PER_PAGE);
 
   return (
     <>
@@ -37,20 +44,7 @@ export default async function NewsListPage({ searchParams }: { searchParams: Pro
 
       <div className="page-content">
         <div className="card overflow-hidden">
-          <div className="p-4 border-b border-brand-200 flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between bg-white">
-            <select className="input-base h-9 text-[13px] sm:w-48">
-              <option>All Types</option>
-              <option>In-depth Article</option>
-              <option>News Notice</option>
-              <option>Press Release</option>
-            </select>
-            <div className="relative">
-              <span className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
-                <i className="ph ph-magnifying-glass text-brand-400 text-[17px]" />
-              </span>
-              <input type="text" className="input-base input-with-icon h-9 text-[13px] w-full sm:w-72" placeholder="Search articles..." />
-            </div>
-          </div>
+          <NewsFilters q={q} type={type} />
           <div className="table-container">
             <table className="admin-table">
               <thead>
@@ -62,10 +56,10 @@ export default async function NewsListPage({ searchParams }: { searchParams: Pro
                 </tr>
               </thead>
               <tbody>
-                {articles.length === 0 ? (
+                {paged.length === 0 ? (
                   <tr>
                     <td colSpan={4} className="text-center text-brand-400 py-12">
-                      No articles yet. <Link href="/admin/news/new" className="text-primary-600 font-medium hover:underline">Add the first one →</Link>
+                      {q || type ? "No articles match your search." : <>No articles yet. <Link href="/admin/news/new" className="text-primary-600 font-medium hover:underline">Add the first one →</Link></>}
                     </td>
                   </tr>
                 ) : (
