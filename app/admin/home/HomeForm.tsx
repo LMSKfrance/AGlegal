@@ -7,6 +7,7 @@ import type {
   HomeHeroSettings,
   HomeAboutSettings,
   HomeSectionHeadingsSettings,
+  HomeCTASettings,
 } from "@/lib/actions/home";
 import type { HomeBenefit, HomeProcessStep } from "@/lib/db/schema";
 import type { HomeSectionId, HomeSectionVisibility } from "@/lib/home";
@@ -18,9 +19,11 @@ type Props = {
   heroAction: (prev: HomeFormState, formData: FormData) => Promise<HomeFormState>;
   aboutAction: (prev: HomeFormState, formData: FormData) => Promise<HomeFormState>;
   headingsAction: (prev: HomeFormState, formData: FormData) => Promise<HomeFormState>;
+  ctaAction: (prev: HomeFormState, formData: FormData) => Promise<HomeFormState>;
   hero: HomeHeroSettings;
   about: HomeAboutSettings;
   headings: HomeSectionHeadingsSettings;
+  cta: HomeCTASettings;
   benefits: HomeBenefit[];
   processSteps: HomeProcessStep[];
   visibility: HomeSectionVisibility;
@@ -58,9 +61,11 @@ export default function HomeForm({
   heroAction,
   aboutAction,
   headingsAction,
+  ctaAction,
   hero,
   about,
   headings,
+  cta,
   benefits,
   processSteps,
   visibility,
@@ -68,12 +73,14 @@ export default function HomeForm({
   const [heroState, heroFormAction, heroPending] = useActionState(heroAction, INITIAL);
   const [aboutState, aboutFormAction, aboutPending] = useActionState(aboutAction, INITIAL);
   const [headingsState, headingsFormAction, headingsPending] = useActionState(headingsAction, INITIAL);
+  const [ctaState, ctaFormAction, ctaPending] = useActionState(ctaAction, INITIAL);
   const lang = useAdminLang();
   const L = lang === "en" ? "En" : "ქარ";
 
   const heroFormRef = useRef<HTMLFormElement>(null);
   const aboutFormRef = useRef<HTMLFormElement>(null);
   const headingsFormRef = useRef<HTMLFormElement>(null);
+  const ctaFormRef = useRef<HTMLFormElement>(null);
 
   const heroImgRef = useRef<HTMLInputElement>(null);
   const aboutImgRef = useRef<HTMLInputElement>(null);
@@ -81,7 +88,7 @@ export default function HomeForm({
   const [aboutImgPreview, setAboutImgPreview] = useState<string | null>(about.image ? `/api/images/${about.image}` : null);
 
   const [isDirty, setIsDirty] = useState(false);
-  const anySaving = heroPending || aboutPending || headingsPending;
+  const anySaving = heroPending || aboutPending || headingsPending || ctaPending;
   const wasSavingRef = useRef(false);
 
   // Clear dirty flag when a save completes without errors
@@ -90,11 +97,11 @@ export default function HomeForm({
       wasSavingRef.current = true;
     } else if (wasSavingRef.current) {
       wasSavingRef.current = false;
-      if (!heroState.error && !aboutState.error && !headingsState.error) {
+      if (!heroState.error && !aboutState.error && !headingsState.error && !ctaState.error) {
         setIsDirty(false);
       }
     }
-  }, [anySaving, heroState.error, aboutState.error, headingsState.error]);
+  }, [anySaving, heroState.error, aboutState.error, headingsState.error, ctaState.error]);
 
   // Scroll to the first section that has an error
   useEffect(() => {
@@ -104,19 +111,23 @@ export default function HomeForm({
       aboutFormRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
     } else if (headingsState.error) {
       headingsFormRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    } else if (ctaState.error) {
+      ctaFormRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
     }
-  }, [heroState.error, aboutState.error, headingsState.error]);
+  }, [heroState.error, aboutState.error, headingsState.error, ctaState.error]);
 
   function handleSaveAll() {
     heroFormRef.current?.requestSubmit();
     aboutFormRef.current?.requestSubmit();
     headingsFormRef.current?.requestSubmit();
+    ctaFormRef.current?.requestSubmit();
   }
 
   function handleDiscard() {
     heroFormRef.current?.reset();
     aboutFormRef.current?.reset();
     headingsFormRef.current?.reset();
+    ctaFormRef.current?.reset();
     setHeroImgPreview(hero.image ? `/api/images/${hero.image}` : null);
     setAboutImgPreview(about.image ? `/api/images/${about.image}` : null);
     setIsDirty(false);
@@ -369,6 +380,61 @@ export default function HomeForm({
           </div>
         </div>
 
+        {/* ── CTA Section Editor ───────────────────────────────────────────── */}
+        <form ref={ctaFormRef} action={ctaFormAction}>
+          {lang === "en" && <>
+            <input type="hidden" name="subtitleKa" value={cta.subtitleKa} />
+            <input type="hidden" name="titleKa" value={cta.titleKa} />
+            <input type="hidden" name="buttonKa" value={cta.buttonKa} />
+          </>}
+          {lang === "ka" && <>
+            <input type="hidden" name="subtitleEn" value={cta.subtitleEn} />
+            <input type="hidden" name="titleEn" value={cta.titleEn} />
+            <input type="hidden" name="buttonEn" value={cta.buttonEn} />
+          </>}
+          <div className="card">
+            <div className="card-header">
+              <h2 className="font-semibold text-brand-900 flex items-center gap-2 text-[15px]">
+                <i className="ph ph-megaphone text-primary-600" /> Call to Action Section
+              </h2>
+              <SectionToggle sectionId="cta" initialValue={visibility.cta} />
+            </div>
+            <div className="card-body space-y-6">
+              {ctaState.error && (
+                <div className="p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700">{ctaState.error}</div>
+              )}
+              {ctaState.success && (
+                <div className="p-3 bg-green-50 border border-green-200 rounded-lg text-sm text-green-700">CTA section saved.</div>
+              )}
+              <div>
+                <label className="label-base">Subtitle / Eyebrow <span className="text-[10px] text-brand-400 font-normal ml-2">({L}, Max 80)</span></label>
+                <input type="text" name={lang === "en" ? "subtitleEn" : "subtitleKa"} className="input-base" maxLength={80}
+                  placeholder={lang === "en" ? "Ready to take the next step?" : "მზად ხართ შემდეგი ნაბიჯისთვის?"}
+                  defaultValue={lang === "en" ? cta.subtitleEn : cta.subtitleKa} />
+              </div>
+              <div>
+                <label className="label-base">Main Title <span className="text-[10px] text-brand-400 font-normal ml-2">({L}, Max 80)</span></label>
+                <input type="text" name={lang === "en" ? "titleEn" : "titleKa"} className="input-base" maxLength={80}
+                  placeholder={lang === "en" ? "Schedule your consultation today" : "დაჯავშნეთ კონსულტაცია დღესვე"}
+                  defaultValue={lang === "en" ? cta.titleEn : cta.titleKa} />
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div>
+                  <label className="label-base">Button Label <span className="text-[10px] text-brand-400 font-normal ml-2">({L}, Max 32)</span></label>
+                  <input type="text" name={lang === "en" ? "buttonEn" : "buttonKa"} className="input-base" maxLength={32}
+                    placeholder={lang === "en" ? "SCHEDULE NOW" : "დაჯავშნა ახლა"}
+                    defaultValue={lang === "en" ? cta.buttonEn : cta.buttonKa} />
+                </div>
+                <div>
+                  <label className="label-base">Button URL <span className="text-[10px] text-brand-400 font-normal ml-2">(shared)</span></label>
+                  <input type="text" name="buttonUrl" className="input-base" placeholder="/appointment"
+                    defaultValue={cta.buttonUrl || "/appointment"} />
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+
         {/* ── News & CTA Visibility ─────────────────────────────────────────── */}
         <div className="card">
           <div className="card-header">
@@ -381,7 +447,6 @@ export default function HomeForm({
               { id: "services" as HomeSectionId, label: "Our Services", icon: "ph-briefcase" },
               { id: "team" as HomeSectionId, label: "Meet the Team", icon: "ph-users" },
               { id: "news" as HomeSectionId, label: "Latest News", icon: "ph-newspaper" },
-              { id: "cta" as HomeSectionId, label: "Call to Action", icon: "ph-megaphone" },
             ].map(({ id, label, icon }) => (
               <div key={id} className="flex items-center justify-between px-1 py-4">
                 <div className="flex items-center gap-3">
@@ -394,7 +459,7 @@ export default function HomeForm({
             <div className="pt-4">
               <div className="flex items-start gap-2 p-3 bg-brand-50 rounded-lg text-[12px] text-brand-500">
                 <i className="ph ph-info text-[16px] shrink-0 mt-0.5" />
-                <span>Hero, Who We Are, Benefits, and Process visibility are managed in their respective sections above.</span>
+                <span>Hero, Who We Are, Benefits, Process, and Call to Action visibility are managed in their respective sections above.</span>
               </div>
             </div>
           </div>
@@ -405,11 +470,11 @@ export default function HomeForm({
       {/* ── Sticky Action Bar ─────────────────────────────────────────────── */}
       <div className="action-bar">
         <div className="text-[12px] text-brand-500 flex items-center gap-1.5">
-          {(heroState.error || aboutState.error || headingsState.error) ? (
+          {(heroState.error || aboutState.error || headingsState.error || ctaState.error) ? (
             <>
               <span className="w-2 h-2 rounded-full bg-red-500 shrink-0 inline-block" />
               <span className="text-red-600 font-medium truncate max-w-xs">
-                {heroState.error || aboutState.error || headingsState.error}
+                {heroState.error || aboutState.error || headingsState.error || ctaState.error}
               </span>
             </>
           ) : isDirty ? (

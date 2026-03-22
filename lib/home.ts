@@ -55,6 +55,13 @@ type ProcessTab = {
   };
 };
 
+type CTAContent = {
+  subtitle: string;
+  title: string;
+  button: string;
+  buttonUrl: string;
+};
+
 export type HomeContent = {
   hero: HeroContent;
   about: AboutContent;
@@ -65,6 +72,7 @@ export type HomeContent = {
   benefits: BenefitCard[];
   tabs: ProcessTab[];
   teamMembers: TeamMember[];
+  cta: CTAContent;
 };
 
 async function getSettingValue(key: string, locale: Locale): Promise<string> {
@@ -170,6 +178,21 @@ export async function getHomeProcessHeading(locale: Locale) {
       (locale === "ka"
         ? ""
         : "We follow a streamlined process to ensure your legal matters are handled efficiently and effectively, keeping you informed every step of the way."),
+  };
+}
+
+export async function getHomeCTAContent(locale: Locale): Promise<CTAContent> {
+  const [subtitle, title, button, buttonUrl] = await Promise.all([
+    getSettingValue("home_cta_subtitle", locale),
+    getSettingValue("home_cta_title", locale),
+    getSettingValue("home_cta_button", locale),
+    getSettingValue("home_cta_button_url", "en"),
+  ]);
+  return {
+    subtitle: subtitle || (locale === "ka" ? "მზად ხართ შემდეგი ნაბიჯისთვის?" : "Ready to take the next step?"),
+    title: title || (locale === "ka" ? "დაჯავშნეთ კონსულტაცია დღესვე" : "Schedule your consultation today"),
+    button: button || (locale === "ka" ? "დაჯავშნა ახლა" : "SCHEDULE NOW"),
+    buttonUrl: buttonUrl || "/appointment",
   };
 }
 
@@ -309,7 +332,7 @@ export async function getHomeSectionVisibility(): Promise<HomeSectionVisibility>
 }
 
 export async function getHomeContent(locale: Locale): Promise<HomeContent> {
-  const [hero, about, servicesHeading, benefitsHeading, processHeading, servicesCards, benefits, tabs, teamMembers] =
+  const [hero, about, servicesHeading, benefitsHeading, processHeading, servicesCards, benefits, tabs, teamMembers, cta] =
     await Promise.all([
       getHeroContent(locale),
       getAboutContent(locale),
@@ -320,6 +343,7 @@ export async function getHomeContent(locale: Locale): Promise<HomeContent> {
       getHomeBenefits(locale),
       getHomeProcessSteps(locale),
       getHomeTeamMembers(locale),
+      getHomeCTAContent(locale),
     ]);
 
   return {
@@ -332,6 +356,7 @@ export async function getHomeContent(locale: Locale): Promise<HomeContent> {
     benefits,
     tabs,
     teamMembers,
+    cta,
   };
 }
 
