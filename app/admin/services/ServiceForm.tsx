@@ -26,6 +26,15 @@ type Service = {
   homeShortDescriptionEn: string | null;
   homeShortDescriptionKa: string | null;
   homeLearnMoreUrl: string | null;
+  metaDescriptionEn: string | null;
+  metaDescriptionKa: string | null;
+  seoTitleEn: string | null;
+  seoTitleKa: string | null;
+  ogTitleEn: string | null;
+  ogTitleKa: string | null;
+  ogDescriptionEn: string | null;
+  ogDescriptionKa: string | null;
+  ogImage: string | null;
 };
 
 type Props = {
@@ -236,6 +245,51 @@ export default function ServiceForm({ action, service }: Props) {
             ) : (
               <textarea name="quoteKa" className="input-base italic" rows={2} defaultValue={service?.quoteKa ?? ""} />
             )}
+          </div>
+        </div>
+      </div>
+
+      {/* SEO & Open Graph */}
+      <div className="px-8 pb-6">
+        <div className="card">
+          <div className="card-header py-4 bg-brand-50">
+            <h3 className="font-semibold text-brand-900 text-[14px]">
+              <i className="ph ph-magnifying-glass mr-2 text-brand-500" /> SEO &amp; Open Graph {lang === "en" ? "(En)" : "(ქარ)"}
+            </h3>
+          </div>
+          <div className="card-body space-y-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div>
+                <label className="label-base">SEO Title</label>
+                {lang === "en"
+                  ? <input type="text" name="seoTitleEn" className="input-base" defaultValue={service?.seoTitleEn ?? ""} />
+                  : <input type="text" name="seoTitleKa" className="input-base" defaultValue={service?.seoTitleKa ?? ""} />}
+              </div>
+              <div>
+                <label className="label-base">OG Title</label>
+                {lang === "en"
+                  ? <input type="text" name="ogTitleEn" className="input-base" defaultValue={service?.ogTitleEn ?? ""} />
+                  : <input type="text" name="ogTitleKa" className="input-base" defaultValue={service?.ogTitleKa ?? ""} />}
+              </div>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div>
+                <label className="label-base">Meta Description</label>
+                {lang === "en"
+                  ? <textarea name="metaDescriptionEn" className="input-base" rows={2} defaultValue={service?.metaDescriptionEn ?? ""} />
+                  : <textarea name="metaDescriptionKa" className="input-base" rows={2} defaultValue={service?.metaDescriptionKa ?? ""} />}
+              </div>
+              <div>
+                <label className="label-base">OG Description</label>
+                {lang === "en"
+                  ? <textarea name="ogDescriptionEn" className="input-base" rows={2} defaultValue={service?.ogDescriptionEn ?? ""} />
+                  : <textarea name="ogDescriptionKa" className="input-base" rows={2} defaultValue={service?.ogDescriptionKa ?? ""} />}
+              </div>
+            </div>
+            <div>
+              <label className="label-base">OG Image URL <span className="text-xs font-normal text-brand-400 ml-2">(Recommended 1200×630)</span></label>
+              <input type="text" name="ogImage" className="input-base" placeholder="/uploads/og-image.jpg" defaultValue={service?.ogImage ?? ""} />
+            </div>
           </div>
         </div>
       </div>

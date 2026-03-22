@@ -54,24 +54,34 @@ export async function createTeamMember(prev: TeamFormState, formData: FormData):
     const homeOrderRaw = (formData.get("homeOrder") as string | null) ?? "0";
     const homeOrder = Number.parseInt(homeOrderRaw, 10) || 0;
 
+    const trim = (key: string) => (formData.get(key) as string)?.trim() || null;
     const now = new Date().toISOString();
     await db.insert(teamMembers).values({
       slug,
       titleEn,
-      titleKa: (formData.get("titleKa") as string)?.trim() || null,
-      positionEn: (formData.get("positionEn") as string)?.trim() || null,
-      positionKa: (formData.get("positionKa") as string)?.trim() || null,
-      descriptionEn: (formData.get("descriptionEn") as string)?.trim() || null,
-      descriptionKa: (formData.get("descriptionKa") as string)?.trim() || null,
-      quoteEn: (formData.get("quoteEn") as string)?.trim() || null,
-      quoteKa: (formData.get("quoteKa") as string)?.trim() || null,
-      text1En: (formData.get("text1En") as string)?.trim() || null,
-      text1Ka: (formData.get("text1Ka") as string)?.trim() || null,
-      text2En: (formData.get("text2En") as string)?.trim() || null,
-      text2Ka: (formData.get("text2Ka") as string)?.trim() || null,
+      titleKa: trim("titleKa"),
+      positionEn: trim("positionEn"),
+      positionKa: trim("positionKa"),
+      descriptionEn: trim("descriptionEn"),
+      descriptionKa: trim("descriptionKa"),
+      quoteEn: trim("quoteEn"),
+      quoteKa: trim("quoteKa"),
+      text1En: trim("text1En"),
+      text1Ka: trim("text1Ka"),
+      text2En: trim("text2En"),
+      text2Ka: trim("text2Ka"),
       image: imagePath,
       showOnHome,
       homeOrder,
+      metaDescriptionEn: trim("metaDescriptionEn"),
+      metaDescriptionKa: trim("metaDescriptionKa"),
+      seoTitleEn: trim("seoTitleEn"),
+      seoTitleKa: trim("seoTitleKa"),
+      ogTitleEn: trim("ogTitleEn"),
+      ogTitleKa: trim("ogTitleKa"),
+      ogDescriptionEn: trim("ogDescriptionEn"),
+      ogDescriptionKa: trim("ogDescriptionKa"),
+      ogImage: trim("ogImage"),
       updatedAt: now,
     });
 
@@ -129,25 +139,35 @@ export async function updateTeamMember(id: number, prev: TeamFormState, formData
     const homeOrderRaw = (formData.get("homeOrder") as string | null) ?? `${existing.homeOrder ?? 0}`;
     const homeOrder = Number.parseInt(homeOrderRaw, 10) || 0;
 
+    const trim = (key: string) => (formData.get(key) as string)?.trim() || null;
     await db
       .update(teamMembers)
       .set({
         slug: newSlug,
         titleEn,
-        titleKa: (formData.get("titleKa") as string)?.trim() || null,
-        positionEn: (formData.get("positionEn") as string)?.trim() || null,
-        positionKa: (formData.get("positionKa") as string)?.trim() || null,
-        descriptionEn: (formData.get("descriptionEn") as string)?.trim() || null,
-        descriptionKa: (formData.get("descriptionKa") as string)?.trim() || null,
-        quoteEn: (formData.get("quoteEn") as string)?.trim() || null,
-        quoteKa: (formData.get("quoteKa") as string)?.trim() || null,
-        text1En: (formData.get("text1En") as string)?.trim() || null,
-        text1Ka: (formData.get("text1Ka") as string)?.trim() || null,
-        text2En: (formData.get("text2En") as string)?.trim() || null,
-        text2Ka: (formData.get("text2Ka") as string)?.trim() || null,
+        titleKa: trim("titleKa"),
+        positionEn: trim("positionEn"),
+        positionKa: trim("positionKa"),
+        descriptionEn: trim("descriptionEn"),
+        descriptionKa: trim("descriptionKa"),
+        quoteEn: trim("quoteEn"),
+        quoteKa: trim("quoteKa"),
+        text1En: trim("text1En"),
+        text1Ka: trim("text1Ka"),
+        text2En: trim("text2En"),
+        text2Ka: trim("text2Ka"),
         image: imagePath,
         showOnHome,
         homeOrder,
+        metaDescriptionEn: trim("metaDescriptionEn"),
+        metaDescriptionKa: trim("metaDescriptionKa"),
+        seoTitleEn: trim("seoTitleEn"),
+        seoTitleKa: trim("seoTitleKa"),
+        ogTitleEn: trim("ogTitleEn"),
+        ogTitleKa: trim("ogTitleKa"),
+        ogDescriptionEn: trim("ogDescriptionEn"),
+        ogDescriptionKa: trim("ogDescriptionKa"),
+        ogImage: trim("ogImage"),
         updatedAt: new Date().toISOString(),
       })
       .where(eq(teamMembers.id, id));

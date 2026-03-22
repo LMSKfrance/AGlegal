@@ -54,20 +54,30 @@ export async function createNews(prev: NewsFormState, formData: FormData): Promi
     const tagsRaw = formData.get("tags") as string | null;
     const tags: string[] = tagsRaw ? tagsRaw.split(",").map((t) => t.trim()).filter(Boolean) : [];
 
+    const trim = (key: string) => (formData.get(key) as string)?.trim() || null;
     const now = new Date().toISOString();
     await db.insert(articles).values({
       slug,
       titleEn,
-      titleKa: (formData.get("titleKa") as string)?.trim() || null,
-      descriptionEn: (formData.get("descriptionEn") as string)?.trim() || null,
-      descriptionKa: (formData.get("descriptionKa") as string)?.trim() || null,
-      contentEn: (formData.get("contentEn") as string)?.trim() || null,
-      contentKa: (formData.get("contentKa") as string)?.trim() || null,
+      titleKa: trim("titleKa"),
+      descriptionEn: trim("descriptionEn"),
+      descriptionKa: trim("descriptionKa"),
+      contentEn: trim("contentEn"),
+      contentKa: trim("contentKa"),
       image: imagePath,
       date,
-      time: (formData.get("time") as string)?.trim() || null,
+      time: trim("time"),
       tags: tags.length ? tags : null,
-      type: (formData.get("type") as string)?.trim() || null,
+      type: trim("type"),
+      metaDescriptionEn: trim("metaDescriptionEn"),
+      metaDescriptionKa: trim("metaDescriptionKa"),
+      seoTitleEn: trim("seoTitleEn"),
+      seoTitleKa: trim("seoTitleKa"),
+      ogTitleEn: trim("ogTitleEn"),
+      ogTitleKa: trim("ogTitleKa"),
+      ogDescriptionEn: trim("ogDescriptionEn"),
+      ogDescriptionKa: trim("ogDescriptionKa"),
+      ogImage: trim("ogImage"),
       updatedAt: now,
     });
 
@@ -111,21 +121,31 @@ export async function updateNews(id: number, prev: NewsFormState, formData: Form
     const tagsRaw = formData.get("tags") as string | null;
     const tags: string[] = tagsRaw ? tagsRaw.split(",").map((t) => t.trim()).filter(Boolean) : [];
 
+    const trim = (key: string) => (formData.get(key) as string)?.trim() || null;
     await db
       .update(articles)
       .set({
         slug: newSlug,
         titleEn,
-        titleKa: (formData.get("titleKa") as string)?.trim() || null,
-        descriptionEn: (formData.get("descriptionEn") as string)?.trim() || null,
-        descriptionKa: (formData.get("descriptionKa") as string)?.trim() || null,
-        contentEn: (formData.get("contentEn") as string)?.trim() || null,
-        contentKa: (formData.get("contentKa") as string)?.trim() || null,
+        titleKa: trim("titleKa"),
+        descriptionEn: trim("descriptionEn"),
+        descriptionKa: trim("descriptionKa"),
+        contentEn: trim("contentEn"),
+        contentKa: trim("contentKa"),
         image: imagePath,
         date,
-        time: (formData.get("time") as string)?.trim() || null,
+        time: trim("time"),
         tags: tags.length ? tags : null,
-        type: (formData.get("type") as string)?.trim() || null,
+        type: trim("type"),
+        metaDescriptionEn: trim("metaDescriptionEn"),
+        metaDescriptionKa: trim("metaDescriptionKa"),
+        seoTitleEn: trim("seoTitleEn"),
+        seoTitleKa: trim("seoTitleKa"),
+        ogTitleEn: trim("ogTitleEn"),
+        ogTitleKa: trim("ogTitleKa"),
+        ogDescriptionEn: trim("ogDescriptionEn"),
+        ogDescriptionKa: trim("ogDescriptionKa"),
+        ogImage: trim("ogImage"),
         updatedAt: new Date().toISOString(),
       })
       .where(eq(articles.id, id));
