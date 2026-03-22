@@ -41,8 +41,10 @@ function ProcessStepCard({
 
         {/* Save button */}
         <div className="absolute right-4 top-4">
-          <button type="submit" className="btn-icon text-white bg-primary-600 hover:bg-primary-700 shadow-sm" disabled={pending} title="Save">
-            {pending ? <i key="spinner" className="ph ph-spinner animate-spin" /> : <i key="save" className="ph ph-floppy-disk" />}
+          <button type="submit" className="btn-save" disabled={pending} title="Save step">
+            {pending
+              ? <i className="ph ph-spinner animate-spin" />
+              : <i className="ph ph-floppy-disk" />}
           </button>
         </div>
 
