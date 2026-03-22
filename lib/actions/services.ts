@@ -235,3 +235,18 @@ export async function deleteService(id: number): Promise<void> {
   }
   redirect(deleted ? "/admin/services?toast=success" : "/admin/services?toast=error");
 }
+
+export async function reorderServices(orderedIds: number[]): Promise<void> {
+  try {
+    await Promise.all(
+      orderedIds.map((id, index) =>
+        db.update(services).set({ sortOrder: index }).where(eq(services.id, id))
+      )
+    );
+    revalidatePath("/admin/services");
+    revalidatePath("/");
+    revalidatePath("/services", "layout");
+  } catch (err) {
+    console.error("[reorderServices]", err);
+  }
+}

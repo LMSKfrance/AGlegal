@@ -70,7 +70,9 @@ export default async function NewsListPage({ searchParams }: { searchParams: Pro
                     <tr key={article.id}>
                       <td className="hidden sm:table-cell text-brand-500 text-[13px]">{formatDate(article.date)}</td>
                       <td>
-                        <div className="font-medium text-brand-900">{article.titleEn}</div>
+                        <Link href={`/admin/news/${article.id}/edit`} className="font-medium text-brand-900 hover:text-primary-600 transition-colors">
+                          {article.titleEn}
+                        </Link>
                         {article.titleKa && <div className="text-[12px] text-brand-400 mt-0.5">{article.titleKa}</div>}
                         <div className="sm:hidden text-[11px] text-brand-400 mt-1">{formatDate(article.date)}</div>
                       </td>
