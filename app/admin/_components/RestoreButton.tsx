@@ -22,8 +22,8 @@ export function RestoreButton({ historyId }: { historyId: number }) {
 
   if (status === "success") {
     return (
-      <span className="text-[11px] text-green-600 font-semibold flex items-center gap-1">
-        <i className="ph ph-check-circle" /> Restored
+      <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-green-200 text-[12px] font-semibold text-green-600">
+        <i className="ph ph-check-circle text-[14px]" /> Restored
       </span>
     );
   }
@@ -33,9 +33,9 @@ export function RestoreButton({ historyId }: { historyId: number }) {
       <button
         onClick={handleRestore}
         disabled={status === "loading"}
-        className="text-[11px] font-semibold text-brand-400 hover:text-primary-600 flex items-center gap-1 transition-colors disabled:opacity-50"
+        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-primary-200 text-[12px] font-semibold text-primary-600 hover:bg-primary-50 hover:border-primary-300 transition-colors disabled:opacity-50"
       >
-        <i className="ph ph-clock-counter-clockwise text-[13px]" />
+        <i className="ph ph-clock-counter-clockwise text-[14px]" />
         {status === "loading" ? "Restoring…" : "Restore"}
       </button>
       {error && (
