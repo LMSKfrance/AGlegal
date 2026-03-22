@@ -91,7 +91,7 @@ function BenefitItem({
   );
 }
 
-function NewBenefitForm({ lang, onDone }: { lang: "en" | "ka"; onDone: () => void }) {
+function NewBenefitForm({ onDone }: { onDone: () => void }) {
   const action = upsertHomeBenefit.bind(null, null);
   const [state, formAction, pending] = useActionState(action, INITIAL);
   const iconRef = useRef<HTMLInputElement>(null);
@@ -170,7 +170,7 @@ export default function HomeBenefitsSection({
       {initialBenefits.map((b) => (
         <BenefitItem key={`${b.id}-${lang}`} item={b} lang={lang} onDelete={handleDelete} />
       ))}
-      {adding && <NewBenefitForm lang={lang} onDone={() => setAdding(false)} />}
+      {adding && <NewBenefitForm onDone={() => setAdding(false)} />}
       {initialBenefits.length < 4 && !adding && (
         <button
           className="btn btn-secondary w-full border-dashed border-2 hover:border-primary-400 text-brand-600 bg-transparent hover:bg-white"

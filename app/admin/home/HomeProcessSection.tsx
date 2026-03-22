@@ -109,7 +109,7 @@ function ProcessStepItem({
   );
 }
 
-function NewProcessStepForm({ lang, onDone }: { lang: "en" | "ka"; onDone: () => void }) {
+function NewProcessStepForm({ onDone }: { onDone: () => void }) {
   const action = upsertHomeProcessStep.bind(null, null);
   const [state, formAction, pending] = useActionState(action, INITIAL);
   const imgRef = useRef<HTMLInputElement>(null);
@@ -207,7 +207,7 @@ export default function HomeProcessSection({
       {initialSteps.map((step) => (
         <ProcessStepItem key={`${step.id}-${lang}`} item={step} lang={lang} onDelete={handleDelete} />
       ))}
-      {adding && <NewProcessStepForm lang={lang} onDone={() => setAdding(false)} />}
+      {adding && <NewProcessStepForm onDone={() => setAdding(false)} />}
       {initialSteps.length < 4 && !adding && (
         <button
           className="btn btn-secondary w-full border-dashed border-2 hover:border-primary-400 text-brand-600 bg-transparent hover:bg-white"
