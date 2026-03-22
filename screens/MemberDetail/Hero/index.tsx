@@ -18,7 +18,7 @@ type HeroProps = {
 const Hero = ({ member, otherMembers }: HeroProps) => {
   const container = React.useRef<HTMLDivElement>(null);
   const cardRef = React.useRef<HTMLDivElement>(null);
-  const contentRef = React.useRef<HTMLDivElement>(null);
+  const bioRef = React.useRef<HTMLDivElement>(null);
   const teamRef = React.useRef<HTMLDivElement>(null);
 
   useGSAP(
@@ -35,12 +35,12 @@ const Hero = ({ member, otherMembers }: HeroProps) => {
         );
       }
 
-      if (contentRef.current) {
+      if (bioRef.current) {
         tl.fromTo(
-          contentRef.current.children,
+          bioRef.current.children,
           { y: 30, opacity: 0 },
           { y: 0, opacity: 1, duration: 0.35, stagger: 0.1, ease: "power2.out" },
-          "-=0.5",
+          "-=0.3",
         );
       }
 
@@ -62,64 +62,63 @@ const Hero = ({ member, otherMembers }: HeroProps) => {
       <section className={cn("section", styles.profile_section)}>
         <div className={cn("container", styles.profile_container)}>
 
-          {/* Large member card */}
+          {/* Card: image left + info & quote right */}
           <div ref={cardRef} className={styles.member_card}>
             <div className={styles.card_image}>
               <Image
                 src={member.image}
                 alt={member.title}
                 fill
-                sizes="100vw"
+                sizes="(max-width: 768px) 100vw, 45vw"
                 style={{ objectFit: "cover", objectPosition: "top center" }}
                 priority
               />
             </div>
+
             <div className={styles.card_content}>
-              <div className={styles.card_info}>
-                <h1 className={cn("paragraph-x-large", styles.card_name)}>
-                  {member.title}
-                </h1>
-                <p className={cn("paragraph-medium", styles.card_position)}>
-                  {member.position}
-                </p>
+              {/* Name + position + socials */}
+              <div className={styles.card_top}>
+                <div className={styles.card_info}>
+                  <h1 className={cn("paragraph-x-large", styles.card_name)}>
+                    {member.title}
+                  </h1>
+                  <p className={cn("paragraph-medium", styles.card_position)}>
+                    {member.position}
+                  </p>
+                </div>
+                <div className={styles.card_socials}>
+                  {member.socials.map((social) => (
+                    <a
+                      key={social.id}
+                      href={social.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={styles.social_btn}
+                    >
+                      {social.icon}
+                    </a>
+                  ))}
+                </div>
               </div>
-              <div className={styles.card_socials}>
-                {member.socials.map((social) => (
-                  <a
-                    key={social.id}
-                    href={social.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={styles.social_btn}
-                  >
-                    {social.icon}
-                  </a>
-                ))}
-              </div>
+
+              {/* Blue divider */}
+              <div className={styles.card_divider} />
+
+              {/* Quote */}
+              <p className={cn("heading-6", styles.card_quote)}>
+                &ldquo;{member.quote}&rdquo;
+              </p>
             </div>
           </div>
 
-          {/* Quote + bio block */}
-          <div ref={contentRef} className={styles.content_block}>
-            {/* Left: quote */}
-            <div className={styles.quote_col}>
-              <div className={styles.quote_wrapper}>
-                <div className={styles.quote_line} />
-                <p className={cn("heading-6", styles.quote_text)}>
-                  &ldquo;{member.quote}&rdquo;
-                </p>
-              </div>
-            </div>
-
-            {/* Right: bio */}
-            <div className={styles.bio_col}>
-              <p className={cn("paragraph-medium", styles.bio_text)}>
-                {member.text1}
-              </p>
-              <p className={cn("paragraph-medium", styles.bio_text)}>
-                {member.text2}
-              </p>
-            </div>
+          {/* Bio paragraphs below card */}
+          <div ref={bioRef} className={styles.bio_block}>
+            <p className={cn("paragraph-medium", styles.bio_text)}>
+              {member.text1}
+            </p>
+            <p className={cn("paragraph-medium", styles.bio_text)}>
+              {member.text2}
+            </p>
           </div>
         </div>
       </section>
