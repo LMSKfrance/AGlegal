@@ -104,7 +104,7 @@ export default function TeamForm({ action, member }: Props) {
           <div className="flex-1 space-y-6">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div>
-                <label className="label-base required">Name {lang === "en" ? "(EN)" : "(KA)"}</label>
+                <label className="label-base required">Name {lang === "en" ? "(En)" : "(ქარ)"}</label>
                 {lang === "en" ? (
                   <input type="text" name="titleEn" className="input-base" placeholder="Full name" defaultValue={member?.titleEn ?? ""} required />
                 ) : (
@@ -112,7 +112,7 @@ export default function TeamForm({ action, member }: Props) {
                 )}
               </div>
               <div>
-                <label className="label-base">Position {lang === "en" ? "(EN)" : "(KA)"}</label>
+                <label className="label-base">Position {lang === "en" ? "(En)" : "(ქარ)"}</label>
                 {lang === "en" ? (
                   <input type="text" name="positionEn" className="input-base" placeholder="e.g. Managing Partner" defaultValue={member?.positionEn ?? ""} />
                 ) : (
@@ -138,7 +138,7 @@ export default function TeamForm({ action, member }: Props) {
 
         <div className="space-y-6 border-t border-brand-200 pt-8">
           <div>
-            <label className="label-base">Description (Short bio) {lang === "en" ? "(EN)" : "(KA)"}</label>
+            <label className="label-base">Description (Short bio) {lang === "en" ? "(En)" : "(ქარ)"}</label>
             {lang === "en" ? (
               <textarea name="descriptionEn" className="input-base" rows={3} placeholder="Brief professional summary..." defaultValue={member?.descriptionEn ?? ""} />
             ) : (
@@ -146,7 +146,7 @@ export default function TeamForm({ action, member }: Props) {
             )}
           </div>
           <div>
-            <label className="label-base">Personal Quote {lang === "en" ? "(EN)" : "(KA)"}</label>
+            <label className="label-base">Personal Quote {lang === "en" ? "(En)" : "(ქარ)"}</label>
             {lang === "en" ? (
               <textarea name="quoteEn" className="input-base italic" rows={2} placeholder='"Quote..."' defaultValue={member?.quoteEn ?? ""} />
             ) : (
@@ -154,7 +154,7 @@ export default function TeamForm({ action, member }: Props) {
             )}
           </div>
           <div>
-            <label className="label-base">Detailed Bio (Text 1) {lang === "en" ? "(EN)" : "(KA)"}</label>
+            <label className="label-base">Detailed Bio (Text 1) {lang === "en" ? "(En)" : "(ქარ)"}</label>
             {lang === "en" ? (
               <textarea name="text1En" className="input-base min-h-[150px]" placeholder="Extended biography..." defaultValue={member?.text1En ?? ""} />
             ) : (
@@ -162,7 +162,7 @@ export default function TeamForm({ action, member }: Props) {
             )}
           </div>
           <div>
-            <label className="label-base">Additional Info (Text 2) {lang === "en" ? "(EN)" : "(KA)"}</label>
+            <label className="label-base">Additional Info (Text 2) {lang === "en" ? "(En)" : "(ქარ)"}</label>
             {lang === "en" ? (
               <textarea name="text2En" className="input-base min-h-[100px]" placeholder="Education, admissions..." defaultValue={member?.text2En ?? ""} />
             ) : (

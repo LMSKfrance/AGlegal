@@ -90,7 +90,7 @@ export default function ServiceForm({ action, service }: Props) {
         </div>
 
         <div>
-          <label className="label-base required">Service Title {lang === "en" ? "(EN)" : "(KA)"}</label>
+          <label className="label-base required">Service Title {lang === "en" ? "(En)" : "(ქარ)"}</label>
           {lang === "en" ? (
             <input
               type="text"
@@ -196,7 +196,7 @@ export default function ServiceForm({ action, service }: Props) {
         </div>
 
         <div>
-          <label className="label-base">Homepage Short Description {lang === "en" ? "(EN)" : "(KA)"}</label>
+          <label className="label-base">Homepage Short Description {lang === "en" ? "(En)" : "(ქარ)"}</label>
           {lang === "en" ? (
             <textarea name="homeShortDescriptionEn" className="input-base" rows={2} placeholder="Brief summary for homepage card..." defaultValue={service?.homeShortDescriptionEn ?? ""} />
           ) : (
@@ -206,7 +206,7 @@ export default function ServiceForm({ action, service }: Props) {
 
         <div className="border-t border-brand-200 pt-8 space-y-6">
           <div>
-            <label className="label-base">Full Description {lang === "en" ? "(EN)" : "(KA)"}</label>
+            <label className="label-base">Full Description {lang === "en" ? "(En)" : "(ქარ)"}</label>
             {lang === "en" ? (
               <textarea name="descriptionEn" className="input-base" rows={3} defaultValue={service?.descriptionEn ?? ""} />
             ) : (
@@ -214,7 +214,7 @@ export default function ServiceForm({ action, service }: Props) {
             )}
           </div>
           <div>
-            <label className="label-base">Text Section 1 {lang === "en" ? "(EN)" : "(KA)"}</label>
+            <label className="label-base">Text Section 1 {lang === "en" ? "(En)" : "(ქარ)"}</label>
             {lang === "en" ? (
               <textarea name="text1En" className="input-base" rows={3} defaultValue={service?.text1En ?? ""} />
             ) : (
@@ -222,7 +222,7 @@ export default function ServiceForm({ action, service }: Props) {
             )}
           </div>
           <div>
-            <label className="label-base">Text Section 2 {lang === "en" ? "(EN)" : "(KA)"}</label>
+            <label className="label-base">Text Section 2 {lang === "en" ? "(En)" : "(ქარ)"}</label>
             {lang === "en" ? (
               <textarea name="text2En" className="input-base" rows={3} defaultValue={service?.text2En ?? ""} />
             ) : (
@@ -230,7 +230,7 @@ export default function ServiceForm({ action, service }: Props) {
             )}
           </div>
           <div>
-            <label className="label-base">Highlight Quote {lang === "en" ? "(EN)" : "(KA)"}</label>
+            <label className="label-base">Highlight Quote {lang === "en" ? "(En)" : "(ქარ)"}</label>
             {lang === "en" ? (
               <textarea name="quoteEn" className="input-base italic" rows={2} defaultValue={service?.quoteEn ?? ""} />
             ) : (

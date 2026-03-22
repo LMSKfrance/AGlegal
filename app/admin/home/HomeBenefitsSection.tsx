@@ -45,7 +45,7 @@ function BenefitCard({
 
         <div className="space-y-4 pr-10">
           <div>
-            <label className="label-base">Title <span className="text-[10px] text-brand-400 font-normal ml-1">(Max 60)</span></label>
+            <label className="label-base">Title <span className="text-[10px] text-brand-400 font-normal ml-1">({lang === "en" ? "En" : "ქარ"}, Max 60)</span></label>
             <input
               type="text"
               name={lang === "en" ? "titleEn" : "titleKa"}
@@ -55,7 +55,7 @@ function BenefitCard({
             />
           </div>
           <div>
-            <label className="label-base">Description <span className="text-[10px] text-brand-400 font-normal ml-1">(Max 220)</span></label>
+            <label className="label-base">Description <span className="text-[10px] text-brand-400 font-normal ml-1">({lang === "en" ? "En" : "ქარ"}, Max 220)</span></label>
             <textarea
               name={lang === "en" ? "descriptionEn" : "descriptionKa"}
               className="input-base"
