@@ -198,7 +198,8 @@ export default function AdminShell({
         </div>
 
         {/* User */}
-        <div className="p-4 shrink-0 bg-white relative group">
+        <div className="p-4 shrink-0 bg-white">
+          <div className="relative group">
           <Link
             href="/admin/profile"
             className="sidebar-user-link flex items-center gap-3 w-full p-2 rounded-lg hover:bg-brand-50 transition-colors cursor-pointer"
@@ -216,7 +217,7 @@ export default function AdminShell({
           </Link>
 
           {showLabels && (
-            <div className="absolute bottom-full left-4 mb-2 w-56 bg-white border border-brand-200 rounded-lg shadow-lg opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity z-50">
+            <div className="absolute bottom-full left-0 mb-1 w-56 bg-white border border-brand-200 rounded-lg shadow-lg opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity z-50">
               <div className="p-3 border-b border-brand-100">
                 <div className="text-sm font-semibold text-brand-900">{displayName}</div>
                 <div className="text-xs text-brand-500">{email}</div>
@@ -237,6 +238,7 @@ export default function AdminShell({
               </div>
             </div>
           )}
+          </div>
         </div>
       </aside>
 
