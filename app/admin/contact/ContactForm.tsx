@@ -53,7 +53,7 @@ export default function ContactForm({ contact, saveAction }: Props) {
             <div className="card-body space-y-8">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
                 <div>
-                  <label className="label-base">Page Title {lang === "en" ? "(EN)" : "(KA)"}</label>
+                  <label className="label-base">Page Title {lang === "en" ? "(En)" : "(ქარ)"}</label>
                   {lang === "en" ? (
                     <>
                       <input type="text" name="titleEn" className="input-base" placeholder="Get in Touch" defaultValue={contact?.titleEn ?? ""} />
@@ -67,7 +67,7 @@ export default function ContactForm({ contact, saveAction }: Props) {
                   )}
                 </div>
                 <div>
-                  <label className="label-base">Subtitle {lang === "en" ? "(EN)" : "(KA)"}</label>
+                  <label className="label-base">Subtitle {lang === "en" ? "(En)" : "(ქარ)"}</label>
                   {lang === "en" ? (
                     <>
                       <textarea name="subtitleEn" className="input-base !h-[38px] !min-h-0 py-2" rows={1} placeholder="Our team is ready to assist you." defaultValue={contact?.subtitleEn ?? ""} />
@@ -90,7 +90,7 @@ export default function ContactForm({ contact, saveAction }: Props) {
                   <input type="email" name="email" className="input-base" placeholder="info@aglegal.com" defaultValue={contact?.email ?? ""} />
                 </div>
                 <div>
-                  <label className="label-base">Address {lang === "en" ? "(EN)" : "(KA)"}</label>
+                  <label className="label-base">Address {lang === "en" ? "(En)" : "(ქარ)"}</label>
                   {lang === "en" ? (
                     <>
                       <textarea name="addressEn" className="input-base" rows={3} placeholder={"12 Rustaveli Avenue, Floor 4\nTbilisi 0108, Georgia"} defaultValue={contact?.addressEn ?? ""} />

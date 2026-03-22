@@ -69,6 +69,7 @@ export default function HomeForm({
   const [aboutState, aboutFormAction, aboutPending] = useActionState(aboutAction, INITIAL);
   const [headingsState, headingsFormAction, headingsPending] = useActionState(headingsAction, INITIAL);
   const lang = useAdminLang();
+  const L = lang === "en" ? "En" : "ქარ";
 
   const heroFormRef = useRef<HTMLFormElement>(null);
   const aboutFormRef = useRef<HTMLFormElement>(null);
@@ -145,26 +146,26 @@ export default function HomeForm({
               )}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div>
-                  <label className="label-base">Brand Label <span className="text-[10px] text-brand-400 font-normal ml-2">(Max 40)</span></label>
+                  <label className="label-base">Brand Label <span className="text-[10px] text-brand-400 font-normal ml-2">({L}, Max 40)</span></label>
                   <input type="text" name={lang === "en" ? "brandEn" : "brandKa"} className="input-base" placeholder="AG Legal" maxLength={40} defaultValue={lang === "en" ? hero.brandEn : hero.brandKa} />
                   {lang === "ka" && <input type="hidden" name="brandEn" value={hero.brandEn} />}
                   {lang === "en" && <input type="hidden" name="brandKa" value={hero.brandKa} />}
                 </div>
                 <div>
-                  <label className="label-base">CTA Button Label <span className="text-[10px] text-brand-400 font-normal ml-2">(Max 24)</span></label>
+                  <label className="label-base">CTA Button Label <span className="text-[10px] text-brand-400 font-normal ml-2">({L}, Max 24)</span></label>
                   <input type="text" name={lang === "en" ? "ctaEn" : "ctaKa"} className="input-base" placeholder="Get Free Consultation" maxLength={24} defaultValue={lang === "en" ? hero.ctaEn : hero.ctaKa} />
                   {lang === "ka" && <input type="hidden" name="ctaEn" value={hero.ctaEn} />}
                   {lang === "en" && <input type="hidden" name="ctaKa" value={hero.ctaKa} />}
                 </div>
               </div>
               <div>
-                <label className="label-base required">Main Title <span className="text-[10px] text-brand-400 font-normal ml-2">(EN required, Max 80)</span></label>
+                <label className="label-base required">Main Title <span className="text-[10px] text-brand-400 font-normal ml-2">({L}, Max 80)</span></label>
                 <textarea name={lang === "en" ? "titleEn" : "titleKa"} className="input-base" rows={2} maxLength={80} placeholder="Leading Corporate Law Firm in Georgia" defaultValue={lang === "en" ? hero.titleEn : hero.titleKa} />
                 {lang === "ka" && <input type="hidden" name="titleEn" value={hero.titleEn} />}
                 {lang === "en" && <input type="hidden" name="titleKa" value={hero.titleKa} />}
               </div>
               <div>
-                <label className="label-base">Description <span className="text-[10px] text-brand-400 font-normal ml-2">(Max 180)</span></label>
+                <label className="label-base">Description <span className="text-[10px] text-brand-400 font-normal ml-2">({L}, Max 180)</span></label>
                 <textarea name={lang === "en" ? "descriptionEn" : "descriptionKa"} className="input-base" rows={3} maxLength={180} defaultValue={lang === "en" ? hero.descriptionEn : hero.descriptionKa} />
                 {lang === "ka" && <input type="hidden" name="descriptionEn" value={hero.descriptionEn} />}
                 {lang === "en" && <input type="hidden" name="descriptionKa" value={hero.descriptionKa} />}
@@ -212,13 +213,13 @@ export default function HomeForm({
                 <div className="p-3 bg-green-50 border border-green-200 rounded-lg text-sm text-green-700">Who We Are section saved successfully.</div>
               )}
               <div>
-                <label className="label-base required">Section Title <span className="text-[10px] text-brand-400 font-normal ml-2">(EN required, Max 60)</span></label>
+                <label className="label-base required">Section Title <span className="text-[10px] text-brand-400 font-normal ml-2">({L}, Max 60)</span></label>
                 <input type="text" name={lang === "en" ? "titleEn" : "titleKa"} className="input-base" maxLength={60} placeholder="Excellence in Legal Practice" defaultValue={lang === "en" ? about.titleEn : about.titleKa} />
                 {lang === "ka" && <input type="hidden" name="titleEn" value={about.titleEn} />}
                 {lang === "en" && <input type="hidden" name="titleKa" value={about.titleKa} />}
               </div>
               <div>
-                <label className="label-base">Body Text <span className="text-[10px] text-brand-400 font-normal ml-2">(Max 260)</span></label>
+                <label className="label-base">Body Text <span className="text-[10px] text-brand-400 font-normal ml-2">({L}, Max 260)</span></label>
                 <textarea name={lang === "en" ? "descriptionEn" : "descriptionKa"} className="input-base" rows={4} maxLength={260} defaultValue={lang === "en" ? about.descriptionEn : about.descriptionKa} />
                 {lang === "ka" && <input type="hidden" name="descriptionEn" value={about.descriptionEn} />}
                 {lang === "en" && <input type="hidden" name="descriptionKa" value={about.descriptionKa} />}
@@ -284,11 +285,11 @@ export default function HomeForm({
                 <div className="text-[13px] font-semibold text-brand-800 mb-3">Services Section</div>
                 <div className="space-y-4">
                   <div>
-                    <label className="label-base">Title</label>
+                    <label className="label-base">Title <span className="text-[10px] text-brand-400 font-normal ml-1">({L})</span></label>
                     <input type="text" name={lang === "en" ? "servicesTitleEn" : "servicesTitleKa"} className="input-base" defaultValue={lang === "en" ? headings.servicesTitleEn : headings.servicesTitleKa} />
                   </div>
                   <div>
-                    <label className="label-base">Description</label>
+                    <label className="label-base">Description <span className="text-[10px] text-brand-400 font-normal ml-1">({L})</span></label>
                     <textarea name={lang === "en" ? "servicesDescriptionEn" : "servicesDescriptionKa"} className="input-base" rows={2} defaultValue={lang === "en" ? headings.servicesDescriptionEn : headings.servicesDescriptionKa} />
                   </div>
                 </div>
@@ -312,11 +313,11 @@ export default function HomeForm({
                 <div className="text-[13px] font-semibold text-brand-800 mb-3">Working Process Section</div>
                 <div className="space-y-4">
                   <div>
-                    <label className="label-base">Title</label>
+                    <label className="label-base">Title <span className="text-[10px] text-brand-400 font-normal ml-1">({L})</span></label>
                     <input type="text" name={lang === "en" ? "processTitleEn" : "processTitleKa"} className="input-base" defaultValue={lang === "en" ? headings.processTitleEn : headings.processTitleKa} />
                   </div>
                   <div>
-                    <label className="label-base">Description</label>
+                    <label className="label-base">Description <span className="text-[10px] text-brand-400 font-normal ml-1">({L})</span></label>
                     <textarea name={lang === "en" ? "processDescriptionEn" : "processDescriptionKa"} className="input-base" rows={2} defaultValue={lang === "en" ? headings.processDescriptionEn : headings.processDescriptionKa} />
                   </div>
                 </div>

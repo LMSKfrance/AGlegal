@@ -64,7 +64,7 @@ export default function AboutForm({ settings, saveAction }: Props) {
             </div>
             <div className="card-body space-y-5">
               <div>
-                <label className="label-base">Section Title {lang === "en" ? "(EN)" : "(KA)"}</label>
+                <label className="label-base">Section Title {lang === "en" ? "(En)" : "(ქარ)"}</label>
                 <input
                   type="text"
                   name={lang === "en" ? "numbersTitleEn" : "numbersTitleKa"}
@@ -75,7 +75,7 @@ export default function AboutForm({ settings, saveAction }: Props) {
                 {hiddenFields("numbersTitleEn", "numbersTitleKa", "numbersTitleEn", "numbersTitleKa")}
               </div>
               <div>
-                <label className="label-base">Section Description {lang === "en" ? "(EN)" : "(KA)"}</label>
+                <label className="label-base">Section Description {lang === "en" ? "(En)" : "(ქარ)"}</label>
                 <textarea
                   name={lang === "en" ? "numbersDescriptionEn" : "numbersDescriptionKa"}
                   className="input-base"
@@ -95,7 +95,7 @@ export default function AboutForm({ settings, saveAction }: Props) {
             </div>
             <div className="card-body space-y-5">
               <div>
-                <label className="label-base">Title {lang === "en" ? "(EN)" : "(KA)"}</label>
+                <label className="label-base">Title {lang === "en" ? "(En)" : "(ქარ)"}</label>
                 <input
                   type="text"
                   name={lang === "en" ? "missionTitleEn" : "missionTitleKa"}
@@ -106,7 +106,7 @@ export default function AboutForm({ settings, saveAction }: Props) {
                 {hiddenFields("missionTitleEn", "missionTitleKa", "missionTitleEn", "missionTitleKa")}
               </div>
               <div>
-                <label className="label-base">Description {lang === "en" ? "(EN)" : "(KA)"}</label>
+                <label className="label-base">Description {lang === "en" ? "(En)" : "(ქარ)"}</label>
                 <textarea
                   name={lang === "en" ? "missionDescriptionEn" : "missionDescriptionKa"}
                   className="input-base"
@@ -126,7 +126,7 @@ export default function AboutForm({ settings, saveAction }: Props) {
             </div>
             <div className="card-body">
               <div>
-                <label className="label-base">Title {lang === "en" ? "(EN)" : "(KA)"}</label>
+                <label className="label-base">Title {lang === "en" ? "(En)" : "(ქარ)"}</label>
                 <input
                   type="text"
                   name={lang === "en" ? "featuresTitleEn" : "featuresTitleKa"}
@@ -147,7 +147,7 @@ export default function AboutForm({ settings, saveAction }: Props) {
             </div>
             <div className="card-body space-y-5">
               <div>
-                <label className="label-base">Title {lang === "en" ? "(EN)" : "(KA)"}</label>
+                <label className="label-base">Title {lang === "en" ? "(En)" : "(ქარ)"}</label>
                 <input
                   type="text"
                   name={lang === "en" ? "philosophyTitleEn" : "philosophyTitleKa"}
@@ -158,7 +158,7 @@ export default function AboutForm({ settings, saveAction }: Props) {
                 {hiddenFields("philosophyTitleEn", "philosophyTitleKa", "philosophyTitleEn", "philosophyTitleKa")}
               </div>
               <div>
-                <label className="label-base">Description {lang === "en" ? "(EN)" : "(KA)"}</label>
+                <label className="label-base">Description {lang === "en" ? "(En)" : "(ქარ)"}</label>
                 <textarea
                   name={lang === "en" ? "philosophyDescriptionEn" : "philosophyDescriptionKa"}
                   className="input-base"

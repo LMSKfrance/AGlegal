@@ -104,7 +104,7 @@ export default function NewsForm({ action, article }: Props) {
         <div className="space-y-4">
           <div>
             <label className="label-base required text-lg">
-              Article Title {lang === "en" ? "(EN)" : "(KA)"}
+              Article Title {lang === "en" ? "(En)" : "(ქარ)"}
             </label>
             {lang === "en" ? (
               <input
@@ -213,7 +213,7 @@ export default function NewsForm({ action, article }: Props) {
         {/* Excerpt */}
         <div>
           <label className="label-base">
-            Short Description / Excerpt {lang === "en" ? "(EN)" : "(KA)"}
+            Short Description / Excerpt {lang === "en" ? "(En)" : "(ქარ)"}
           </label>
           {lang === "en" ? (
             <textarea

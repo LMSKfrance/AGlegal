@@ -73,7 +73,7 @@ function ProcessStepCard({
           <div className="flex-1 space-y-4 pr-10">
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="label-base">Tab Title <span className="text-[10px] text-brand-400 font-normal ml-1">(Max 20, 1 word)</span></label>
+                <label className="label-base">Tab Title <span className="text-[10px] text-brand-400 font-normal ml-1">({lang === "en" ? "En" : "ქარ"}, Max 20)</span></label>
                 <input
                   type="text"
                   name={lang === "en" ? "tabTitleEn" : "tabTitleKa"}
@@ -84,7 +84,7 @@ function ProcessStepCard({
                 />
               </div>
               <div>
-                <label className="label-base">Step Title <span className="text-[10px] text-brand-400 font-normal ml-1">(Max 80)</span></label>
+                <label className="label-base">Step Title <span className="text-[10px] text-brand-400 font-normal ml-1">({lang === "en" ? "En" : "ქარ"}, Max 80)</span></label>
                 <input
                   type="text"
                   name={lang === "en" ? "titleEn" : "titleKa"}
@@ -95,7 +95,7 @@ function ProcessStepCard({
               </div>
             </div>
             <div>
-              <label className="label-base">Description <span className="text-[10px] text-brand-400 font-normal ml-1">(Max 260)</span></label>
+              <label className="label-base">Description <span className="text-[10px] text-brand-400 font-normal ml-1">({lang === "en" ? "En" : "ქარ"}, Max 260)</span></label>
               <textarea
                 name={lang === "en" ? "descriptionEn" : "descriptionKa"}
                 className="input-base"
