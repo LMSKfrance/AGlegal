@@ -84,8 +84,8 @@ export default function HomeForm({
 
   const heroImgRef = useRef<HTMLInputElement>(null);
   const aboutImgRef = useRef<HTMLInputElement>(null);
-  const [heroImgPreview, setHeroImgPreview] = useState<string | null>(hero.image ? `/api/images/${hero.image}` : null);
-  const [aboutImgPreview, setAboutImgPreview] = useState<string | null>(about.image ? `/api/images/${about.image}` : null);
+  const [heroImgPreview, setHeroImgPreview] = useState<string | null>(hero.image || null);
+  const [aboutImgPreview, setAboutImgPreview] = useState<string | null>(about.image || null);
 
   const [isDirty, setIsDirty] = useState(false);
   const anySaving = heroPending || aboutPending || headingsPending || ctaPending;
@@ -128,8 +128,8 @@ export default function HomeForm({
     aboutFormRef.current?.reset();
     headingsFormRef.current?.reset();
     ctaFormRef.current?.reset();
-    setHeroImgPreview(hero.image ? `/api/images/${hero.image}` : null);
-    setAboutImgPreview(about.image ? `/api/images/${about.image}` : null);
+    setHeroImgPreview(hero.image || null);
+    setAboutImgPreview(about.image || null);
     setIsDirty(false);
   }
 

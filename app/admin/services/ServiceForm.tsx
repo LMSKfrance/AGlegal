@@ -54,9 +54,9 @@ export default function ServiceForm({ action, service }: Props) {
   const thumbImgRef = useRef<HTMLInputElement>(null);
   const homeCardImgRef = useRef<HTMLInputElement>(null);
 
-  const [mainPreview, setMainPreview] = useState<string | null>(service?.image ? `/api/images/${service.image}` : null);
-  const [thumbPreview, setThumbPreview] = useState<string | null>(service?.thumbnailImage ? `/api/images/${service.thumbnailImage}` : null);
-  const [homeCardPreview, setHomeCardPreview] = useState<string | null>(service?.homeCardImage ? `/api/images/${service.homeCardImage}` : null);
+  const [mainPreview, setMainPreview] = useState<string | null>(service?.image ?? null);
+  const [thumbPreview, setThumbPreview] = useState<string | null>(service?.thumbnailImage ?? null);
+  const [homeCardPreview, setHomeCardPreview] = useState<string | null>(service?.homeCardImage ?? null);
 
   useEffect(() => {
     if (state.success) {
