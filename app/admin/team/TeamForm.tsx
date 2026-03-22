@@ -46,6 +46,7 @@ const INITIAL: TeamFormState = {};
 
 export default function TeamForm({ action, member }: Props) {
   const [state, formAction, pending] = useActionState(action, INITIAL);
+  const [hasSaved, setHasSaved] = useState(false);
   const lang = useAdminLang();
   const [imagePreview, setImagePreview] = useState<string | null>(
     member?.image ? `/api/images/${member.image}` : null
@@ -54,6 +55,7 @@ export default function TeamForm({ action, member }: Props) {
 
   useEffect(() => {
     if (state.success) {
+      setHasSaved(true);
       window.location.href = "/admin/team";
     }
   }, [state.success]);
@@ -251,7 +253,17 @@ export default function TeamForm({ action, member }: Props) {
       </div>
 
       <div className="action-bar">
-        <div />
+        <div className="text-[12px] flex items-center gap-1.5">
+          {state.error ? (
+            <><span className="w-2 h-2 rounded-full bg-red-500 shrink-0 inline-block" /><span className="text-red-600 font-medium truncate max-w-xs">{state.error}</span></>
+          ) : pending ? (
+            <><span className="w-2 h-2 rounded-full bg-blue-400 shrink-0 inline-block animate-pulse" /><span className="text-brand-500 font-medium">Saving…</span></>
+          ) : hasSaved ? (
+            <><span className="w-2 h-2 rounded-full bg-green-500 shrink-0 inline-block" /><span className="text-brand-500">All changes saved</span></>
+          ) : (
+            <><span className="w-2 h-2 rounded-full bg-brand-300 shrink-0 inline-block" /><span className="text-brand-400">You have not made any changes</span></>
+          )}
+        </div>
         <div className="flex gap-3">
           <Link href="/admin/team" className="btn btn-secondary">Cancel</Link>
           <button type="submit" className="btn btn-primary" disabled={pending}>

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useActionState } from "react";
+import { useActionState, useState, useEffect } from "react";
 import type { AboutSectionSettings } from "@/lib/about";
 import { useAdminLang } from "../AdminLangContext";
 
@@ -16,7 +16,12 @@ const INITIAL: FormState = {};
 
 export default function AboutForm({ settings, saveAction }: Props) {
   const [state, formAction, pending] = useActionState(saveAction, INITIAL);
+  const [hasSaved, setHasSaved] = useState(false);
   const lang = useAdminLang();
+
+  useEffect(() => {
+    if (state.success) setHasSaved(true);
+  }, [state.success]);
 
   function field(enKey: keyof AboutSectionSettings, kaKey: keyof AboutSectionSettings) {
     return lang === "en" ? (settings[enKey] as string) ?? "" : (settings[kaKey] as string) ?? "";
@@ -178,7 +183,17 @@ export default function AboutForm({ settings, saveAction }: Props) {
         </div>
 
         <div className="action-bar">
-          <div />
+          <div className="text-[12px] flex items-center gap-1.5">
+            {state.error ? (
+              <><span className="w-2 h-2 rounded-full bg-red-500 shrink-0 inline-block" /><span className="text-red-600 font-medium truncate max-w-xs">{state.error}</span></>
+            ) : pending ? (
+              <><span className="w-2 h-2 rounded-full bg-blue-400 shrink-0 inline-block animate-pulse" /><span className="text-brand-500 font-medium">Saving…</span></>
+            ) : hasSaved ? (
+              <><span className="w-2 h-2 rounded-full bg-green-500 shrink-0 inline-block" /><span className="text-brand-500">All changes saved</span></>
+            ) : (
+              <><span className="w-2 h-2 rounded-full bg-brand-300 shrink-0 inline-block" /><span className="text-brand-400">You have not made any changes</span></>
+            )}
+          </div>
           <div className="flex gap-3">
             <button type="reset" className="btn btn-secondary">Discard Changes</button>
             <button type="submit" className="btn btn-primary" disabled={pending}>

@@ -48,6 +48,7 @@ function slugPreview(title: string) {
 
 export default function NewsForm({ action, article }: Props) {
   const [state, formAction, pending] = useActionState(action, INITIAL);
+  const [hasSaved, setHasSaved] = useState(false);
   const lang = useAdminLang();
   const [titleEn, setTitleEn] = useState(article?.titleEn ?? "");
   const [imagePreview, setImagePreview] = useState<string | null>(article?.image ? `/api/images/${article.image}` : null);
@@ -57,6 +58,7 @@ export default function NewsForm({ action, article }: Props) {
   // Redirect on success
   useEffect(() => {
     if (state.success) {
+      setHasSaved(true);
       window.location.href = "/admin/news";
     }
   }, [state.success]);
@@ -400,8 +402,16 @@ export default function NewsForm({ action, article }: Props) {
 
       {/* Action bar */}
       <div className="action-bar">
-        <div className="flex gap-2">
-          <span className="badge badge-gray">{article ? "Saved" : "Draft"}</span>
+        <div className="text-[12px] flex items-center gap-1.5">
+          {state.error ? (
+            <><span className="w-2 h-2 rounded-full bg-red-500 shrink-0 inline-block" /><span className="text-red-600 font-medium truncate max-w-xs">{state.error}</span></>
+          ) : pending ? (
+            <><span className="w-2 h-2 rounded-full bg-blue-400 shrink-0 inline-block animate-pulse" /><span className="text-brand-500 font-medium">Saving…</span></>
+          ) : hasSaved ? (
+            <><span className="w-2 h-2 rounded-full bg-green-500 shrink-0 inline-block" /><span className="text-brand-500">All changes saved</span></>
+          ) : (
+            <><span className="w-2 h-2 rounded-full bg-brand-300 shrink-0 inline-block" /><span className="text-brand-400">You have not made any changes</span></>
+          )}
         </div>
         <div className="flex gap-3">
           <Link href="/admin/news" className="btn btn-secondary">Cancel</Link>
