@@ -5,7 +5,7 @@ import cn from "classnames";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { headers } from "next/headers";
 import { auth } from "@/auth";
-import { getSiteOnlineStatus } from "@/lib/actions/settings";
+import { getSiteOnlineStatus, getOfflinePageContent } from "@/lib/actions/settings";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   variable: "--font-plus-jakarta-sans",
@@ -64,6 +64,7 @@ export default async function RootLayout({
     if (!online) {
       const session = await auth();
       if (!session) {
+        const { title, message } = await getOfflinePageContent();
         return (
           <html lang="en">
             <body
@@ -80,15 +81,15 @@ export default async function RootLayout({
             >
               <div style={{ textAlign: "center", color: "#ffffff" }}>
                 <img
-                  src="/favicon.svg"
+                  src="/logo-white.svg"
                   alt="AG Legal"
-                  style={{ width: 96, height: 96, marginBottom: 32, display: "block", margin: "0 auto 32px" }}
+                  style={{ width: 140, height: "auto", display: "block", margin: "0 auto 32px" }}
                 />
                 <h1 style={{ fontSize: 28, fontWeight: 700, margin: "0 0 12px", letterSpacing: "-0.5px" }}>
-                  AG Legal
+                  {title}
                 </h1>
                 <p style={{ fontSize: 16, opacity: 0.8, margin: 0 }}>
-                  This website is temporarily offline. Please check back soon.
+                  {message}
                 </p>
               </div>
             </body>
