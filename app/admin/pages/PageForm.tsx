@@ -162,9 +162,9 @@ export default function PageForm({ action, page }: Props) {
           <Link href="/admin/pages" className="btn btn-secondary">Cancel</Link>
           <button type="submit" className="btn btn-primary" disabled={pending}>
             {pending ? (
-              <><i className="ph ph-spinner animate-spin" /> Saving...</>
+              <><i key="spinner" className="ph ph-spinner animate-spin" /> Saving...</>
             ) : (
-              <><i className="ph ph-globe" /> {page ? "Save Changes" : "Publish Page"}</>
+              <><i key="save" className="ph ph-globe" /> {page ? "Save Changes" : "Publish Page"}</>
             )}
           </button>
         </div>

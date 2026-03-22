@@ -186,7 +186,7 @@ export default function AboutForm({ settings, saveAction }: Props) {
           <div className="flex gap-3">
             <button type="reset" className="btn btn-secondary">Discard Changes</button>
             <button type="submit" className="btn btn-primary" disabled={pending}>
-              {pending ? <><i className="ph ph-spinner animate-spin" /> Saving...</> : <><i className="ph ph-floppy-disk" /> Save About Settings</>}
+              {pending ? <><i key="spinner" className="ph ph-spinner animate-spin" /> Saving...</> : <><i key="save" className="ph ph-floppy-disk" /> Save About Settings</>}
             </button>
           </div>
         </div>

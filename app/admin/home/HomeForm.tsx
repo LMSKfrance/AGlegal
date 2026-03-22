@@ -445,8 +445,8 @@ export default function HomeForm({
             disabled={anySaving}
           >
             {anySaving
-              ? <><i className="ph ph-spinner animate-spin" /> Saving...</>
-              : <><i className="ph ph-floppy-disk" /> Save &amp; Publish Layout</>
+              ? <><i key="spinner" className="ph ph-spinner animate-spin" /> Saving...</>
+              : <><i key="save" className="ph ph-floppy-disk" /> Save &amp; Publish Layout</>
             }
           </button>
         </div>
