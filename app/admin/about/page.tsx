@@ -1,5 +1,5 @@
 import { getAboutSectionSettings } from "@/lib/about";
-import { upsertAboutSectionSettings, upsertAboutHeroContent, setAboutSectionVisibilityFromForm, upsertAboutMissionImages, upsertAboutPhilosophyImages } from "@/lib/actions/about";
+import { upsertAboutSectionSettings, upsertAboutHeroContent, setAboutSectionVisibilityFromForm, upsertAboutMissionSection, upsertAboutPhilosophySection } from "@/lib/actions/about";
 import { getPageBySlug } from "@/lib/actions/pages";
 import { getFaqList } from "@/lib/actions/faq";
 import AboutForm from "./AboutForm";
@@ -20,8 +20,8 @@ export default async function AboutPage() {
       visibilityAction={setAboutSectionVisibilityFromForm}
       page={page}
       saveHeroAction={upsertAboutHeroContent}
-      saveMissionImagesAction={upsertAboutMissionImages}
-      savePhilosophyImagesAction={upsertAboutPhilosophyImages}
+      saveMissionSectionAction={upsertAboutMissionSection}
+      savePhilosophySectionAction={upsertAboutPhilosophySection}
       faqs={faqs}
     />
   );

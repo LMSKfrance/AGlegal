@@ -97,8 +97,8 @@ type Props = {
   visibilityAction: (formData: FormData) => Promise<void>;
   page: PageRecord;
   saveHeroAction: (_prev: FormState, formData: FormData) => Promise<FormState>;
-  saveMissionImagesAction: (_prev: FormState, formData: FormData) => Promise<FormState>;
-  savePhilosophyImagesAction: (_prev: FormState, formData: FormData) => Promise<FormState>;
+  saveMissionSectionAction: (_prev: FormState, formData: FormData) => Promise<FormState>;
+  savePhilosophySectionAction: (_prev: FormState, formData: FormData) => Promise<FormState>;
   faqs: FaqRow[];
 };
 
@@ -146,11 +146,11 @@ function SaveBtn({ pending }: { pending: boolean }) {
   );
 }
 
-export default function AboutForm({ settings, saveSettingsAction, visibilityAction, page, saveHeroAction, saveMissionImagesAction, savePhilosophyImagesAction, faqs }: Props) {
+export default function AboutForm({ settings, saveSettingsAction, visibilityAction, page, saveHeroAction, saveMissionSectionAction, savePhilosophySectionAction, faqs }: Props) {
   const [heroState, heroFormAction, heroPending] = useActionState(saveHeroAction, INITIAL);
   const [seoState, seoFormAction, seoPending] = useActionState(saveHeroAction, INITIAL);
-  const [missionImagesState, missionImagesAction, missionImagesPending] = useActionState(saveMissionImagesAction, INITIAL);
-  const [philosophyImagesState, philosophyImagesAction, philosophyImagesPending] = useActionState(savePhilosophyImagesAction, INITIAL);
+  const [missionState, missionFormAction, missionPending] = useActionState(saveMissionSectionAction, INITIAL);
+  const [philosophyState, philosophyFormAction, philosophyPending] = useActionState(savePhilosophySectionAction, INITIAL);
   const [settingsState, settingsFormAction, settingsPending] = useActionState(saveSettingsAction, INITIAL);
   const [settingsSaved, setSettingsSaved] = useState(false);
   const lang = useAdminLang();
@@ -267,30 +267,6 @@ export default function AboutForm({ settings, saveSettingsAction, visibilityActi
               </div>
             </div>
 
-            {/* Our Mission */}
-            <div className="card">
-              <div className="card-header">
-                <h2 className="font-semibold text-brand-900 flex items-center gap-2 text-[15px]">
-                  <i className="ph ph-target text-primary-600" /> Our Mission Section
-                </h2>
-                <SectionToggle on={settings.sectionVisibility.mission} name="mission" visibilityAction={visibilityAction} />
-              </div>
-              <div className="card-body space-y-5">
-                <div>
-                  <label className="label-base">Title {L}</label>
-                  <input type="text" name={lang === "en" ? "missionTitleEn" : "missionTitleKa"} className="input-base"
-                    placeholder="Driven by Excellence" defaultValue={field(settings, "missionTitleEn", "missionTitleKa")} />
-                  {hidden(settings, "missionTitleEn", "missionTitleKa", "missionTitleEn", "missionTitleKa")}
-                </div>
-                <div>
-                  <label className="label-base">Description {L}</label>
-                  <textarea name={lang === "en" ? "missionDescriptionEn" : "missionDescriptionKa"} className="input-base" rows={2}
-                    defaultValue={field(settings, "missionDescriptionEn", "missionDescriptionKa")} />
-                  {hidden(settings, "missionDescriptionEn", "missionDescriptionKa", "missionDescriptionEn", "missionDescriptionKa")}
-                </div>
-              </div>
-            </div>
-
             {/* Core Features */}
             <div className="card">
               <div className="card-header">
@@ -309,74 +285,83 @@ export default function AboutForm({ settings, saveSettingsAction, visibilityActi
               </div>
             </div>
 
-            {/* Our Philosophy */}
-            <div className="card">
-              <div className="card-header">
-                <h2 className="font-semibold text-brand-900 flex items-center gap-2 text-[15px]">
-                  <i className="ph ph-lightbulb text-primary-600" /> Our Philosophy Section
-                </h2>
+          </div>
+        </form>
+
+        {/* ── Our Mission (text + images combined) ─────────────────── */}
+        <form action={missionFormAction}>
+          <div className="card">
+            <div className="card-header">
+              <h2 className="font-semibold text-brand-900 flex items-center gap-2 text-[15px]">
+                <i className="ph ph-target text-primary-600" /> Our Mission Section
+              </h2>
+              <div className="flex items-center gap-2">
+                {missionState.error && <span className="text-[11px] text-red-600 font-medium">{missionState.error}</span>}
+                {missionState.success && <span className="text-[11px] text-green-600 font-medium">Saved!</span>}
+                <SectionToggle on={settings.sectionVisibility.mission} name="mission" visibilityAction={visibilityAction} />
+                <SaveBtn pending={missionPending} />
+              </div>
+            </div>
+            <div className="card-body space-y-5">
+              <div>
+                <label className="label-base">Title {L}</label>
+                <input type="text" name={lang === "en" ? "missionTitleEn" : "missionTitleKa"} className="input-base"
+                  placeholder="Driven by Excellence" defaultValue={field(settings, "missionTitleEn", "missionTitleKa")} />
+                {hidden(settings, "missionTitleEn", "missionTitleKa", "missionTitleEn", "missionTitleKa")}
+              </div>
+              <div>
+                <label className="label-base">Description {L}</label>
+                <textarea name={lang === "en" ? "missionDescriptionEn" : "missionDescriptionKa"} className="input-base" rows={2}
+                  defaultValue={field(settings, "missionDescriptionEn", "missionDescriptionKa")} />
+                {hidden(settings, "missionDescriptionEn", "missionDescriptionKa", "missionDescriptionEn", "missionDescriptionKa")}
+              </div>
+              <div>
+                <label className="label-base">Tab Images</label>
+                <p className="text-[12px] text-brand-400 mb-3">Images shown when clicking each tab (Integrity, Compassion, Expertise).</p>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  <TabImageUpload label="Integrity" fieldName="tab1Image" existing={settings.missionTab1Image} />
+                  <TabImageUpload label="Compassion" fieldName="tab2Image" existing={settings.missionTab2Image} />
+                  <TabImageUpload label="Expertise" fieldName="tab3Image" existing={settings.missionTab3Image} />
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+
+        {/* ── Our Philosophy (text + images combined) ───────────────── */}
+        <form action={philosophyFormAction}>
+          <div className="card">
+            <div className="card-header">
+              <h2 className="font-semibold text-brand-900 flex items-center gap-2 text-[15px]">
+                <i className="ph ph-lightbulb text-primary-600" /> Our Philosophy Section
+              </h2>
+              <div className="flex items-center gap-2">
+                {philosophyState.error && <span className="text-[11px] text-red-600 font-medium">{philosophyState.error}</span>}
+                {philosophyState.success && <span className="text-[11px] text-green-600 font-medium">Saved!</span>}
                 <SectionToggle on={settings.sectionVisibility.philosophy} name="philosophy" visibilityAction={visibilityAction} />
+                <SaveBtn pending={philosophyPending} />
               </div>
-              <div className="card-body space-y-5">
-                <div>
-                  <label className="label-base">Title {L}</label>
-                  <input type="text" name={lang === "en" ? "philosophyTitleEn" : "philosophyTitleKa"} className="input-base"
-                    placeholder="A Client-First Approach" defaultValue={field(settings, "philosophyTitleEn", "philosophyTitleKa")} />
-                  {hidden(settings, "philosophyTitleEn", "philosophyTitleKa", "philosophyTitleEn", "philosophyTitleKa")}
+            </div>
+            <div className="card-body space-y-5">
+              <div>
+                <label className="label-base">Title {L}</label>
+                <input type="text" name={lang === "en" ? "philosophyTitleEn" : "philosophyTitleKa"} className="input-base"
+                  placeholder="A Client-First Approach" defaultValue={field(settings, "philosophyTitleEn", "philosophyTitleKa")} />
+                {hidden(settings, "philosophyTitleEn", "philosophyTitleKa", "philosophyTitleEn", "philosophyTitleKa")}
+              </div>
+              <div>
+                <label className="label-base">Description {L}</label>
+                <textarea name={lang === "en" ? "philosophyDescriptionEn" : "philosophyDescriptionKa"} className="input-base" rows={2}
+                  defaultValue={field(settings, "philosophyDescriptionEn", "philosophyDescriptionKa")} />
+                {hidden(settings, "philosophyDescriptionEn", "philosophyDescriptionKa", "philosophyDescriptionEn", "philosophyDescriptionKa")}
+              </div>
+              <div>
+                <label className="label-base">Value Card Images</label>
+                <p className="text-[12px] text-brand-400 mb-3">Background images for the Integrity and Dedication cards.</p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <TabImageUpload label="Integrity card" fieldName="card1Image" existing={settings.philosophyCard1Image} />
+                  <TabImageUpload label="Dedication card" fieldName="card2Image" existing={settings.philosophyCard2Image} />
                 </div>
-                <div>
-                  <label className="label-base">Description {L}</label>
-                  <textarea name={lang === "en" ? "philosophyDescriptionEn" : "philosophyDescriptionKa"} className="input-base" rows={2}
-                    defaultValue={field(settings, "philosophyDescriptionEn", "philosophyDescriptionKa")} />
-                  {hidden(settings, "philosophyDescriptionEn", "philosophyDescriptionKa", "philosophyDescriptionEn", "philosophyDescriptionKa")}
-                </div>
-              </div>
-            </div>
-          </div>
-        </form>
-
-        {/* ── Mission Tab Images ───────────────────────────────────── */}
-        <form action={missionImagesAction}>
-          <div className="card">
-            <div className="card-header">
-              <h2 className="font-semibold text-brand-900 flex items-center gap-2 text-[15px]">
-                <i className="ph ph-images text-primary-600" /> Mission Tab Images
-              </h2>
-              <div className="flex items-center gap-2">
-                {missionImagesState.error && <span className="text-[11px] text-red-600 font-medium">{missionImagesState.error}</span>}
-                {missionImagesState.success && <span className="text-[11px] text-green-600 font-medium">Saved!</span>}
-                <SaveBtn pending={missionImagesPending} />
-              </div>
-            </div>
-            <div className="card-body">
-              <p className="text-[12px] text-brand-400 mb-4">Images shown when clicking the Integrity, Compassion and Expertise tabs in the Mission section.</p>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-                <TabImageUpload label="Integrity" fieldName="tab1Image" existing={settings.missionTab1Image} />
-                <TabImageUpload label="Compassion" fieldName="tab2Image" existing={settings.missionTab2Image} />
-                <TabImageUpload label="Expertise" fieldName="tab3Image" existing={settings.missionTab3Image} />
-              </div>
-            </div>
-          </div>
-        </form>
-
-        {/* ── Philosophy Card Images ───────────────────────────────── */}
-        <form action={philosophyImagesAction}>
-          <div className="card">
-            <div className="card-header">
-              <h2 className="font-semibold text-brand-900 flex items-center gap-2 text-[15px]">
-                <i className="ph ph-images text-primary-600" /> Philosophy Card Images
-              </h2>
-              <div className="flex items-center gap-2">
-                {philosophyImagesState.error && <span className="text-[11px] text-red-600 font-medium">{philosophyImagesState.error}</span>}
-                {philosophyImagesState.success && <span className="text-[11px] text-green-600 font-medium">Saved!</span>}
-                <SaveBtn pending={philosophyImagesPending} />
-              </div>
-            </div>
-            <div className="card-body">
-              <p className="text-[12px] text-brand-400 mb-4">Background images for the Integrity and Dedication value cards in the Philosophy section.</p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                <TabImageUpload label="Integrity card" fieldName="card1Image" existing={settings.philosophyCard1Image} />
-                <TabImageUpload label="Dedication card" fieldName="card2Image" existing={settings.philosophyCard2Image} />
               </div>
             </div>
           </div>
