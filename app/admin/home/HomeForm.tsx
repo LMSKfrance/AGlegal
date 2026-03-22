@@ -344,10 +344,7 @@ export default function HomeForm({
             <h2 className="font-semibold text-brand-900 flex items-center gap-2 text-[15px]">
               <i className="ph ph-arrows-clockwise text-primary-600" /> Working Process Steps
             </h2>
-            <div className="flex items-center gap-3">
-              <span className="text-[12px] text-brand-400">{processSteps.length} of 4 steps used</span>
-              <SectionToggle sectionId="process" initialValue={visibility.process} />
-            </div>
+            <SectionToggle sectionId="process" initialValue={visibility.process} />
           </div>
           <div className="card-body">
             <HomeProcessSection initialSteps={processSteps} lang={lang} />
