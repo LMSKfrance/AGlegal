@@ -57,9 +57,6 @@ export default function TeamForm({ action, member }: Props) {
   const [imagePosition, setImagePosition] = useState<string>(
     member?.imagePosition ?? "top"
   );
-  const [published, setPublished] = useState<number>(
-    member?.published ?? 1
-  );
   const fileRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -84,17 +81,7 @@ export default function TeamForm({ action, member }: Props) {
           <i className="ph ph-arrow-left" />
         </Link>
         <h1 className="text-xl font-bold text-brand-900">{member ? "Edit Team Member" : "Add Team Member"}</h1>
-        <div className="ml-auto flex items-center gap-3">
-          <input type="hidden" name="published" value={published} />
-          <button
-            type="button"
-            onClick={() => setPublished((p) => (p ? 0 : 1))}
-            className={`btn ${published ? "btn-primary" : "btn-secondary"}`}
-          >
-            <i className={`ph ${published ? "ph-eye" : "ph-eye-slash"}`} />
-            {published ? "Published" : "Draft"}
-          </button>
-        </div>
+        <input type="hidden" name="published" value={member?.published ?? 1} />
       </div>
 
       {state.error && (
