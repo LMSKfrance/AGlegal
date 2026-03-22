@@ -112,6 +112,7 @@ function mapRow(
     text1: pick(locale, row.text1En, row.text1Ka) ?? "",
     text2: pick(locale, row.text2En, row.text2Ka) ?? "",
     image: row.image ?? "",
+    ogImage: row.ogImage,
     socials: socials.map((s) => ({
       id: s.id,
       name: s.platform,

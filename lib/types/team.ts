@@ -45,6 +45,7 @@ export interface TeamMember {
   text1: string;
   text2: string;
   image: string;
+  ogImage?: string | null;
   socials: Array<{
     id: number | string;
     name: string;

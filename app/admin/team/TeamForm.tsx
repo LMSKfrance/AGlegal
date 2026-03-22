@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useActionState, useState, useRef, useEffect } from "react";
 import { useAdminLang } from "../AdminLangContext";
 import type { TeamFormState } from "@/lib/actions/team";
+import OgImageUpload from "../OgImageUpload";
 
 type Social = { platform: string; link: string };
 
@@ -245,8 +246,10 @@ export default function TeamForm({ action, member }: Props) {
               </div>
             </div>
             <div>
-              <label className="label-base">OG Image URL <span className="text-xs font-normal text-brand-400 ml-2">(Recommended 1200×630)</span></label>
-              <input type="text" name="ogImage" className="input-base" placeholder="/uploads/og-image.jpg" defaultValue={member?.ogImage ?? ""} />
+              <OgImageUpload
+                existing={member?.ogImage ?? null}
+                fallback={member?.image ?? null}
+              />
             </div>
           </div>
         </div>

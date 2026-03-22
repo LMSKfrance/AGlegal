@@ -34,6 +34,7 @@ export const getArticleData = async (id: string, locale: Locale = "en") => {
     id: row.slug,
     contentHtml: pick(locale, row.contentEn, row.contentKa) ?? "",
     image: row.image,
+    ogImage: row.ogImage,
     title: pick(locale, row.titleEn, row.titleKa),
     description: pick(locale, row.descriptionEn, row.descriptionKa) ?? "",
     date: moment(row.date, "YYYY-MM-DD").format("MMM D, YYYY"),

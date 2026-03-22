@@ -51,6 +51,16 @@ export async function createNews(prev: NewsFormState, formData: FormData): Promi
       if (result.success) imagePath = result.path;
     }
 
+    const ogImageFile = formData.get("ogImage");
+    let ogImagePath: string | null = null;
+    if (ogImageFile && ogImageFile instanceof File && ogImageFile.size > 0) {
+      const { uploadImage } = await import("@/lib/actions/upload");
+      const fd = new FormData();
+      fd.append("image", ogImageFile);
+      const result = await uploadImage(fd);
+      if (result.success) ogImagePath = result.path;
+    }
+
     const tagsRaw = formData.get("tags") as string | null;
     const tags: string[] = tagsRaw ? tagsRaw.split(",").map((t) => t.trim()).filter(Boolean) : [];
 
@@ -77,7 +87,7 @@ export async function createNews(prev: NewsFormState, formData: FormData): Promi
       ogTitleKa: trim("ogTitleKa"),
       ogDescriptionEn: trim("ogDescriptionEn"),
       ogDescriptionKa: trim("ogDescriptionKa"),
-      ogImage: trim("ogImage"),
+      ogImage: ogImagePath,
       updatedAt: now,
     });
 
@@ -118,6 +128,16 @@ export async function updateNews(id: number, prev: NewsFormState, formData: Form
       if (result.success) imagePath = result.path;
     }
 
+    const ogImageFile = formData.get("ogImage");
+    let ogImagePath: string | null = existing.ogImage;
+    if (ogImageFile && ogImageFile instanceof File && ogImageFile.size > 0) {
+      const { uploadImage } = await import("@/lib/actions/upload");
+      const fd = new FormData();
+      fd.append("image", ogImageFile);
+      const result = await uploadImage(fd);
+      if (result.success) ogImagePath = result.path;
+    }
+
     const tagsRaw = formData.get("tags") as string | null;
     const tags: string[] = tagsRaw ? tagsRaw.split(",").map((t) => t.trim()).filter(Boolean) : [];
 
@@ -145,7 +165,7 @@ export async function updateNews(id: number, prev: NewsFormState, formData: Form
         ogTitleKa: trim("ogTitleKa"),
         ogDescriptionEn: trim("ogDescriptionEn"),
         ogDescriptionKa: trim("ogDescriptionKa"),
-        ogImage: trim("ogImage"),
+        ogImage: ogImagePath,
         updatedAt: new Date().toISOString(),
       })
       .where(eq(articles.id, id));

@@ -30,6 +30,7 @@ export interface Service {
   text2: string;
   quote: string;
   image: string;
+  ogImage?: string | null;
   thumbnail_image: string;
   clickable: number;
 }

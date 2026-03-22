@@ -68,6 +68,16 @@ export async function createService(prev: ServiceFormState, formData: FormData):
       if (result.success) homeCardPath = result.path;
     }
 
+    const ogImageFile = formData.get("ogImage");
+    let ogImagePath: string | null = null;
+    if (ogImageFile && ogImageFile instanceof File && ogImageFile.size > 0) {
+      const { uploadImage } = await import("@/lib/actions/upload");
+      const fd = new FormData();
+      fd.append("image", ogImageFile);
+      const result = await uploadImage(fd);
+      if (result.success) ogImagePath = result.path;
+    }
+
     const showOnHome = formData.get("showOnHome") ? 1 : 0;
     const homeOrderRaw = (formData.get("homeOrder") as string | null) ?? "0";
     const homeOrder = Number.parseInt(homeOrderRaw, 10) || 0;
@@ -103,7 +113,7 @@ export async function createService(prev: ServiceFormState, formData: FormData):
       ogTitleKa: trim("ogTitleKa"),
       ogDescriptionEn: trim("ogDescriptionEn"),
       ogDescriptionKa: trim("ogDescriptionKa"),
-      ogImage: trim("ogImage"),
+      ogImage: ogImagePath,
       updatedAt: new Date().toISOString(),
     });
 
@@ -163,6 +173,16 @@ export async function updateService(id: number, prev: ServiceFormState, formData
       if (result.success) homeCardPath = result.path;
     }
 
+    const ogImageFile = formData.get("ogImage");
+    let ogImagePath: string | null = existing.ogImage;
+    if (ogImageFile && ogImageFile instanceof File && ogImageFile.size > 0) {
+      const { uploadImage } = await import("@/lib/actions/upload");
+      const fd = new FormData();
+      fd.append("image", ogImageFile);
+      const result = await uploadImage(fd);
+      if (result.success) ogImagePath = result.path;
+    }
+
     const showOnHome = formData.get("showOnHome") ? 1 : 0;
     const homeOrderRaw = (formData.get("homeOrder") as string | null) ?? `${existing.homeOrder ?? 0}`;
     const homeOrder = Number.parseInt(homeOrderRaw, 10) || 0;
@@ -200,7 +220,7 @@ export async function updateService(id: number, prev: ServiceFormState, formData
         ogTitleKa: trim("ogTitleKa"),
         ogDescriptionEn: trim("ogDescriptionEn"),
         ogDescriptionKa: trim("ogDescriptionKa"),
-        ogImage: trim("ogImage"),
+        ogImage: ogImagePath,
         updatedAt: new Date().toISOString(),
       })
       .where(eq(services.id, id));
