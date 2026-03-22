@@ -331,10 +331,7 @@ export default function HomeForm({
             <h2 className="font-semibold text-brand-900 flex items-center gap-2 text-[15px]">
               <i className="ph ph-star text-primary-600" /> Benefits (Why Work With Us)
             </h2>
-            <div className="flex items-center gap-3">
-              <span className="text-[12px] text-brand-400">{benefits.length} of 4 cards used</span>
-              <SectionToggle sectionId="benefits" initialValue={visibility.benefits} />
-            </div>
+            <SectionToggle sectionId="benefits" initialValue={visibility.benefits} />
           </div>
           <div className="card-body">
             <HomeBenefitsSection initialBenefits={benefits} lang={lang} />
