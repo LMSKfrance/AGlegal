@@ -1,12 +1,28 @@
-import { getSiteOnlineStatus, setSiteOnlineStatus } from "@/lib/actions/settings";
+import {
+  getSiteOnlineStatus,
+  setSiteOnlineStatus,
+  getOfflinePageContent,
+  saveOfflinePageContent,
+} from "@/lib/actions/settings";
 import SiteStatusToggle from "./SiteStatusToggle";
+import OfflineContentForm from "./OfflineContentForm";
 
 export default async function SiteSettingsPage() {
-  const online = await getSiteOnlineStatus();
+  const [online, offlineContent] = await Promise.all([
+    getSiteOnlineStatus(),
+    getOfflinePageContent(),
+  ]);
 
   async function updateStatus(newOnline: boolean) {
     "use server";
     await setSiteOnlineStatus(newOnline);
+  }
+
+  async function updateOfflineContent(formData: FormData) {
+    "use server";
+    const title = (formData.get("offline_title") as string) ?? "";
+    const message = (formData.get("offline_message") as string) ?? "";
+    await saveOfflinePageContent(title, message);
   }
 
   return (
@@ -16,8 +32,13 @@ export default async function SiteSettingsPage() {
         <p className="text-brand-500 mt-2">Control site-wide visibility and maintenance mode.</p>
       </div>
 
-      <div style={{ padding: "32px" }}>
+      <div style={{ padding: "32px", display: "flex", flexDirection: "column", gap: 24, maxWidth: 720 }}>
         <SiteStatusToggle online={online} action={updateStatus} />
+        <OfflineContentForm
+          defaultTitle={offlineContent.title}
+          defaultMessage={offlineContent.message}
+          action={updateOfflineContent}
+        />
       </div>
     </>
   );
