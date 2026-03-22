@@ -50,7 +50,8 @@
 .admin-shell-root p  { margin: 0; }
 .admin-shell-root ul,
 .admin-shell-root ol { margin: 0; padding: 0; list-style: none; }
-.admin-shell-root a  { color: inherit; text-decoration: none; }
+.admin-shell-root a:not(.btn)  { color: inherit; text-decoration: none; }
+.admin-shell-root a.btn { text-decoration: none; }
 .admin-shell-root button,
 .admin-shell-root input,
 .admin-shell-root select,
