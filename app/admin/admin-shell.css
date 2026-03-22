@@ -236,6 +236,20 @@ select.input-base {
 }
 .btn-icon:hover { color: #111827; background-color: #f3f4f6; }
 
+/* Per-card save button: idle = ghost blue border, hover = filled blue */
+.btn-save {
+  padding: 0; width: 32px; height: 32px; border-radius: 8px;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 16px;
+  color: #2563eb; background: #eff6ff; border: 1.5px solid #bfdbfe;
+  cursor: pointer; transition: all 0.15s;
+}
+.btn-save:hover:not(:disabled) {
+  color: #ffffff; background: #2563eb; border-color: #2563eb;
+  box-shadow: 0 2px 8px rgba(37,99,235,0.25);
+}
+.btn-save:disabled { opacity: 0.6; cursor: not-allowed; }
+
 /* ─── Cards ─── */
 .card {
   background: #ffffff;

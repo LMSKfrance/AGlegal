@@ -34,10 +34,10 @@ function BenefitCard({
           <div className="mb-3 p-2 bg-green-50 border border-green-200 rounded text-xs text-green-700">Saved.</div>
         )}
 
-        {/* Save button on hover */}
-        <div className="absolute right-4 top-4 opacity-0 group-hover:opacity-100 transition-opacity">
-          <button type="submit" className="btn-icon text-primary-600 hover:bg-primary-50" disabled={pending} title="Save">
-            {pending ? <i key="spinner" className="ph ph-spinner animate-spin" /> : <i key="save" className="ph ph-floppy-disk" />}
+        {/* Save button */}
+        <div className="absolute right-4 top-4">
+          <button type="submit" className="btn-save" disabled={pending} title="Save card">
+            {pending ? <i className="ph ph-spinner animate-spin" /> : <i className="ph ph-floppy-disk" />}
           </button>
         </div>
 
