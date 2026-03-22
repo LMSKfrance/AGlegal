@@ -1,6 +1,7 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import { useActionState } from "react";
+import { useAdminLang } from "../AdminLangContext";
 import type { ContactFormState } from "@/lib/actions/contact";
 
 type ContactRow = {
@@ -30,19 +31,13 @@ const INITIAL: ContactFormState = {};
 
 export default function ContactForm({ contact, saveAction }: Props) {
   const [state, formAction, pending] = useActionState(saveAction, INITIAL);
-  const [lang, setLang] = useState<"en" | "ka">("en");
+  const lang = useAdminLang();
 
   return (
     <>
-      <div className="page-header border-b border-brand-200 sticky top-0 bg-[#f8fafc]/95 backdrop-blur z-10 pb-6 pt-8">
-        <div>
-          <h1 className="text-[28px] font-bold text-brand-900 tracking-tight">Contact Information</h1>
-          <p className="text-brand-500 mt-2">Global contact details and social media links.</p>
-        </div>
-        <div className="lang-switcher">
-          <div className={`lang-tab${lang === "en" ? " active" : ""}`} onClick={() => setLang("en")}>EN</div>
-          <div className={`lang-tab${lang === "ka" ? " active" : ""}`} onClick={() => setLang("ka")}>KA</div>
-        </div>
+      <div className="pb-6 pt-8 border-b border-brand-200 px-8">
+        <h1 className="text-[28px] font-bold text-brand-900 tracking-tight">Contact Information</h1>
+        <p className="text-brand-500 mt-2">Global contact details and social media links.</p>
       </div>
 
       <form action={formAction}>

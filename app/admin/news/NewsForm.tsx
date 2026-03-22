@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useActionState, useState, useRef, useEffect } from "react";
+import { useAdminLang } from "../AdminLangContext";
 import type { NewsFormState } from "@/lib/actions/news";
 
 type Article = {
@@ -38,7 +39,7 @@ function slugPreview(title: string) {
 
 export default function NewsForm({ action, article }: Props) {
   const [state, formAction, pending] = useActionState(action, INITIAL);
-  const [lang, setLang] = useState<"en" | "ka">("en");
+  const lang = useAdminLang();
   const [titleEn, setTitleEn] = useState(article?.titleEn ?? "");
   const [imagePreview, setImagePreview] = useState<string | null>(article?.image ? `/api/images/${article.image}` : null);
   const fileRef = useRef<HTMLInputElement>(null);
@@ -80,22 +81,15 @@ export default function NewsForm({ action, article }: Props) {
 
   return (
     <form ref={formRef} action={formAction} className="relative bg-white flex flex-col min-h-full">
-      {/* Sticky top bar */}
-      <div className="border-b border-brand-200 px-4 sm:px-8 py-4 flex justify-between items-center sticky top-0 bg-white/95 backdrop-blur z-10">
-        <div className="flex items-center gap-4">
-          <Link href="/admin/news" className="btn-icon bg-white border border-brand-200 shadow-sm">
-            <i className="ph ph-arrow-left" />
-          </Link>
-          <div>
-            <h1 className="text-xl font-bold text-brand-900">{article ? "Edit Article" : "New Article"}</h1>
-            <div className="text-[12px] text-brand-500 mt-1">
-              {article ? `Editing: ${article.slug}` : "Draft — not published"}
-            </div>
+      <div className="border-b border-brand-200 px-4 sm:px-8 py-4 flex items-center gap-4">
+        <Link href="/admin/news" className="btn-icon bg-white border border-brand-200 shadow-sm">
+          <i className="ph ph-arrow-left" />
+        </Link>
+        <div>
+          <h1 className="text-xl font-bold text-brand-900">{article ? "Edit Article" : "New Article"}</h1>
+          <div className="text-[12px] text-brand-500 mt-1">
+            {article ? `Editing: ${article.slug}` : "Draft — not published"}
           </div>
-        </div>
-        <div className="lang-switcher">
-          <div className={`lang-tab${lang === "en" ? " active" : ""}`} onClick={() => setLang("en")}>EN</div>
-          <div className={`lang-tab${lang === "ka" ? " active" : ""}`} onClick={() => setLang("ka")}>KA</div>
         </div>
       </div>
 

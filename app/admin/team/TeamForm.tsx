@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useActionState, useState, useRef, useEffect } from "react";
+import { useAdminLang } from "../AdminLangContext";
 import type { TeamFormState } from "@/lib/actions/team";
 
 type Social = { platform: string; link: string };
@@ -36,7 +37,7 @@ const INITIAL: TeamFormState = {};
 
 export default function TeamForm({ action, member }: Props) {
   const [state, formAction, pending] = useActionState(action, INITIAL);
-  const [lang, setLang] = useState<"en" | "ka">("en");
+  const lang = useAdminLang();
   const [imagePreview, setImagePreview] = useState<string | null>(
     member?.image ? `/api/images/${member.image}` : null
   );
@@ -58,17 +59,11 @@ export default function TeamForm({ action, member }: Props) {
 
   return (
     <form action={formAction} className="relative bg-white flex flex-col min-h-full">
-      <div className="border-b border-brand-200 px-4 sm:px-8 py-4 flex justify-between items-center sticky top-0 bg-white/95 backdrop-blur z-10">
-        <div className="flex items-center gap-4">
-          <Link href="/admin/team" className="btn-icon bg-white border border-brand-200 shadow-sm">
-            <i className="ph ph-arrow-left" />
-          </Link>
-          <h1 className="text-xl font-bold text-brand-900">{member ? "Edit Team Member" : "Add Team Member"}</h1>
-        </div>
-        <div className="lang-switcher">
-          <div className={`lang-tab${lang === "en" ? " active" : ""}`} onClick={() => setLang("en")}>EN</div>
-          <div className={`lang-tab${lang === "ka" ? " active" : ""}`} onClick={() => setLang("ka")}>KA</div>
-        </div>
+      <div className="border-b border-brand-200 px-4 sm:px-8 py-4 flex items-center gap-4">
+        <Link href="/admin/team" className="btn-icon bg-white border border-brand-200 shadow-sm">
+          <i className="ph ph-arrow-left" />
+        </Link>
+        <h1 className="text-xl font-bold text-brand-900">{member ? "Edit Team Member" : "Add Team Member"}</h1>
       </div>
 
       {state.error && (
