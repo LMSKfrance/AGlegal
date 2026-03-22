@@ -38,7 +38,7 @@ function TaskRow({ task }: { task: NotificationTask }) {
 
   return (
     <div className="flex items-start gap-4 p-5 hover:bg-brand-50 transition-colors">
-      <div className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 ${style.icon}`}>
+      <div className={`w-12 h-12 rounded-lg flex items-center justify-center shrink-0 ${style.icon}`}>
         <i className={`ph ${icon} text-2xl`} />
       </div>
       <div className="flex-1 min-w-0">

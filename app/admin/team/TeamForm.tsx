@@ -78,7 +78,7 @@ export default function TeamForm({ action, member }: Props) {
           <div className="w-48 shrink-0">
             <label className="label-base">Profile Photo</label>
             <div
-              className="file-upload-zone w-full aspect-square rounded-2xl flex flex-col items-center justify-center gap-3 cursor-pointer overflow-hidden"
+              className="file-upload-zone w-full aspect-square rounded-lg flex flex-col items-center justify-center gap-3 cursor-pointer overflow-hidden"
               onClick={() => fileRef.current?.click()}
             >
               {imagePreview ? (
@@ -120,7 +120,7 @@ export default function TeamForm({ action, member }: Props) {
                 )}
               </div>
             </div>
-            <div className="flex flex-wrap items-center gap-4 p-4 bg-brand-50 rounded-xl border border-brand-200">
+            <div className="flex flex-wrap items-center gap-4 p-4 bg-brand-50 rounded-lg border border-brand-200">
               <div className="flex items-center justify-between gap-4 min-w-[180px]">
                 <span className="text-[14px] font-semibold text-brand-900">Show on Homepage</span>
                 <label className="toggle-switch">

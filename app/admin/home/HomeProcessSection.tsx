@@ -31,7 +31,7 @@ function ProcessStepCard({
       <input type="hidden" name={lang === "en" ? "titleKa" : "titleEn"} value={lang === "en" ? (item?.titleKa ?? "") : (item?.titleEn ?? "")} />
       <input type="hidden" name={lang === "en" ? "descriptionKa" : "descriptionEn"} value={lang === "en" ? (item?.descriptionKa ?? "") : (item?.descriptionEn ?? "")} />
 
-      <div className="bg-white border border-brand-200 p-5 rounded-xl relative group">
+      <div className="bg-white border border-brand-200 p-5 rounded-lg relative group">
         {state.error && (
           <div className="mb-3 p-2 bg-red-50 border border-red-200 rounded text-xs text-red-700">{state.error}</div>
         )}

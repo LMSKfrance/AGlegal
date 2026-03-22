@@ -212,7 +212,7 @@ export default function AdminShell({
           </Link>
 
           {showLabels && (
-            <div className="absolute bottom-full left-4 mb-2 w-56 bg-white border border-brand-200 rounded-xl shadow-lg opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity z-50">
+            <div className="absolute bottom-full left-4 mb-2 w-56 bg-white border border-brand-200 rounded-lg shadow-lg opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity z-50">
               <div className="p-3 border-b border-brand-100">
                 <div className="text-sm font-semibold text-brand-900">{displayName}</div>
                 <div className="text-xs text-brand-500">{email}</div>

@@ -137,7 +137,7 @@ export default function NewsForm({ action, article }: Props) {
         </div>
 
         {/* Meta */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 p-6 bg-brand-50 rounded-xl border border-brand-200">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 p-6 bg-brand-50 rounded-lg border border-brand-200">
           <div>
             <label className="label-base required">Content Type</label>
             <select name="type" className="input-base bg-white" defaultValue={article?.type ?? ""}>

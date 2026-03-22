@@ -46,7 +46,7 @@ export default async function DashboardPage() {
         {/* Stats — clickable cards */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8">
           <Link href="/admin/news" className="card p-4 md:p-6 flex items-center gap-4 md:gap-5 hover:shadow-md transition-shadow">
-            <div className="w-10 h-10 md:w-14 md:h-14 rounded-xl bg-[#E0EDFF] text-[#0070F2] flex items-center justify-center text-xl md:text-[28px]">
+            <div className="w-10 h-10 md:w-14 md:h-14 rounded-lg bg-[#E0EDFF] text-[#0070F2] flex items-center justify-center text-xl md:text-[28px]">
               <i className="ph-fill ph-newspaper" />
             </div>
             <div>
@@ -55,7 +55,7 @@ export default async function DashboardPage() {
             </div>
           </Link>
           <Link href="/admin/team" className="card p-4 md:p-6 flex items-center gap-4 md:gap-5 hover:shadow-md transition-shadow">
-            <div className="w-10 h-10 md:w-14 md:h-14 rounded-xl bg-[#F0ECF9] text-[#5A1E96] flex items-center justify-center text-xl md:text-[28px]">
+            <div className="w-10 h-10 md:w-14 md:h-14 rounded-lg bg-[#F0ECF9] text-[#5A1E96] flex items-center justify-center text-xl md:text-[28px]">
               <i className="ph-fill ph-users" />
             </div>
             <div>
@@ -64,7 +64,7 @@ export default async function DashboardPage() {
             </div>
           </Link>
           <Link href="/admin/services" className="card p-4 md:p-6 flex items-center gap-4 md:gap-5 hover:shadow-md transition-shadow">
-            <div className="w-10 h-10 md:w-14 md:h-14 rounded-xl bg-[#EBF5E0] text-[#107E3E] flex items-center justify-center text-xl md:text-[28px]">
+            <div className="w-10 h-10 md:w-14 md:h-14 rounded-lg bg-[#EBF5E0] text-[#107E3E] flex items-center justify-center text-xl md:text-[28px]">
               <i className="ph-fill ph-briefcase" />
             </div>
             <div>
@@ -73,7 +73,7 @@ export default async function DashboardPage() {
             </div>
           </Link>
           <Link href="/admin/pages" className="card p-4 md:p-6 flex items-center gap-4 md:gap-5 hover:shadow-md transition-shadow">
-            <div className="w-10 h-10 md:w-14 md:h-14 rounded-xl bg-[#FFF8D6] text-[#B44F00] flex items-center justify-center text-xl md:text-[28px]">
+            <div className="w-10 h-10 md:w-14 md:h-14 rounded-lg bg-[#FFF8D6] text-[#B44F00] flex items-center justify-center text-xl md:text-[28px]">
               <i className="ph-fill ph-files" />
             </div>
             <div>
@@ -95,7 +95,7 @@ export default async function DashboardPage() {
           </div>
           <div className="card-body p-6">
             {tasks.length === 0 ? (
-              <div className="flex items-center gap-4 p-5 bg-[#EBF5E0] rounded-xl border border-[#ABD77A]">
+              <div className="flex items-center gap-4 p-5 bg-[#EBF5E0] rounded-lg border border-[#ABD77A]">
                 <div className="w-10 h-10 rounded-full bg-[#D4EEC0] text-[#107E3E] flex items-center justify-center shrink-0">
                   <i className="ph ph-check-circle text-[20px]" />
                 </div>
@@ -108,7 +108,7 @@ export default async function DashboardPage() {
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 {/* Translations */}
                 {totalTranslationCount > 0 && (
-                  <Link href="/admin/notifications" className="flex items-center gap-4 p-5 bg-[#FFF8D6] rounded-xl border border-[#F0AB00] hover:brightness-95 transition-all">
+                  <Link href="/admin/notifications" className="flex items-center gap-4 p-5 bg-[#FFF8D6] rounded-lg border border-[#F0AB00] hover:brightness-95 transition-all">
                     <div className="w-10 h-10 rounded-full bg-[#FFF3B7] text-[#B44F00] flex items-center justify-center shrink-0">
                       <i className="ph ph-translate text-[20px]" />
                     </div>
@@ -120,7 +120,7 @@ export default async function DashboardPage() {
                 )}
                 {/* Photos / Images */}
                 {totalPhotoCount > 0 && (
-                  <Link href="/admin/notifications" className="flex items-center gap-4 p-5 bg-[#FFEBEB] rounded-xl border border-[#E8A5A5] hover:brightness-95 transition-all">
+                  <Link href="/admin/notifications" className="flex items-center gap-4 p-5 bg-[#FFEBEB] rounded-lg border border-[#E8A5A5] hover:brightness-95 transition-all">
                     <div className="w-10 h-10 rounded-full bg-[#FFD6D6] text-[#AB0000] flex items-center justify-center shrink-0">
                       <i className="ph ph-image text-[20px]" />
                     </div>
@@ -132,7 +132,7 @@ export default async function DashboardPage() {
                 )}
                 {/* Incomplete / Required */}
                 {incompleteTasks.length > 0 && (
-                  <Link href="/admin/notifications" className="flex items-center gap-4 p-5 bg-[#E8F4FD] rounded-xl border border-[#91C8F6] hover:brightness-95 transition-all">
+                  <Link href="/admin/notifications" className="flex items-center gap-4 p-5 bg-[#E8F4FD] rounded-lg border border-[#91C8F6] hover:brightness-95 transition-all">
                     <div className="w-10 h-10 rounded-full bg-[#D4ECF8] text-[#0854A0] flex items-center justify-center shrink-0">
                       <i className="ph ph-warning text-[20px]" />
                     </div>
@@ -157,20 +157,20 @@ export default async function DashboardPage() {
             </div>
             <div className="card-body p-6">
               <div className="grid grid-cols-3 gap-4">
-                <Link href="/admin/news/new" className="btn flex-col h-auto py-5 px-3 gap-3 bg-white border border-brand-200 hover:bg-brand-50 hover:border-brand-300 group transition-all rounded-xl shadow-sm">
-                  <div className="w-12 h-12 rounded-xl bg-[#E0EDFF] text-[#0070F2] flex items-center justify-center group-hover:brightness-95 transition-all">
+                <Link href="/admin/news/new" className="btn flex-col h-auto py-5 px-3 gap-3 bg-white border border-brand-200 hover:bg-brand-50 hover:border-brand-300 group transition-all rounded-lg shadow-sm">
+                  <div className="w-12 h-12 rounded-lg bg-[#E0EDFF] text-[#0070F2] flex items-center justify-center group-hover:brightness-95 transition-all">
                     <i className="ph-fill ph-newspaper text-2xl" />
                   </div>
                   <span className="text-[13px] font-medium text-brand-900 text-center">New Article</span>
                 </Link>
-                <Link href="/admin/team/new" className="btn flex-col h-auto py-5 px-3 gap-3 bg-white border border-brand-200 hover:bg-brand-50 hover:border-brand-300 group transition-all rounded-xl shadow-sm">
-                  <div className="w-12 h-12 rounded-xl bg-[#F0ECF9] text-[#5A1E96] flex items-center justify-center group-hover:brightness-95 transition-all">
+                <Link href="/admin/team/new" className="btn flex-col h-auto py-5 px-3 gap-3 bg-white border border-brand-200 hover:bg-brand-50 hover:border-brand-300 group transition-all rounded-lg shadow-sm">
+                  <div className="w-12 h-12 rounded-lg bg-[#F0ECF9] text-[#5A1E96] flex items-center justify-center group-hover:brightness-95 transition-all">
                     <i className="ph-fill ph-users text-2xl" />
                   </div>
                   <span className="text-[13px] font-medium text-brand-900 text-center">Add Member</span>
                 </Link>
-                <Link href="/admin/services/new" className="btn flex-col h-auto py-5 px-3 gap-3 bg-white border border-brand-200 hover:bg-brand-50 hover:border-brand-300 group transition-all rounded-xl shadow-sm">
-                  <div className="w-12 h-12 rounded-xl bg-[#EBF5E0] text-[#107E3E] flex items-center justify-center group-hover:brightness-95 transition-all">
+                <Link href="/admin/services/new" className="btn flex-col h-auto py-5 px-3 gap-3 bg-white border border-brand-200 hover:bg-brand-50 hover:border-brand-300 group transition-all rounded-lg shadow-sm">
+                  <div className="w-12 h-12 rounded-lg bg-[#EBF5E0] text-[#107E3E] flex items-center justify-center group-hover:brightness-95 transition-all">
                     <i className="ph-fill ph-briefcase text-2xl" />
                   </div>
                   <span className="text-[13px] font-medium text-brand-900 text-center">Add Service</span>
