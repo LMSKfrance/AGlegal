@@ -28,7 +28,7 @@
 .card_image {
   position: relative;
   flex: 0 0 40%;
-  aspect-ratio: 5 / 6;
+  aspect-ratio: 3 / 4;
   border-radius: 10px;
   overflow: hidden;
 }

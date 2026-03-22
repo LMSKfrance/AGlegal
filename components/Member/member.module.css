@@ -17,7 +17,7 @@
 .member_image {
   position: relative;
   width: 100%;
-  aspect-ratio: 5 / 6;
+  aspect-ratio: 3 / 4;
   border-radius: 12px;
   overflow: hidden;
 }

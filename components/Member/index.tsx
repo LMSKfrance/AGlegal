@@ -6,7 +6,7 @@ import Link from "next/link";
 import type { TeamMember } from "@/lib/types/team";
 
 type MemberProps = {
-  member: Pick<TeamMember, "slug" | "title" | "position" | "description" | "image" | "socials">;
+  member: Pick<TeamMember, "slug" | "title" | "position" | "description" | "image" | "imagePosition" | "socials">;
 };
 
 const Member = ({ member }: MemberProps) => {
@@ -18,7 +18,7 @@ const Member = ({ member }: MemberProps) => {
           alt={member.title}
           fill
           sizes="(max-width: 768px) 100vw, 50vw"
-          style={{ objectFit: "cover", objectPosition: "top center" }}
+          style={{ objectFit: "cover", objectPosition: member.imagePosition === "bottom" ? "bottom center" : member.imagePosition === "center" ? "center" : "top center" }}
         />
       </div>
 

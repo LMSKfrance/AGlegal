@@ -24,6 +24,7 @@ type Member = {
   text2En: string | null;
   text2Ka: string | null;
   image: string | null;
+  imagePosition: string | null;
   showOnHome: number | null;
   homeOrder: number | null;
   metaDescriptionEn: string | null;
@@ -51,6 +52,9 @@ export default function TeamForm({ action, member }: Props) {
   const lang = useAdminLang();
   const [imagePreview, setImagePreview] = useState<string | null>(
     member?.image ?? null
+  );
+  const [imagePosition, setImagePosition] = useState<string>(
+    member?.imagePosition ?? "top"
   );
   const fileRef = useRef<HTMLInputElement>(null);
 
@@ -110,6 +114,28 @@ export default function TeamForm({ action, member }: Props) {
                 className="hidden"
                 onChange={handleImageChange}
               />
+            </div>
+
+            {/* Image position */}
+            <div className="mt-3">
+              <label className="label-base text-[11px]">Photo Align</label>
+              <input type="hidden" name="imagePosition" value={imagePosition} />
+              <div className="flex gap-1.5">
+                {(["top", "center", "bottom"] as const).map((pos) => (
+                  <button
+                    key={pos}
+                    type="button"
+                    onClick={() => setImagePosition(pos)}
+                    className={`flex-1 py-1.5 rounded text-[12px] font-medium capitalize border transition-colors ${
+                      imagePosition === pos
+                        ? "bg-brand-900 text-white border-brand-900"
+                        : "bg-white text-brand-600 border-brand-200 hover:border-brand-400"
+                    }`}
+                  >
+                    {pos}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
 

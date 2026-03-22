@@ -87,6 +87,7 @@ export const teamMembers = sqliteTable("team_members", {
   text2En: text("text2_en"),
   text2Ka: text("text2_ka"),
   image: text("image"),
+  imagePosition: text("image_position").default("top"),
   sortOrder: integer("sort_order").default(0),
   showOnHome: integer("show_on_home").default(0),
   homeOrder: integer("home_order").default(0),
