@@ -1,7 +1,10 @@
 import Link from "next/link";
 import { getNotificationTasks, type NotificationTask } from "@/lib/admin/notifications";
+import { Pagination } from "@/app/admin/_components/Pagination";
 
 export const dynamic = "force-dynamic";
+
+const PER_PAGE = 8;
 
 const SEVERITY_STYLES = {
   critical: {
@@ -55,9 +58,14 @@ function TaskRow({ task }: { task: NotificationTask }) {
   );
 }
 
-export default async function NotificationsPage() {
+export default async function NotificationsPage({ searchParams }: { searchParams: Promise<{ page?: string }> }) {
+  const { page } = await searchParams;
   const tasks = await getNotificationTasks();
   const count = tasks.length;
+
+  const currentPage = Math.max(1, parseInt(page ?? "1") || 1);
+  const totalPages = Math.ceil(count / PER_PAGE);
+  const paged = tasks.slice((currentPage - 1) * PER_PAGE, currentPage * PER_PAGE);
 
   return (
     <>
@@ -91,11 +99,14 @@ export default async function NotificationsPage() {
               <div className="text-[13px] text-brand-500">All content is filled in and translated.</div>
             </div>
           ) : (
-            <div className="divide-y divide-brand-100">
-              {tasks.map((task) => (
-                <TaskRow key={task.id} task={task} />
-              ))}
-            </div>
+            <>
+              <div className="divide-y divide-brand-100">
+                {paged.map((task) => (
+                  <TaskRow key={task.id} task={task} />
+                ))}
+              </div>
+              <Pagination currentPage={currentPage} totalPages={totalPages} basePath="/admin/notifications" />
+            </>
           )}
         </div>
       </div>
