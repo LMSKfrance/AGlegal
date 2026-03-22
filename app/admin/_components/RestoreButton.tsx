@@ -33,7 +33,7 @@ export function RestoreButton({ historyId }: { historyId: number }) {
       <button
         onClick={handleRestore}
         disabled={status === "loading"}
-        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-primary-200 text-[12px] font-semibold text-primary-600 hover:bg-primary-50 hover:border-primary-300 transition-colors disabled:opacity-50"
+        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-red-200 text-[12px] font-semibold text-red-600 hover:bg-red-50 hover:border-red-300 transition-colors disabled:opacity-50"
       >
         <i className="ph ph-clock-counter-clockwise text-[14px]" />
         {status === "loading" ? "Restoring…" : "Restore"}
