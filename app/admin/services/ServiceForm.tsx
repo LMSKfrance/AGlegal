@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useActionState, useState, useRef, useEffect } from "react";
 import { useAdminLang } from "../AdminLangContext";
 import type { ServiceFormState } from "@/lib/actions/services";
+import OgImageUpload from "../OgImageUpload";
 
 type Service = {
   id: number;
@@ -296,8 +297,10 @@ export default function ServiceForm({ action, service }: Props) {
               </div>
             </div>
             <div>
-              <label className="label-base">OG Image URL <span className="text-xs font-normal text-brand-400 ml-2">(Recommended 1200×630)</span></label>
-              <input type="text" name="ogImage" className="input-base" placeholder="/uploads/og-image.jpg" defaultValue={service?.ogImage ?? ""} />
+              <OgImageUpload
+                existing={service?.ogImage ?? null}
+                fallback={service?.image ?? null}
+              />
             </div>
           </div>
         </div>

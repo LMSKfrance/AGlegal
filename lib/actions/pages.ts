@@ -51,6 +51,16 @@ export async function createPage(prev: PageFormState, formData: FormData): Promi
     const existing = await db.select({ id: pages.id }).from(pages).where(eq(pages.slug, slug));
     if (existing.length) return { error: "A page with this slug already exists." };
 
+    const ogImageFile = formData.get("ogImage");
+    let ogImagePath: string | null = null;
+    if (ogImageFile && ogImageFile instanceof File && ogImageFile.size > 0) {
+      const { uploadImage } = await import("@/lib/actions/upload");
+      const fd = new FormData();
+      fd.append("image", ogImageFile);
+      const result = await uploadImage(fd);
+      if (result.success) ogImagePath = result.path;
+    }
+
     const trim = (key: string) => (formData.get(key) as string)?.trim() || null;
     await db.insert(pages).values({
       slug,
@@ -66,7 +76,7 @@ export async function createPage(prev: PageFormState, formData: FormData): Promi
       ogTitleKa: trim("ogTitleKa"),
       ogDescriptionEn: trim("ogDescriptionEn"),
       ogDescriptionKa: trim("ogDescriptionKa"),
-      ogImage: trim("ogImage"),
+      ogImage: ogImagePath,
       updatedAt: new Date().toISOString(),
     });
 
@@ -98,6 +108,16 @@ export async function updatePage(id: number, prev: PageFormState, formData: Form
       if (conflict.length) return { error: "Another page already uses this slug." };
     }
 
+    const ogImageFile = formData.get("ogImage");
+    let ogImagePath: string | null = existing.ogImage;
+    if (ogImageFile && ogImageFile instanceof File && ogImageFile.size > 0) {
+      const { uploadImage } = await import("@/lib/actions/upload");
+      const fd = new FormData();
+      fd.append("image", ogImageFile);
+      const result = await uploadImage(fd);
+      if (result.success) ogImagePath = result.path;
+    }
+
     const trim = (key: string) => (formData.get(key) as string)?.trim() || null;
     await db
       .update(pages)
@@ -115,7 +135,7 @@ export async function updatePage(id: number, prev: PageFormState, formData: Form
         ogTitleKa: trim("ogTitleKa"),
         ogDescriptionEn: trim("ogDescriptionEn"),
         ogDescriptionKa: trim("ogDescriptionKa"),
-        ogImage: trim("ogImage"),
+        ogImage: ogImagePath,
         updatedAt: new Date().toISOString(),
       })
       .where(eq(pages.id, id));

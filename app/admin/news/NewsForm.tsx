@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useActionState, useState, useRef, useEffect } from "react";
 import { useAdminLang } from "../AdminLangContext";
 import type { NewsFormState } from "@/lib/actions/news";
+import OgImageUpload from "../OgImageUpload";
 
 type Article = {
   id: number;
@@ -392,10 +393,10 @@ export default function NewsForm({ action, article }: Props) {
                   : <textarea name="ogDescriptionKa" className="input-base" rows={2} defaultValue={article?.ogDescriptionKa ?? ""} />}
               </div>
             </div>
-            <div>
-              <label className="label-base">OG Image URL <span className="text-xs font-normal text-brand-400 ml-2">(Recommended 1200×630)</span></label>
-              <input type="text" name="ogImage" className="input-base" placeholder="/uploads/og-image.jpg" defaultValue={article?.ogImage ?? ""} />
-            </div>
+            <OgImageUpload
+              existing={article?.ogImage ?? null}
+              fallback={article?.image ?? null}
+            />
           </div>
         </div>
       </div>
