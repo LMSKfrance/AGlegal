@@ -2,11 +2,70 @@
 
 import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
-import { services } from "@/lib/db/schema";
+import { services, pages } from "@/lib/db/schema";
 import { eq, asc } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { slugify } from "@/lib/utils/slug";
 import { logSave } from "./history";
+
+export type ServicesPageFormState = { success?: boolean; error?: string };
+
+export async function upsertServicesPageContent(
+  _prev: ServicesPageFormState,
+  formData: FormData
+): Promise<ServicesPageFormState> {
+  try {
+    const trim = (key: string) => (formData.get(key) as string)?.trim() || null;
+
+    const existing = await db.select().from(pages).where(eq(pages.slug, "services")).limit(1);
+    let ogImagePath: string | null = existing[0]?.ogImage ?? null;
+    const removeOg = formData.get("removeOgImage") === "1";
+    if (removeOg) {
+      ogImagePath = null;
+    } else {
+      const ogImageFile = formData.get("ogImage");
+      if (ogImageFile && ogImageFile instanceof File && ogImageFile.size > 0) {
+        const { uploadImage } = await import("@/lib/actions/upload");
+        const fd = new FormData();
+        fd.append("image", ogImageFile);
+        const result = await uploadImage(fd);
+        if (result.success) ogImagePath = result.path;
+      }
+    }
+
+    const payload = {
+      slug: "services",
+      titleEn: trim("titleEn") ?? "Services",
+      titleKa: trim("titleKa"),
+      contentEn: trim("contentEn"),
+      contentKa: trim("contentKa"),
+      metaDescriptionEn: trim("metaDescriptionEn"),
+      metaDescriptionKa: trim("metaDescriptionKa"),
+      seoTitleEn: trim("seoTitleEn"),
+      seoTitleKa: trim("seoTitleKa"),
+      ogTitleEn: trim("ogTitleEn"),
+      ogTitleKa: trim("ogTitleKa"),
+      ogDescriptionEn: trim("ogDescriptionEn"),
+      ogDescriptionKa: trim("ogDescriptionKa"),
+      ogImage: ogImagePath,
+      updatedAt: new Date().toISOString(),
+    };
+
+    if (existing.length) {
+      await db.update(pages).set(payload).where(eq(pages.slug, "services"));
+    } else {
+      await db.insert(pages).values(payload);
+    }
+
+    revalidatePath("/services");
+    revalidatePath("/admin/services");
+    await logSave("Services", "Landing page content", "updated");
+    return { success: true };
+  } catch (err) {
+    console.error("[upsertServicesPageContent]", err);
+    return { error: "Failed to save. Please try again." };
+  }
+}
 
 export type ServiceFormState = { success?: boolean; error?: string; fieldErrors?: Record<string, string> };
 
