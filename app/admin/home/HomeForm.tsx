@@ -78,9 +78,9 @@ export default function HomeForm({
     <>
       <div className="page-content space-y-6 pb-24 pt-6">
 
-        <div className="pb-6 border-b border-brand-200">
-          <h1 className="text-[22px] font-bold text-brand-900 tracking-tight">Homepage Manager</h1>
-          <p className="text-[13px] text-brand-500 mt-1">Configure sections and layout for the main landing page.</p>
+        <div className="pb-6 pt-8 border-b border-brand-200">
+          <h1 className="text-[28px] font-bold text-brand-900 tracking-tight">Homepage Manager</h1>
+          <p className="text-brand-500 mt-2">Configure sections and layout for the main landing page.</p>
         </div>
 
         {/* ── Hero Section ────────────────────────────────────────────────── */}
