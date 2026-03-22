@@ -31,4 +31,5 @@ export interface Service {
   quote: string;
   image: string;
   thumbnail_image: string;
+  clickable: number;
 }

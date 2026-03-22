@@ -33,6 +33,7 @@ export default async function ServicesListPage({ searchParams }: { searchParams:
               <thead>
                 <tr>
                   <th>Title</th>
+                  <th className="hidden sm:table-cell text-center w-24">Clickable</th>
                   <th className="hidden sm:table-cell text-center w-24">Homepage</th>
                   <th className="hidden sm:table-cell text-center w-20">Order</th>
                   <th className="text-right w-20">Actions</th>
@@ -41,7 +42,7 @@ export default async function ServicesListPage({ searchParams }: { searchParams:
               <tbody>
                 {servicesList.length === 0 ? (
                   <tr>
-                    <td colSpan={4} className="text-center text-brand-400 py-12">
+                    <td colSpan={5} className="text-center text-brand-400 py-12">
                       No services yet. <Link href="/admin/services/new" className="text-primary-600 font-medium hover:underline">Add the first one →</Link>
                     </td>
                   </tr>
@@ -51,6 +52,13 @@ export default async function ServicesListPage({ searchParams }: { searchParams:
                       <td>
                         <div className="font-medium text-brand-900">{service.titleEn}</div>
                         {service.titleKa && <div className="text-[12px] text-brand-400 mt-0.5">{service.titleKa}</div>}
+                      </td>
+                      <td className="hidden sm:table-cell text-center">
+                        {service.clickable ? (
+                          <span className="badge badge-green text-[11px]">Yes</span>
+                        ) : (
+                          <span className="text-brand-300 text-[12px]">No</span>
+                        )}
                       </td>
                       <td className="hidden sm:table-cell text-center">
                         {service.showOnHome ? (

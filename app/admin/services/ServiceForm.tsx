@@ -21,6 +21,7 @@ type Service = {
   image: string | null;
   thumbnailImage: string | null;
   homeCardImage: string | null;
+  clickable: number | null;
   showOnHome: number | null;
   homeOrder: number | null;
   homeShortDescriptionEn: string | null;
@@ -79,6 +80,14 @@ export default function ServiceForm({ action, service }: Props) {
 
       <div className="flex-1 overflow-y-auto p-8 max-w-4xl mx-auto w-full space-y-8 pb-24">
         <div className="card p-6 bg-brand-50 border border-brand-200 flex flex-wrap items-center gap-8 rounded-lg">
+          <div className="flex items-center justify-between w-56">
+            <span className="text-[14px] font-semibold text-brand-900">Clickable in Services List</span>
+            <label className="toggle-switch">
+              <input type="checkbox" name="clickable" defaultChecked={service ? !!service.clickable : true} />
+              <span className="toggle-slider" />
+            </label>
+          </div>
+          <div className="w-px h-8 bg-brand-200" />
           <div className="flex items-center justify-between w-56">
             <span className="text-[14px] font-semibold text-brand-900">Show on Homepage</span>
             <label className="toggle-switch">
