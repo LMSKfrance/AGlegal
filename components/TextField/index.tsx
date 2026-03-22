@@ -6,9 +6,11 @@ type TextFieldProps = {
   placeholder: string;
   className?: string;
   size?: "medium" | "large";
+  name?: string;
+  type?: string;
 };
 
-const TextField = ({ label, placeholder, className, size }: TextFieldProps) => {
+const TextField = ({ label, placeholder, className, size, name, type }: TextFieldProps) => {
   if (size === "medium") {
     return (
       <div className={styles.container}>
@@ -17,6 +19,8 @@ const TextField = ({ label, placeholder, className, size }: TextFieldProps) => {
         )}
 
         <input
+          name={name}
+          type={type}
           className={cn("label-small", styles.input, className, {
             [styles.medium]: size === "medium",
           })}
@@ -33,6 +37,8 @@ const TextField = ({ label, placeholder, className, size }: TextFieldProps) => {
       )}
 
       <input
+        name={name}
+        type={type}
         className={cn("label-medium", styles.input, className)}
         placeholder={placeholder}
       />

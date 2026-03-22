@@ -4,9 +4,10 @@ import styles from "./date-picker.module.css";
 type DatePickerProps = {
   label: string;
   placeholder: string;
+  name?: string;
 };
 
-const DatePicker = ({ label, placeholder }: DatePickerProps) => {
+const DatePicker = ({ label, placeholder, name }: DatePickerProps) => {
   return (
     <div className={styles.container}>
       {label && (
@@ -15,6 +16,7 @@ const DatePicker = ({ label, placeholder }: DatePickerProps) => {
 
       <input
         type="date"
+        name={name}
         placeholder={placeholder}
         defaultValue=""
         className={styles.date_picker}

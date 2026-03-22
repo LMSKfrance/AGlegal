@@ -32,7 +32,8 @@
     "react-dom": "^19.0.0",
     "react-fast-marquee": "^1.6.5",
     "remark": "^15.0.1",
-    "remark-html": "^16.0.1"
+    "remark-html": "^16.0.1",
+    "resend": "^6.9.4"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

@@ -4,9 +4,10 @@ import styles from "./text-area.module.css";
 type TextAreaProps = {
   label?: string;
   placeholder: string;
+  name?: string;
 };
 
-const TextArea = ({ label, placeholder }: TextAreaProps) => {
+const TextArea = ({ label, placeholder, name }: TextAreaProps) => {
   return (
     <div className={styles.container}>
       {label && (
@@ -14,6 +15,7 @@ const TextArea = ({ label, placeholder }: TextAreaProps) => {
       )}
 
       <textarea
+        name={name}
         className={cn("label-small", styles.textarea)}
         placeholder={placeholder}
       />

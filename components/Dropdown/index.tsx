@@ -5,16 +5,17 @@ type DropdownProps = {
   label: string;
   placeholder: string;
   options: { value: string; label: string }[];
+  name?: string;
 };
 
-const Dropdown = ({ label, placeholder, options }: DropdownProps) => {
+const Dropdown = ({ label, placeholder, options, name }: DropdownProps) => {
   return (
     <div className={styles.container}>
       {label && (
         <label className={cn("label-small", styles.label)}>{label}</label>
       )}
 
-      <select className={styles.select} defaultValue="1" aria-label={label}>
+      <select name={name} className={styles.select} defaultValue="1" aria-label={label}>
         <option
           value="1"
           disabled
