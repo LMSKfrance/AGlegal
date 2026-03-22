@@ -53,6 +53,7 @@ export function ServicesListTable({ initialServices }: { initialServices: Servic
       <thead>
         <tr>
           <th className="w-8" />
+          <th className="hidden sm:table-cell text-center w-10 text-brand-400 font-medium">#</th>
           <th>Title</th>
           <th className="hidden sm:table-cell text-center w-24">Clickable</th>
           <th className="hidden sm:table-cell text-center w-24">Homepage</th>
@@ -71,9 +72,14 @@ export function ServicesListTable({ initialServices }: { initialServices: Servic
           >
             {/* Drag handle */}
             <td className="w-8 text-center">
-              <span className="cursor-grab active:cursor-grabbing text-brand-300 hover:text-brand-500 transition-colors select-none">
+              <span className="cursor-grab active:cursor-grabbing text-brand-400 hover:text-brand-700 transition-colors select-none">
                 <i className="ph ph-dots-six-vertical text-[18px]" />
               </span>
+            </td>
+
+            {/* Order */}
+            <td className="hidden sm:table-cell text-center text-[12px] font-semibold text-brand-400 w-10">
+              {servicesList.indexOf(service) + 1}
             </td>
 
             {/* Title */}
