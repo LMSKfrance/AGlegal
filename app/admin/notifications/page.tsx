@@ -61,7 +61,7 @@ export default async function NotificationsPage() {
 
   return (
     <>
-      <div className="page-header border-b border-brand-200 sticky top-0 bg-[#f8fafc]/95 backdrop-blur z-10 pb-6 pt-8">
+      <div className="pb-6 pt-8 border-b border-brand-200 px-8">
         <h1 className="text-[28px] font-bold text-brand-900 tracking-tight">Tasks &amp; Notifications</h1>
       </div>
 
