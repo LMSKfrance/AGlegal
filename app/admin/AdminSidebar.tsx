@@ -197,6 +197,18 @@ export default function AdminShell({
           </div>
         </div>
 
+        {/* Credits */}
+        {showLabels && (
+          <div className="px-6 pb-3 text-[10px] text-brand-300 leading-relaxed">
+            AG Legal Admin 1.0<br />
+            Built by{" "}
+            <a href="https://sk01.fr" target="_blank" rel="noreferrer" className="text-brand-400 hover:text-primary-600 transition-colors">
+              Sandro Kozmanishvili
+            </a>{" "}
+            · Sk01.fr Studio
+          </div>
+        )}
+
         {/* User */}
         <div className="p-4 shrink-0 bg-white">
           <div className="relative group">
@@ -304,13 +316,6 @@ export default function AdminShell({
           <AdminLangContext.Provider value={lang}>
             {children}
           </AdminLangContext.Provider>
-          <div className="admin-credits">
-            AG Legal Admin 1.0 — Designed &amp; Built by{" "}
-            <a href="https://sk01.fr" target="_blank" rel="noreferrer" className="admin-credits-link">
-              Sandro Kozmanishvili
-            </a>{" "}
-            at Sk01.fr Studio
-          </div>
         </main>
       </div>
     </div>
