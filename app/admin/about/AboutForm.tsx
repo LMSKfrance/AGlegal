@@ -111,11 +111,10 @@ export default function AboutForm({ settings, saveSettingsAction, visibilityActi
       </div>
 
       {/* ─── Hero Content ─────────────────────────────────────────── */}
-      <div className="px-8 pt-6 pb-8">
-        <h2 className="text-[13px] font-bold text-brand-400 uppercase tracking-widest mb-3">Hero Content</h2>
+      <div className="px-8 pt-7 pb-8 border-b border-brand-100">
+        <h2 className="text-[13px] font-bold text-brand-400 uppercase tracking-widest mb-6">Hero Content</h2>
         <form action={heroFormAction}>
-          <div className="space-y-5 max-w-4xl ml-0">
-            {/* Title & Content */}
+          <div className="max-w-4xl ml-0">
             <div className="card">
               <div className="flex items-center justify-between px-5 pt-4 pb-3 border-b border-brand-100">
                 <div className="text-[13px] font-semibold text-brand-900">Page Title &amp; Content</div>
@@ -149,61 +148,15 @@ export default function AboutForm({ settings, saveSettingsAction, visibilityActi
                   />
                   {hidden(p, "contentEn", "contentKa", "contentEn", "contentKa")}
                 </div>
-              </div>
-            </div>
-
-            {/* SEO / OG */}
-            <div className="card">
-              <div className="flex items-center justify-between px-5 pt-4 pb-3 border-b border-brand-100">
-                <div className="text-[13px] font-semibold text-brand-900">SEO &amp; Open Graph</div>
-              </div>
-              <div className="card-body space-y-5">
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="label-base">SEO Title {lang === "en" ? "(EN)" : "(ქარ)"}</label>
-                    <input
-                      type="text"
-                      name={lang === "en" ? "seoTitleEn" : "seoTitleKa"}
-                      className="input-base"
-                      placeholder="About AG Legal — Law Firm"
-                      defaultValue={field(p, "seoTitleEn", "seoTitleKa")}
-                    />
-                    {hidden(p, "seoTitleEn", "seoTitleKa", "seoTitleEn", "seoTitleKa")}
-                  </div>
-                  <div>
-                    <label className="label-base">OG Title {lang === "en" ? "(EN)" : "(ქარ)"}</label>
-                    <input
-                      type="text"
-                      name={lang === "en" ? "ogTitleEn" : "ogTitleKa"}
-                      className="input-base"
-                      defaultValue={field(p, "ogTitleEn", "ogTitleKa")}
-                    />
-                    {hidden(p, "ogTitleEn", "ogTitleKa", "ogTitleEn", "ogTitleKa")}
-                  </div>
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="label-base">Meta Description {lang === "en" ? "(EN)" : "(ქარ)"}</label>
-                    <textarea
-                      name={lang === "en" ? "metaDescriptionEn" : "metaDescriptionKa"}
-                      className="input-base"
-                      rows={2}
-                      defaultValue={field(p, "metaDescriptionEn", "metaDescriptionKa")}
-                    />
-                    {hidden(p, "metaDescriptionEn", "metaDescriptionKa", "metaDescriptionEn", "metaDescriptionKa")}
-                  </div>
-                  <div>
-                    <label className="label-base">OG Description {lang === "en" ? "(EN)" : "(ქარ)"}</label>
-                    <textarea
-                      name={lang === "en" ? "ogDescriptionEn" : "ogDescriptionKa"}
-                      className="input-base"
-                      rows={2}
-                      defaultValue={field(p, "ogDescriptionEn", "ogDescriptionKa")}
-                    />
-                    {hidden(p, "ogDescriptionEn", "ogDescriptionKa", "ogDescriptionEn", "ogDescriptionKa")}
-                  </div>
-                </div>
-                <OgImageUpload existing={p.ogImage} />
+                {/* Pass SEO/OG fields through as hidden so they aren't wiped on hero save */}
+                <input type="hidden" name="seoTitleEn" value={p.seoTitleEn ?? ""} />
+                <input type="hidden" name="seoTitleKa" value={p.seoTitleKa ?? ""} />
+                <input type="hidden" name="ogTitleEn" value={p.ogTitleEn ?? ""} />
+                <input type="hidden" name="ogTitleKa" value={p.ogTitleKa ?? ""} />
+                <input type="hidden" name="metaDescriptionEn" value={p.metaDescriptionEn ?? ""} />
+                <input type="hidden" name="metaDescriptionKa" value={p.metaDescriptionKa ?? ""} />
+                <input type="hidden" name="ogDescriptionEn" value={p.ogDescriptionEn ?? ""} />
+                <input type="hidden" name="ogDescriptionKa" value={p.ogDescriptionKa ?? ""} />
               </div>
             </div>
           </div>
@@ -211,7 +164,7 @@ export default function AboutForm({ settings, saveSettingsAction, visibilityActi
       </div>
 
       {/* ─── Section Settings ─────────────────────────────────────── */}
-      <div className="px-8 pb-3 border-t border-brand-100 pt-6">
+      <div className="px-8 pt-7 pb-3">
         <h2 className="text-[13px] font-bold text-brand-400 uppercase tracking-widest">Section Settings</h2>
       </div>
 
@@ -337,7 +290,7 @@ export default function AboutForm({ settings, saveSettingsAction, visibilityActi
           </div>
         </div>
 
-        {/* Sticky action bar — sibling to the cards div, not nested inside it */}
+        {/* Sticky action bar — sibling to cards div, not nested inside it */}
         <div className="action-bar">
           <div className="text-[12px] flex items-center gap-1.5">
             {settingsState.error ? (
@@ -359,15 +312,90 @@ export default function AboutForm({ settings, saveSettingsAction, visibilityActi
         </div>
       </form>
 
-      {/* ─── FAQ Editor ───────────────────────────────────────────── */}
-      <div className="px-8 pt-6 pb-24 border-t border-brand-100">
-        <div className="flex items-center justify-between mb-4 max-w-4xl ml-0">
+      {/* ─── FAQ Entries ──────────────────────────────────────────── */}
+      <div className="px-8 pt-7 pb-8 border-t border-brand-100">
+        <div className="flex items-center justify-between mb-6 max-w-4xl ml-0">
           <h2 className="text-[13px] font-bold text-brand-400 uppercase tracking-widest">FAQ Entries</h2>
           <SectionToggle on={settings.sectionVisibility.faq} name="faq" visibilityAction={visibilityAction} />
         </div>
         <div className="max-w-4xl ml-0">
           <FaqEditor initialFaqs={faqs} />
         </div>
+      </div>
+
+      {/* ─── SEO & Open Graph (last) ──────────────────────────────── */}
+      <div className="px-8 pt-7 pb-10 border-t border-brand-100">
+        <h2 className="text-[13px] font-bold text-brand-400 uppercase tracking-widest mb-6">SEO &amp; Open Graph</h2>
+        <form action={heroFormAction}>
+          <div className="max-w-4xl ml-0">
+            <div className="card">
+              <div className="flex items-center justify-between px-5 pt-4 pb-3 border-b border-brand-100">
+                <div className="text-[13px] font-semibold text-brand-900">SEO &amp; Open Graph</div>
+                <div className="flex items-center gap-2">
+                  {heroState.error && <span className="text-[11px] text-red-600 font-medium">{heroState.error}</span>}
+                  {heroState.success && <span className="text-[11px] text-green-600 font-medium">Saved!</span>}
+                  <button type="submit" className="btn-save" disabled={heroPending} title="Save SEO settings">
+                    {heroPending ? <i className="ph ph-spinner animate-spin" /> : <i className="ph ph-floppy-disk" />}
+                  </button>
+                </div>
+              </div>
+              <div className="card-body space-y-5">
+                {/* Pass hero fields through hidden so they aren't wiped on SEO save */}
+                <input type="hidden" name="titleEn" value={p.titleEn ?? ""} />
+                <input type="hidden" name="titleKa" value={p.titleKa ?? ""} />
+                <input type="hidden" name="contentEn" value={p.contentEn ?? ""} />
+                <input type="hidden" name="contentKa" value={p.contentKa ?? ""} />
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="label-base">SEO Title {lang === "en" ? "(EN)" : "(ქარ)"}</label>
+                    <input
+                      type="text"
+                      name={lang === "en" ? "seoTitleEn" : "seoTitleKa"}
+                      className="input-base"
+                      placeholder="About AG Legal — Law Firm"
+                      defaultValue={field(p, "seoTitleEn", "seoTitleKa")}
+                    />
+                    {hidden(p, "seoTitleEn", "seoTitleKa", "seoTitleEn", "seoTitleKa")}
+                  </div>
+                  <div>
+                    <label className="label-base">OG Title {lang === "en" ? "(EN)" : "(ქარ)"}</label>
+                    <input
+                      type="text"
+                      name={lang === "en" ? "ogTitleEn" : "ogTitleKa"}
+                      className="input-base"
+                      defaultValue={field(p, "ogTitleEn", "ogTitleKa")}
+                    />
+                    {hidden(p, "ogTitleEn", "ogTitleKa", "ogTitleEn", "ogTitleKa")}
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="label-base">Meta Description {lang === "en" ? "(EN)" : "(ქარ)"}</label>
+                    <textarea
+                      name={lang === "en" ? "metaDescriptionEn" : "metaDescriptionKa"}
+                      className="input-base"
+                      rows={2}
+                      defaultValue={field(p, "metaDescriptionEn", "metaDescriptionKa")}
+                    />
+                    {hidden(p, "metaDescriptionEn", "metaDescriptionKa", "metaDescriptionEn", "metaDescriptionKa")}
+                  </div>
+                  <div>
+                    <label className="label-base">OG Description {lang === "en" ? "(EN)" : "(ქარ)"}</label>
+                    <textarea
+                      name={lang === "en" ? "ogDescriptionEn" : "ogDescriptionKa"}
+                      className="input-base"
+                      rows={2}
+                      defaultValue={field(p, "ogDescriptionEn", "ogDescriptionKa")}
+                    />
+                    {hidden(p, "ogDescriptionEn", "ogDescriptionKa", "ogDescriptionEn", "ogDescriptionKa")}
+                  </div>
+                </div>
+                <OgImageUpload existing={p.ogImage} />
+              </div>
+            </div>
+          </div>
+        </form>
       </div>
     </>
   );
