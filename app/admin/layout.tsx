@@ -2,6 +2,7 @@ import { auth } from "@/auth";
 import Script from "next/script";
 import AdminShell from "./AdminSidebar";
 import "./admin-shell.css";
+import { getNotificationCount } from "@/lib/admin/notifications";
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const session = await auth();
@@ -15,12 +16,15 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     return <>{children}</>;
   }
 
+  const notificationCount = await getNotificationCount();
+
   return (
     <>
       <Script src="https://unpkg.com/@phosphor-icons/web" strategy="beforeInteractive" />
       <AdminShell
         userName={session.user.name ?? null}
         userEmail={session.user.email ?? null}
+        notificationCount={notificationCount}
       >
         {children}
       </AdminShell>
