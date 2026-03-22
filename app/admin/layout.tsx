@@ -3,6 +3,15 @@ import Script from "next/script";
 import AdminShell from "./AdminSidebar";
 import "./admin-shell.css";
 import { getNotificationCount } from "@/lib/admin/notifications";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  icons: {
+    icon: [
+      { url: "/admin-favicon.svg", type: "image/svg+xml" },
+    ],
+  },
+};
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const session = await auth();
