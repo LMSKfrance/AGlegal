@@ -12,11 +12,6 @@ type Props = {
 const ACCEPT = ".pdf,.ppt,.pptx";
 const MAX_MB = 25;
 
-function formatSize(bytes: number) {
-  if (bytes >= 1_048_576) return `${(bytes / 1_048_576).toFixed(1)} MB`;
-  return `${Math.round(bytes / 1024)} KB`;
-}
-
 function LangSlot({
   lang,
   label,
