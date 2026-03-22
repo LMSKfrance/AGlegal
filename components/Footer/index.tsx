@@ -80,20 +80,6 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className={styles.credits_wrapper}>
-          <p className={styles.credits_text}>
-            AG Legal Admin 1.0 — Designed &amp; Built by{" "}
-            <a
-              href="https://sk01.fr"
-              target="_blank"
-              rel="noreferrer"
-              className={styles.credits_link}
-            >
-              Sandro Kozmanishvili
-            </a>{" "}
-            at Sk01.fr Studio
-          </p>
-        </div>
       </div>
     </footer>
   );
