@@ -2,7 +2,7 @@
 
 import { db } from "@/lib/db";
 import { saveHistory, articles, teamMembers, teamMemberSocials, services, pages } from "@/lib/db/schema";
-import { desc, eq } from "drizzle-orm";
+import { desc, eq, notInArray } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
 export type HistoryAction = "created" | "updated" | "deleted";
@@ -12,6 +12,8 @@ export type SnapshotParam = {
   id: number;
   data: unknown;
 };
+
+const HISTORY_LIMIT = 30;
 
 export async function logSave(
   section: string,
@@ -28,6 +30,15 @@ export async function logSave(
       snapshotId: snapshot?.id ?? null,
       snapshot: snapshot ? JSON.stringify(snapshot.data) : null,
     });
+    // Keep only the most recent HISTORY_LIMIT entries
+    const keep = await db
+      .select({ id: saveHistory.id })
+      .from(saveHistory)
+      .orderBy(desc(saveHistory.savedAt))
+      .limit(HISTORY_LIMIT);
+    if (keep.length === HISTORY_LIMIT) {
+      await db.delete(saveHistory).where(notInArray(saveHistory.id, keep.map((r) => r.id)));
+    }
   } catch (err) {
     // Never let history logging break the main save
     console.error("[logSave]", err);
