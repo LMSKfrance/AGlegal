@@ -13,6 +13,8 @@ export default async function ProfilePage() {
   const email = session?.user?.email ?? "";
   const initials = getInitials(name);
 
+  const currentPassword = process.env.ADMIN_PASSWORD ?? "";
+
   return (
     <>
       <div className="pb-6 pt-8 border-b border-brand-200 px-8">
@@ -24,6 +26,7 @@ export default async function ProfilePage() {
         name={name}
         email={email}
         initials={initials}
+        currentPassword={currentPassword}
         action={updateAdminProfile}
       />
     </>
