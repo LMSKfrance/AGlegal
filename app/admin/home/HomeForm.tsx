@@ -54,10 +54,13 @@ function SectionToggle({
   }
 
   return (
-    <label className={`toggle-switch shrink-0${pending ? " opacity-50" : ""}`}>
-      <input type="checkbox" checked={on} onChange={toggle} disabled={pending} />
-      <span className="toggle-slider" />
-    </label>
+    <div className="flex items-center gap-2 shrink-0">
+      <i className={`ph ph-eye text-[18px] transition-colors ${on ? "text-primary-600" : "text-brand-300"}`} />
+      <label className={`toggle-switch${pending ? " opacity-50" : ""}`}>
+        <input type="checkbox" checked={on} onChange={toggle} disabled={pending} />
+        <span className="toggle-slider" />
+      </label>
+    </div>
   );
 }
 
