@@ -2,8 +2,9 @@
 
 import { revalidatePath } from "next/cache";
 import { db } from "@/lib/db";
-import { siteSettings, teamMembers } from "@/lib/db/schema";
+import { siteSettings, teamMembers, pages } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
+
 import { getTeamList } from "@/lib/actions/team";
 import { ABOUT_SECTION_IDS, type AboutSectionId, type AboutTeamMemberEntry } from "@/lib/about";
 import { logSave } from "./history";
@@ -197,6 +198,65 @@ export async function setAboutTeamMembers(
     revalidatePath("/admin/about");
   } catch (err) {
     console.error("[setAboutTeamMembers]", err);
+  }
+}
+
+export async function upsertAboutHeroContent(
+  _prev: { success?: boolean; error?: string },
+  formData: FormData
+): Promise<{ success?: boolean; error?: string }> {
+  try {
+    const titleEn = (formData.get("titleEn") as string)?.trim();
+    if (!titleEn) return { error: "Title (EN) is required." };
+
+    const trim = (key: string) => (formData.get(key) as string)?.trim() || null;
+
+    // Handle OG image upload
+    const ogImageFile = formData.get("ogImage");
+    const existing = await db.select().from(pages).where(eq(pages.slug, "about"));
+    let ogImagePath: string | null = existing[0]?.ogImage ?? null;
+    const removeOg = formData.get("removeOgImage") === "1";
+    if (removeOg) {
+      ogImagePath = null;
+    } else if (ogImageFile && ogImageFile instanceof File && ogImageFile.size > 0) {
+      const { uploadImage } = await import("@/lib/actions/upload");
+      const fd = new FormData();
+      fd.append("image", ogImageFile);
+      const result = await uploadImage(fd);
+      if (result.success) ogImagePath = result.path;
+    }
+
+    const payload = {
+      slug: "about",
+      titleEn,
+      titleKa: trim("titleKa"),
+      contentEn: trim("contentEn"),
+      contentKa: trim("contentKa"),
+      metaDescriptionEn: trim("metaDescriptionEn"),
+      metaDescriptionKa: trim("metaDescriptionKa"),
+      seoTitleEn: trim("seoTitleEn"),
+      seoTitleKa: trim("seoTitleKa"),
+      ogTitleEn: trim("ogTitleEn"),
+      ogTitleKa: trim("ogTitleKa"),
+      ogDescriptionEn: trim("ogDescriptionEn"),
+      ogDescriptionKa: trim("ogDescriptionKa"),
+      ogImage: ogImagePath,
+      updatedAt: new Date().toISOString(),
+    };
+
+    if (existing.length) {
+      await db.update(pages).set(payload).where(eq(pages.slug, "about"));
+    } else {
+      await db.insert(pages).values(payload);
+    }
+
+    revalidatePath("/about");
+    revalidatePath("/admin/about");
+    await logSave("About", "Hero & SEO content", "updated");
+    return { success: true };
+  } catch (err) {
+    console.error("[upsertAboutHeroContent]", err);
+    return { error: "Failed to save. Please try again." };
   }
 }
 
