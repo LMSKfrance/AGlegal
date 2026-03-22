@@ -89,13 +89,9 @@ export default function TeamForm({ action, member }: Props) {
           <button
             type="button"
             onClick={() => setPublished((p) => (p ? 0 : 1))}
-            className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-[12px] font-semibold border transition-colors ${
-              published
-                ? "bg-green-50 text-green-700 border-green-200 hover:bg-green-100"
-                : "bg-brand-100 text-brand-500 border-brand-200 hover:bg-brand-200"
-            }`}
+            className={`btn ${published ? "btn-primary" : "btn-secondary"}`}
           >
-            <span className={`w-2 h-2 rounded-full ${published ? "bg-green-500" : "bg-brand-400"}`} />
+            <i className={`ph ${published ? "ph-eye" : "ph-eye-slash"}`} />
             {published ? "Published" : "Draft"}
           </button>
         </div>
@@ -112,22 +108,30 @@ export default function TeamForm({ action, member }: Props) {
           {/* Photo */}
           <div className="w-48 shrink-0">
             <label className="label-base">Profile Photo</label>
+
+            {/* Upload zone with hover-to-change overlay */}
             <div
-              className="file-upload-zone w-full aspect-square rounded-lg flex flex-col items-center justify-center gap-3 cursor-pointer overflow-hidden"
+              className="file-upload-zone w-full aspect-square rounded-lg flex flex-col items-center justify-center gap-3 cursor-pointer overflow-hidden relative group"
               onClick={() => fileRef.current?.click()}
             >
               {imagePreview ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={imagePreview}
-                  alt="Preview"
-                  className="w-full h-full object-cover"
-                  style={{
-                    objectPosition:
-                      imagePosition === "bottom" ? "bottom center" :
-                      imagePosition === "center" ? "center" : "top center"
-                  }}
-                />
+                <>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={imagePreview}
+                    alt="Preview"
+                    className="w-full h-full object-cover"
+                    style={{
+                      objectPosition:
+                        imagePosition === "bottom" ? "bottom center" :
+                        imagePosition === "center" ? "center" : "top center"
+                    }}
+                  />
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-1">
+                    <i className="ph ph-camera-rotate text-white text-2xl" />
+                    <span className="text-white text-[11px] font-medium">Change Photo</span>
+                  </div>
+                </>
               ) : (
                 <>
                   <i className="ph ph-camera text-3xl text-brand-400" />
@@ -144,21 +148,17 @@ export default function TeamForm({ action, member }: Props) {
               />
             </div>
 
-            {/* Image position */}
+            {/* Focus point — uses admin lang-switcher/lang-tab pattern */}
             <div className="mt-3">
-              <label className="label-base text-[11px]">Photo Align</label>
+              <label className="label-base">Focus Point</label>
               <input type="hidden" name="imagePosition" value={imagePosition} />
-              <div className="flex gap-1.5">
+              <div className="lang-switcher w-full flex">
                 {(["top", "center", "bottom"] as const).map((pos) => (
                   <button
                     key={pos}
                     type="button"
                     onClick={() => setImagePosition(pos)}
-                    className={`flex-1 py-1.5 rounded text-[12px] font-medium capitalize border transition-colors ${
-                      imagePosition === pos
-                        ? "bg-brand-900 text-white border-brand-900"
-                        : "bg-white text-brand-600 border-brand-200 hover:border-brand-400"
-                    }`}
+                    className={`lang-tab flex-1 text-center capitalize ${imagePosition === pos ? "active" : ""}`}
                   >
                     {pos}
                   </button>
