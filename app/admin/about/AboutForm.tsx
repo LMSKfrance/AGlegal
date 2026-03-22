@@ -82,11 +82,9 @@ function SectionToggle({
 export default function AboutForm({ settings, saveSettingsAction, visibilityAction, page, saveHeroAction, faqs }: Props) {
   const [heroState, heroFormAction, heroPending] = useActionState(saveHeroAction, INITIAL);
   const [settingsState, settingsFormAction, settingsPending] = useActionState(saveSettingsAction, INITIAL);
-  const [heroSaved, setHeroSaved] = useState(false);
   const [settingsSaved, setSettingsSaved] = useState(false);
   const lang = useAdminLang();
 
-  useEffect(() => { if (heroState.success) setHeroSaved(true); }, [heroState.success]);
   useEffect(() => { if (settingsState.success) setSettingsSaved(true); }, [settingsState.success]);
 
   function field<T extends object>(obj: T, enKey: keyof T, kaKey: keyof T) {
