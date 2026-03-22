@@ -42,7 +42,7 @@ export default function PageForm({ action, page }: Props) {
 
   return (
     <form action={formAction} className="relative bg-white flex flex-col min-h-full">
-      <div className="border-b border-brand-200 px-4 sm:px-8 py-4 flex items-center gap-4">
+      <div className="border-b border-brand-200 px-4 sm:px-8 py-4 flex items-center gap-4 bg-brand-50">
         <Link href="/admin/pages" className="btn-icon bg-white border border-brand-200 shadow-sm">
           <i className="ph ph-arrow-left" />
         </Link>
