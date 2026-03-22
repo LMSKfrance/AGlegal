@@ -1,11 +1,19 @@
 import Link from "next/link";
 import { getServicesList, deleteService } from "@/lib/actions/services";
 import { DeleteButton } from "@/app/admin/_components/DeleteButton";
+import { Pagination } from "@/app/admin/_components/Pagination";
 
 export const dynamic = "force-dynamic";
 
-export default async function ServicesListPage() {
+const PER_PAGE = 8;
+
+export default async function ServicesListPage({ searchParams }: { searchParams: Promise<{ page?: string }> }) {
+  const { page } = await searchParams;
   const servicesList = await getServicesList();
+
+  const currentPage = Math.max(1, parseInt(page ?? "1") || 1);
+  const totalPages = Math.ceil(servicesList.length / PER_PAGE);
+  const paged = servicesList.slice((currentPage - 1) * PER_PAGE, currentPage * PER_PAGE);
 
   return (
     <>
@@ -38,7 +46,7 @@ export default async function ServicesListPage() {
                     </td>
                   </tr>
                 ) : (
-                  servicesList.map((service) => (
+                  paged.map((service) => (
                     <tr key={service.id}>
                       <td>
                         <div className="font-medium text-brand-900">{service.titleEn}</div>
@@ -66,6 +74,7 @@ export default async function ServicesListPage() {
               </tbody>
             </table>
           </div>
+          <Pagination currentPage={currentPage} totalPages={totalPages} basePath="/admin/services" />
         </div>
       </div>
     </>

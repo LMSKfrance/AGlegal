@@ -1,8 +1,11 @@
 import Link from "next/link";
 import { getPagesList, deletePage } from "@/lib/actions/pages";
 import { DeleteButton } from "@/app/admin/_components/DeleteButton";
+import { Pagination } from "@/app/admin/_components/Pagination";
 
 export const dynamic = "force-dynamic";
+
+const PER_PAGE = 8;
 
 function formatDate(iso: string) {
   try {
@@ -12,8 +15,13 @@ function formatDate(iso: string) {
   }
 }
 
-export default async function PagesListPage() {
+export default async function PagesListPage({ searchParams }: { searchParams: Promise<{ page?: string }> }) {
+  const { page } = await searchParams;
   const pagesList = await getPagesList();
+
+  const currentPage = Math.max(1, parseInt(page ?? "1") || 1);
+  const totalPages = Math.ceil(pagesList.length / PER_PAGE);
+  const paged = pagesList.slice((currentPage - 1) * PER_PAGE, currentPage * PER_PAGE);
 
   return (
     <>
@@ -46,29 +54,29 @@ export default async function PagesListPage() {
                     </td>
                   </tr>
                 ) : (
-                  pagesList.map((page) => (
-                    <tr key={page.id}>
+                  paged.map((p) => (
+                    <tr key={p.id}>
                       <td className="hidden sm:table-cell">
-                        <div className="font-medium text-brand-900">{page.titleEn}</div>
-                        {page.titleKa && <div className="text-[12px] text-brand-400 mt-0.5">{page.titleKa}</div>}
+                        <div className="font-medium text-brand-900">{p.titleEn}</div>
+                        {p.titleKa && <div className="text-[12px] text-brand-400 mt-0.5">{p.titleKa}</div>}
                       </td>
                       <td>
                         <a
-                          href={`/${page.slug}`}
+                          href={`/${p.slug}`}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="font-mono text-[13px] text-primary-600 hover:underline flex items-center gap-1"
                         >
-                          /{page.slug} <i className="ph ph-arrow-square-out text-[11px]" />
+                          /{p.slug} <i className="ph ph-arrow-square-out text-[11px]" />
                         </a>
                       </td>
-                      <td className="hidden sm:table-cell text-brand-500 text-[13px]">{formatDate(page.updatedAt)}</td>
+                      <td className="hidden sm:table-cell text-brand-500 text-[13px]">{formatDate(p.updatedAt)}</td>
                       <td className="text-right">
                         <div className="flex items-center justify-end gap-2">
-                          <Link href={`/admin/pages/${page.id}/edit`} className="btn-icon" title="Edit">
+                          <Link href={`/admin/pages/${p.id}/edit`} className="btn-icon" title="Edit">
                             <i className="ph ph-pencil text-brand-500" />
                           </Link>
-                          <DeleteButton action={deletePage.bind(null, page.id)} label={page.titleEn} />
+                          <DeleteButton action={deletePage.bind(null, p.id)} label={p.titleEn} />
                         </div>
                       </td>
                     </tr>
@@ -77,6 +85,7 @@ export default async function PagesListPage() {
               </tbody>
             </table>
           </div>
+          <Pagination currentPage={currentPage} totalPages={totalPages} basePath="/admin/pages" />
         </div>
       </div>
     </>
