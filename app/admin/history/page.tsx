@@ -10,9 +10,6 @@ function formatDate(iso: string) {
   return new Date(iso).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
 }
 
-function formatTime(iso: string) {
-  return new Date(iso).toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" });
-}
 
 function groupByDate(entries: Awaited<ReturnType<typeof getSaveHistory>>) {
   const groups: Record<string, typeof entries> = {};
