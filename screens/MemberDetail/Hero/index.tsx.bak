@@ -70,7 +70,7 @@ const Hero = ({ member, otherMembers }: HeroProps) => {
                 alt={member.title}
                 fill
                 sizes="100vw"
-                style={{ objectFit: "cover", objectPosition: "top center" }}
+                style={{ objectFit: "cover" }}
                 priority
               />
             </div>

@@ -17,7 +17,7 @@
 .member_image {
   position: relative;
   width: 100%;
-  aspect-ratio: 4 / 5;
+  height: 341px;
   border-radius: 12px;
   overflow: hidden;
 }
@@ -71,11 +71,22 @@
   fill: var(--ag-blue-800);
 }
 
+@media (max-width: 768px) {
+  .member_image {
+    height: 300px;
+  }
+}
+
 @media (max-width: 480px) {
   .member {
     padding: 0;
     border: none;
     border-radius: 0;
+  }
+
+  .member_image {
+    height: 260px;
+    border-radius: 12px;
   }
 
   .member_content {
