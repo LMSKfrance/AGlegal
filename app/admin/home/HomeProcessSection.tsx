@@ -31,24 +31,20 @@ function ProcessStepCard({
       <input type="hidden" name={lang === "en" ? "titleKa" : "titleEn"} value={lang === "en" ? (item?.titleKa ?? "") : (item?.titleEn ?? "")} />
       <input type="hidden" name={lang === "en" ? "descriptionKa" : "descriptionEn"} value={lang === "en" ? (item?.descriptionKa ?? "") : (item?.descriptionEn ?? "")} />
 
-      <div className="bg-white border border-brand-200 p-5 rounded-lg relative group">
-        {state.error && (
-          <div className="mb-3 p-2 bg-red-50 border border-red-200 rounded text-xs text-red-700">{state.error}</div>
-        )}
-        {state.success && (
-          <div className="mb-3 p-2 bg-green-50 border border-green-200 rounded text-xs text-green-700">Saved!</div>
-        )}
-
-        {/* Save button */}
-        <div className="absolute right-4 top-4">
-          <button type="submit" className="btn-save" disabled={pending} title="Save step">
-            {pending
-              ? <i className="ph ph-spinner animate-spin" />
-              : <i className="ph ph-floppy-disk" />}
-          </button>
+      <div className="bg-white border border-brand-200 p-5 rounded-lg">
+        {/* Card header: step label + status + save */}
+        <div className="flex items-center justify-between mb-4">
+          <div className="text-[11px] font-semibold text-brand-400 uppercase tracking-wider">Step {index + 1}</div>
+          <div className="flex items-center gap-2">
+            {state.error && <span className="text-[11px] text-red-600 font-medium">{state.error}</span>}
+            {state.success && <span className="text-[11px] text-green-600 font-medium">Saved!</span>}
+            <button type="submit" className="btn-save" disabled={pending} title="Save step">
+              {pending
+                ? <i className="ph ph-spinner animate-spin" />
+                : <i className="ph ph-floppy-disk" />}
+            </button>
+          </div>
         </div>
-
-        <div className="text-[11px] font-semibold text-brand-400 uppercase tracking-wider mb-3">Step {index + 1}</div>
 
         <div className="flex gap-6 items-start">
           {/* Step image */}
@@ -72,7 +68,7 @@ function ProcessStepCard({
           </div>
 
           {/* Fields */}
-          <div className="flex-1 space-y-4 pr-10">
+          <div className="flex-1 space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="label-base">Tab Title <span className="text-[10px] text-brand-400 font-normal ml-1">({lang === "en" ? "En" : "ქარ"}, Max 20)</span></label>

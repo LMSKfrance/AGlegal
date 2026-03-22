@@ -626,3 +626,86 @@ export async function setHomeSectionVisible(
   }
 }
 
+
+// ─── Homepage SEO ─────────────────────────────────────────────────────────────
+
+const SEO_KEYS = [
+  "home_seo_title",
+  "home_meta_description",
+  "home_og_title",
+  "home_og_description",
+  "home_og_image",
+] as const;
+
+export type HomeSeoSettings = {
+  seoTitleEn: string;
+  seoTitleKa: string;
+  metaDescriptionEn: string;
+  metaDescriptionKa: string;
+  ogTitleEn: string;
+  ogTitleKa: string;
+  ogDescriptionEn: string;
+  ogDescriptionKa: string;
+  ogImage: string;
+};
+
+export async function getHomeSeoSettings(): Promise<HomeSeoSettings> {
+  const rows = await getSettings(SEO_KEYS as unknown as string[]);
+  const get = (key: (typeof SEO_KEYS)[number], which: "valueEn" | "valueKa") =>
+    rows[key]?.[which] ?? "";
+  return {
+    seoTitleEn: get("home_seo_title", "valueEn"),
+    seoTitleKa: get("home_seo_title", "valueKa"),
+    metaDescriptionEn: get("home_meta_description", "valueEn"),
+    metaDescriptionKa: get("home_meta_description", "valueKa"),
+    ogTitleEn: get("home_og_title", "valueEn"),
+    ogTitleKa: get("home_og_title", "valueKa"),
+    ogDescriptionEn: get("home_og_description", "valueEn"),
+    ogDescriptionKa: get("home_og_description", "valueKa"),
+    ogImage: get("home_og_image", "valueEn"),
+  };
+}
+
+export async function upsertHomeSeoSettings(
+  prev: HomeFormState,
+  formData: FormData,
+): Promise<HomeFormState> {
+  try {
+    const trim = (key: string) => (formData.get(key) as string)?.trim() || null;
+
+    let ogImagePath: string | null = trim("ogImageCurrent");
+    const ogImageFile = formData.get("ogImage");
+    if (ogImageFile && ogImageFile instanceof File && ogImageFile.size > 0) {
+      const { uploadImage } = await import("@/lib/actions/upload");
+      const fd = new FormData();
+      fd.append("image", ogImageFile);
+      const result = await uploadImage(fd);
+      if (result.success) ogImagePath = result.path;
+    }
+
+    const seoTitleEn = trim("seoTitleEn") ?? "";
+    const seoTitleKa = trim("seoTitleKa") ?? "";
+    const metaDescEn = trim("metaDescriptionEn") ?? "";
+    const metaDescKa = trim("metaDescriptionKa") ?? "";
+    const ogTitleEn = trim("ogTitleEn") ?? "";
+    const ogTitleKa = trim("ogTitleKa") ?? "";
+    const ogDescEn = trim("ogDescriptionEn") ?? "";
+    const ogDescKa = trim("ogDescriptionKa") ?? "";
+
+    await Promise.all([
+      upsertSetting("home_seo_title", "home_seo", seoTitleEn, seoTitleKa),
+      upsertSetting("home_meta_description", "home_seo", metaDescEn, metaDescKa),
+      upsertSetting("home_og_title", "home_seo", ogTitleEn, ogTitleKa),
+      upsertSetting("home_og_description", "home_seo", ogDescEn, ogDescKa),
+      upsertSetting("home_og_image", "home_seo", ogImagePath, ogImagePath),
+    ]);
+
+    revalidatePath("/");
+    revalidatePath("/admin/home");
+    await logSave("Home", "SEO settings", "updated");
+    return { success: true };
+  } catch (err) {
+    console.error("[upsertHomeSeoSettings]", err);
+    return { error: "Failed to save. Please try again." };
+  }
+}

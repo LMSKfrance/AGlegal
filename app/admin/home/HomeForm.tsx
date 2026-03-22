@@ -8,11 +8,13 @@ import type {
   HomeAboutSettings,
   HomeSectionHeadingsSettings,
   HomeCTASettings,
+  HomeSeoSettings,
 } from "@/lib/actions/home";
 import type { HomeBenefit, HomeProcessStep } from "@/lib/db/schema";
 import type { HomeSectionId, HomeSectionVisibility } from "@/lib/home";
 import HomeBenefitsSection from "./HomeBenefitsSection";
 import HomeProcessSection from "./HomeProcessSection";
+import OgImageUpload from "../OgImageUpload";
 import { useAdminLang } from "../AdminLangContext";
 
 type Props = {
@@ -20,10 +22,12 @@ type Props = {
   aboutAction: (prev: HomeFormState, formData: FormData) => Promise<HomeFormState>;
   headingsAction: (prev: HomeFormState, formData: FormData) => Promise<HomeFormState>;
   ctaAction: (prev: HomeFormState, formData: FormData) => Promise<HomeFormState>;
+  seoAction: (prev: HomeFormState, formData: FormData) => Promise<HomeFormState>;
   hero: HomeHeroSettings;
   about: HomeAboutSettings;
   headings: HomeSectionHeadingsSettings;
   cta: HomeCTASettings;
+  seo: HomeSeoSettings;
   benefits: HomeBenefit[];
   processSteps: HomeProcessStep[];
   visibility: HomeSectionVisibility;
@@ -62,10 +66,12 @@ export default function HomeForm({
   aboutAction,
   headingsAction,
   ctaAction,
+  seoAction,
   hero,
   about,
   headings,
   cta,
+  seo,
   benefits,
   processSteps,
   visibility,
@@ -74,6 +80,7 @@ export default function HomeForm({
   const [aboutState, aboutFormAction, aboutPending] = useActionState(aboutAction, INITIAL);
   const [headingsState, headingsFormAction, headingsPending] = useActionState(headingsAction, INITIAL);
   const [ctaState, ctaFormAction, ctaPending] = useActionState(ctaAction, INITIAL);
+  const [seoState, seoFormAction, seoPending] = useActionState(seoAction, INITIAL);
   const lang = useAdminLang();
   const L = lang === "en" ? "En" : "ქარ";
 
@@ -430,6 +437,74 @@ export default function HomeForm({
                   <input type="text" name="buttonUrl" className="input-base" placeholder="/appointment"
                     defaultValue={cta.buttonUrl || "/appointment"} />
                 </div>
+              </div>
+            </div>
+          </div>
+        </form>
+
+        {/* ── Homepage SEO ─────────────────────────────────────────────────── */}
+        <form action={seoFormAction}>
+          {/* Pass through the other language's values as hidden inputs */}
+          {lang === "en" && <>
+            <input type="hidden" name="seoTitleKa" value={seo.seoTitleKa} />
+            <input type="hidden" name="metaDescriptionKa" value={seo.metaDescriptionKa} />
+            <input type="hidden" name="ogTitleKa" value={seo.ogTitleKa} />
+            <input type="hidden" name="ogDescriptionKa" value={seo.ogDescriptionKa} />
+          </>}
+          {lang === "ka" && <>
+            <input type="hidden" name="seoTitleEn" value={seo.seoTitleEn} />
+            <input type="hidden" name="metaDescriptionEn" value={seo.metaDescriptionEn} />
+            <input type="hidden" name="ogTitleEn" value={seo.ogTitleEn} />
+            <input type="hidden" name="ogDescriptionEn" value={seo.ogDescriptionEn} />
+          </>}
+          {/* Pass current OG image path so action can preserve it if no new file */}
+          <input type="hidden" name="ogImageCurrent" value={seo.ogImage} />
+          <div className="card">
+            <div className="card-header">
+              <h2 className="font-semibold text-brand-900 flex items-center gap-2 text-[15px]">
+                <i className="ph ph-magnifying-glass text-primary-600" /> Homepage SEO &amp; Open Graph
+              </h2>
+            </div>
+            <div className="card-body space-y-6">
+              {seoState.error && (
+                <div className="p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700">{seoState.error}</div>
+              )}
+              {seoState.success && (
+                <div className="p-3 bg-green-50 border border-green-200 rounded-lg text-sm text-green-700">SEO settings saved.</div>
+              )}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div>
+                  <label className="label-base">SEO Title <span className="text-[10px] text-brand-400 font-normal ml-2">({L})</span></label>
+                  <input type="text" name={lang === "en" ? "seoTitleEn" : "seoTitleKa"} className="input-base"
+                    placeholder="AG Legal — Leading Corporate Law Firm in Georgia"
+                    defaultValue={lang === "en" ? seo.seoTitleEn : seo.seoTitleKa} />
+                </div>
+                <div>
+                  <label className="label-base">OG Title <span className="text-[10px] text-brand-400 font-normal ml-2">({L})</span></label>
+                  <input type="text" name={lang === "en" ? "ogTitleEn" : "ogTitleKa"} className="input-base"
+                    placeholder="AG Legal"
+                    defaultValue={lang === "en" ? seo.ogTitleEn : seo.ogTitleKa} />
+                </div>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div>
+                  <label className="label-base">Meta Description <span className="text-[10px] text-brand-400 font-normal ml-2">({L}, Max 160)</span></label>
+                  <textarea name={lang === "en" ? "metaDescriptionEn" : "metaDescriptionKa"} className="input-base" rows={2} maxLength={160}
+                    defaultValue={lang === "en" ? seo.metaDescriptionEn : seo.metaDescriptionKa} />
+                </div>
+                <div>
+                  <label className="label-base">OG Description <span className="text-[10px] text-brand-400 font-normal ml-2">({L}, Max 160)</span></label>
+                  <textarea name={lang === "en" ? "ogDescriptionEn" : "ogDescriptionKa"} className="input-base" rows={2} maxLength={160}
+                    defaultValue={lang === "en" ? seo.ogDescriptionEn : seo.ogDescriptionKa} />
+                </div>
+              </div>
+              <OgImageUpload existing={seo.ogImage || null} />
+              <div className="flex justify-end">
+                <button type="submit" className="btn btn-primary" disabled={seoPending}>
+                  {seoPending
+                    ? <><i className="ph ph-spinner animate-spin" /> Saving…</>
+                    : <><i className="ph ph-floppy-disk" /> Save SEO Settings</>}
+                </button>
               </div>
             </div>
           </div>
