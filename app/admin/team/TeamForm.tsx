@@ -49,7 +49,7 @@ export default function TeamForm({ action, member }: Props) {
   const [hasSaved, setHasSaved] = useState(false);
   const lang = useAdminLang();
   const [imagePreview, setImagePreview] = useState<string | null>(
-    member?.image ? `/api/images/${member.image}` : null
+    member?.image ?? null
   );
   const fileRef = useRef<HTMLInputElement>(null);
 

@@ -108,7 +108,7 @@ export function TeamListTable({ initialMembers }: { initialMembers: Member[] }) 
                   {member.image ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img
-                      src={`/api/images/${member.image}`}
+                      src={member.image}
                       alt={member.titleEn}
                       className="w-10 h-10 rounded-full object-cover"
                     />

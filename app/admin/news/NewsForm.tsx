@@ -51,7 +51,7 @@ export default function NewsForm({ action, article }: Props) {
   const [hasSaved, setHasSaved] = useState(false);
   const lang = useAdminLang();
   const [titleEn, setTitleEn] = useState(article?.titleEn ?? "");
-  const [imagePreview, setImagePreview] = useState<string | null>(article?.image ? `/api/images/${article.image}` : null);
+  const [imagePreview, setImagePreview] = useState<string | null>(article?.image ?? null);
   const fileRef = useRef<HTMLInputElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
 
