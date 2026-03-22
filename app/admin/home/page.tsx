@@ -13,12 +13,35 @@ import {
   upsertHomeSeoSettings,
 } from "@/lib/actions/home";
 import { getHomeSectionVisibility } from "@/lib/home";
+import { db } from "@/lib/db";
+import { siteSettings } from "@/lib/db/schema";
+import { inArray } from "drizzle-orm";
 import HomeForm from "./HomeForm";
 
 export const dynamic = "force-dynamic";
 
+async function getPresentationsMeta() {
+  const rows = await db
+    .select()
+    .from(siteSettings)
+    .where(inArray(siteSettings.key, ["presentations.en", "presentations.ka"]));
+
+  let en: { filename: string; sizeLabel: string } | null = null;
+  let ka: { filename: string; sizeLabel: string } | null = null;
+
+  for (const row of rows) {
+    if (!row.valueEn) continue;
+    try {
+      const meta = JSON.parse(row.valueEn);
+      if (row.key === "presentations.en") en = { filename: meta.filename, sizeLabel: meta.sizeLabel };
+      if (row.key === "presentations.ka") ka = { filename: meta.filename, sizeLabel: meta.sizeLabel };
+    } catch {}
+  }
+  return { en, ka };
+}
+
 export default async function HomepagePage() {
-  const [hero, about, headings, benefits, processSteps, cta, seo, visibility] = await Promise.all([
+  const [hero, about, headings, benefits, processSteps, cta, seo, visibility, presentations] = await Promise.all([
     getHomeHeroSettings(),
     getHomeAboutSettings(),
     getHomeSectionHeadingsSettings(),
@@ -27,6 +50,7 @@ export default async function HomepagePage() {
     getHomeCTASettings(),
     getHomeSeoSettings(),
     getHomeSectionVisibility(),
+    getPresentationsMeta(),
   ]);
 
   return (
@@ -44,6 +68,8 @@ export default async function HomepagePage() {
       cta={cta}
       seo={seo}
       visibility={visibility}
+      presentationEn={presentations.en}
+      presentationKa={presentations.ka}
     />
   );
 }

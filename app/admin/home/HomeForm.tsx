@@ -15,7 +15,10 @@ import type { HomeSectionId, HomeSectionVisibility } from "@/lib/home";
 import HomeBenefitsSection from "./HomeBenefitsSection";
 import HomeProcessSection from "./HomeProcessSection";
 import OgImageUpload from "../OgImageUpload";
+import PresentationUpload from "./PresentationUpload";
 import { useAdminLang } from "../AdminLangContext";
+
+type FileMeta = { filename: string; sizeLabel: string } | null;
 
 type Props = {
   heroAction: (prev: HomeFormState, formData: FormData) => Promise<HomeFormState>;
@@ -31,6 +34,8 @@ type Props = {
   benefits: HomeBenefit[];
   processSteps: HomeProcessStep[];
   visibility: HomeSectionVisibility;
+  presentationEn: FileMeta;
+  presentationKa: FileMeta;
 };
 
 const INITIAL: HomeFormState = {};
@@ -78,6 +83,8 @@ export default function HomeForm({
   benefits,
   processSteps,
   visibility,
+  presentationEn,
+  presentationKa,
 }: Props) {
   const [heroState, heroFormAction, heroPending] = useActionState(heroAction, INITIAL);
   const [aboutState, aboutFormAction, aboutPending] = useActionState(aboutAction, INITIAL);
@@ -485,6 +492,9 @@ export default function HomeForm({
             </div>
           </div>
         </div>
+
+        {/* ── Upload Presentation ──────────────────────────────────────────── */}
+        <PresentationUpload initialEn={presentationEn} initialKa={presentationKa} />
 
         {/* ── Homepage SEO ─────────────────────────────────────────────────── */}
         <form action={seoFormAction}>
