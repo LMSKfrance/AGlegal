@@ -133,10 +133,10 @@ export default function AdminShell({
         ].filter(Boolean).join(" ")}
       >
         {/* Logo */}
-        <div className="h-16 flex items-center px-6 border-b border-brand-200 shrink-0 justify-between">
-          <div className="flex items-center gap-3 text-brand-900 font-semibold tracking-tight text-lg overflow-hidden">
+        <div className="sidebar-header h-16 flex items-center px-6 border-b border-brand-200 shrink-0 justify-between">
+          <div className="logo-area flex items-center gap-3 text-brand-900 font-semibold tracking-tight text-lg overflow-hidden">
             <img src="/favicon.svg" alt="AG Legal" className="w-6 h-6 shrink-0" />
-            {showLabels && <span className="logo-text truncate">AG Legal</span>}
+            <span className="logo-text truncate">AG Legal</span>
           </div>
           {/* Desktop: collapse toggle | Mobile: close drawer (X) */}
           <button
@@ -197,7 +197,7 @@ export default function AdminShell({
         <div className="p-4 shrink-0 bg-white relative group">
           <Link
             href="/admin/profile"
-            className="flex items-center gap-3 w-full p-2 rounded-lg hover:bg-brand-50 transition-colors cursor-pointer"
+            className="sidebar-user-link flex items-center gap-3 w-full p-2 rounded-lg hover:bg-brand-50 transition-colors cursor-pointer"
             title="Profile"
           >
             <div className="w-9 h-9 rounded-full bg-primary-600 text-white flex items-center justify-center font-semibold text-sm shrink-0">
