@@ -57,7 +57,9 @@ export default async function PagesListPage({ searchParams }: { searchParams: Pr
                   paged.map((p) => (
                     <tr key={p.id}>
                       <td className="hidden sm:table-cell">
-                        <div className="font-medium text-brand-900">{p.titleEn}</div>
+                        <Link href={`/admin/pages/${p.id}/edit`} className="font-medium text-brand-900 hover:text-primary-600 transition-colors">
+                          {p.titleEn}
+                        </Link>
                         {p.titleKa && <div className="text-[12px] text-brand-400 mt-0.5">{p.titleKa}</div>}
                       </td>
                       <td>

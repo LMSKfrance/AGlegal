@@ -213,3 +213,18 @@ export async function deleteTeamMember(id: number): Promise<void> {
   }
   redirect(deleted ? "/admin/team?toast=success" : "/admin/team?toast=error");
 }
+
+export async function reorderTeamMembers(orderedIds: number[]): Promise<void> {
+  try {
+    await Promise.all(
+      orderedIds.map((id, index) =>
+        db.update(teamMembers).set({ sortOrder: index }).where(eq(teamMembers.id, id))
+      )
+    );
+    revalidatePath("/admin/team");
+    revalidatePath("/");
+    revalidatePath("/team", "layout");
+  } catch (err) {
+    console.error("[reorderTeamMembers]", err);
+  }
+}
