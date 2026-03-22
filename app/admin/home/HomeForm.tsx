@@ -1,6 +1,7 @@
 "use client";
 
-import { useActionState, useState, useRef } from "react";
+import { useActionState, useState, useRef, useTransition } from "react";
+import { setHomeSectionVisible } from "@/lib/actions/home";
 import type {
   HomeFormState,
   HomeHeroSettings,
@@ -8,8 +9,7 @@ import type {
   HomeSectionHeadingsSettings,
 } from "@/lib/actions/home";
 import type { HomeBenefit, HomeProcessStep } from "@/lib/db/schema";
-import type { HomeSectionVisibility } from "@/lib/home";
-import HomeSectionsVisibility from "./HomeSectionsVisibility";
+import type { HomeSectionId, HomeSectionVisibility } from "@/lib/home";
 import HomeBenefitsSection from "./HomeBenefitsSection";
 import HomeProcessSection from "./HomeProcessSection";
 
@@ -26,6 +26,32 @@ type Props = {
 };
 
 const INITIAL: HomeFormState = {};
+
+function SectionToggle({
+  sectionId,
+  initialValue,
+}: {
+  sectionId: HomeSectionId;
+  initialValue: boolean;
+}) {
+  const [pending, startTransition] = useTransition();
+  const [on, setOn] = useState(initialValue);
+
+  function toggle() {
+    const next = !on;
+    setOn(next);
+    startTransition(async () => {
+      await setHomeSectionVisible(sectionId, next);
+    });
+  }
+
+  return (
+    <label className={`toggle-switch shrink-0${pending ? " opacity-50" : ""}`}>
+      <input type="checkbox" checked={on} onChange={toggle} disabled={pending} />
+      <span className="toggle-slider" />
+    </label>
+  );
+}
 
 export default function HomeForm({
   heroAction,
@@ -59,16 +85,14 @@ export default function HomeForm({
 
       <div className="page-content space-y-6 pb-24 pt-6">
 
-        {/* ── Section Visibility ─────────────────────────────────────────── */}
-        <HomeSectionsVisibility visibility={visibility} />
-
         {/* ── Hero Section ────────────────────────────────────────────────── */}
         <form action={heroFormAction}>
           <div className="card">
             <div className="card-header">
               <h2 className="font-semibold text-brand-900 flex items-center gap-2 text-[15px]">
-                <i className="ph ph-monitor text-primary-600" /> Hero Section
+                <i className="ph ph-monitor text-primary-600" /> Hero Banner
               </h2>
+              <SectionToggle sectionId="hero" initialValue={visibility.hero} />
             </div>
             <div className="card-body space-y-6">
               {heroState.error && (
@@ -139,8 +163,9 @@ export default function HomeForm({
           <div className="card">
             <div className="card-header">
               <h2 className="font-semibold text-brand-900 flex items-center gap-2 text-[15px]">
-                <i className="ph ph-users-three text-primary-600" /> Who We Are Section
+                <i className="ph ph-users-three text-primary-600" /> Who We Are
               </h2>
+              <SectionToggle sectionId="about" initialValue={visibility.about} />
             </div>
             <div className="card-body space-y-6">
               {aboutState.error && (
@@ -286,10 +311,63 @@ export default function HomeForm({
         </form>
 
         {/* ── Benefits (Why Work With Us) ──────────────────────────────────── */}
-        <HomeBenefitsSection initialBenefits={benefits} lang={lang} />
+        <div className="card">
+          <div className="card-header">
+            <h2 className="font-semibold text-brand-900 flex items-center gap-2 text-[15px]">
+              <i className="ph ph-star text-primary-600" /> Why Work With Us
+              <span className="text-[11px] font-normal text-brand-400 ml-1">(max 4 cards)</span>
+            </h2>
+            <SectionToggle sectionId="benefits" initialValue={visibility.benefits} />
+          </div>
+          <div className="card-body">
+            <HomeBenefitsSection initialBenefits={benefits} lang={lang} />
+          </div>
+        </div>
 
         {/* ── Process Steps (How We Work) ──────────────────────────────────── */}
-        <HomeProcessSection initialSteps={processSteps} lang={lang} />
+        <div className="card">
+          <div className="card-header">
+            <h2 className="font-semibold text-brand-900 flex items-center gap-2 text-[15px]">
+              <i className="ph ph-arrows-clockwise text-primary-600" /> How We Work
+              <span className="text-[11px] font-normal text-brand-400 ml-1">(max 4 steps)</span>
+            </h2>
+            <SectionToggle sectionId="process" initialValue={visibility.process} />
+          </div>
+          <div className="card-body">
+            <HomeProcessSection initialSteps={processSteps} lang={lang} />
+          </div>
+        </div>
+
+        {/* ── News & CTA Visibility ─────────────────────────────────────────── */}
+        <div className="card">
+          <div className="card-header">
+            <h2 className="font-semibold text-brand-900 flex items-center gap-2 text-[15px]">
+              <i className="ph ph-eye text-primary-600" /> Section Visibility
+            </h2>
+          </div>
+          <div className="card-body space-y-0 divide-y divide-brand-100">
+            {[
+              { id: "services" as HomeSectionId, label: "Our Services", icon: "ph-briefcase" },
+              { id: "team" as HomeSectionId, label: "Meet the Team", icon: "ph-users" },
+              { id: "news" as HomeSectionId, label: "Latest News", icon: "ph-newspaper" },
+              { id: "cta" as HomeSectionId, label: "Call to Action", icon: "ph-megaphone" },
+            ].map(({ id, label, icon }) => (
+              <div key={id} className="flex items-center justify-between px-1 py-4">
+                <div className="flex items-center gap-3">
+                  <i className={`ph ${icon} text-[18px] text-brand-500`} />
+                  <span className="text-[14px] font-medium text-brand-900">{label}</span>
+                </div>
+                <SectionToggle sectionId={id} initialValue={visibility[id]} />
+              </div>
+            ))}
+            <div className="pt-4">
+              <div className="flex items-start gap-2 p-3 bg-brand-50 rounded-lg text-[12px] text-brand-500">
+                <i className="ph ph-info text-[16px] shrink-0 mt-0.5" />
+                <span>Hero, Who We Are, Benefits, and Process visibility are managed in their respective sections above.</span>
+              </div>
+            </div>
+          </div>
+        </div>
 
       </div>
     </>
