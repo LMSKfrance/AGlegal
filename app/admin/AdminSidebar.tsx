@@ -261,14 +261,14 @@ export default function AdminShell({
             </div>
           </div>
           <div className="flex items-center gap-4">
-            {/* Site status badge */}
+            {/* Site status */}
             <Link
               href="/admin/settings"
-              title={siteOnline ? "Site is Online — click to manage" : "Site is Offline — click to manage"}
-              className={`site-status-badge ${siteOnline ? "online" : "offline"}`}
+              title="Site availability — click to manage"
+              className={`site-status ${siteOnline ? "online" : "offline"}`}
             >
               <span className="site-status-dot" />
-              {siteOnline ? "Online" : "Offline"}
+              <span className="site-status-label">{siteOnline ? "Online" : "Offline"}</span>
             </Link>
 
             <Link href="/admin/notifications" className="btn-icon relative" title="Notifications">
@@ -285,15 +285,14 @@ export default function AdminShell({
           </div>
         </header>
 
-        {/* Offline banner */}
+        {/* Offline notice */}
         {!siteOnline && (
-          <div className="offline-banner">
-            <i className="ph ph-warning offline-banner-icon" />
-            <span className="offline-banner-text">
-              <strong>Website is offline</strong> — visitors are currently seeing the maintenance page.
+          <div className="offline-notice">
+            <span className="offline-notice-text">
+              <strong>Website is offline</strong> · visitors are seeing the maintenance page
             </span>
-            <Link href="/admin/settings" className="offline-banner-link">
-              Manage <i className="ph ph-arrow-right" />
+            <Link href="/admin/settings" className="offline-notice-action">
+              Settings <i className="ph ph-arrow-right" />
             </Link>
           </div>
         )}
