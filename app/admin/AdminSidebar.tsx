@@ -304,6 +304,13 @@ export default function AdminShell({
           <AdminLangContext.Provider value={lang}>
             {children}
           </AdminLangContext.Provider>
+          <div className="admin-credits">
+            AG Legal Admin 1.0 — Designed &amp; Built by{" "}
+            <a href="https://sk01.fr" target="_blank" rel="noreferrer" className="admin-credits-link">
+              Sandro Kozmanishvili
+            </a>{" "}
+            at Sk01.fr Studio
+          </div>
         </main>
       </div>
     </div>

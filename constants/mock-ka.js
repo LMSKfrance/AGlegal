@@ -677,7 +677,7 @@ const ui = {
   footer: {
     download: "პრეზენტაციის ჩამოტვირთვა",
     size: "PDF, 3 MB",
-    copyright: "© 2025 AG Legal. ყველა უფლება დაცულია.",
+    copyright: "© 2026 AG Legal. ყველა უფლება დაცულია.",
     terms: "წესები და პირობები",
     privacy: "კონფიდენციალურობის პოლიტიკა",
   },
