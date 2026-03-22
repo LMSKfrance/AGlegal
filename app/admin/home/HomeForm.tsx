@@ -24,17 +24,17 @@ export default function HomeForm({ heroAction, aboutAction, hero, about }: Props
   return (
     <>
       <div className="page-header border-b border-brand-200 sticky top-0 bg-[#f8fafc]/95 backdrop-blur z-10 pb-6 pt-8">
-        <div>
-          <h1 className="text-[28px] font-bold text-brand-900 tracking-tight">Homepage Manager</h1>
-          <p className="text-brand-500 mt-2">Configure sections and layout for the main landing page.</p>
-        </div>
-        <div className="lang-switcher">
-          <div className={`lang-tab${lang === "en" ? " active" : ""}`} onClick={() => setLang("en")}>EN</div>
-          <div className={`lang-tab${lang === "ka" ? " active" : ""}`} onClick={() => setLang("ka")}>KA</div>
-        </div>
+        <h1 className="text-[28px] font-bold text-brand-900 tracking-tight">Homepage Manager</h1>
       </div>
 
       <div className="page-content space-y-6 pb-24 pt-6">
+        <div className="flex justify-end">
+          <div className="lang-switcher">
+            <div className={`lang-tab${lang === "en" ? " active" : ""}`} onClick={() => setLang("en")}>EN</div>
+            <div className={`lang-tab${lang === "ka" ? " active" : ""}`} onClick={() => setLang("ka")}>KA</div>
+          </div>
+        </div>
+
         {/* Hero Section */}
         <form action={heroFormAction}>
           <div className="card">

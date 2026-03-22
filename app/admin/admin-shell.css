@@ -496,6 +496,12 @@ select.input-base {
 /* Hide mobile hamburger on desktop */
 .mobile-menu-btn { display: none; }
 
+/* Lang in sidebar: desktop hidden, mobile shown */
+.sidebar-lang { display: none; }
+@media (max-width: 767px) {
+  .sidebar-lang { display: block; }
+}
+
 @media (max-width: 768px) {
   /* Tighter table cells */
   .admin-table th,

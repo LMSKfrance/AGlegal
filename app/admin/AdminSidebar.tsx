@@ -182,6 +182,14 @@ export default function AdminShell({
           ))}
         </nav>
 
+        {/* Lang switcher — mobile drawer only */}
+        <div className="sidebar-lang px-4 py-3 border-t border-brand-100">
+          <div className="lang-switcher w-full justify-center">
+            <div className={`lang-tab flex-1 text-center${lang === "en" ? " active" : ""}`} onClick={() => setLang("en")}>EN</div>
+            <div className={`lang-tab flex-1 text-center${lang === "ka" ? " active" : ""}`} onClick={() => setLang("ka")}>KA</div>
+          </div>
+        </div>
+
         {/* User */}
         <div className="p-4 shrink-0 bg-white relative group">
           <Link
@@ -250,8 +258,8 @@ export default function AdminShell({
               <i className="ph ph-bell text-[20px]" />
               <span className="absolute top-1 right-1.5 w-[8px] h-[8px] bg-red-500 rounded-full border border-white" />
             </Link>
-            <div className="hidden sm:block w-px h-5 bg-brand-200" />
-            <div className="hidden sm:flex lang-switcher">
+            <div className="hidden md:block w-px h-5 bg-brand-200" />
+            <div className="hidden md:flex lang-switcher">
               <div className={`lang-tab${lang === "en" ? " active" : ""}`} onClick={() => setLang("en")}>EN</div>
               <div className={`lang-tab${lang === "ka" ? " active" : ""}`} onClick={() => setLang("ka")}>KA</div>
             </div>
