@@ -1,10 +1,67 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import { useActionState, useRef, useState } from "react";
 import type { AboutSectionSettings } from "@/lib/about";
 import { useAdminLang } from "../AdminLangContext";
 import OgImageUpload from "../OgImageUpload";
 import FaqEditor from "./FaqEditor";
+
+function TabImageUpload({ label, fieldName, existing }: { label: string; fieldName: string; existing: string }) {
+  const fileRef = useRef<HTMLInputElement>(null);
+  const [preview, setPreview] = useState<string | null>(existing || null);
+  const [removed, setRemoved] = useState(false);
+
+  return (
+    <div className="flex flex-col gap-1.5">
+      <label className="label-base">{label}</label>
+      <div
+        className="file-upload-zone relative flex flex-col items-center justify-center cursor-pointer overflow-hidden"
+        style={{ height: 130 }}
+        onClick={() => fileRef.current?.click()}
+      >
+        {preview && !removed ? (
+          <>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={preview} alt={label} className="w-full h-full object-cover rounded-lg" />
+            <div className="absolute inset-0 bg-black/0 hover:bg-black/30 transition-colors flex items-center justify-center">
+              <span className="opacity-0 hover:opacity-100 transition-opacity text-white text-xs font-medium bg-black/50 px-3 py-1.5 rounded-full">
+                Click to replace
+              </span>
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="w-9 h-9 bg-brand-100 rounded-full flex items-center justify-center mb-1.5">
+              <i className="ph ph-image text-lg text-brand-500" />
+            </div>
+            <span className="text-[12px] font-medium text-brand-600">Upload image</span>
+          </>
+        )}
+      </div>
+      {preview && !removed && (
+        <button
+          type="button"
+          className="text-[11px] text-red-500 hover:text-red-700 transition-colors text-left"
+          onClick={() => { setRemoved(true); setPreview(null); if (fileRef.current) fileRef.current.value = ""; }}
+        >
+          Remove image
+        </button>
+      )}
+      <input
+        ref={fileRef}
+        type="file"
+        name={fieldName}
+        accept="image/*"
+        className="hidden"
+        onChange={(e) => {
+          const f = e.target.files?.[0];
+          if (f) { setPreview(URL.createObjectURL(f)); setRemoved(false); }
+        }}
+      />
+      {removed && <input type="hidden" name={`remove_${fieldName}`} value="1" />}
+    </div>
+  );
+}
 
 type FormState = { success?: boolean; error?: string };
 
@@ -40,6 +97,7 @@ type Props = {
   visibilityAction: (formData: FormData) => Promise<void>;
   page: PageRecord;
   saveHeroAction: (_prev: FormState, formData: FormData) => Promise<FormState>;
+  saveMissionImagesAction: (_prev: FormState, formData: FormData) => Promise<FormState>;
   faqs: FaqRow[];
 };
 
@@ -87,9 +145,10 @@ function SaveBtn({ pending }: { pending: boolean }) {
   );
 }
 
-export default function AboutForm({ settings, saveSettingsAction, visibilityAction, page, saveHeroAction, faqs }: Props) {
+export default function AboutForm({ settings, saveSettingsAction, visibilityAction, page, saveHeroAction, saveMissionImagesAction, faqs }: Props) {
   const [heroState, heroFormAction, heroPending] = useActionState(saveHeroAction, INITIAL);
   const [seoState, seoFormAction, seoPending] = useActionState(saveHeroAction, INITIAL);
+  const [missionImagesState, missionImagesAction, missionImagesPending] = useActionState(saveMissionImagesAction, INITIAL);
   const [settingsState, settingsFormAction, settingsPending] = useActionState(saveSettingsAction, INITIAL);
   const [settingsSaved, setSettingsSaved] = useState(false);
   const lang = useAdminLang();
@@ -269,6 +328,30 @@ export default function AboutForm({ settings, saveSettingsAction, visibilityActi
                     defaultValue={field(settings, "philosophyDescriptionEn", "philosophyDescriptionKa")} />
                   {hidden(settings, "philosophyDescriptionEn", "philosophyDescriptionKa", "philosophyDescriptionEn", "philosophyDescriptionKa")}
                 </div>
+              </div>
+            </div>
+          </div>
+        </form>
+
+        {/* ── Mission Tab Images ───────────────────────────────────── */}
+        <form action={missionImagesAction}>
+          <div className="card">
+            <div className="card-header">
+              <h2 className="font-semibold text-brand-900 flex items-center gap-2 text-[15px]">
+                <i className="ph ph-images text-primary-600" /> Mission Tab Images
+              </h2>
+              <div className="flex items-center gap-2">
+                {missionImagesState.error && <span className="text-[11px] text-red-600 font-medium">{missionImagesState.error}</span>}
+                {missionImagesState.success && <span className="text-[11px] text-green-600 font-medium">Saved!</span>}
+                <SaveBtn pending={missionImagesPending} />
+              </div>
+            </div>
+            <div className="card-body">
+              <p className="text-[12px] text-brand-400 mb-4">Images shown when clicking the Integrity, Compassion and Expertise tabs in the Mission section.</p>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+                <TabImageUpload label="Integrity" fieldName="tab1Image" existing={settings.missionTab1Image} />
+                <TabImageUpload label="Compassion" fieldName="tab2Image" existing={settings.missionTab2Image} />
+                <TabImageUpload label="Expertise" fieldName="tab3Image" existing={settings.missionTab3Image} />
               </div>
             </div>
           </div>

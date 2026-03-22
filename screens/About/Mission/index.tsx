@@ -26,7 +26,15 @@ const Mission = () => {
     aboutCtx?.sections?.missionTitleEn?.trim() || DEFAULT_MISSION_TITLE;
   const missionDescription =
     aboutCtx?.sections?.missionDescriptionEn?.trim() || DEFAULT_MISSION_DESCRIPTION;
-  const { content } = mock;
+  const { content: mockContent } = mock;
+  const content = mockContent.map((item, i) => ({
+    ...item,
+    image: [
+      aboutCtx?.sections?.missionTab1Image,
+      aboutCtx?.sections?.missionTab2Image,
+      aboutCtx?.sections?.missionTab3Image,
+    ][i]?.trim() || item.image,
+  }));
 
   const [activeTab, setActiveTab] = React.useState(content[0].id);
   const [prevImageTab, setPrevImageTab] = React.useState(content[0].id);
