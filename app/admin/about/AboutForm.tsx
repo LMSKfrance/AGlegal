@@ -168,8 +168,8 @@ export default function AboutForm({ settings, saveSettingsAction, visibilityActi
         <h2 className="text-[13px] font-bold text-brand-400 uppercase tracking-widest">Section Settings</h2>
       </div>
 
-      {/* Form wraps cards + action-bar as siblings so sticky works */}
-      <form action={settingsFormAction}>
+      {/* Form id so the action-bar buttons outside can reference it */}
+      <form id="about-section-settings" action={settingsFormAction}>
         <div className="px-8 pb-4 space-y-5 max-w-4xl ml-0">
           {settingsState.error && (
             <div className="p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700">{settingsState.error}</div>
@@ -289,28 +289,28 @@ export default function AboutForm({ settings, saveSettingsAction, visibilityActi
             </div>
           </div>
         </div>
-
-        {/* Sticky action bar — sibling to cards div, not nested inside it */}
-        <div className="action-bar">
-          <div className="text-[12px] flex items-center gap-1.5">
-            {settingsState.error ? (
-              <><span className="w-2 h-2 rounded-full bg-red-500 shrink-0 inline-block" /><span className="text-red-600 font-medium truncate max-w-xs">{settingsState.error}</span></>
-            ) : settingsPending ? (
-              <><span className="w-2 h-2 rounded-full bg-blue-400 shrink-0 inline-block animate-pulse" /><span className="text-brand-500 font-medium">Saving…</span></>
-            ) : settingsSaved ? (
-              <><span className="w-2 h-2 rounded-full bg-green-500 shrink-0 inline-block" /><span className="text-brand-500">All changes saved</span></>
-            ) : (
-              <><span className="w-2 h-2 rounded-full bg-brand-300 shrink-0 inline-block" /><span className="text-brand-400">You have not made any changes</span></>
-            )}
-          </div>
-          <div className="flex gap-3">
-            <button type="reset" className="btn btn-secondary">Discard Changes</button>
-            <button type="submit" className="btn btn-primary" disabled={settingsPending}>
-              {settingsPending ? <><i className="ph ph-spinner animate-spin" /> Saving...</> : <><i className="ph ph-floppy-disk" /> Save Section Settings</>}
-            </button>
-          </div>
-        </div>
       </form>
+
+      {/* Sticky action bar — outside the form so sticky works across all sections below */}
+      <div className="action-bar">
+        <div className="text-[12px] flex items-center gap-1.5">
+          {settingsState.error ? (
+            <><span className="w-2 h-2 rounded-full bg-red-500 shrink-0 inline-block" /><span className="text-red-600 font-medium truncate max-w-xs">{settingsState.error}</span></>
+          ) : settingsPending ? (
+            <><span className="w-2 h-2 rounded-full bg-blue-400 shrink-0 inline-block animate-pulse" /><span className="text-brand-500 font-medium">Saving…</span></>
+          ) : settingsSaved ? (
+            <><span className="w-2 h-2 rounded-full bg-green-500 shrink-0 inline-block" /><span className="text-brand-500">All changes saved</span></>
+          ) : (
+            <><span className="w-2 h-2 rounded-full bg-brand-300 shrink-0 inline-block" /><span className="text-brand-400">You have not made any changes</span></>
+          )}
+        </div>
+        <div className="flex gap-3">
+          <button type="reset" form="about-section-settings" className="btn btn-secondary">Discard Changes</button>
+          <button type="submit" form="about-section-settings" className="btn btn-primary" disabled={settingsPending}>
+            {settingsPending ? <><i className="ph ph-spinner animate-spin" /> Saving...</> : <><i className="ph ph-floppy-disk" /> Save Section Settings</>}
+          </button>
+        </div>
+      </div>
 
       {/* ─── FAQ Entries ──────────────────────────────────────────── */}
       <div className="px-8 pt-7 pb-8 border-t border-brand-100">
