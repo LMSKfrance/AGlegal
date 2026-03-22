@@ -355,9 +355,9 @@ export default function NewsForm({ action, article }: Props) {
           <Link href="/admin/news" className="btn btn-secondary">Cancel</Link>
           <button type="submit" className="btn btn-primary" disabled={pending}>
             {pending ? (
-              <><i className="ph ph-spinner animate-spin" /> Saving...</>
+              <><i key="spinner" className="ph ph-spinner animate-spin" /> Saving...</>
             ) : (
-              <><i className="ph ph-paper-plane-tilt" /> {article ? "Update Article" : "Publish Article"}</>
+              <><i key="send" className="ph ph-paper-plane-tilt" /> {article ? "Update Article" : "Publish Article"}</>
             )}
           </button>
         </div>

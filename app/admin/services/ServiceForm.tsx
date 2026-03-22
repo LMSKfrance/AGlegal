@@ -245,9 +245,9 @@ export default function ServiceForm({ action, service }: Props) {
           <Link href="/admin/services" className="btn btn-secondary">Cancel</Link>
           <button type="submit" className="btn btn-primary" disabled={pending}>
             {pending ? (
-              <><i className="ph ph-spinner animate-spin" /> Saving...</>
+              <><i key="spinner" className="ph ph-spinner animate-spin" /> Saving...</>
             ) : (
-              <><i className="ph ph-floppy-disk" /> {service ? "Save Changes" : "Save Service"}</>
+              <><i key="save" className="ph ph-floppy-disk" /> {service ? "Save Changes" : "Save Service"}</>
             )}
           </button>
         </div>

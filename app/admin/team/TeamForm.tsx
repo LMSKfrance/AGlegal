@@ -204,9 +204,9 @@ export default function TeamForm({ action, member }: Props) {
           <Link href="/admin/team" className="btn btn-secondary">Cancel</Link>
           <button type="submit" className="btn btn-primary" disabled={pending}>
             {pending ? (
-              <><i className="ph ph-spinner animate-spin" /> Saving...</>
+              <><i key="spinner" className="ph ph-spinner animate-spin" /> Saving...</>
             ) : (
-              <><i className="ph ph-floppy-disk" /> {member ? "Save Changes" : "Save Profile"}</>
+              <><i key="save" className="ph ph-floppy-disk" /> {member ? "Save Changes" : "Save Profile"}</>
             )}
           </button>
         </div>
