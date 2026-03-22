@@ -55,7 +55,7 @@ function SectionToggle({
 
   return (
     <div className="flex items-center gap-2 shrink-0">
-      <span className={`text-xs font-medium transition-colors ${on ? "text-primary-600" : "text-brand-300"}`}>Visibility</span>
+      <span className={`text-xs font-medium transition-colors ${on ? "text-primary-600" : "text-brand-300"}`}>{on ? "Shown" : "Hidden"}</span>
       <label className={`toggle-switch${pending ? " opacity-50" : ""}`}>
         <input type="checkbox" checked={on} onChange={toggle} disabled={pending} />
         <span className="toggle-slider" />
