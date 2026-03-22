@@ -205,10 +205,8 @@ export default function TeamForm({ action, member }: Props) {
             </div>
           </div>
         </div>
-      </div>
 
-      {/* SEO & Open Graph */}
-      <div className="px-4 sm:px-8 pb-6">
+        {/* SEO & Open Graph */}
         <div className="card">
           <div className="card-header py-4 bg-brand-50">
             <h3 className="font-semibold text-brand-900 text-[14px]">
