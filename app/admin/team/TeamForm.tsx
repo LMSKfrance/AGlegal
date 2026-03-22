@@ -135,17 +135,21 @@ export default function TeamForm({ action, member }: Props) {
               />
             </div>
 
-            {/* Focus point — uses admin lang-switcher/lang-tab pattern */}
+            {/* Focus point */}
             <div className="mt-3">
               <label className="label-base">Focus Point</label>
               <input type="hidden" name="imagePosition" value={imagePosition} />
-              <div className="lang-switcher w-full flex">
+              <div className="inline-flex w-full bg-brand-100 rounded-lg p-0.5 border border-brand-200 gap-0.5">
                 {(["top", "center", "bottom"] as const).map((pos) => (
                   <button
                     key={pos}
                     type="button"
                     onClick={() => setImagePosition(pos)}
-                    className={`lang-tab flex-1 text-center capitalize ${imagePosition === pos ? "active" : ""}`}
+                    className={`flex-1 text-center capitalize text-[12px] font-medium py-1.5 px-2 rounded-md transition-all ${
+                      imagePosition === pos
+                        ? "bg-white text-brand-900 shadow-sm border border-brand-200 font-semibold"
+                        : "text-brand-500 hover:text-brand-700"
+                    }`}
                   >
                     {pos}
                   </button>
