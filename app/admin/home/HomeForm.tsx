@@ -469,13 +469,18 @@ export default function HomeForm({
 
       {/* ── Sticky Action Bar ─────────────────────────────────────────────── */}
       <div className="action-bar">
-        <div className="text-[12px] text-brand-500 flex items-center gap-1.5">
+        <div className="text-[12px] flex items-center gap-1.5">
           {(heroState.error || aboutState.error || headingsState.error || ctaState.error) ? (
             <>
               <span className="w-2 h-2 rounded-full bg-red-500 shrink-0 inline-block" />
               <span className="text-red-600 font-medium truncate max-w-xs">
                 {heroState.error || aboutState.error || headingsState.error || ctaState.error}
               </span>
+            </>
+          ) : anySaving ? (
+            <>
+              <span className="w-2 h-2 rounded-full bg-blue-400 shrink-0 inline-block animate-pulse" />
+              <span className="text-brand-500 font-medium">Saving…</span>
             </>
           ) : isDirty ? (
             <>
@@ -484,8 +489,8 @@ export default function HomeForm({
             </>
           ) : (
             <>
-              <kbd className="bg-brand-100 px-1.5 py-0.5 rounded font-mono text-[10px] text-brand-700">⌘S</kbd>
-              <span>Save</span>
+              <span className="w-2 h-2 rounded-full bg-green-500 shrink-0 inline-block" />
+              <span className="text-brand-500">All changes saved</span>
               <span className="text-brand-300 mx-1">·</span>
               <a href="/" target="_blank" rel="noopener noreferrer" className="text-brand-400 hover:text-primary-600 transition-colors flex items-center gap-1">
                 View site <i className="ph ph-arrow-square-out text-[12px]" />
