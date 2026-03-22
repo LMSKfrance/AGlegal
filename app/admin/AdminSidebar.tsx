@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Fragment, useEffect, useState } from "react";
+import { AdminLangContext } from "./AdminLangContext";
 
 const nav = [
   {
@@ -272,7 +273,9 @@ export default function AdminShell({
 
         {/* Page content */}
         <main className="admin-content">
-          {children}
+          <AdminLangContext.Provider value={lang}>
+            {children}
+          </AdminLangContext.Provider>
         </main>
       </div>
     </div>

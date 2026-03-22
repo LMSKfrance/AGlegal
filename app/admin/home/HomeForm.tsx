@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useState, useRef, useTransition } from "react";
+import { useActionState, useRef, useState, useTransition } from "react";
 import { setHomeSectionVisible } from "@/lib/actions/home";
 import type {
   HomeFormState,
@@ -12,6 +12,7 @@ import type { HomeBenefit, HomeProcessStep } from "@/lib/db/schema";
 import type { HomeSectionId, HomeSectionVisibility } from "@/lib/home";
 import HomeBenefitsSection from "./HomeBenefitsSection";
 import HomeProcessSection from "./HomeProcessSection";
+import { useAdminLang } from "../AdminLangContext";
 
 type Props = {
   heroAction: (prev: HomeFormState, formData: FormData) => Promise<HomeFormState>;
@@ -67,7 +68,7 @@ export default function HomeForm({
   const [heroState, heroFormAction, heroPending] = useActionState(heroAction, INITIAL);
   const [aboutState, aboutFormAction, aboutPending] = useActionState(aboutAction, INITIAL);
   const [headingsState, headingsFormAction, headingsPending] = useActionState(headingsAction, INITIAL);
-  const [lang, setLang] = useState<"en" | "ka">("en");
+  const lang = useAdminLang();
   const heroImgRef = useRef<HTMLInputElement>(null);
   const aboutImgRef = useRef<HTMLInputElement>(null);
   const [heroImgPreview, setHeroImgPreview] = useState<string | null>(hero.image ? `/api/images/${hero.image}` : null);
@@ -75,14 +76,6 @@ export default function HomeForm({
 
   return (
     <>
-      <div className="page-header border-b border-brand-200 sticky top-0 bg-[#f8fafc]/95 backdrop-blur z-10 pb-6 pt-8">
-        <h1 className="text-[28px] font-bold text-brand-900 tracking-tight">Homepage Manager</h1>
-        <div className="lang-switcher">
-          <div className={`lang-tab${lang === "en" ? " active" : ""}`} onClick={() => setLang("en")}>EN</div>
-          <div className={`lang-tab${lang === "ka" ? " active" : ""}`} onClick={() => setLang("ka")}>KA</div>
-        </div>
-      </div>
-
       <div className="page-content space-y-6 pb-24 pt-6">
 
         {/* ── Hero Section ────────────────────────────────────────────────── */}
