@@ -28,6 +28,9 @@ export type AboutSectionSettings = {
   missionTitleKa: string;
   missionDescriptionEn: string;
   missionDescriptionKa: string;
+  missionTab1Image: string;
+  missionTab2Image: string;
+  missionTab3Image: string;
   featuresTitleEn: string;
   featuresTitleKa: string;
   philosophyTitleEn: string;
@@ -44,6 +47,9 @@ const ABOUT_KEYS = [
   "about.numbers.description",
   "about.mission.title",
   "about.mission.description",
+  "about.mission.tab1.image",
+  "about.mission.tab2.image",
+  "about.mission.tab3.image",
   "about.features.title",
   "about.philosophy.title",
   "about.philosophy.description",
@@ -80,6 +86,9 @@ const DEFAULT_ABOUT_SECTION_SETTINGS: AboutSectionSettings = {
   missionTitleKa: "",
   missionDescriptionEn: "",
   missionDescriptionKa: "",
+  missionTab1Image: "",
+  missionTab2Image: "",
+  missionTab3Image: "",
   featuresTitleEn: "",
   featuresTitleKa: "",
   philosophyTitleEn: "",
@@ -120,6 +129,9 @@ export async function getAboutSectionSettings(): Promise<AboutSectionSettings> {
       missionTitleKa: get("about.mission.title", "valueKa"),
       missionDescriptionEn: get("about.mission.description", "valueEn"),
       missionDescriptionKa: get("about.mission.description", "valueKa"),
+      missionTab1Image: get("about.mission.tab1.image", "valueEn"),
+      missionTab2Image: get("about.mission.tab2.image", "valueEn"),
+      missionTab3Image: get("about.mission.tab3.image", "valueEn"),
       featuresTitleEn: get("about.features.title", "valueEn"),
       featuresTitleKa: get("about.features.title", "valueKa"),
       philosophyTitleEn: get("about.philosophy.title", "valueEn"),

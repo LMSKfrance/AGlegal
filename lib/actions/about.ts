@@ -99,6 +99,39 @@ export async function upsertAboutNumbersSettings(formData: FormData): Promise<{ 
   }
 }
 
+export async function upsertAboutMissionImages(
+  _prev: { success?: boolean; error?: string },
+  formData: FormData
+): Promise<{ success?: boolean; error?: string }> {
+  try {
+    const { uploadImage } = await import("@/lib/actions/upload");
+    const tabs = [
+      { formKey: "tab1Image", settingKey: "about.mission.tab1.image" },
+      { formKey: "tab2Image", settingKey: "about.mission.tab2.image" },
+      { formKey: "tab3Image", settingKey: "about.mission.tab3.image" },
+    ];
+    for (const { formKey, settingKey } of tabs) {
+      const file = formData.get(formKey);
+      const remove = formData.get(`remove_${formKey}`) === "1";
+      if (remove) {
+        await upsertSetting(settingKey, null, null);
+      } else if (file && file instanceof File && file.size > 0) {
+        const fd = new FormData();
+        fd.append("image", file);
+        const result = await uploadImage(fd);
+        if (result.success) await upsertSetting(settingKey, result.path, null);
+      }
+    }
+    revalidatePath("/about");
+    revalidatePath("/admin/about");
+    await logSave("About", "Mission tab images", "updated");
+    return { success: true };
+  } catch (err) {
+    console.error("[upsertAboutMissionImages]", err);
+    return { error: "Failed to save images. Please try again." };
+  }
+}
+
 export async function upsertAboutMissionSettings(formData: FormData): Promise<{ success?: boolean; error?: string }> {
   try {
     await upsertSetting(
