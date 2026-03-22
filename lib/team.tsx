@@ -1,6 +1,6 @@
 import { db } from "@/lib/db";
 import { teamMembers, teamMemberSocials } from "@/lib/db/schema";
-import { eq, asc } from "drizzle-orm";
+import { eq, asc, and } from "drizzle-orm";
 import { pick, type Locale } from "@/lib/db/locale";
 import type { TeamMember } from "./types/team";
 import { getSocialIcon, SUPPORTED_PLATFORMS } from "./utils/socialIcons";
@@ -21,7 +21,7 @@ export async function getTeamMemberBySlug(
   const rows = await db
     .select()
     .from(teamMembers)
-    .where(eq(teamMembers.slug, slug));
+    .where(and(eq(teamMembers.slug, slug), eq(teamMembers.published, 1)));
   const row = rows[0];
   if (!row) return null;
 
@@ -36,6 +36,7 @@ export async function getTeamMembers(
     const rows = await db
       .select()
       .from(teamMembers)
+      .where(eq(teamMembers.published, 1))
       .orderBy(asc(teamMembers.sortOrder));
 
     return Promise.all(
@@ -55,7 +56,7 @@ export async function getHomeTeamMembers(locale: Locale = "en"): Promise<TeamMem
     const rows = await db
       .select()
       .from(teamMembers)
-      .where(eq(teamMembers.showOnHome, 1))
+      .where(and(eq(teamMembers.showOnHome, 1), eq(teamMembers.published, 1)))
       .orderBy(asc(teamMembers.homeOrder), asc(teamMembers.sortOrder), asc(teamMembers.id));
 
     return Promise.all(
@@ -75,7 +76,7 @@ export async function getAboutTeamMembers(locale: Locale = "en"): Promise<TeamMe
     const rows = await db
       .select()
       .from(teamMembers)
-      .where(eq(teamMembers.showOnAbout, 1))
+      .where(and(eq(teamMembers.showOnAbout, 1), eq(teamMembers.published, 1)))
       .orderBy(asc(teamMembers.aboutOrder), asc(teamMembers.sortOrder), asc(teamMembers.id));
 
     return Promise.all(

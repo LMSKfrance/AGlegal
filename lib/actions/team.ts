@@ -82,6 +82,7 @@ export async function createTeamMember(prev: TeamFormState, formData: FormData):
       text2Ka: trim("text2Ka"),
       image: imagePath,
       imagePosition: (formData.get("imagePosition") as string) || "top",
+      published: formData.get("published") === "0" ? 0 : 1,
       showOnHome,
       homeOrder,
       metaDescriptionEn: trim("metaDescriptionEn"),
@@ -174,6 +175,7 @@ export async function updateTeamMember(id: number, prev: TeamFormState, formData
         text2Ka: trim("text2Ka"),
         image: imagePath,
         imagePosition: (formData.get("imagePosition") as string) || "top",
+        published: formData.get("published") === "0" ? 0 : 1,
         showOnHome,
         homeOrder,
         metaDescriptionEn: trim("metaDescriptionEn"),
@@ -224,6 +226,17 @@ export async function deleteTeamMember(id: number): Promise<void> {
     console.error("[deleteTeamMember]", err);
   }
   redirect(deleted ? "/admin/team?toast=success" : "/admin/team?toast=error");
+}
+
+export async function togglePublishTeamMember(id: number, publish: boolean): Promise<void> {
+  try {
+    await db.update(teamMembers).set({ published: publish ? 1 : 0 }).where(eq(teamMembers.id, id));
+    revalidatePath("/admin/team");
+    revalidatePath("/team", "layout");
+    revalidatePath("/");
+  } catch (err) {
+    console.error("[togglePublishTeamMember]", err);
+  }
 }
 
 export async function reorderTeamMembers(orderedIds: number[]): Promise<void> {

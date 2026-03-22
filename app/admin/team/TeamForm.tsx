@@ -25,6 +25,7 @@ type Member = {
   text2Ka: string | null;
   image: string | null;
   imagePosition: string | null;
+  published: number | null;
   showOnHome: number | null;
   homeOrder: number | null;
   metaDescriptionEn: string | null;
@@ -56,6 +57,9 @@ export default function TeamForm({ action, member }: Props) {
   const [imagePosition, setImagePosition] = useState<string>(
     member?.imagePosition ?? "top"
   );
+  const [published, setPublished] = useState<number>(
+    member?.published ?? 1
+  );
   const fileRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -80,6 +84,21 @@ export default function TeamForm({ action, member }: Props) {
           <i className="ph ph-arrow-left" />
         </Link>
         <h1 className="text-xl font-bold text-brand-900">{member ? "Edit Team Member" : "Add Team Member"}</h1>
+        <div className="ml-auto flex items-center gap-3">
+          <input type="hidden" name="published" value={published} />
+          <button
+            type="button"
+            onClick={() => setPublished((p) => (p ? 0 : 1))}
+            className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-[12px] font-semibold border transition-colors ${
+              published
+                ? "bg-green-50 text-green-700 border-green-200 hover:bg-green-100"
+                : "bg-brand-100 text-brand-500 border-brand-200 hover:bg-brand-200"
+            }`}
+          >
+            <span className={`w-2 h-2 rounded-full ${published ? "bg-green-500" : "bg-brand-400"}`} />
+            {published ? "Published" : "Draft"}
+          </button>
+        </div>
       </div>
 
       {state.error && (
@@ -99,7 +118,16 @@ export default function TeamForm({ action, member }: Props) {
             >
               {imagePreview ? (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
+                <img
+                  src={imagePreview}
+                  alt="Preview"
+                  className="w-full h-full object-cover"
+                  style={{
+                    objectPosition:
+                      imagePosition === "bottom" ? "bottom center" :
+                      imagePosition === "center" ? "center" : "top center"
+                  }}
+                />
               ) : (
                 <>
                   <i className="ph ph-camera text-3xl text-brand-400" />

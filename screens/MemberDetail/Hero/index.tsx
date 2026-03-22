@@ -79,7 +79,7 @@ const Hero = ({ member, otherMembers }: HeroProps) => {
               {/* Name + position + socials */}
               <div className={styles.card_top}>
                 <div className={styles.card_info}>
-                  <h1 className={cn("paragraph-x-large", styles.card_name)}>
+                  <h1 className={cn("heading-5", styles.card_name)}>
                     {member.title}
                   </h1>
                   <p className={cn("paragraph-medium", styles.card_position)}>

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState, useRef, useTransition, useEffect } from "react";
-import { reorderTeamMembers, deleteTeamMember } from "@/lib/actions/team";
+import { reorderTeamMembers, deleteTeamMember, togglePublishTeamMember } from "@/lib/actions/team";
 import { DeleteButton } from "@/app/admin/_components/DeleteButton";
 
 type Member = {
@@ -13,6 +13,7 @@ type Member = {
   image: string | null;
   showOnHome: number | null;
   homeOrder: number | null;
+  published: number | null;
 };
 
 type Toast = { label: string; position: number; prevList: Member[] };
@@ -82,6 +83,7 @@ export function TeamListTable({ initialMembers }: { initialMembers: Member[] }) 
             <th>Name</th>
             <th>Position</th>
             <th className="hidden sm:table-cell text-center w-24">Homepage</th>
+            <th className="text-center w-28">Published</th>
             <th className="text-right w-20">Actions</th>
           </tr>
         </thead>
@@ -137,6 +139,25 @@ export function TeamListTable({ initialMembers }: { initialMembers: Member[] }) 
                 ) : (
                   <span className="text-brand-300 text-[12px]">No</span>
                 )}
+              </td>
+              <td className="text-center">
+                <button
+                  type="button"
+                  title={member.published ? "Unpublish" : "Publish"}
+                  onClick={() => {
+                    const next = !member.published;
+                    setMembers((prev) => prev.map((m) => m.id === member.id ? { ...m, published: next ? 1 : 0 } : m));
+                    startTransition(() => togglePublishTeamMember(member.id, next));
+                  }}
+                  className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold transition-colors ${
+                    member.published
+                      ? "bg-green-50 text-green-700 hover:bg-green-100"
+                      : "bg-brand-100 text-brand-400 hover:bg-brand-200"
+                  }`}
+                >
+                  <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${member.published ? "bg-green-500" : "bg-brand-300"}`} />
+                  {member.published ? "Live" : "Draft"}
+                </button>
               </td>
               <td className="text-right">
                 <div className="flex items-center justify-end gap-2">

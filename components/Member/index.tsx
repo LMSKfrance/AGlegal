@@ -23,7 +23,7 @@ const Member = ({ member }: MemberProps) => {
       </div>
 
       <div className={styles.member_content}>
-        <h6 className={cn("paragraph-x-large", styles.member_name)}>
+        <h6 className={cn("heading-6", styles.member_name)}>
           {member.title}
         </h6>
         <p className={cn("paragraph-medium", styles.member_position)}>
