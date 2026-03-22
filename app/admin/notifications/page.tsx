@@ -22,14 +22,19 @@ const SEVERITY_STYLES = {
 };
 
 const CATEGORY_ICON: Record<string, string> = {
-  "news-missing-ka":        "ph-translate",
-  "news-missing-image":     "ph-image",
-  "team-missing-photo":     "ph-image",
-  "team-missing-ka":        "ph-translate",
-  "services-missing-ka":    "ph-translate",
-  "services-missing-image": "ph-image",
-  "pages-missing-ka":       "ph-translate",
-  "contact-incomplete":     "ph-address-book",
+  "news-missing-ka":           "ph-translate",
+  "news-missing-image":        "ph-image",
+  "news-missing-seo":          "ph-magnifying-glass",
+  "team-missing-photo":        "ph-image",
+  "team-missing-ka":           "ph-translate",
+  "team-missing-seo":          "ph-magnifying-glass",
+  "services-missing-ka":       "ph-translate",
+  "services-missing-image":    "ph-image",
+  "services-missing-seo":      "ph-magnifying-glass",
+  "pages-missing-ka":          "ph-translate",
+  "pages-missing-seo":         "ph-magnifying-glass",
+  "content-missing-og-image":  "ph-share-network",
+  "contact-incomplete":        "ph-address-book",
 };
 
 function TaskRow({ task }: { task: NotificationTask }) {
