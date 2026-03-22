@@ -69,7 +69,7 @@ export default function ServiceForm({ action, service }: Props) {
       )}
 
       <div className="flex-1 overflow-y-auto p-8 max-w-4xl mx-auto w-full space-y-8 pb-24">
-        <div className="card p-6 bg-brand-50 border border-brand-200 flex flex-wrap items-center gap-8 rounded-xl">
+        <div className="card p-6 bg-brand-50 border border-brand-200 flex flex-wrap items-center gap-8 rounded-lg">
           <div className="flex items-center justify-between w-56">
             <span className="text-[14px] font-semibold text-brand-900">Show on Homepage</span>
             <label className="toggle-switch">
