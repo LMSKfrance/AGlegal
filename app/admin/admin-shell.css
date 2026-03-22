@@ -570,81 +570,68 @@ select.input-base {
   .card-body    { padding: 12px; }
 }
 
-/* ─── Site status badge (header) ─── */
-.site-status-badge {
+/* ─── Site status indicator (header) ─── */
+.site-status {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 3px 10px 3px 8px;
-  border-radius: 6px;
   font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.01em;
-  border: 1px solid transparent;
+  color: #6b7280;
   cursor: pointer;
-  transition: opacity 0.15s;
   text-decoration: none;
-  line-height: 1;
-  height: 28px;
+  padding: 4px 0;
+  transition: color 0.15s;
+  white-space: nowrap;
 }
-.site-status-badge:hover { opacity: 0.8; }
-.site-status-badge.online {
-  background: #EBF5E0;
-  color: #107E3E;
-  border-color: #c3e6a3;
-}
-.site-status-badge.offline {
-  background: #FFEBEB;
-  color: #AB0000;
-  border-color: #ffc1c1;
-}
+.site-status:hover { color: #111827; }
 .site-status-dot {
   width: 7px;
   height: 7px;
   border-radius: 50%;
   flex-shrink: 0;
+  transition: opacity 0.15s;
 }
-.site-status-badge.online .site-status-dot  { background: #107E3E; }
-.site-status-badge.offline .site-status-dot { background: #ef4444; }
+.site-status.online  .site-status-dot { background: #22c55e; }
+.site-status.offline .site-status-dot { background: #ef4444; }
+.site-status.offline { color: #6b7280; }
+.site-status-label { font-weight: 500; }
 
-/* ─── Offline banner ─── */
-.offline-banner {
+/* ─── Offline notice bar ─── */
+.offline-notice {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   padding: 0 24px;
-  height: 40px;
-  background: #fffbeb;
-  border-bottom: 1px solid #fde68a;
+  height: 36px;
+  background: #ffffff;
+  border-bottom: 1px solid #fecaca;
+  border-left: 3px solid #ef4444;
   flex-shrink: 0;
-  font-size: 13px;
-  color: #92400e;
+  font-size: 12px;
+  color: #6b7280;
 }
-.offline-banner-icon {
-  font-size: 16px;
-  color: #d97706;
-  flex-shrink: 0;
-}
-.offline-banner-text { flex: 1; }
-.offline-banner-link {
+.offline-notice-text { flex: 1; letter-spacing: 0.01em; }
+.offline-notice-text strong { color: #374151; font-weight: 600; }
+.offline-notice-action {
+  font-size: 12px;
+  font-weight: 500;
+  color: #6b7280;
+  text-decoration: none;
+  padding: 0 8px;
+  height: 26px;
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  padding: 3px 10px;
-  border: 1px solid #fcd34d;
+  border: 1px solid #e5e7eb;
   border-radius: 6px;
-  background: rgba(255, 255, 255, 0.65);
-  color: #b45309;
-  font-size: 12px;
-  font-weight: 600;
+  background: #f9fafb;
   white-space: nowrap;
-  transition: background 0.15s;
-  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+  gap: 4px;
 }
-.offline-banner-link:hover { background: #ffffff; }
+.offline-notice-action:hover { border-color: #d1d5db; color: #111827; background: #f3f4f6; }
 
 @media (max-width: 640px) {
-  .offline-banner { padding: 0 12px; height: auto; min-height: 40px; flex-wrap: wrap; padding-top: 8px; padding-bottom: 8px; }
+  .offline-notice { padding: 0 12px; height: auto; min-height: 36px; padding-top: 8px; padding-bottom: 8px; flex-wrap: wrap; }
 }
 
 /* ─── Global button readability improvements ─── */
