@@ -215,6 +215,30 @@
   }
 }
 
+.credits_wrapper {
+  border-top: 1px solid var(--gray-200);
+  padding-top: 16px;
+  text-align: center;
+}
+
+.credits_text {
+  font-family: var(--font-inter);
+  font-size: 11px;
+  line-height: 16px;
+  color: var(--gray-400);
+  margin: 0;
+}
+
+.credits_link {
+  color: var(--gray-500);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.credits_link:hover {
+  color: var(--ag-blue-800);
+}
+
 @media (max-width: 480px) {
   .input_wrapper {
     flex-direction: column;
