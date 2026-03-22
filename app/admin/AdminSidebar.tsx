@@ -66,11 +66,13 @@ export default function AdminShell({
   userName,
   userEmail,
   notificationCount,
+  siteOnline,
   children,
 }: {
   userName: string | null;
   userEmail: string | null;
   notificationCount: number;
+  siteOnline: boolean;
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
@@ -259,6 +261,30 @@ export default function AdminShell({
             </div>
           </div>
           <div className="flex items-center gap-4">
+            {/* Site status indicator */}
+            <Link
+              href="/admin/settings"
+              title={siteOnline ? "Site is Online — click to manage" : "Site is Offline — click to manage"}
+              className="flex items-center gap-1.5 px-2.5 py-1 rounded-full border text-[12px] font-medium transition-colors"
+              style={{
+                borderColor: siteOnline ? "#bbf7d0" : "#fecaca",
+                background: siteOnline ? "#f0fdf4" : "#fef2f2",
+                color: siteOnline ? "#15803d" : "#b91c1c",
+              }}
+            >
+              <span
+                style={{
+                  width: 7,
+                  height: 7,
+                  borderRadius: "50%",
+                  background: siteOnline ? "#22c55e" : "#ef4444",
+                  flexShrink: 0,
+                  boxShadow: siteOnline ? "0 0 0 2px #bbf7d0" : "0 0 0 2px #fecaca",
+                }}
+              />
+              {siteOnline ? "Online" : "Offline"}
+            </Link>
+
             <Link href="/admin/notifications" className="btn-icon relative" title="Notifications">
               <i className="ph ph-bell text-[20px]" />
               {notificationCount > 0 && (
