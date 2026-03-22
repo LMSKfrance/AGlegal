@@ -46,7 +46,7 @@
 .admin-shell-root h3,
 .admin-shell-root h4,
 .admin-shell-root h5,
-.admin-shell-root h6 { margin: 0; font-weight: inherit; font-size: inherit; }
+.admin-shell-root h6 { margin: 0; font-weight: inherit; }
 .admin-shell-root p  { margin: 0; }
 .admin-shell-root ul,
 .admin-shell-root ol { margin: 0; padding: 0; list-style: none; }
