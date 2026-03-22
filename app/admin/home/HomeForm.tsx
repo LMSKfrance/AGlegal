@@ -100,15 +100,23 @@ export default function HomeForm({
   const [isDirty, setIsDirty] = useState(false);
   const anySaving = heroPending || aboutPending || headingsPending || ctaPending;
   const wasSavingRef = useRef(false);
+  const saveQueueRef = useRef<Array<() => void>>([]);
 
-  // Clear dirty flag when a save completes without errors
+  // Clear dirty flag when a save completes; drain next queued form if any
   useEffect(() => {
     if (anySaving) {
       wasSavingRef.current = true;
     } else if (wasSavingRef.current) {
       wasSavingRef.current = false;
-      if (!heroState.error && !aboutState.error && !headingsState.error && !ctaState.error) {
-        setIsDirty(false);
+      if (saveQueueRef.current.length > 0) {
+        // More forms waiting — submit next one
+        const next = saveQueueRef.current.shift()!;
+        next();
+      } else {
+        // All done — clear dirty flag if no errors
+        if (!heroState.error && !aboutState.error && !headingsState.error && !ctaState.error) {
+          setIsDirty(false);
+        }
       }
     }
   }, [anySaving, heroState.error, aboutState.error, headingsState.error, ctaState.error]);
@@ -127,10 +135,13 @@ export default function HomeForm({
   }, [heroState.error, aboutState.error, headingsState.error, ctaState.error]);
 
   function handleSaveAll() {
+    // Queue remaining forms so they submit sequentially (avoids concurrent revalidatePath conflicts)
+    saveQueueRef.current = [
+      () => aboutFormRef.current?.requestSubmit(),
+      () => headingsFormRef.current?.requestSubmit(),
+      () => ctaFormRef.current?.requestSubmit(),
+    ];
     heroFormRef.current?.requestSubmit();
-    aboutFormRef.current?.requestSubmit();
-    headingsFormRef.current?.requestSubmit();
-    ctaFormRef.current?.requestSubmit();
   }
 
   function handleDiscard() {
