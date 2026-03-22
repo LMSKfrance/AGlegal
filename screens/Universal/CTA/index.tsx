@@ -4,11 +4,17 @@ import cn from "classnames";
 import styles from "./cta.module.css";
 import Link from "next/link";
 import LogoMini from "@/design-system/components/LogoMini";
-import { useHomeContent } from "@/screens/Home/HomeContentContext";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { useHomeContentMaybe } from "@/screens/Home/HomeContentContext";
 
 const CTA = () => {
-  const { cta } = useHomeContent();
-  const { subtitle, title, button, buttonUrl } = cta;
+  const { t } = useLanguage();
+  const content = useHomeContentMaybe();
+
+  const subtitle = content?.cta.subtitle || t.ui.cta.subtitle;
+  const title = content?.cta.title || t.ui.cta.title;
+  const button = content?.cta.button || t.ui.cta.button;
+  const buttonUrl = content?.cta.buttonUrl || "/appointment";
 
   return (
     <div className={cn("section")}>
@@ -28,7 +34,7 @@ const CTA = () => {
               </h2>
             </div>
 
-            <Link href={buttonUrl || "/appointment"} className={cn("button-white")}>
+            <Link href={buttonUrl} className={cn("button-white")}>
               {button}
             </Link>
           </div>

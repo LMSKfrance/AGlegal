@@ -30,3 +30,10 @@ export function useHomeContent(): HomeContent {
   return locale === "ka" ? ctx.contentKa : ctx.contentEn;
 }
 
+export function useHomeContentMaybe(): HomeContent | null {
+  const ctx = useContext(HomeContentContext);
+  const { locale } = useLanguage();
+  if (!ctx) return null;
+  return locale === "ka" ? ctx.contentKa : ctx.contentEn;
+}
+
