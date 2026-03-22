@@ -93,6 +93,9 @@ export default function AdminShell({
     return () => { document.body.style.overflow = ""; };
   }, [mobileOpen]);
 
+  // Show labels when expanded (desktop) OR when mobile drawer is open
+  const showLabels = !collapsed || mobileOpen;
+
   const displayName = userName ?? "Admin User";
   const email = userEmail ?? "admin@aglegal.com";
   const initials = getInitials(displayName);
@@ -130,7 +133,7 @@ export default function AdminShell({
         <div className="h-16 flex items-center px-6 border-b border-brand-200 shrink-0 justify-between">
           <div className="flex items-center gap-3 text-brand-900 font-semibold tracking-tight text-lg overflow-hidden">
             <i className="ph-fill ph-scales text-primary-600 text-[24px] shrink-0" />
-            {!collapsed && <span className="logo-text truncate">AG Legal</span>}
+            {showLabels && <span className="logo-text truncate">AG Legal</span>}
           </div>
           {/* Desktop: collapse toggle | Mobile: close drawer (X) */}
           <button
@@ -153,7 +156,7 @@ export default function AdminShell({
         <nav className="admin-sidebar-nav">
           {nav.map(({ group, items }, gi) => (
             <Fragment key={group}>
-              {!collapsed && (
+              {showLabels && (
                 <div className={`section-label text-[10px] font-bold text-brand-400 uppercase tracking-widest px-6 mb-2${gi > 0 ? " mt-6" : ""}`}>
                   {group}
                 </div>
@@ -167,8 +170,8 @@ export default function AdminShell({
                   className={`nav-item${isActive(href) ? " active" : ""}`}
                 >
                   <i className={`ph ${icon}`} />
-                  {!collapsed && <span className="nav-label">{label}</span>}
-                  {!collapsed && badge && (
+                  {showLabels && <span className="nav-label">{label}</span>}
+                  {showLabels && badge && (
                     <span className="ml-auto bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">
                       {badge}
                     </span>
@@ -189,7 +192,7 @@ export default function AdminShell({
             <div className="w-9 h-9 rounded-full bg-primary-600 text-white flex items-center justify-center font-semibold text-sm shrink-0">
               {initials}
             </div>
-            {!collapsed && (
+            {showLabels && (
               <div className="flex-1 overflow-hidden user-info">
                 <div className="text-[13px] font-medium text-brand-900 truncate leading-tight">{displayName}</div>
                 <div className="text-[12px] text-brand-500 truncate">{email}</div>
@@ -197,7 +200,7 @@ export default function AdminShell({
             )}
           </Link>
 
-          {!collapsed && (
+          {showLabels && (
             <div className="absolute bottom-full left-4 mb-2 w-56 bg-white border border-brand-200 rounded-xl shadow-lg opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity z-50">
               <div className="p-3 border-b border-brand-100">
                 <div className="text-sm font-semibold text-brand-900">{displayName}</div>
