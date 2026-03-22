@@ -19,6 +19,15 @@ type Article = {
   time: string | null;
   tags: string[] | null;
   type: string | null;
+  metaDescriptionEn: string | null;
+  metaDescriptionKa: string | null;
+  seoTitleEn: string | null;
+  seoTitleKa: string | null;
+  ogTitleEn: string | null;
+  ogTitleKa: string | null;
+  ogDescriptionEn: string | null;
+  ogDescriptionKa: string | null;
+  ogImage: string | null;
 };
 
 type Props = {
@@ -343,6 +352,51 @@ export default function NewsForm({ action, article }: Props) {
               defaultValue={article?.contentKa ?? ""}
             />
           )}
+        </div>
+      </div>
+
+      {/* SEO & Open Graph */}
+      <div className="px-4 sm:px-8 pb-6">
+        <div className="card">
+          <div className="card-header py-4 bg-brand-50">
+            <h3 className="font-semibold text-brand-900 text-[14px]">
+              <i className="ph ph-magnifying-glass mr-2 text-brand-500" /> SEO &amp; Open Graph {lang === "en" ? "(En)" : "(ქარ)"}
+            </h3>
+          </div>
+          <div className="card-body space-y-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div>
+                <label className="label-base">SEO Title</label>
+                {lang === "en"
+                  ? <input type="text" name="seoTitleEn" className="input-base" defaultValue={article?.seoTitleEn ?? ""} />
+                  : <input type="text" name="seoTitleKa" className="input-base" defaultValue={article?.seoTitleKa ?? ""} />}
+              </div>
+              <div>
+                <label className="label-base">OG Title</label>
+                {lang === "en"
+                  ? <input type="text" name="ogTitleEn" className="input-base" defaultValue={article?.ogTitleEn ?? ""} />
+                  : <input type="text" name="ogTitleKa" className="input-base" defaultValue={article?.ogTitleKa ?? ""} />}
+              </div>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div>
+                <label className="label-base">Meta Description</label>
+                {lang === "en"
+                  ? <textarea name="metaDescriptionEn" className="input-base" rows={2} defaultValue={article?.metaDescriptionEn ?? ""} />
+                  : <textarea name="metaDescriptionKa" className="input-base" rows={2} defaultValue={article?.metaDescriptionKa ?? ""} />}
+              </div>
+              <div>
+                <label className="label-base">OG Description</label>
+                {lang === "en"
+                  ? <textarea name="ogDescriptionEn" className="input-base" rows={2} defaultValue={article?.ogDescriptionEn ?? ""} />
+                  : <textarea name="ogDescriptionKa" className="input-base" rows={2} defaultValue={article?.ogDescriptionKa ?? ""} />}
+              </div>
+            </div>
+            <div>
+              <label className="label-base">OG Image URL <span className="text-xs font-normal text-brand-400 ml-2">(Recommended 1200×630)</span></label>
+              <input type="text" name="ogImage" className="input-base" placeholder="/uploads/og-image.jpg" defaultValue={article?.ogImage ?? ""} />
+            </div>
+          </div>
         </div>
       </div>
 
