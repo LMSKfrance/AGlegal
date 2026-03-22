@@ -51,9 +51,6 @@ const AppointmentForm = ({ className }: AppointmentFormProps) => {
 
         <button className={cn("button", styles.form_button)}>SUBMIT</button>
 
-        <p className={cn("paragraph-x-small", styles.form_text)}>
-          Support center 24/7
-        </p>
       </div>
     </form>
   );
