@@ -197,8 +197,8 @@ export default function AdminShell({
               <i className="ph ph-bell text-[20px]" />
               <span className="absolute top-1 right-1.5 w-[8px] h-[8px] bg-red-500 rounded-full border border-white" />
             </Link>
-            <div className="w-px h-5 bg-brand-200" />
-            <div className="lang-switcher">
+            <div className="hidden sm:block w-px h-5 bg-brand-200" />
+            <div className="hidden sm:flex lang-switcher">
               <div className={`lang-tab${lang === "en" ? " active" : ""}`} onClick={() => setLang("en")}>EN</div>
               <div className={`lang-tab${lang === "ka" ? " active" : ""}`} onClick={() => setLang("ka")}>KA</div>
             </div>
