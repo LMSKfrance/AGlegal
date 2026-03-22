@@ -82,13 +82,30 @@ export default function HomeForm({
 
   const [isDirty, setIsDirty] = useState(false);
   const anySaving = heroPending || aboutPending || headingsPending;
+  const wasSavingRef = useRef(false);
 
-  // Reset dirty state after all sections save successfully
+  // Clear dirty flag when a save completes without errors
   useEffect(() => {
-    if (heroState.success && aboutState.success && headingsState.success) {
-      setIsDirty(false);
+    if (anySaving) {
+      wasSavingRef.current = true;
+    } else if (wasSavingRef.current) {
+      wasSavingRef.current = false;
+      if (!heroState.error && !aboutState.error && !headingsState.error) {
+        setIsDirty(false);
+      }
     }
-  }, [heroState.success, aboutState.success, headingsState.success]);
+  }, [anySaving, heroState.error, aboutState.error, headingsState.error]);
+
+  // Scroll to the first section that has an error
+  useEffect(() => {
+    if (heroState.error) {
+      heroFormRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    } else if (aboutState.error) {
+      aboutFormRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    } else if (headingsState.error) {
+      headingsFormRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, [heroState.error, aboutState.error, headingsState.error]);
 
   function handleSaveAll() {
     heroFormRef.current?.requestSubmit();
