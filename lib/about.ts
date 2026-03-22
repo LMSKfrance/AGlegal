@@ -28,12 +28,17 @@ export type AboutSectionSettings = {
   missionTitleKa: string;
   missionDescriptionEn: string;
   missionDescriptionKa: string;
+  missionTab1Image: string;
+  missionTab2Image: string;
+  missionTab3Image: string;
   featuresTitleEn: string;
   featuresTitleKa: string;
   philosophyTitleEn: string;
   philosophyTitleKa: string;
   philosophyDescriptionEn: string;
   philosophyDescriptionKa: string;
+  philosophyCard1Image: string;
+  philosophyCard2Image: string;
   sectionVisibility: AboutSectionVisibility;
 };
 
@@ -44,9 +49,14 @@ const ABOUT_KEYS = [
   "about.numbers.description",
   "about.mission.title",
   "about.mission.description",
+  "about.mission.tab1.image",
+  "about.mission.tab2.image",
+  "about.mission.tab3.image",
   "about.features.title",
   "about.philosophy.title",
   "about.philosophy.description",
+  "about.philosophy.card1.image",
+  "about.philosophy.card2.image",
 ] as const;
 
 const ABOUT_VISIBILITY_KEYS = ABOUT_SECTION_IDS.map((id) => `about.section.${id}.visible`);
@@ -80,12 +90,17 @@ const DEFAULT_ABOUT_SECTION_SETTINGS: AboutSectionSettings = {
   missionTitleKa: "",
   missionDescriptionEn: "",
   missionDescriptionKa: "",
+  missionTab1Image: "",
+  missionTab2Image: "",
+  missionTab3Image: "",
   featuresTitleEn: "",
   featuresTitleKa: "",
   philosophyTitleEn: "",
   philosophyTitleKa: "",
   philosophyDescriptionEn: "",
   philosophyDescriptionKa: "",
+  philosophyCard1Image: "",
+  philosophyCard2Image: "",
   sectionVisibility: {
     hero: true,
     numbers: true,
@@ -120,12 +135,17 @@ export async function getAboutSectionSettings(): Promise<AboutSectionSettings> {
       missionTitleKa: get("about.mission.title", "valueKa"),
       missionDescriptionEn: get("about.mission.description", "valueEn"),
       missionDescriptionKa: get("about.mission.description", "valueKa"),
+      missionTab1Image: get("about.mission.tab1.image", "valueEn"),
+      missionTab2Image: get("about.mission.tab2.image", "valueEn"),
+      missionTab3Image: get("about.mission.tab3.image", "valueEn"),
       featuresTitleEn: get("about.features.title", "valueEn"),
       featuresTitleKa: get("about.features.title", "valueKa"),
       philosophyTitleEn: get("about.philosophy.title", "valueEn"),
       philosophyTitleKa: get("about.philosophy.title", "valueKa"),
       philosophyDescriptionEn: get("about.philosophy.description", "valueEn"),
       philosophyDescriptionKa: get("about.philosophy.description", "valueKa"),
+      philosophyCard1Image: get("about.philosophy.card1.image", "valueEn"),
+      philosophyCard2Image: get("about.philosophy.card2.image", "valueEn"),
       sectionVisibility,
     };
   } catch (err) {
