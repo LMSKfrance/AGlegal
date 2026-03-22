@@ -171,6 +171,38 @@ export async function upsertAboutFeaturesSettings(formData: FormData): Promise<{
   }
 }
 
+export async function upsertAboutPhilosophyImages(
+  _prev: { success?: boolean; error?: string },
+  formData: FormData
+): Promise<{ success?: boolean; error?: string }> {
+  try {
+    const { uploadImage } = await import("@/lib/actions/upload");
+    const cards = [
+      { formKey: "card1Image", settingKey: "about.philosophy.card1.image" },
+      { formKey: "card2Image", settingKey: "about.philosophy.card2.image" },
+    ];
+    for (const { formKey, settingKey } of cards) {
+      const file = formData.get(formKey);
+      const remove = formData.get(`remove_${formKey}`) === "1";
+      if (remove) {
+        await upsertSetting(settingKey, null, null);
+      } else if (file && file instanceof File && file.size > 0) {
+        const fd = new FormData();
+        fd.append("image", file);
+        const result = await uploadImage(fd);
+        if (result.success) await upsertSetting(settingKey, result.path, null);
+      }
+    }
+    revalidatePath("/about");
+    revalidatePath("/admin/about");
+    await logSave("About", "Philosophy card images", "updated");
+    return { success: true };
+  } catch (err) {
+    console.error("[upsertAboutPhilosophyImages]", err);
+    return { error: "Failed to save images. Please try again." };
+  }
+}
+
 export async function upsertAboutPhilosophySettings(formData: FormData): Promise<{ success?: boolean; error?: string }> {
   try {
     await upsertSetting(

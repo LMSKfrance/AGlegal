@@ -98,6 +98,7 @@ type Props = {
   page: PageRecord;
   saveHeroAction: (_prev: FormState, formData: FormData) => Promise<FormState>;
   saveMissionImagesAction: (_prev: FormState, formData: FormData) => Promise<FormState>;
+  savePhilosophyImagesAction: (_prev: FormState, formData: FormData) => Promise<FormState>;
   faqs: FaqRow[];
 };
 
@@ -145,10 +146,11 @@ function SaveBtn({ pending }: { pending: boolean }) {
   );
 }
 
-export default function AboutForm({ settings, saveSettingsAction, visibilityAction, page, saveHeroAction, saveMissionImagesAction, faqs }: Props) {
+export default function AboutForm({ settings, saveSettingsAction, visibilityAction, page, saveHeroAction, saveMissionImagesAction, savePhilosophyImagesAction, faqs }: Props) {
   const [heroState, heroFormAction, heroPending] = useActionState(saveHeroAction, INITIAL);
   const [seoState, seoFormAction, seoPending] = useActionState(saveHeroAction, INITIAL);
   const [missionImagesState, missionImagesAction, missionImagesPending] = useActionState(saveMissionImagesAction, INITIAL);
+  const [philosophyImagesState, philosophyImagesAction, philosophyImagesPending] = useActionState(savePhilosophyImagesAction, INITIAL);
   const [settingsState, settingsFormAction, settingsPending] = useActionState(saveSettingsAction, INITIAL);
   const [settingsSaved, setSettingsSaved] = useState(false);
   const lang = useAdminLang();
@@ -352,6 +354,29 @@ export default function AboutForm({ settings, saveSettingsAction, visibilityActi
                 <TabImageUpload label="Integrity" fieldName="tab1Image" existing={settings.missionTab1Image} />
                 <TabImageUpload label="Compassion" fieldName="tab2Image" existing={settings.missionTab2Image} />
                 <TabImageUpload label="Expertise" fieldName="tab3Image" existing={settings.missionTab3Image} />
+              </div>
+            </div>
+          </div>
+        </form>
+
+        {/* ── Philosophy Card Images ───────────────────────────────── */}
+        <form action={philosophyImagesAction}>
+          <div className="card">
+            <div className="card-header">
+              <h2 className="font-semibold text-brand-900 flex items-center gap-2 text-[15px]">
+                <i className="ph ph-images text-primary-600" /> Philosophy Card Images
+              </h2>
+              <div className="flex items-center gap-2">
+                {philosophyImagesState.error && <span className="text-[11px] text-red-600 font-medium">{philosophyImagesState.error}</span>}
+                {philosophyImagesState.success && <span className="text-[11px] text-green-600 font-medium">Saved!</span>}
+                <SaveBtn pending={philosophyImagesPending} />
+              </div>
+            </div>
+            <div className="card-body">
+              <p className="text-[12px] text-brand-400 mb-4">Background images for the Integrity and Dedication value cards in the Philosophy section.</p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <TabImageUpload label="Integrity card" fieldName="card1Image" existing={settings.philosophyCard1Image} />
+                <TabImageUpload label="Dedication card" fieldName="card2Image" existing={settings.philosophyCard2Image} />
               </div>
             </div>
           </div>
