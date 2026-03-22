@@ -51,7 +51,7 @@ export default async function HistoryPage() {
           <div className="space-y-10">
             {Object.entries(groups).map(([date, items]) => (
               <div key={date}>
-                <div className="sticky top-0 bg-[#f8fafc] py-3 z-10 font-bold text-[14px] text-brand-900 flex items-center gap-4">
+                <div className="py-3 font-bold text-[14px] text-brand-900 flex items-center gap-4">
                   <span>{date}</span>
                   <div className="h-px bg-brand-200 flex-1" />
                 </div>
