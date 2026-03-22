@@ -261,27 +261,13 @@ export default function AdminShell({
             </div>
           </div>
           <div className="flex items-center gap-4">
-            {/* Site status indicator */}
+            {/* Site status badge */}
             <Link
               href="/admin/settings"
               title={siteOnline ? "Site is Online — click to manage" : "Site is Offline — click to manage"}
-              className="flex items-center gap-1.5 px-2.5 py-1 rounded-full border text-[12px] font-medium transition-colors"
-              style={{
-                borderColor: siteOnline ? "#bbf7d0" : "#fecaca",
-                background: siteOnline ? "#f0fdf4" : "#fef2f2",
-                color: siteOnline ? "#15803d" : "#b91c1c",
-              }}
+              className={`site-status-badge ${siteOnline ? "online" : "offline"}`}
             >
-              <span
-                style={{
-                  width: 7,
-                  height: 7,
-                  borderRadius: "50%",
-                  background: siteOnline ? "#22c55e" : "#ef4444",
-                  flexShrink: 0,
-                  boxShadow: siteOnline ? "0 0 0 2px #bbf7d0" : "0 0 0 2px #fecaca",
-                }}
-              />
+              <span className="site-status-dot" />
               {siteOnline ? "Online" : "Offline"}
             </Link>
 
@@ -298,6 +284,19 @@ export default function AdminShell({
             </div>
           </div>
         </header>
+
+        {/* Offline banner */}
+        {!siteOnline && (
+          <div className="offline-banner">
+            <i className="ph ph-warning offline-banner-icon" />
+            <span className="offline-banner-text">
+              <strong>Website is offline</strong> — visitors are currently seeing the maintenance page.
+            </span>
+            <Link href="/admin/settings" className="offline-banner-link">
+              Manage <i className="ph ph-arrow-right" />
+            </Link>
+          </div>
+        )}
 
         {/* Page content */}
         <main className="admin-content">

@@ -570,6 +570,83 @@ select.input-base {
   .card-body    { padding: 12px; }
 }
 
+/* ─── Site status badge (header) ─── */
+.site-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px 3px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: opacity 0.15s;
+  text-decoration: none;
+  line-height: 1;
+  height: 28px;
+}
+.site-status-badge:hover { opacity: 0.8; }
+.site-status-badge.online {
+  background: #EBF5E0;
+  color: #107E3E;
+  border-color: #c3e6a3;
+}
+.site-status-badge.offline {
+  background: #FFEBEB;
+  color: #AB0000;
+  border-color: #ffc1c1;
+}
+.site-status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.site-status-badge.online .site-status-dot  { background: #107E3E; }
+.site-status-badge.offline .site-status-dot { background: #ef4444; }
+
+/* ─── Offline banner ─── */
+.offline-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 24px;
+  height: 40px;
+  background: #fffbeb;
+  border-bottom: 1px solid #fde68a;
+  flex-shrink: 0;
+  font-size: 13px;
+  color: #92400e;
+}
+.offline-banner-icon {
+  font-size: 16px;
+  color: #d97706;
+  flex-shrink: 0;
+}
+.offline-banner-text { flex: 1; }
+.offline-banner-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  border: 1px solid #fcd34d;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.65);
+  color: #b45309;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: background 0.15s;
+  cursor: pointer;
+}
+.offline-banner-link:hover { background: #ffffff; }
+
+@media (max-width: 640px) {
+  .offline-banner { padding: 0 12px; height: auto; min-height: 40px; flex-wrap: wrap; padding-top: 8px; padding-bottom: 8px; }
+}
+
 /* ─── Global button readability improvements ─── */
 /* btn-secondary: stronger contrast text so it doesn't look disabled */
 .btn-secondary { color: #1f2937; }
