@@ -7,6 +7,12 @@ import { getSiteOnlineStatus } from "@/lib/actions/settings";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
+  title: "AG Legal Admin",
+  description: "Secure Login",
+  openGraph: {
+    title: "AG Legal Admin",
+    description: "Secure Login",
+  },
   icons: {
     icon: [
       { url: "/admin-favicon.svg", type: "image/svg+xml" },
