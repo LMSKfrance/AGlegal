@@ -3,7 +3,7 @@ import Hero from "./Hero";
 import CTA from "../Universal/CTA";
 import { getTeamMembers } from "@/lib/team";
 import { getTeamPageContent } from "@/lib/actions/settings";
-import type { Locale } from "@/lib/db/locale";
+import { pick, type Locale } from "@/lib/db/locale";
 
 const TeamPage = async () => {
   const locale: Locale = "en";
@@ -12,8 +12,8 @@ const TeamPage = async () => {
     getTeamPageContent(),
   ]);
 
-  const title = locale === "ka" ? (pageContent.titleKa || pageContent.titleEn) : pageContent.titleEn;
-  const description = locale === "ka" ? (pageContent.descriptionKa || pageContent.descriptionEn) : pageContent.descriptionEn;
+  const title = pick(locale, pageContent.titleEn, pageContent.titleKa) || pageContent.titleEn;
+  const description = pick(locale, pageContent.descriptionEn, pageContent.descriptionKa) || pageContent.descriptionEn;
 
   return (
     <Layout>
