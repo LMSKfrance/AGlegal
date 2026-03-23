@@ -12,9 +12,12 @@ const TeamPage = async () => {
     getTeamPageContent(),
   ]);
 
+  const title = locale === "ka" ? (pageContent.titleKa || pageContent.titleEn) : pageContent.titleEn;
+  const description = locale === "ka" ? (pageContent.descriptionKa || pageContent.descriptionEn) : pageContent.descriptionEn;
+
   return (
     <Layout>
-      <Hero members={members} title={pageContent.title} description={pageContent.description} />
+      <Hero members={members} title={title} description={description} />
       <CTA />
     </Layout>
   );

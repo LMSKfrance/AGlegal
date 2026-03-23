@@ -29,8 +29,10 @@ export default async function TeamListPage() {
 
       <div className="page-content">
         <TeamPageHeaderForm
-          defaultTitle={pageContent.title}
-          defaultDescription={pageContent.description}
+          titleEn={pageContent.titleEn}
+          titleKa={pageContent.titleKa}
+          descriptionEn={pageContent.descriptionEn}
+          descriptionKa={pageContent.descriptionKa}
         />
 
         <div className="card overflow-hidden">

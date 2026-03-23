@@ -96,14 +96,21 @@ export type EmailSettingsState = { success?: boolean; error?: string };
 
 // ─── Team page header ─────────────────────────────────────────────────────────
 
-export async function getTeamPageContent(): Promise<{ title: string; description: string }> {
-  const [title, description] = await Promise.all([
+export async function getTeamPageContent(): Promise<{
+  titleEn: string; titleKa: string;
+  descriptionEn: string; descriptionKa: string;
+}> {
+  const [titleEn, titleKa, descriptionEn, descriptionKa] = await Promise.all([
     getSetting("team.page_title"),
+    getSetting("team.page_title_ka"),
     getSetting("team.page_description"),
+    getSetting("team.page_description_ka"),
   ]);
   return {
-    title: title ?? "Our team.",
-    description: description ?? "",
+    titleEn: titleEn ?? "Our team.",
+    titleKa: titleKa ?? "",
+    descriptionEn: descriptionEn ?? "",
+    descriptionKa: descriptionKa ?? "",
   };
 }
 
@@ -114,11 +121,15 @@ export async function saveTeamPageContent(
   formData: FormData
 ): Promise<TeamPageContentState> {
   try {
-    const title = (formData.get("teamPageTitle") as string)?.trim() || "Our team.";
-    const description = (formData.get("teamPageDescription") as string)?.trim() || "";
+    const titleEn = (formData.get("teamPageTitleEn") as string)?.trim() || "Our team.";
+    const titleKa = (formData.get("teamPageTitleKa") as string)?.trim() || "";
+    const descriptionEn = (formData.get("teamPageDescriptionEn") as string)?.trim() || "";
+    const descriptionKa = (formData.get("teamPageDescriptionKa") as string)?.trim() || "";
     await Promise.all([
-      upsertSetting("team.page_title", title),
-      upsertSetting("team.page_description", description),
+      upsertSetting("team.page_title", titleEn),
+      upsertSetting("team.page_title_ka", titleKa),
+      upsertSetting("team.page_description", descriptionEn),
+      upsertSetting("team.page_description_ka", descriptionKa),
     ]);
     revalidatePath("/team", "layout");
     revalidatePath("/admin/team");
