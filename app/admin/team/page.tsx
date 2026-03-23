@@ -27,7 +27,7 @@ export default async function TeamListPage() {
         </Link>
       </div>
 
-      <div className="page-content">
+      <div className="page-content space-y-6">
         <TeamPageHeaderForm
           titleEn={pageContent.titleEn}
           titleKa={pageContent.titleKa}
