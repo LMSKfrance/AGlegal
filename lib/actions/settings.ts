@@ -94,6 +94,40 @@ export async function getEmailSettings(): Promise<{ bookingEmail: string; contac
 
 export type EmailSettingsState = { success?: boolean; error?: string };
 
+// ─── Team page header ─────────────────────────────────────────────────────────
+
+export async function getTeamPageContent(): Promise<{ title: string; description: string }> {
+  const [title, description] = await Promise.all([
+    getSetting("team.page_title"),
+    getSetting("team.page_description"),
+  ]);
+  return {
+    title: title ?? "Our team.",
+    description: description ?? "",
+  };
+}
+
+export type TeamPageContentState = { success?: boolean; error?: string };
+
+export async function saveTeamPageContent(
+  _prev: TeamPageContentState,
+  formData: FormData
+): Promise<TeamPageContentState> {
+  try {
+    const title = (formData.get("teamPageTitle") as string)?.trim() || "Our team.";
+    const description = (formData.get("teamPageDescription") as string)?.trim() || "";
+    await Promise.all([
+      upsertSetting("team.page_title", title),
+      upsertSetting("team.page_description", description),
+    ]);
+    revalidatePath("/team", "layout");
+    revalidatePath("/admin/team");
+    return { success: true };
+  } catch {
+    return { error: "Failed to save. Please try again." };
+  }
+}
+
 export async function saveEmailSettings(
   _prev: EmailSettingsState,
   formData: FormData

@@ -10,12 +10,15 @@ import type { TeamMember } from "@/lib/types/team";
 
 type HeroProps = {
   members: TeamMember[];
+  title?: string;
+  description?: string;
 };
 
-const Hero = ({ members }: HeroProps) => {
+const Hero = ({ members, title = "Our team.", description }: HeroProps) => {
 
   const container = React.useRef<HTMLDivElement>(null);
   const titleRef = React.useRef<HTMLHeadingElement>(null);
+  const descRef = React.useRef<HTMLParagraphElement>(null);
   const membersRef = React.useRef<(HTMLDivElement | null)[]>([]);
 
   useGSAP(
@@ -29,6 +32,15 @@ const Hero = ({ members }: HeroProps) => {
         { y: 40, opacity: 0 },
         { y: 0, opacity: 1, duration: 0.45, ease: "power3.out" },
       );
+
+      if (descRef.current) {
+        timeline.fromTo(
+          descRef.current,
+          { y: 20, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.35, ease: "power2.out" },
+          "-=0.2",
+        );
+      }
 
       membersRef.current.forEach((member, index) => {
         if (member) {
@@ -52,9 +64,16 @@ const Hero = ({ members }: HeroProps) => {
   return (
     <section ref={container} className={cn("section", styles.section)}>
       <div className={cn("container", styles.container)}>
-        <h1 ref={titleRef} className={cn("hero-2", styles.title)}>
-          Our team.
-        </h1>
+        <div className={styles.header}>
+          <h1 ref={titleRef} className={cn("hero-2", styles.title)}>
+            {title}
+          </h1>
+          {description && (
+            <p ref={descRef} className={styles.description}>
+              {description}
+            </p>
+          )}
+        </div>
 
         <div className={styles.members}>
           {members.map((member, index) => (

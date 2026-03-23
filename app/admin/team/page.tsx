@@ -1,11 +1,16 @@
 import Link from "next/link";
 import { getTeamList } from "@/lib/actions/team";
+import { getTeamPageContent } from "@/lib/actions/settings";
 import { TeamListTable } from "./TeamListTable";
+import TeamPageHeaderForm from "./TeamPageHeaderForm";
 
 export const dynamic = "force-dynamic";
 
 export default async function TeamListPage() {
-  const members = await getTeamList();
+  const [members, pageContent] = await Promise.all([
+    getTeamList(),
+    getTeamPageContent(),
+  ]);
 
   return (
     <>
@@ -20,6 +25,11 @@ export default async function TeamListPage() {
       </div>
 
       <div className="page-content">
+        <TeamPageHeaderForm
+          defaultTitle={pageContent.title}
+          defaultDescription={pageContent.description}
+        />
+
         <div className="card overflow-hidden">
           {members.length === 0 ? (
             <div className="text-center text-brand-400 py-12">
