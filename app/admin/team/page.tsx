@@ -1,15 +1,18 @@
 import Link from "next/link";
 import { getTeamList } from "@/lib/actions/team";
 import { getTeamPageContent } from "@/lib/actions/settings";
+import { getPageBySlug, upsertTeamPageSeo } from "@/lib/actions/pages";
 import { TeamListTable } from "./TeamListTable";
 import TeamPageHeaderForm from "./TeamPageHeaderForm";
+import TeamSeoForm from "./TeamSeoForm";
 
 export const dynamic = "force-dynamic";
 
 export default async function TeamListPage() {
-  const [members, pageContent] = await Promise.all([
+  const [members, pageContent, seoPage] = await Promise.all([
     getTeamList(),
     getTeamPageContent(),
+    getPageBySlug("team"),
   ]);
 
   return (
@@ -44,6 +47,8 @@ export default async function TeamListPage() {
             </div>
           )}
         </div>
+
+        <TeamSeoForm page={seoPage} saveAction={upsertTeamPageSeo} />
       </div>
     </>
   );
