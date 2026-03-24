@@ -671,7 +671,7 @@ const ui = {
   header: {
     contact: "დაგვიკავშირდით",
     menu: "მენიუ",
-    followUs: "გაგვიყოლეთ",
+    followUs: "გამოგვყევით",
   },
   footer: {
     download: "პრეზენტაციის ჩამოტვირთვა",
