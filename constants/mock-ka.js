@@ -8,7 +8,6 @@ const nav_links = [
   { id: 1, title: "მთავარი", url: "/" },
   { id: 2, title: "ჩვენს შესახებ", url: "/about" },
   { id: 3, title: "მომსახურება", url: "/services" },
-  { id: 4, title: "ჯავშნის გაკეთება", url: "/appointment" },
   { id: 5, title: "გუნდი", url: "/team" },
   { id: 6, title: "ბლოგი", url: "/news" },
   { id: 7, title: "კონტაქტი", url: "/contact" },

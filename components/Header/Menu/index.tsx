@@ -47,8 +47,6 @@ const Menu = ({ menuOpen, handleMenu }: MenuProps) => {
         {icons.Close}
       </button>
 
-      <p className={styles.menu_title}>{t.ui.header.menu}</p>
-
       <nav className={styles.nav_links} aria-label="Main navigation">
         {nav_links.map((link) => (
           <Link

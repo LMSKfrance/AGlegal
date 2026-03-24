@@ -17,11 +17,6 @@ const nav_links = [
     url: "/services",
   },
   {
-    id: 4,
-    title: "Book appointment",
-    url: "/appointment",
-  },
-  {
     id: 5,
     title: "Team",
     url: "/team",
