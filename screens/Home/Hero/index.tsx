@@ -36,7 +36,7 @@ const Hero = () => {
           .split("")
           .map(
             (char, i, arr) =>
-              `<span${i < bluePrefix.length || (char === "." && i === arr.length - 1) ? ` class="${styles.blue}"` : ""}>${char}</span>`,
+              `<span${i < bluePrefix.length ? ` class="${styles.blue}"` : ""}>${char}</span>`,
           )
           .join("");
         if (title.current && chars) {
@@ -135,7 +135,7 @@ const Hero = () => {
                 {line}
               </React.Fragment>
             ))}
-            <span className={styles.blue}>.</span>
+            <span>.</span>
           </h1>
 
           <div ref={divider} className={styles.divider} />
