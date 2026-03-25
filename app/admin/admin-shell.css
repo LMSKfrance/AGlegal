@@ -746,10 +746,11 @@ select.input-base {
   min-height: 160px;
   outline: none;
   font-size: 13px;
-  line-height: 1.65;
+  line-height: 1.5;
   color: #111827;
 }
-.rte-content p { margin: 0 0 10px 0; }
+.rte-content p { margin: 0; }
+.rte-content p + p { margin-top: 0.6em; }
 .rte-content p:last-child { margin-bottom: 0; }
 .rte-content strong { font-weight: 700; }
 .rte-content em { font-style: italic; }
