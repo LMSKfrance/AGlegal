@@ -49,7 +49,7 @@ export default function RichTextEditor({ name, defaultValue, placeholder }: Prop
     if (!editor) return;
     const url = linkUrl.trim();
     if (url) {
-      editor.chain().focus().extendMarkToWordIfUnselected().setLink({ href: url }).run();
+      editor.chain().focus().setLink({ href: url }).run();
     } else {
       editor.chain().focus().unsetLink().run();
     }
