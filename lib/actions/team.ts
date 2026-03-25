@@ -239,6 +239,16 @@ export async function togglePublishTeamMember(id: number, publish: boolean): Pro
   }
 }
 
+export async function toggleShowOnAboutMember(id: number, show: boolean): Promise<void> {
+  try {
+    await db.update(teamMembers).set({ showOnAbout: show ? 1 : 0 }).where(eq(teamMembers.id, id));
+    revalidatePath("/admin/about");
+    revalidatePath("/about", "layout");
+  } catch (err) {
+    console.error("[toggleShowOnAboutMember]", err);
+  }
+}
+
 export async function reorderTeamMembers(orderedIds: number[]): Promise<void> {
   try {
     await Promise.all(
