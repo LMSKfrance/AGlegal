@@ -162,7 +162,7 @@ async function seedContact() {
   if (existing.length) {
     await db.update(schema.contactSettings).set(contactFields).where(eq(schema.contactSettings.id, existing[0].id));
   } else {
-    await db.insert(schema.contactSettings).values({ ...contactFields, createdAt: now });
+    await db.insert(schema.contactSettings).values(contactFields);
   }
   console.log("  ✓ contactSettings updated");
 }
