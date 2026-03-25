@@ -5,6 +5,7 @@ import { useActionState, useState, useRef, useEffect } from "react";
 import { useAdminLang } from "../AdminLangContext";
 import type { TeamFormState } from "@/lib/actions/team";
 import OgImageUpload from "../OgImageUpload";
+import RichTextEditor from "../components/RichTextEditor";
 
 type Social = { platform: string; link: string };
 
@@ -195,37 +196,31 @@ export default function TeamForm({ action, member }: Props) {
 
         <div className="space-y-6 border-t border-brand-200 pt-8">
           <div>
-            <label className="label-base">Description (Short bio) {lang === "en" ? "(En)" : "(ქარ)"}</label>
+            <label className="label-base">Bio {lang === "en" ? "(En)" : "(ქარ)"}</label>
+            <p className="text-[11px] text-brand-400 mb-2">Paragraphs, <strong>bold</strong>, <em>italic</em> and links are supported.</p>
             {lang === "en" ? (
-              <textarea name="descriptionEn" className="input-base" rows={3} placeholder="Brief professional summary..." defaultValue={member?.descriptionEn ?? ""} />
+              <RichTextEditor
+                key={`bio-en-${member?.id ?? "new"}`}
+                name="text1En"
+                defaultValue={member?.text1En ?? ""}
+                placeholder="Write biography… use Enter for a new paragraph, Shift+Enter for a line break."
+              />
             ) : (
-              <textarea name="descriptionKa" className="input-base" rows={3} placeholder="Brief professional summary (Georgian)..." defaultValue={member?.descriptionKa ?? ""} />
+              <RichTextEditor
+                key={`bio-ka-${member?.id ?? "new"}`}
+                name="text1Ka"
+                defaultValue={member?.text1Ka ?? ""}
+                placeholder="Biography (Georgian)…"
+              />
             )}
           </div>
-          <div>
-            <label className="label-base">Personal Quote {lang === "en" ? "(En)" : "(ქარ)"}</label>
-            {lang === "en" ? (
-              <textarea name="quoteEn" className="input-base italic" rows={2} placeholder='"Quote..."' defaultValue={member?.quoteEn ?? ""} />
-            ) : (
-              <textarea name="quoteKa" className="input-base italic" rows={2} placeholder='"Quote (Georgian)..."' defaultValue={member?.quoteKa ?? ""} />
-            )}
-          </div>
-          <div>
-            <label className="label-base">Detailed Bio (Text 1) {lang === "en" ? "(En)" : "(ქარ)"}</label>
-            {lang === "en" ? (
-              <textarea name="text1En" className="input-base min-h-[150px]" placeholder="Extended biography..." defaultValue={member?.text1En ?? ""} />
-            ) : (
-              <textarea name="text1Ka" className="input-base min-h-[150px]" placeholder="Extended biography (Georgian)..." defaultValue={member?.text1Ka ?? ""} />
-            )}
-          </div>
-          <div>
-            <label className="label-base">Additional Info (Text 2) {lang === "en" ? "(En)" : "(ქარ)"}</label>
-            {lang === "en" ? (
-              <textarea name="text2En" className="input-base min-h-[100px]" placeholder="Education, admissions..." defaultValue={member?.text2En ?? ""} />
-            ) : (
-              <textarea name="text2Ka" className="input-base min-h-[100px]" placeholder="Education, admissions (Georgian)..." defaultValue={member?.text2Ka ?? ""} />
-            )}
-          </div>
+          {/* Keep hidden inputs so the server action receives all expected fields */}
+          <input type="hidden" name="descriptionEn" value={member?.descriptionEn ?? ""} />
+          <input type="hidden" name="descriptionKa" value={member?.descriptionKa ?? ""} />
+          <input type="hidden" name="quoteEn" value={member?.quoteEn ?? ""} />
+          <input type="hidden" name="quoteKa" value={member?.quoteKa ?? ""} />
+          <input type="hidden" name="text2En" value={member?.text2En ?? ""} />
+          <input type="hidden" name="text2Ka" value={member?.text2Ka ?? ""} />
         </div>
 
         <div className="space-y-5 border-t border-brand-200 pt-8 bg-brand-50 -mx-8 px-8 py-8 rounded-b-xl">

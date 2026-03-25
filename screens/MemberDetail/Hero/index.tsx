@@ -103,12 +103,12 @@ const Hero = ({ member, otherMembers }: HeroProps) => {
 
               {/* Bio text inside card */}
               <div ref={bioRef} className={styles.bio_block}>
-                <p className={cn("paragraph-medium", styles.bio_text)}>
-                  {member.text1}
-                </p>
-                <p className={cn("paragraph-medium", styles.bio_text)}>
-                  {member.text2}
-                </p>
+                {member.text1 ? (
+                  <div
+                    className={cn("paragraph-medium", styles.bio_text, styles.bio_html)}
+                    dangerouslySetInnerHTML={{ __html: member.text1 }}
+                  />
+                ) : null}
               </div>
             </div>
           </div>

@@ -103,6 +103,29 @@
   color: var(--gray-500);
 }
 
+/* Rich HTML bio content rendered from TipTap */
+.bio_html p {
+  margin: 0 0 1em 0;
+}
+.bio_html p:last-child {
+  margin-bottom: 0;
+}
+.bio_html strong {
+  font-weight: 700;
+  color: var(--gray-800);
+}
+.bio_html em {
+  font-style: italic;
+}
+.bio_html a {
+  color: var(--ag-blue-800);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.bio_html a:hover {
+  color: var(--ag-blue-600);
+}
+
 /* ─── Explore team section ────────────────────────────── */
 
 .team_section {
