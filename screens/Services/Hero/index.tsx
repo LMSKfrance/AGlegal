@@ -101,28 +101,32 @@ const Hero = ({ services, page }: HeroProps) => {
 
         {services.length > 0 && (
           <div ref={gridRef} className={styles.grid}>
-            {[0, 1, 2].map((colIndex) => (
-              <div key={colIndex} className={styles.column}>
-                {services.map((service) =>
-                  service.clickable ? (
-                    <Link
-                      key={`${colIndex}-${service.id}`}
-                      href={`/services/${service.slug}`}
-                      className={styles.service_item}
-                    >
-                      {service.title}
-                    </Link>
-                  ) : (
-                    <span
-                      key={`${colIndex}-${service.id}`}
-                      className={`${styles.service_item} ${styles.service_item_static}`}
-                    >
-                      {service.title}
-                    </span>
-                  )
-                )}
-              </div>
-            ))}
+            {[0, 1, 2].map((colIndex) => {
+              const perCol = Math.ceil(services.length / 3);
+              const colServices = services.slice(colIndex * perCol, (colIndex + 1) * perCol);
+              return (
+                <div key={colIndex} className={styles.column}>
+                  {colServices.map((service) =>
+                    service.clickable ? (
+                      <Link
+                        key={service.id}
+                        href={`/services/${service.slug}`}
+                        className={styles.service_item}
+                      >
+                        {service.title}
+                      </Link>
+                    ) : (
+                      <span
+                        key={service.id}
+                        className={`${styles.service_item} ${styles.service_item_static}`}
+                      >
+                        {service.title}
+                      </span>
+                    )
+                  )}
+                </div>
+              );
+            })}
           </div>
         )}
       </div>
