@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useTransition } from "react";
+import { useActionState, useTransition, useState } from "react";
 import { saveTeamPageContent, type TeamPageContentState } from "@/lib/actions/settings";
 import { useAdminLang } from "../AdminLangContext";
 
@@ -9,13 +9,15 @@ interface Props {
   titleKa: string;
   descriptionEn: string;
   descriptionKa: string;
+  showHeader: boolean;
 }
 
 const initial: TeamPageContentState = {};
 
-export default function TeamPageHeaderForm({ titleEn, titleKa, descriptionEn, descriptionKa }: Props) {
+export default function TeamPageHeaderForm({ titleEn, titleKa, descriptionEn, descriptionKa, showHeader }: Props) {
   const [state, formAction] = useActionState(saveTeamPageContent, initial);
   const [pending, startTransition] = useTransition();
+  const [headerVisible, setHeaderVisible] = useState(showHeader);
   const lang = useAdminLang();
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -56,8 +58,30 @@ export default function TeamPageHeaderForm({ titleEn, titleKa, descriptionEn, de
           {/* Always submit both languages */}
           <input type="hidden" name={lang === "en" ? "teamPageTitleKa" : "teamPageTitleEn"} value={lang === "en" ? titleKa : titleEn} />
           <input type="hidden" name={lang === "en" ? "teamPageDescriptionKa" : "teamPageDescriptionEn"} value={lang === "en" ? descriptionKa : descriptionEn} />
+          <input type="hidden" name="teamShowHeader" value={headerVisible ? "1" : "0"} />
 
-          <div>
+          {/* Section visibility toggle */}
+          <div className="flex items-center justify-between py-2 px-3 rounded-lg bg-brand-50 border border-brand-100">
+            <div className="flex items-center gap-2">
+              <i className={`ph ${headerVisible ? "ph-eye" : "ph-eye-slash"} text-[16px] text-brand-400`} />
+              <span className="text-[13px] font-medium text-brand-700">Show section header on team page</span>
+            </div>
+            <button
+              type="button"
+              role="switch"
+              aria-checked={headerVisible}
+              onClick={() => setHeaderVisible((v) => !v)}
+              className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors ${
+                headerVisible ? "bg-primary-600" : "bg-brand-200"
+              }`}
+            >
+              <span className={`pointer-events-none inline-block h-4 w-4 rounded-full bg-white shadow transition-transform ${
+                headerVisible ? "translate-x-4" : "translate-x-0"
+              }`} />
+            </button>
+          </div>
+
+          <div className={headerVisible ? "" : "opacity-40 pointer-events-none"}>
             <label className="label-base">Heading {L}</label>
             <input
               type="text"
@@ -68,7 +92,7 @@ export default function TeamPageHeaderForm({ titleEn, titleKa, descriptionEn, de
               key={`title-${lang}`}
             />
           </div>
-          <div>
+          <div className={headerVisible ? "" : "opacity-40 pointer-events-none"}>
             <label className="label-base">Description {L}</label>
             <textarea
               name={lang === "en" ? "teamPageDescriptionEn" : "teamPageDescriptionKa"}

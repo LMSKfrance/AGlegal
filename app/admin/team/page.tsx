@@ -33,6 +33,7 @@ export default async function TeamListPage() {
           titleKa={pageContent.titleKa}
           descriptionEn={pageContent.descriptionEn}
           descriptionKa={pageContent.descriptionKa}
+          showHeader={pageContent.showHeader}
         />
 
         <div className="card overflow-hidden">

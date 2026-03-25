@@ -12,9 +12,10 @@ type HeroProps = {
   members: TeamMember[];
   title?: string;
   description?: string;
+  showHeader?: boolean;
 };
 
-const Hero = ({ members, title = "Our team.", description }: HeroProps) => {
+const Hero = ({ members, title = "Our team.", description, showHeader = true }: HeroProps) => {
 
   const container = React.useRef<HTMLDivElement>(null);
   const titleRef = React.useRef<HTMLHeadingElement>(null);
@@ -64,16 +65,18 @@ const Hero = ({ members, title = "Our team.", description }: HeroProps) => {
   return (
     <section ref={container} className={cn("section", styles.section)}>
       <div className={cn("container", styles.container)}>
-        <div className={styles.header}>
-          <h1 ref={titleRef} className={cn("hero-2", styles.title)}>
-            {title}
-          </h1>
-          {description && (
-            <p ref={descRef} className={styles.description}>
-              {description}
-            </p>
-          )}
-        </div>
+        {showHeader && (
+          <div className={styles.header}>
+            <h1 ref={titleRef} className={cn("hero-2", styles.title)}>
+              {title}
+            </h1>
+            {description && (
+              <p ref={descRef} className={styles.description}>
+                {description}
+              </p>
+            )}
+          </div>
+        )}
 
         <div className={styles.members}>
           {members.map((member, index) => (
