@@ -1,6 +1,6 @@
 import { inArray } from "drizzle-orm";
 import { getPageBySlug } from "@/lib/actions/pages";
-import { getAboutTeamMembers } from "@/lib/team";
+import { getAboutTeamMembers, getTeamMembers } from "@/lib/team";
 import type { Locale } from "@/lib/db/locale";
 import { db } from "@/lib/db";
 import { siteSettings } from "@/lib/db/schema";
@@ -156,11 +156,13 @@ export async function getAboutSectionSettings(): Promise<AboutSectionSettings> {
 
 export async function getAboutContent(locale: Locale = "en") {
   try {
-    const [page, sections, teamMembers] = await Promise.all([
+    const [page, sections, aboutMembers] = await Promise.all([
       getPageBySlug("about"),
       getAboutSectionSettings(),
       getAboutTeamMembers(locale),
     ]);
+    // Fall back to all published team members when none are marked for the About page
+    const teamMembers = aboutMembers.length > 0 ? aboutMembers : await getTeamMembers(locale);
     return { page, sections, teamMembers };
   } catch (err) {
     console.error("[getAboutContent]", err);

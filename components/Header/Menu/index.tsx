@@ -7,14 +7,16 @@ import icons from "@/constants/icons";
 import Link from "next/link";
 import { useLanguage } from "@/contexts/LanguageContext";
 
+type NavLink = { id: number; title: string; url: string };
+
 type MenuProps = {
   menuOpen: boolean;
   handleMenu: () => void;
+  visibleNavLinks: NavLink[];
 };
 
-const Menu = ({ menuOpen, handleMenu }: MenuProps) => {
+const Menu = ({ menuOpen, handleMenu, visibleNavLinks }: MenuProps) => {
   const { t } = useLanguage();
-  const { nav_links } = t;
   const closeButtonRef = useRef<HTMLButtonElement>(null);
 
   /* Body scroll lock when menu open (Figma 8329-3603) */
@@ -47,10 +49,8 @@ const Menu = ({ menuOpen, handleMenu }: MenuProps) => {
         {icons.Close}
       </button>
 
-      <p className={styles.menu_title}>{t.ui.header.menu}</p>
-
       <nav className={styles.nav_links} aria-label="Main navigation">
-        {nav_links.map((link) => (
+        {visibleNavLinks.map((link) => (
           <Link
             key={link.id}
             href={link.url}

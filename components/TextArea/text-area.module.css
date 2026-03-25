@@ -32,3 +32,18 @@
     outline: none;
     border-color: var(--success-800);
 }
+
+.textarea_error {
+    border-color: var(--danger-500) !important;
+    background-color: var(--red-50) !important;
+}
+
+.textarea_error:focus {
+    border-color: var(--danger-600) !important;
+}
+
+.error_message {
+    font-size: 11px;
+    color: var(--danger-600);
+    margin-top: -4px;
+}

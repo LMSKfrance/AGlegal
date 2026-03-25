@@ -12,49 +12,49 @@
 }
 
 .hero {
-    font-size: 96px;
+    font-size: 74px;
     line-height: auto;
     letter-spacing: -2%;
 }
 
 .hero-2 {
-    font-size: 72px;
+    font-size: 55px;
     line-height: auto;
     letter-spacing: -2%;
 }
 
 .heading-1 {
-    font-size: 64px;
+    font-size: 49px;
     line-height: 72px;
     letter-spacing: -0.96px;
 }
 
 .heading-2 {
-    font-size: 56px;
+    font-size: 43px;
     line-height: 64px;
     letter-spacing: -0.8px;
 }
 
 .heading-3 {
-    font-size: 48px;
+    font-size: 37px;
     line-height: 56px;
     letter-spacing: -0.64px;
 }
 
 .heading-4 {
-    font-size: 40px;
+    font-size: 31px;
     line-height: 52px;
     letter-spacing: -0.54px;
 }
 
 .heading-5 {
-    font-size: 32px;
+    font-size: 24px;
     line-height: 40px;
     letter-spacing: -0.48px;
 }
 
 .heading-6 {
-    font-size: 24px;
+    font-size: 18px;
     line-height: 32px;
     letter-spacing: -0.1px;
 }

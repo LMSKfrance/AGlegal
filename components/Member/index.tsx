@@ -6,24 +6,34 @@ import Link from "next/link";
 import type { TeamMember } from "@/lib/types/team";
 
 type MemberProps = {
-  member: Pick<TeamMember, "slug" | "title" | "position" | "description" | "image" | "socials">;
+  member: Pick<TeamMember, "slug" | "title" | "position" | "description" | "image" | "imagePosition" | "socials">;
 };
 
 const Member = ({ member }: MemberProps) => {
   const content = (
     <>
       <div className={styles.member_image}>
-        <Image
-          src={member.image}
-          alt={member.title}
-          fill
-          sizes="(max-width: 768px) 100vw, 50vw"
-          style={{ objectFit: "cover" }}
-        />
+        {member.image ? (
+          <Image
+            src={member.image}
+            alt={member.title}
+            fill
+            sizes="(max-width: 768px) 100vw, 50vw"
+            style={{ objectFit: "cover", objectPosition: member.imagePosition === "bottom" ? "bottom center" : member.imagePosition === "center" ? "center" : "top center" }}
+          />
+        ) : (
+          <Image
+            src="/avatar-placeholder.svg"
+            alt={member.title}
+            fill
+            sizes="(max-width: 768px) 100vw, 50vw"
+            style={{ objectFit: "cover" }}
+          />
+        )}
       </div>
 
       <div className={styles.member_content}>
-        <h6 className={cn("paragraph-x-large", styles.member_name)}>
+        <h6 className={cn("heading-6", styles.member_name)}>
           {member.title}
         </h6>
         <p className={cn("paragraph-medium", styles.member_position)}>

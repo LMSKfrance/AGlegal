@@ -14,10 +14,11 @@
   border-color: var(--ag-blue-800);
 }
 
+
 .member_image {
   position: relative;
   width: 100%;
-  height: 341px;
+  aspect-ratio: 1 / 1;
   border-radius: 12px;
   overflow: hidden;
 }
@@ -71,22 +72,11 @@
   fill: var(--ag-blue-800);
 }
 
-@media (max-width: 768px) {
-  .member_image {
-    height: 300px;
-  }
-}
-
 @media (max-width: 480px) {
   .member {
     padding: 0;
     border: none;
     border-radius: 0;
-  }
-
-  .member_image {
-    height: 260px;
-    border-radius: 12px;
   }
 
   .member_content {

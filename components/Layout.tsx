@@ -3,8 +3,8 @@
 import React from "react";
 import Header from "./Header";
 import Lenis from "lenis";
-import { gsap } from "gsap/dist/gsap";
-import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import Footer from "./Footer";
 

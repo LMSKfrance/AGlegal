@@ -89,7 +89,7 @@ export default async function DashboardPage() {
                 </div>
               </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
                 {/* Translations */}
                 {totalTranslationCount > 0 && (
                   <Link href="/admin/notifications" className="flex items-center gap-4 p-5 bg-[#FFF8D6] rounded-lg border border-[#F0AB00] hover:brightness-95 transition-all">

@@ -7,10 +7,13 @@ import Logo from "../Logo";
 import Menu from "./Menu";
 import Link from "next/link";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useNavVisibility } from "@/contexts/NavVisibilityContext";
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = React.useState(false);
   const { locale, setLocale, t } = useLanguage();
+  const { hiddenNavIds } = useNavVisibility();
+  const visibleNavLinks = t.nav_links.filter((l) => !hiddenNavIds.includes(l.id));
 
   const handleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -20,6 +23,14 @@ const Header = () => {
     <header className={styles.header}>
       <div className={cn("container", styles.container)}>
         <Logo iconOnly />
+
+        <nav className={styles.inline_nav} aria-label="Main navigation">
+          {visibleNavLinks.map((link) => (
+            <Link key={link.id} href={link.url} className={styles.inline_nav_link}>
+              {link.title}
+            </Link>
+          ))}
+        </nav>
 
         <div className={styles.btn_wrapper}>
           <button
@@ -55,7 +66,7 @@ const Header = () => {
           className={cn(styles.overlay, { [styles.overlay_active]: menuOpen })}
         />
 
-        <Menu menuOpen={menuOpen} handleMenu={handleMenu} />
+        <Menu menuOpen={menuOpen} handleMenu={handleMenu} visibleNavLinks={visibleNavLinks} />
       </div>
     </header>
   );

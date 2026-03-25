@@ -6,28 +6,33 @@ import { LogoMini } from "@/design-system";
 import Link from "next/link";
 import icons from "@/constants/icons";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useEffect, useState } from "react";
+
+type PresentationMeta = { filename: string; sizeLabel: string } | null;
 
 const Footer = () => {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const { footer_nav_links, footer_social_links } = t;
+
+  const [presEn, setPresEn] = useState<PresentationMeta>(null);
+  const [presKa, setPresKa] = useState<PresentationMeta>(null);
+
+  useEffect(() => {
+    fetch("/api/presentation-meta")
+      .then((r) => r.json())
+      .then((data) => {
+        setPresEn(data.en ?? null);
+        setPresKa(data.ka ?? null);
+      })
+      .catch(() => {});
+  }, []);
+
+  const currentPres = locale === "ka" ? presKa : presEn;
+  const downloadHref = `/api/presentation/${locale}`;
 
   return (
     <footer className={cn("section", styles.footer)}>
       <div className={cn("container", styles.container)}>
-        {/* <div className={styles.newsletter_wrapper}>
-          <h2 className={styles.newsletter_title}>
-            Subscribe to our newsletter
-          </h2>
-          <div className={styles.input_wrapper}>
-            <TextField placeholder="Your email" />
-            <button type="button" className={styles.newsletter_button}>
-              GET STARTED
-            </button>
-          </div>
-        </div>
-
-        <div className={styles.divider} /> */}
-
         <div className={styles.footer_wrapper}>
           <LogoMini className={styles.footer_logo} />
 
@@ -52,17 +57,24 @@ const Footer = () => {
                 </a>
               ))}
             </div>
-            <button type="button" className={styles.download_button}>
-              <span className={styles.download_circle}>
-                {icons.DownloadArrow}
-              </span>
-              <span className={styles.download_text_wrapper}>
-                <span className={styles.download_text}>
-                  {t.ui.footer.download}
+
+            {currentPres && (
+              <a
+                href={downloadHref}
+                download
+                className={styles.download_button}
+              >
+                <span className={styles.download_circle}>
+                  {icons.DownloadArrow}
                 </span>
-                <span className={styles.size_text}>{t.ui.footer.size}</span>
-              </span>
-            </button>
+                <span className={styles.download_text_wrapper}>
+                  <span className={styles.download_text}>
+                    {t.ui.footer.download}
+                  </span>
+                  <span className={styles.size_text}>{currentPres.sizeLabel}</span>
+                </span>
+              </a>
+            )}
           </div>
         </div>
 

@@ -53,14 +53,11 @@ export async function upsertAboutSectionSettings(
   formData: FormData
 ): Promise<{ success?: boolean; error?: string }> {
   try {
+    // Only numbers and features — mission/philosophy have their own combined actions
     const pairs: [string, string, string][] = [
       ["about.numbers.title", "numbersTitleEn", "numbersTitleKa"],
       ["about.numbers.description", "numbersDescriptionEn", "numbersDescriptionKa"],
-      ["about.mission.title", "missionTitleEn", "missionTitleKa"],
-      ["about.mission.description", "missionDescriptionEn", "missionDescriptionKa"],
       ["about.features.title", "featuresTitleEn", "featuresTitleKa"],
-      ["about.philosophy.title", "philosophyTitleEn", "philosophyTitleKa"],
-      ["about.philosophy.description", "philosophyDescriptionEn", "philosophyDescriptionKa"],
     ];
     for (const [key, en, ka] of pairs) {
       await upsertSetting(
@@ -73,6 +70,91 @@ export async function upsertAboutSectionSettings(
     return { success: true };
   } catch (err) {
     console.error("[upsertAboutSectionSettings]", err);
+    return { error: "Failed to save. Please try again." };
+  }
+}
+
+export async function upsertAboutMissionSection(
+  _prev: { success?: boolean; error?: string },
+  formData: FormData
+): Promise<{ success?: boolean; error?: string }> {
+  try {
+    await upsertSetting(
+      "about.mission.title",
+      (formData.get("missionTitleEn") as string)?.trim() || null,
+      (formData.get("missionTitleKa") as string)?.trim() || null
+    );
+    await upsertSetting(
+      "about.mission.description",
+      (formData.get("missionDescriptionEn") as string)?.trim() || null,
+      (formData.get("missionDescriptionKa") as string)?.trim() || null
+    );
+    const { uploadImage } = await import("@/lib/actions/upload");
+    const tabs = [
+      { formKey: "tab1Image", settingKey: "about.mission.tab1.image" },
+      { formKey: "tab2Image", settingKey: "about.mission.tab2.image" },
+      { formKey: "tab3Image", settingKey: "about.mission.tab3.image" },
+    ];
+    for (const { formKey, settingKey } of tabs) {
+      const file = formData.get(formKey);
+      const remove = formData.get(`remove_${formKey}`) === "1";
+      if (remove) {
+        await upsertSetting(settingKey, null, null);
+      } else if (file && file instanceof File && file.size > 0) {
+        const fd = new FormData();
+        fd.append("image", file);
+        const result = await uploadImage(fd);
+        if (result.success) await upsertSetting(settingKey, result.path, null);
+      }
+    }
+    revalidatePath("/about");
+    revalidatePath("/admin/about");
+    await logSave("About", "Mission section", "updated");
+    return { success: true };
+  } catch (err) {
+    console.error("[upsertAboutMissionSection]", err);
+    return { error: "Failed to save. Please try again." };
+  }
+}
+
+export async function upsertAboutPhilosophySection(
+  _prev: { success?: boolean; error?: string },
+  formData: FormData
+): Promise<{ success?: boolean; error?: string }> {
+  try {
+    await upsertSetting(
+      "about.philosophy.title",
+      (formData.get("philosophyTitleEn") as string)?.trim() || null,
+      (formData.get("philosophyTitleKa") as string)?.trim() || null
+    );
+    await upsertSetting(
+      "about.philosophy.description",
+      (formData.get("philosophyDescriptionEn") as string)?.trim() || null,
+      (formData.get("philosophyDescriptionKa") as string)?.trim() || null
+    );
+    const { uploadImage } = await import("@/lib/actions/upload");
+    const cards = [
+      { formKey: "card1Image", settingKey: "about.philosophy.card1.image" },
+      { formKey: "card2Image", settingKey: "about.philosophy.card2.image" },
+    ];
+    for (const { formKey, settingKey } of cards) {
+      const file = formData.get(formKey);
+      const remove = formData.get(`remove_${formKey}`) === "1";
+      if (remove) {
+        await upsertSetting(settingKey, null, null);
+      } else if (file && file instanceof File && file.size > 0) {
+        const fd = new FormData();
+        fd.append("image", file);
+        const result = await uploadImage(fd);
+        if (result.success) await upsertSetting(settingKey, result.path, null);
+      }
+    }
+    revalidatePath("/about");
+    revalidatePath("/admin/about");
+    await logSave("About", "Philosophy section", "updated");
+    return { success: true };
+  } catch (err) {
+    console.error("[upsertAboutPhilosophySection]", err);
     return { error: "Failed to save. Please try again." };
   }
 }

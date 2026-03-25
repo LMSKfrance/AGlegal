@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useRef, useState } from "react";
+import { useActionState, useEffect, useRef, useState } from "react";
 import { useAdminLang } from "../AdminLangContext";
 import OgImageUpload from "../OgImageUpload";
 import type { ContactFormState, ContactSeoFormState } from "@/lib/actions/contact";
@@ -53,10 +53,25 @@ export default function ContactForm({ contact, saveAction, seoPage, saveSeoActio
   const [state, formAction, pending] = useActionState(saveAction, INITIAL_CONTACT);
   const [seoState, seoFormAction, seoPending] = useActionState(saveSeoAction, INITIAL_SEO);
   const [hasSaved, setHasSaved] = useState(false);
+  const [saveKey, setSaveKey] = useState(0);
+  const prevPendingRef = useRef(false);
+  const prevSeoPendingRef = useRef(false);
   const lang = useAdminLang();
   const contactFormRef = useRef<HTMLFormElement>(null);
 
   if (state.success && !hasSaved) setHasSaved(true);
+
+  useEffect(() => {
+    if (!pending && prevPendingRef.current && !state.error) setSaveKey((k) => k + 1);
+    prevPendingRef.current = pending;
+  }, [pending, state.error]);
+
+  useEffect(() => {
+    if (!seoPending && prevSeoPendingRef.current && !seoState.error) setSaveKey((k) => k + 1);
+    prevSeoPendingRef.current = seoPending;
+  }, [seoPending, seoState.error]);
+
+  const formKey = `${lang}-${saveKey}`;
 
   const sp = seoPage ?? {
     titleEn: "Contact", titleKa: null, contentEn: null, contentKa: null,
@@ -87,7 +102,7 @@ export default function ContactForm({ contact, saveAction, seoPage, saveSeoActio
                 <i className="ph ph-envelope text-primary-600" /> Contact Details
               </h2>
             </div>
-            <div className="card-body space-y-8">
+            <div key={formKey} className="card-body space-y-8">
               {state.error && (
                 <div className="p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700">{state.error}</div>
               )}
@@ -202,7 +217,7 @@ export default function ContactForm({ contact, saveAction, seoPage, saveSeoActio
                 </button>
               </div>
             </div>
-            <div className="card-body space-y-5">
+            <div key={formKey} className="card-body space-y-5">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div>
                   <label className="label-base">SEO Title {L}</label>

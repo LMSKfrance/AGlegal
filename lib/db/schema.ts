@@ -15,6 +15,7 @@ export const articles = sqliteTable("articles", {
   time: text("time"),
   tags: text("tags", { mode: "json" }).$type<string[]>(),
   type: text("type"),
+  published: integer("published").default(1),
   sortOrder: integer("sort_order").default(0),
   // SEO / Open Graph
   metaDescriptionEn: text("meta_description_en"),
@@ -56,6 +57,7 @@ export const services = sqliteTable("services", {
   homeCardImage: text("home_card_image"),
   // Clickable from the services listing page
   clickable: integer("clickable").default(1),
+  published: integer("published").default(1),
   // SEO / Open Graph
   metaDescriptionEn: text("meta_description_en"),
   metaDescriptionKa: text("meta_description_ka"),
@@ -87,6 +89,8 @@ export const teamMembers = sqliteTable("team_members", {
   text2En: text("text2_en"),
   text2Ka: text("text2_ka"),
   image: text("image"),
+  imagePosition: text("image_position").default("top"),
+  published: integer("published").default(1),
   sortOrder: integer("sort_order").default(0),
   showOnHome: integer("show_on_home").default(0),
   homeOrder: integer("home_order").default(0),

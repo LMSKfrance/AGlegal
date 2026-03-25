@@ -36,3 +36,14 @@
 .option {
     font-weight: 500;
 }
+
+.select_error {
+    border-color: var(--danger-500) !important;
+    background-color: var(--red-50) !important;
+}
+
+.error_message {
+    font-size: 11px;
+    color: var(--danger-600);
+    margin-top: -4px;
+}

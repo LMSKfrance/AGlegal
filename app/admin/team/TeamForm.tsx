@@ -5,6 +5,7 @@ import { useActionState, useState, useRef, useEffect } from "react";
 import { useAdminLang } from "../AdminLangContext";
 import type { TeamFormState } from "@/lib/actions/team";
 import OgImageUpload from "../OgImageUpload";
+import RichTextEditor from "../components/RichTextEditor";
 
 type Social = { platform: string; link: string };
 
@@ -24,6 +25,8 @@ type Member = {
   text2En: string | null;
   text2Ka: string | null;
   image: string | null;
+  imagePosition: string | null;
+  published: number | null;
   showOnHome: number | null;
   homeOrder: number | null;
   metaDescriptionEn: string | null;
@@ -52,6 +55,9 @@ export default function TeamForm({ action, member }: Props) {
   const [imagePreview, setImagePreview] = useState<string | null>(
     member?.image ?? null
   );
+  const [imagePosition, setImagePosition] = useState<string>(
+    member?.imagePosition ?? "top"
+  );
   const fileRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -66,8 +72,8 @@ export default function TeamForm({ action, member }: Props) {
     if (file) setImagePreview(URL.createObjectURL(file));
   }
 
-  const socialPlatforms = member?.socials?.map((s) => s.platform).join("\n") ?? "";
-  const socialLinks = member?.socials?.map((s) => s.link).join("\n") ?? "";
+  const linkedinUrl = member?.socials?.find((s) => s.platform === "linkedin")?.link ?? "";
+  const twitterUrl = member?.socials?.find((s) => s.platform === "twitter")?.link ?? "";
 
   return (
     <form action={formAction} className="relative bg-white flex flex-col min-h-full">
@@ -76,6 +82,7 @@ export default function TeamForm({ action, member }: Props) {
           <i className="ph ph-arrow-left" />
         </Link>
         <h1 className="text-xl font-bold text-brand-900">{member ? "Edit Team Member" : "Add Team Member"}</h1>
+        <input type="hidden" name="published" value={member?.published ?? 1} />
       </div>
 
       {state.error && (
@@ -89,13 +96,30 @@ export default function TeamForm({ action, member }: Props) {
           {/* Photo */}
           <div className="w-48 shrink-0">
             <label className="label-base">Profile Photo</label>
+
+            {/* Upload zone with hover-to-change overlay */}
             <div
-              className="file-upload-zone w-full aspect-square rounded-lg flex flex-col items-center justify-center gap-3 cursor-pointer overflow-hidden"
+              className="file-upload-zone w-full aspect-square rounded-lg flex flex-col items-center justify-center gap-3 cursor-pointer overflow-hidden relative group"
               onClick={() => fileRef.current?.click()}
             >
               {imagePreview ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
+                <>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={imagePreview}
+                    alt="Preview"
+                    className="w-full h-full object-cover"
+                    style={{
+                      objectPosition:
+                        imagePosition === "bottom" ? "bottom center" :
+                        imagePosition === "center" ? "center" : "top center"
+                    }}
+                  />
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-1">
+                    <i className="ph ph-camera-rotate text-white text-2xl" />
+                    <span className="text-white text-[11px] font-medium">Change Photo</span>
+                  </div>
+                </>
               ) : (
                 <>
                   <i className="ph ph-camera text-3xl text-brand-400" />
@@ -110,6 +134,28 @@ export default function TeamForm({ action, member }: Props) {
                 className="hidden"
                 onChange={handleImageChange}
               />
+            </div>
+
+            {/* Focus point */}
+            <div className="mt-3">
+              <label className="label-base">Focus Point</label>
+              <input type="hidden" name="imagePosition" value={imagePosition} />
+              <div className="inline-flex w-full bg-brand-100 rounded-lg p-0.5 border border-brand-200 gap-0.5">
+                {(["top", "center", "bottom"] as const).map((pos) => (
+                  <button
+                    key={pos}
+                    type="button"
+                    onClick={() => setImagePosition(pos)}
+                    className={`flex-1 text-center capitalize text-[12px] font-medium py-1.5 px-2 rounded-md transition-all ${
+                      imagePosition === pos
+                        ? "bg-white text-brand-900 shadow-sm border border-brand-200 font-semibold"
+                        : "text-brand-500 hover:text-brand-700"
+                    }`}
+                  >
+                    {pos}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
 
@@ -150,60 +196,64 @@ export default function TeamForm({ action, member }: Props) {
 
         <div className="space-y-6 border-t border-brand-200 pt-8">
           <div>
-            <label className="label-base">Description (Short bio) {lang === "en" ? "(En)" : "(ქარ)"}</label>
+            <label className="label-base">Bio {lang === "en" ? "(En)" : "(ქარ)"}</label>
+            <p className="text-[11px] text-brand-400 mb-2">Paragraphs, <strong>bold</strong>, <em>italic</em> and links are supported.</p>
             {lang === "en" ? (
-              <textarea name="descriptionEn" className="input-base" rows={3} placeholder="Brief professional summary..." defaultValue={member?.descriptionEn ?? ""} />
+              <RichTextEditor
+                key={`bio-en-${member?.id ?? "new"}`}
+                name="text1En"
+                defaultValue={member?.text1En ?? ""}
+                placeholder="Write biography… use Enter for a new paragraph, Shift+Enter for a line break."
+              />
             ) : (
-              <textarea name="descriptionKa" className="input-base" rows={3} placeholder="Brief professional summary (Georgian)..." defaultValue={member?.descriptionKa ?? ""} />
+              <RichTextEditor
+                key={`bio-ka-${member?.id ?? "new"}`}
+                name="text1Ka"
+                defaultValue={member?.text1Ka ?? ""}
+                placeholder="Biography (Georgian)…"
+              />
             )}
           </div>
-          <div>
-            <label className="label-base">Personal Quote {lang === "en" ? "(En)" : "(ქარ)"}</label>
-            {lang === "en" ? (
-              <textarea name="quoteEn" className="input-base italic" rows={2} placeholder='"Quote..."' defaultValue={member?.quoteEn ?? ""} />
-            ) : (
-              <textarea name="quoteKa" className="input-base italic" rows={2} placeholder='"Quote (Georgian)..."' defaultValue={member?.quoteKa ?? ""} />
-            )}
-          </div>
-          <div>
-            <label className="label-base">Detailed Bio (Text 1) {lang === "en" ? "(En)" : "(ქარ)"}</label>
-            {lang === "en" ? (
-              <textarea name="text1En" className="input-base min-h-[150px]" placeholder="Extended biography..." defaultValue={member?.text1En ?? ""} />
-            ) : (
-              <textarea name="text1Ka" className="input-base min-h-[150px]" placeholder="Extended biography (Georgian)..." defaultValue={member?.text1Ka ?? ""} />
-            )}
-          </div>
-          <div>
-            <label className="label-base">Additional Info (Text 2) {lang === "en" ? "(En)" : "(ქარ)"}</label>
-            {lang === "en" ? (
-              <textarea name="text2En" className="input-base min-h-[100px]" placeholder="Education, admissions..." defaultValue={member?.text2En ?? ""} />
-            ) : (
-              <textarea name="text2Ka" className="input-base min-h-[100px]" placeholder="Education, admissions (Georgian)..." defaultValue={member?.text2Ka ?? ""} />
-            )}
-          </div>
+          {/* Keep hidden inputs so the server action receives all expected fields */}
+          <input type="hidden" name="descriptionEn" value={member?.descriptionEn ?? ""} />
+          <input type="hidden" name="descriptionKa" value={member?.descriptionKa ?? ""} />
+          <input type="hidden" name="quoteEn" value={member?.quoteEn ?? ""} />
+          <input type="hidden" name="quoteKa" value={member?.quoteKa ?? ""} />
+          <input type="hidden" name="text2En" value={member?.text2En ?? ""} />
+          <input type="hidden" name="text2Ka" value={member?.text2Ka ?? ""} />
         </div>
 
         <div className="space-y-5 border-t border-brand-200 pt-8 bg-brand-50 -mx-8 px-8 py-8 rounded-b-xl">
           <h3 className="font-semibold text-brand-900 text-[15px]">Social Profiles</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div>
-              <label className="label-base">Social Platforms</label>
-              <textarea
-                name="socialPlatforms"
-                className="input-base font-mono text-xs leading-relaxed bg-white"
-                rows={4}
-                placeholder={"LinkedIn\nTwitter\nEmail"}
-                defaultValue={socialPlatforms}
+              <label className="label-base flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" className="text-brand-500">
+                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                </svg>
+                LinkedIn URL
+              </label>
+              <input
+                type="url"
+                name="linkedinUrl"
+                className="input-base bg-white"
+                placeholder="https://linkedin.com/in/..."
+                defaultValue={linkedinUrl}
               />
             </div>
             <div>
-              <label className="label-base">Social URLs</label>
-              <textarea
-                name="socialLinks"
-                className="input-base font-mono text-xs leading-relaxed bg-white"
-                rows={4}
-                placeholder={"https://...\nhttps://...\nmailto:..."}
-                defaultValue={socialLinks}
+              <label className="label-base flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" className="text-brand-500">
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                </svg>
+                X (Twitter) URL
+              </label>
+              <input
+                type="url"
+                name="twitterUrl"
+                className="input-base bg-white"
+                placeholder="https://x.com/..."
+                defaultValue={twitterUrl}
               />
             </div>
           </div>

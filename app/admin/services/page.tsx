@@ -21,8 +21,8 @@ export default async function ServicesListPage() {
         <p className="text-brand-500 mt-2">Manage the services landing page content and individual practice areas.</p>
       </div>
 
-      {/* ── Landing Page Content + SEO cards (client forms) ──────── */}
-      <ServicesLandingForm page={landingPage} saveAction={upsertServicesPageContent} />
+      {/* ── Landing Page Content card ─────────────────────────────── */}
+      <ServicesLandingForm page={landingPage} saveAction={upsertServicesPageContent} section="content" />
 
       {/* ── Practice Areas ───────────────────────────────────────── */}
       <div className="card overflow-hidden">
@@ -49,6 +49,9 @@ export default async function ServicesListPage() {
           )}
         </div>
       </div>
+
+      {/* ── SEO & Open Graph card (last) ─────────────────────────── */}
+      <ServicesLandingForm page={landingPage} saveAction={upsertServicesPageContent} section="seo" />
 
     </div>
   );

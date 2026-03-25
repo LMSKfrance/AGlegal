@@ -3,14 +3,18 @@ import {
   setSiteOnlineStatus,
   getOfflinePageContent,
   saveOfflinePageContent,
+  getEmailSettings,
+  saveEmailSettings,
 } from "@/lib/actions/settings";
 import SiteStatusToggle from "./SiteStatusToggle";
 import OfflineContentForm from "./OfflineContentForm";
+import NotificationsForm from "./NotificationsForm";
 
 export default async function SiteSettingsPage() {
-  const [online, offlineContent] = await Promise.all([
+  const [online, offlineContent, emailSettings] = await Promise.all([
     getSiteOnlineStatus(),
     getOfflinePageContent(),
+    getEmailSettings(),
   ]);
 
   async function updateStatus(newOnline: boolean) {
@@ -38,6 +42,11 @@ export default async function SiteSettingsPage() {
           defaultTitle={offlineContent.title}
           defaultMessage={offlineContent.message}
           action={updateOfflineContent}
+        />
+        <NotificationsForm
+          defaultBookingEmail={emailSettings.bookingEmail}
+          defaultContactEmail={emailSettings.contactEmail}
+          action={saveEmailSettings}
         />
       </div>
     </>

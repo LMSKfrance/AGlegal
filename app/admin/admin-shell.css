@@ -318,10 +318,10 @@ select.input-base {
 /* ─── Language switcher ─── */
 .lang-switcher {
   display: inline-flex;
-  background: #dde3ea;
+  background: #daeaf7;
   padding: 2px;
   border-radius: 8px;
-  border: 1px solid #c9d1da;
+  border: 1px solid #a8d4ef;
 }
 .lang-tab {
   padding: 4px 10px;
@@ -329,16 +329,16 @@ select.input-base {
   font-weight: 500;
   border-radius: 6px;
   cursor: pointer;
-  color: #6b7280;
+  color: #4a7fa5;
   transition: background 0.15s, color 0.15s, box-shadow 0.15s;
   border: 1px solid transparent;
 }
 .lang-tab.active {
   background: #ffffff;
-  color: #111827;
+  color: #1565c0;
   font-weight: 600;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-  border: 1px solid #0cb5e2;
+  box-shadow: 0 1px 2px rgba(21,101,192,0.10);
+  border: 1px solid #1565c0;
 }
 .lang-tab-ka {
   font-family: 'Noto Sans Georgian', sans-serif;
@@ -651,3 +651,116 @@ select.input-base {
 /* btn-secondary: stronger contrast text so it doesn't look disabled */
 .btn-secondary { color: #1f2937; }
 .btn-secondary:hover { color: #111827; }
+
+/* ─── Rich Text Editor (TipTap) ──────────────────────────────────────────── */
+
+.rte-wrapper {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: #fff;
+  overflow: hidden;
+  transition: border-color 0.15s;
+}
+.rte-wrapper:focus-within {
+  border-color: #93c5fd;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.10);
+}
+
+/* Toolbar */
+.rte-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 6px 8px;
+  border-bottom: 1px solid #f3f4f6;
+  background: #fafafa;
+}
+.rte-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 5px;
+  border: none;
+  background: transparent;
+  color: #6b7280;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s;
+}
+.rte-btn:hover { background: #f3f4f6; color: #111827; }
+.rte-btn--active { background: #dbeafe; color: #1d4ed8; }
+.rte-btn--danger { color: #ef4444; }
+.rte-btn--danger:hover { background: #fee2e2; color: #b91c1c; }
+.rte-divider { width: 1px; height: 18px; background: #e5e7eb; margin: 0 4px; }
+.rte-hint { font-size: 11px; color: #9ca3af; margin-left: 4px; white-space: nowrap; }
+
+/* Link input bar */
+.rte-link-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  background: #f0f7ff;
+  border-bottom: 1px solid #bfdbfe;
+}
+.rte-link-input {
+  flex: 1;
+  height: 28px;
+  padding: 0 8px;
+  border: 1px solid #bfdbfe;
+  border-radius: 5px;
+  font-size: 12px;
+  outline: none;
+  background: #fff;
+}
+.rte-link-input:focus { border-color: #60a5fa; }
+.rte-link-apply {
+  height: 28px;
+  padding: 0 10px;
+  border-radius: 5px;
+  border: none;
+  background: #2563eb;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.rte-link-apply:hover { background: #1d4ed8; }
+.rte-link-cancel {
+  height: 28px;
+  width: 28px;
+  border-radius: 5px;
+  border: none;
+  background: transparent;
+  color: #6b7280;
+  cursor: pointer;
+  font-size: 13px;
+}
+.rte-link-cancel:hover { background: #f3f4f6; color: #111827; }
+
+/* Editor content area */
+.rte-content {
+  padding: 12px 14px;
+  min-height: 160px;
+  outline: none;
+  font-size: 13px;
+  line-height: 1.65;
+  color: #111827;
+}
+.rte-content p { margin: 0 0 10px 0; }
+.rte-content p:last-child { margin-bottom: 0; }
+.rte-content strong { font-weight: 700; }
+.rte-content em { font-style: italic; }
+.rte-content a { color: #2563eb; text-decoration: underline; }
+.rte-content a:hover { color: #1d4ed8; }
+
+/* Placeholder */
+.rte-content p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: #9ca3af;
+  pointer-events: none;
+  height: 0;
+}

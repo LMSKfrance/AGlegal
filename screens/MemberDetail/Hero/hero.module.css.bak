@@ -1,0 +1,282 @@
+/* Team Member detail page – Figma 8768-16890 */
+
+/* ─── Profile section ─────────────────────────────────── */
+
+.profile_section {
+  padding-top: 80px;
+  padding-bottom: 80px;
+}
+
+.profile_container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Large member card */
+.member_card {
+  border: 1px solid var(--gray-200);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.card_image {
+  position: relative;
+  width: 100%;
+  height: 341px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.card_content {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.card_info {
+  display: flex;
+  flex-direction: column;
+}
+
+.card_name {
+  font-weight: 500;
+  color: var(--gray-950);
+}
+
+.card_position {
+  color: var(--gray-900);
+}
+
+.card_socials {
+  display: flex;
+  gap: 4px;
+}
+
+.social_btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 6px;
+  background-color: var(--gray-100);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.25s ease;
+}
+
+.social_btn svg {
+  fill: var(--gray-950);
+  transition: fill 0.25s ease;
+}
+
+.social_btn:hover {
+  background-color: var(--ag-blue-50);
+}
+
+.social_btn:hover svg {
+  fill: var(--ag-blue-800);
+}
+
+/* Quote + bio two-column block */
+.content_block {
+  display: flex;
+  gap: 64px;
+  max-width: 1100px;
+  width: 100%;
+  align-self: center;
+  padding-top: 48px;
+}
+
+.quote_col {
+  flex: 0 0 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+}
+
+.quote_wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.quote_line {
+  width: 360px;
+  height: 2px;
+  background-color: var(--ag-blue-800);
+}
+
+.quote_text {
+  color: var(--gray-950);
+  font-weight: 700;
+}
+
+.bio_col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.bio_text {
+  color: var(--gray-500);
+}
+
+/* ─── Explore team section ────────────────────────────── */
+
+.team_section {
+  padding-top: 80px;
+  padding-bottom: 80px;
+}
+
+.team_container {
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+}
+
+.team_header {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 600px;
+}
+
+.team_title {
+  font-family: var(--font-plus-jakarta-sans);
+  font-size: 48px;
+  line-height: 56px;
+  font-weight: 700;
+  letter-spacing: -0.64px;
+  color: var(--gray-950);
+}
+
+.accent {
+  color: var(--ag-blue-800);
+}
+
+.team_subtitle {
+  color: var(--gray-500);
+}
+
+.team_grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 48px;
+}
+
+.other_card {
+  display: block;
+}
+
+/* ─── Responsive ──────────────────────────────────────── */
+
+@media (max-width: 1024px) {
+  .profile_section {
+    padding-top: 64px;
+    padding-bottom: 64px;
+  }
+
+  .team_section {
+    padding-top: 64px;
+    padding-bottom: 64px;
+  }
+
+  .content_block {
+    gap: 48px;
+  }
+
+  .quote_col {
+    flex: 0 0 320px;
+  }
+
+  .quote_line {
+    width: 280px;
+  }
+
+  .team_title {
+    font-size: 40px;
+    line-height: 52px;
+  }
+}
+
+@media (max-width: 768px) {
+  .profile_section {
+    padding-top: 48px;
+    padding-bottom: 48px;
+  }
+
+  .team_section {
+    padding-top: 48px;
+    padding-bottom: 48px;
+  }
+
+  .content_block {
+    flex-direction: column;
+    gap: 40px;
+    padding-top: 32px;
+  }
+
+  .quote_col {
+    flex: none;
+    width: 100%;
+    gap: 32px;
+  }
+
+  .quote_line {
+    width: 100%;
+    max-width: 360px;
+  }
+
+  .bio_col {
+    gap: 20px;
+  }
+
+  .team_grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .team_title {
+    font-size: 36px;
+    line-height: 44px;
+  }
+
+  .card_image {
+    height: 280px;
+  }
+}
+
+@media (max-width: 480px) {
+  .profile_section {
+    padding-top: 40px;
+    padding-bottom: 40px;
+  }
+
+  .team_section {
+    padding-top: 40px;
+    padding-bottom: 40px;
+  }
+
+  .card_image {
+    height: 240px;
+  }
+
+  .content_block {
+    gap: 32px;
+    padding-top: 24px;
+  }
+
+  .team_title {
+    font-size: 32px;
+    line-height: 40px;
+  }
+
+  .team_container {
+    gap: 48px;
+  }
+}

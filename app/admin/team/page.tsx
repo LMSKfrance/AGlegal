@@ -1,11 +1,19 @@
 import Link from "next/link";
 import { getTeamList } from "@/lib/actions/team";
+import { getTeamPageContent } from "@/lib/actions/settings";
+import { getPageBySlug, upsertTeamPageSeo } from "@/lib/actions/pages";
 import { TeamListTable } from "./TeamListTable";
+import TeamPageHeaderForm from "./TeamPageHeaderForm";
+import TeamSeoForm from "./TeamSeoForm";
 
 export const dynamic = "force-dynamic";
 
 export default async function TeamListPage() {
-  const members = await getTeamList();
+  const [members, pageContent, seoPage] = await Promise.all([
+    getTeamList(),
+    getTeamPageContent(),
+    getPageBySlug("team"),
+  ]);
 
   return (
     <>
@@ -19,7 +27,14 @@ export default async function TeamListPage() {
         </Link>
       </div>
 
-      <div className="page-content">
+      <div className="page-content space-y-6">
+        <TeamPageHeaderForm
+          titleEn={pageContent.titleEn}
+          titleKa={pageContent.titleKa}
+          descriptionEn={pageContent.descriptionEn}
+          descriptionKa={pageContent.descriptionKa}
+        />
+
         <div className="card overflow-hidden">
           {members.length === 0 ? (
             <div className="text-center text-brand-400 py-12">
@@ -34,6 +49,8 @@ export default async function TeamListPage() {
             </div>
           )}
         </div>
+
+        <TeamSeoForm page={seoPage} saveAction={upsertTeamPageSeo} />
       </div>
     </>
   );

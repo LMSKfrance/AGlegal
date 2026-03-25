@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState, useRef, useTransition, useEffect } from "react";
-import { reorderServices, deleteService } from "@/lib/actions/services";
+import { reorderServices, deleteService, toggleServicePublished } from "@/lib/actions/services";
 import { DeleteButton } from "@/app/admin/_components/DeleteButton";
 
 type Service = {
@@ -12,6 +12,7 @@ type Service = {
   clickable: number | null;
   showOnHome: number | null;
   homeOrder: number | null;
+  published: number | null;
 };
 
 type Toast = { label: string; position: number; prevList: Service[] };
@@ -19,6 +20,17 @@ type Toast = { label: string; position: number; prevList: Service[] };
 export function ServicesListTable({ initialServices }: { initialServices: Service[] }) {
   const [servicesList, setServicesList] = useState(initialServices);
   const [isPending, startTransition] = useTransition();
+  const [togglingId, setTogglingId] = useState<number | null>(null);
+
+  function handleTogglePublished(service: Service) {
+    const newVal = service.published ? 0 : 1;
+    setTogglingId(service.id);
+    setServicesList((prev) => prev.map((s) => s.id === service.id ? { ...s, published: newVal } : s));
+    startTransition(async () => {
+      await toggleServicePublished(service.id, newVal);
+      setTogglingId(null);
+    });
+  }
   const [toast, setToast] = useState<Toast | null>(null);
   const dragId = useRef<number | null>(null);
   const dragOverId = useRef<number | null>(null);
@@ -80,6 +92,7 @@ export function ServicesListTable({ initialServices }: { initialServices: Servic
             <th>Title</th>
             <th className="hidden sm:table-cell text-center w-24">Clickable</th>
             <th className="hidden sm:table-cell text-center w-24">Homepage</th>
+            <th className="hidden sm:table-cell text-center w-28">Published</th>
             <th className="text-right w-20">Actions</th>
           </tr>
         </thead>
@@ -123,6 +136,26 @@ export function ServicesListTable({ initialServices }: { initialServices: Servic
                 ) : (
                   <span className="text-brand-300 text-[12px]">No</span>
                 )}
+              </td>
+              <td className="hidden sm:table-cell text-center">
+                <button
+                  type="button"
+                  onClick={() => handleTogglePublished(service)}
+                  disabled={togglingId === service.id}
+                  title={service.published ? "Unpublish" : "Publish"}
+                  className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold transition-colors border ${
+                    service.published
+                      ? "bg-green-50 text-green-700 border-green-200 hover:bg-red-50 hover:text-red-600 hover:border-red-200"
+                      : "bg-brand-100 text-brand-400 border-brand-200 hover:bg-green-50 hover:text-green-700 hover:border-green-200"
+                  }`}
+                >
+                  {togglingId === service.id
+                    ? <i className="ph ph-spinner animate-spin" />
+                    : service.published
+                      ? <><i className="ph ph-eye" /> Published</>
+                      : <><i className="ph ph-eye-slash" /> Draft</>
+                  }
+                </button>
               </td>
               <td className="text-right">
                 <div className="flex items-center justify-end gap-2">
