@@ -101,24 +101,16 @@ const Hero = ({ member, otherMembers }: HeroProps) => {
                 </div>
               </div>
 
-              {/* Blue divider */}
-              <div className={styles.card_divider} />
-
-              {/* Quote */}
-              <p className={cn("heading-6", styles.card_quote)}>
-                &ldquo;{member.quote}&rdquo;
-              </p>
+              {/* Bio text inside card */}
+              <div ref={bioRef} className={styles.bio_block}>
+                <p className={cn("paragraph-medium", styles.bio_text)}>
+                  {member.text1}
+                </p>
+                <p className={cn("paragraph-medium", styles.bio_text)}>
+                  {member.text2}
+                </p>
+              </div>
             </div>
-          </div>
-
-          {/* Bio paragraphs below card */}
-          <div ref={bioRef} className={styles.bio_block}>
-            <p className={cn("paragraph-medium", styles.bio_text)}>
-              {member.text1}
-            </p>
-            <p className={cn("paragraph-medium", styles.bio_text)}>
-              {member.text2}
-            </p>
           </div>
         </div>
       </section>
