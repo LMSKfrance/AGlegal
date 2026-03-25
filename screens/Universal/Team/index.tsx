@@ -21,11 +21,12 @@ type TeamProps = {
 const Team = ({ members: membersProp }: TeamProps) => {
   const homeCtx = useContext(HomeContentContext);
   const { locale, t } = useLanguage();
-  const fromContext =
-    homeCtx ? (locale === "ka" ? homeCtx.contentKa.teamMembers : homeCtx.contentEn.teamMembers) : t.members;
-  const membersList = Array.isArray(membersProp) && membersProp.length > 0
+  const fromContext = homeCtx
+    ? (locale === "ka" ? homeCtx.contentKa.teamMembers : homeCtx.contentEn.teamMembers)
+    : null;
+  const membersList: TeamMember[] = Array.isArray(membersProp) && membersProp.length > 0
     ? membersProp
-    : Array.isArray(fromContext)
+    : Array.isArray(fromContext) && fromContext.length > 0
       ? fromContext
       : [];
   const container = React.useRef<HTMLDivElement>(null);

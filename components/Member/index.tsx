@@ -13,13 +13,17 @@ const Member = ({ member }: MemberProps) => {
   const content = (
     <>
       <div className={styles.member_image}>
-        <Image
-          src={member.image}
-          alt={member.title}
-          fill
-          sizes="(max-width: 768px) 100vw, 50vw"
-          style={{ objectFit: "cover", objectPosition: member.imagePosition === "bottom" ? "bottom center" : member.imagePosition === "center" ? "center" : "top center" }}
-        />
+        {member.image ? (
+          <Image
+            src={member.image}
+            alt={member.title}
+            fill
+            sizes="(max-width: 768px) 100vw, 50vw"
+            style={{ objectFit: "cover", objectPosition: member.imagePosition === "bottom" ? "bottom center" : member.imagePosition === "center" ? "center" : "top center" }}
+          />
+        ) : (
+          <div className={styles.member_image_placeholder} />
+        )}
       </div>
 
       <div className={styles.member_content}>
