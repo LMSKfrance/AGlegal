@@ -155,19 +155,35 @@
 }
 
 .inline_nav_link {
-    font-family: var(--font-inter);
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 20px;
-    letter-spacing: -0.08px;
-    color: var(--gray-700);
+    font-family: var(--font-plus-jakarta-sans);
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 24px;
+    letter-spacing: -0.1px;
+    color: var(--gray-900);
     text-decoration: none;
+    position: relative;
     transition: color 0.2s ease;
     white-space: nowrap;
 }
 
+.inline_nav_link::after {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--ag-blue-800);
+    transition: width 0.2s ease;
+}
+
 .inline_nav_link:hover {
     color: var(--ag-blue-800);
+}
+
+.inline_nav_link:hover::after {
+    width: 100%;
 }
 
 /* Hide inline nav + hamburger below 1024px */

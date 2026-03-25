@@ -5,7 +5,8 @@ import cn from "classnames";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { headers } from "next/headers";
 import { auth } from "@/auth";
-import { getSiteOnlineStatus, getOfflinePageContent } from "@/lib/actions/settings";
+import { getSiteOnlineStatus, getOfflinePageContent, getNavVisibility } from "@/lib/actions/settings";
+import { NavVisibilityProvider } from "@/contexts/NavVisibilityContext";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   variable: "--font-plus-jakarta-sans",
@@ -56,6 +57,8 @@ export default async function RootLayout({
   const pathname = h.get("x-pathname") ?? "/";
   const isAdminRoute = pathname.startsWith("/admin");
   const isApiRoute = pathname.startsWith("/api");
+
+  const hiddenNavIds = isAdminRoute || isApiRoute ? [] : await getNavVisibility();
 
   // Show offline maintenance page to unauthenticated visitors when site is offline.
   // Admin routes are excluded — admins always access the panel normally.
@@ -109,7 +112,11 @@ export default async function RootLayout({
           notoSansGeorgian.variable,
         )}
       >
-        <LanguageProvider>{children}</LanguageProvider>
+        <LanguageProvider>
+          <NavVisibilityProvider hiddenNavIds={hiddenNavIds}>
+            {children}
+          </NavVisibilityProvider>
+        </LanguageProvider>
       </body>
     </html>
   );

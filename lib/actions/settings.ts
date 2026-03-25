@@ -139,6 +139,26 @@ export async function saveTeamPageContent(
   }
 }
 
+// ─── Navigation visibility ────────────────────────────────────────────────────
+
+const NAV_HIDDEN_KEY = "nav.hidden_ids";
+
+export async function getNavVisibility(): Promise<number[]> {
+  const val = await getSetting(NAV_HIDDEN_KEY);
+  if (!val) return [];
+  try {
+    return JSON.parse(val) as number[];
+  } catch {
+    return [];
+  }
+}
+
+export async function saveNavVisibility(hiddenIds: number[]) {
+  await upsertSetting(NAV_HIDDEN_KEY, JSON.stringify(hiddenIds));
+  revalidatePath("/", "layout");
+  revalidatePath("/admin/navigation");
+}
+
 export async function saveEmailSettings(
   _prev: EmailSettingsState,
   formData: FormData
