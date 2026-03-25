@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useRef, useState } from "react";
+import { useActionState, useEffect, useRef, useState } from "react";
 import type { AboutSectionSettings } from "@/lib/about";
 import { useAdminLang } from "../AdminLangContext";
 import OgImageUpload from "../OgImageUpload";
@@ -153,7 +153,17 @@ export default function AboutForm({ settings, saveSettingsAction, visibilityActi
   const [philosophyState, philosophyFormAction, philosophyPending] = useActionState(savePhilosophySectionAction, INITIAL);
   const [settingsState, settingsFormAction, settingsPending] = useActionState(saveSettingsAction, INITIAL);
   const [settingsSaved, setSettingsSaved] = useState(false);
+  const [saveKey, setSaveKey] = useState(0);
   const lang = useAdminLang();
+
+  const anyPending = heroPending || missionPending || philosophyPending || settingsPending || seoPending;
+  const prevAnyPendingRef = useRef(false);
+  useEffect(() => {
+    if (!anyPending && prevAnyPendingRef.current) setSaveKey((k) => k + 1);
+    prevAnyPendingRef.current = anyPending;
+  }, [anyPending]);
+
+  const formKey = `${lang}-${saveKey}`;
 
   const p = page ?? {
     id: 0, titleEn: "", titleKa: null, contentEn: null, contentKa: null,
@@ -208,7 +218,7 @@ export default function AboutForm({ settings, saveSettingsAction, visibilityActi
                 <SaveBtn pending={heroPending} />
               </div>
             </div>
-            <div className="card-body space-y-5">
+            <div key={formKey} className="card-body space-y-5">
               <div>
                 <label className="label-base">Page Title {L} <span className="text-red-400">*</span></label>
                 <input
@@ -251,7 +261,7 @@ export default function AboutForm({ settings, saveSettingsAction, visibilityActi
                 </h2>
                 <SectionToggle on={settings.sectionVisibility.numbers} name="numbers" visibilityAction={visibilityAction} />
               </div>
-              <div className="card-body space-y-5">
+              <div key={formKey} className="card-body space-y-5">
                 <div>
                   <label className="label-base">Section Title {L}</label>
                   <input type="text" name={lang === "en" ? "numbersTitleEn" : "numbersTitleKa"} className="input-base"
@@ -302,7 +312,7 @@ export default function AboutForm({ settings, saveSettingsAction, visibilityActi
                 <SaveBtn pending={missionPending} />
               </div>
             </div>
-            <div className="card-body space-y-5">
+            <div key={formKey} className="card-body space-y-5">
               <div>
                 <label className="label-base">Title {L}</label>
                 <input type="text" name={lang === "en" ? "missionTitleEn" : "missionTitleKa"} className="input-base"
@@ -342,7 +352,7 @@ export default function AboutForm({ settings, saveSettingsAction, visibilityActi
                 <SaveBtn pending={philosophyPending} />
               </div>
             </div>
-            <div className="card-body space-y-5">
+            <div key={formKey} className="card-body space-y-5">
               <div>
                 <label className="label-base">Title {L}</label>
                 <input type="text" name={lang === "en" ? "philosophyTitleEn" : "philosophyTitleKa"} className="input-base"
@@ -398,7 +408,7 @@ export default function AboutForm({ settings, saveSettingsAction, visibilityActi
                 <SaveBtn pending={seoPending} />
               </div>
             </div>
-            <div className="card-body space-y-5">
+            <div key={formKey} className="card-body space-y-5">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div>
                   <label className="label-base">SEO Title {L}</label>

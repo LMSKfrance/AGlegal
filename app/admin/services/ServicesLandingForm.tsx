@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect, useRef, useState } from "react";
 import { useAdminLang } from "../AdminLangContext";
 import OgImageUpload from "../OgImageUpload";
 import type { ServicesPageFormState } from "@/lib/actions/services";
@@ -35,6 +35,14 @@ export default function ServicesLandingForm({
   const [heroState, heroFormAction, heroPending] = useActionState(saveAction, INITIAL);
   const [seoState, seoFormAction, seoPending] = useActionState(saveAction, INITIAL);
   const lang = useAdminLang();
+  const [saveKey, setSaveKey] = useState(0);
+  const prevPendingRef = useRef(false);
+  useEffect(() => {
+    const anyPending = heroPending || seoPending;
+    if (!anyPending && prevPendingRef.current) setSaveKey((k) => k + 1);
+    prevPendingRef.current = anyPending;
+  }, [heroPending, seoPending]);
+  const formKey = `${lang}-${saveKey}`;
 
   const p = page ?? {
     titleEn: "", titleKa: null, contentEn: null, contentKa: null,
@@ -76,7 +84,7 @@ export default function ServicesLandingForm({
                 </button>
               </div>
             </div>
-            <div className="card-body space-y-5">
+            <div key={formKey} className="card-body space-y-5">
               <div>
                 <label className="label-base">Page Title {L} <span className="text-red-400">*</span></label>
                 <input
@@ -125,7 +133,7 @@ export default function ServicesLandingForm({
                 </button>
               </div>
             </div>
-            <div className="card-body space-y-5">
+            <div key={formKey} className="card-body space-y-5">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div>
                   <label className="label-base">SEO Title {L}</label>

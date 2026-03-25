@@ -93,6 +93,7 @@ export default function HomeForm({
   const [seoState, seoFormAction, seoPending] = useActionState(seoAction, INITIAL);
   const lang = useAdminLang();
   const L = lang === "en" ? "En" : "ქარ";
+  const formKey = `${lang}-${saveKey}`;
 
   const heroFormRef = useRef<HTMLFormElement>(null);
   const aboutFormRef = useRef<HTMLFormElement>(null);
@@ -105,6 +106,7 @@ export default function HomeForm({
   const [aboutImgPreview, setAboutImgPreview] = useState<string | null>(about.image || null);
 
   const [isDirty, setIsDirty] = useState(false);
+  const [saveKey, setSaveKey] = useState(0);
   const anySaving = heroPending || aboutPending || headingsPending || ctaPending;
   const wasSavingRef = useRef(false);
   const saveQueueRef = useRef<Array<() => void>>([]);
@@ -123,6 +125,7 @@ export default function HomeForm({
         // All done — clear dirty flag if no errors
         if (!heroState.error && !aboutState.error && !headingsState.error && !ctaState.error) {
           setIsDirty(false);
+          setSaveKey((k) => k + 1);
         }
       }
     }
@@ -193,7 +196,7 @@ export default function HomeForm({
               </h2>
               <SectionToggle sectionId="hero" initialValue={visibility.hero} />
             </div>
-            <div className="card-body space-y-6">
+            <div key={formKey} className="card-body space-y-6">
               {heroState.error && (
                 <div className="p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700">{heroState.error}</div>
               )}
@@ -261,7 +264,7 @@ export default function HomeForm({
               </h2>
               <SectionToggle sectionId="about" initialValue={visibility.about} />
             </div>
-            <div className="card-body space-y-6">
+            <div key={formKey} className="card-body space-y-6">
               {aboutState.error && (
                 <div className="p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700">{aboutState.error}</div>
               )}
@@ -328,7 +331,7 @@ export default function HomeForm({
                 <i className="ph ph-text-aa text-primary-600" /> Section Headings
               </h2>
             </div>
-            <div className="card-body space-y-6">
+            <div key={formKey} className="card-body space-y-6">
               {headingsState.error && (
                 <div className="p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700">{headingsState.error}</div>
               )}
@@ -427,7 +430,7 @@ export default function HomeForm({
               </h2>
               <SectionToggle sectionId="cta" initialValue={visibility.cta} />
             </div>
-            <div className="card-body space-y-6">
+            <div key={formKey} className="card-body space-y-6">
               {ctaState.error && (
                 <div className="p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700">{ctaState.error}</div>
               )}
@@ -517,7 +520,7 @@ export default function HomeForm({
                 <i className="ph ph-magnifying-glass text-primary-600" /> Homepage SEO &amp; Open Graph
               </h2>
             </div>
-            <div className="card-body space-y-6">
+            <div key={formKey} className="card-body space-y-6">
               {seoState.error && (
                 <div className="p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700">{seoState.error}</div>
               )}
