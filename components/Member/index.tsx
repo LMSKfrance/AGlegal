@@ -22,7 +22,13 @@ const Member = ({ member }: MemberProps) => {
             style={{ objectFit: "cover", objectPosition: member.imagePosition === "bottom" ? "bottom center" : member.imagePosition === "center" ? "center" : "top center" }}
           />
         ) : (
-          <div className={styles.member_image_placeholder} />
+          <Image
+            src="/avatar-placeholder.svg"
+            alt={member.title}
+            fill
+            sizes="(max-width: 768px) 100vw, 50vw"
+            style={{ objectFit: "cover" }}
+          />
         )}
       </div>
 

@@ -66,7 +66,7 @@ const Hero = ({ member, otherMembers }: HeroProps) => {
           <div ref={cardRef} className={styles.member_card}>
             <div className={styles.card_image}>
               <Image
-                src={member.image}
+                src={member.image || "/avatar-placeholder.svg"}
                 alt={member.title}
                 fill
                 sizes="(max-width: 768px) 100vw, 45vw"
