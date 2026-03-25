@@ -15,7 +15,7 @@
 .hero_content {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  align-items: center;
+  align-items: flex-start;
   gap: 80px;
 }
 

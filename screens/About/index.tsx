@@ -6,6 +6,7 @@ import Team from "../Universal/Team";
 import Features from "./Features";
 import FAQ from "../Universal/FAQ";
 import Philosophy from "./Philosophy";
+import CTA from "../Universal/CTA";
 import { getAboutContent } from "@/lib/about";
 import { AboutContentProvider } from "./AboutContentContext";
 
@@ -23,6 +24,7 @@ const AboutPage = async () => {
         {v.features && <Features />}
         {v.philosophy && <Philosophy />}
         {v.faq && <FAQ />}
+        <CTA />
       </AboutContentProvider>
     </Layout>
   );
