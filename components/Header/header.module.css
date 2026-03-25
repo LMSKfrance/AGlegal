@@ -146,6 +146,44 @@
     display: block;
 }
 
+/* ─── Inline nav (large screens only) ────────────────── */
+
+.inline_nav {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+}
+
+.inline_nav_link {
+    font-family: var(--font-inter);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+    letter-spacing: -0.08px;
+    color: var(--gray-700);
+    text-decoration: none;
+    transition: color 0.2s ease;
+    white-space: nowrap;
+}
+
+.inline_nav_link:hover {
+    color: var(--ag-blue-800);
+}
+
+/* Hide inline nav + hamburger below 1024px */
+@media (max-width: 1023px) {
+    .inline_nav {
+        display: none;
+    }
+}
+
+/* Hide hamburger above 1023px */
+@media (min-width: 1024px) {
+    .hamburger {
+        display: none;
+    }
+}
+
 @media (max-width: 480px) {
     .lang_toggle,
     .button_secondary {

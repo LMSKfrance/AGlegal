@@ -21,6 +21,14 @@ const Header = () => {
       <div className={cn("container", styles.container)}>
         <Logo iconOnly />
 
+        <nav className={styles.inline_nav} aria-label="Main navigation">
+          {t.nav_links.map((link) => (
+            <Link key={link.id} href={link.url} className={styles.inline_nav_link}>
+              {link.title}
+            </Link>
+          ))}
+        </nav>
+
         <div className={styles.btn_wrapper}>
           <button
             type="button"
