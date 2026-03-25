@@ -40,7 +40,7 @@ export default function RichTextEditor({ name, defaultValue, placeholder }: Prop
     if (!editor) return;
     const next = defaultValue ?? "";
     if (editor.getHTML() !== next) {
-      editor.commands.setContent(next, false);
+      editor.commands.setContent(next);
       setHtml(next);
     }
   }, [defaultValue, editor]);
