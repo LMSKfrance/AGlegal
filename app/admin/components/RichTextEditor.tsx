@@ -11,6 +11,20 @@ type Props = {
   placeholder?: string;
 };
 
+/** Convert plain-text storage (textarea newlines) to clean TipTap HTML.
+ *  - If the value already contains HTML tags, pass through unchanged.
+ *  - Otherwise treat \n as a soft word-wrap (→ space) and \n\n as a
+ *    real paragraph break (→ </p><p>). */
+function toEditorHtml(val: string | null | undefined): string {
+  const str = (val ?? "").trim();
+  if (!str) return "";
+  if (/<[a-z][\s\S]*>/i.test(str)) return str; // already HTML
+  return str
+    .split(/\n{2,}/)
+    .map((para) => `<p>${para.replace(/\n/g, " ").trim()}</p>`)
+    .join("");
+}
+
 export default function RichTextEditor({ name, defaultValue, placeholder }: Props) {
   const [html, setHtml] = useState(defaultValue ?? "");
   const [linkUrl, setLinkUrl] = useState("");
@@ -22,7 +36,7 @@ export default function RichTextEditor({ name, defaultValue, placeholder }: Prop
       StarterKit.configure({ heading: false, blockquote: false, code: false, codeBlock: false, horizontalRule: false }),
       Link.configure({ openOnClick: false, HTMLAttributes: { rel: "noopener noreferrer", target: "_blank" } }),
     ],
-    content: defaultValue ?? "",
+    content: toEditorHtml(defaultValue),
     editorProps: {
       attributes: {
         class: "rte-content",
@@ -38,7 +52,7 @@ export default function RichTextEditor({ name, defaultValue, placeholder }: Prop
   // Re-initialise when defaultValue changes (language switch / save remount)
   useEffect(() => {
     if (!editor) return;
-    const next = defaultValue ?? "";
+    const next = toEditorHtml(defaultValue);
     if (editor.getHTML() !== next) {
       editor.commands.setContent(next);
       setHtml(next);

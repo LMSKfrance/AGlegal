@@ -105,7 +105,10 @@
 
 /* Rich HTML bio content rendered from TipTap */
 .bio_html p {
-  margin: 0 0 1em 0;
+  margin: 0;
+}
+.bio_html p:empty {
+  height: 0.8em;
 }
 .bio_html p:last-child {
   margin-bottom: 0;
