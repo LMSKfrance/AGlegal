@@ -2,8 +2,7 @@ import { getAboutSectionSettings } from "@/lib/about";
 import { upsertAboutSectionSettings, upsertAboutHeroContent, setAboutSectionVisibilityFromForm, upsertAboutMissionSection, upsertAboutPhilosophySection } from "@/lib/actions/about";
 import { getPageBySlug } from "@/lib/actions/pages";
 import { getFaqList } from "@/lib/actions/faq";
-import { getTeamList } from "@/lib/actions/team";
-import { toggleShowOnAboutMember } from "@/lib/actions/team";
+import { getTeamList, toggleShowOnAboutMember } from "@/lib/actions/team";
 import AboutForm from "./AboutForm";
 
 export const dynamic = "force-dynamic";

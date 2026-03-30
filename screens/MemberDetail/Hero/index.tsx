@@ -7,6 +7,7 @@ import Image from "next/image";
 import Member from "@/components/Member";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import { getSocialIcon } from "@/lib/utils/socialIcons";
 
 import type { TeamMember } from "@/lib/types/team";
 
@@ -95,7 +96,7 @@ const Hero = ({ member, otherMembers }: HeroProps) => {
                       rel="noopener noreferrer"
                       className={styles.social_btn}
                     >
-                      {social.icon}
+                      {social.icon ?? getSocialIcon(social.name)}
                     </a>
                   ))}
                 </div>
