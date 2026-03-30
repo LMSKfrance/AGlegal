@@ -7,8 +7,6 @@ import { headers } from "next/headers";
 import { auth } from "@/auth";
 import { getSiteOnlineStatus, getOfflinePageContent, getNavVisibility } from "@/lib/actions/settings";
 import { NavVisibilityProvider } from "@/contexts/NavVisibilityContext";
-import { getHomeContent } from "@/lib/home";
-import { HomeContentProvider } from "@/screens/Home/HomeContentContext";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   variable: "--font-plus-jakarta-sans",
@@ -61,11 +59,6 @@ export default async function RootLayout({
   const isApiRoute = pathname.startsWith("/api");
 
   const hiddenNavIds = isAdminRoute || isApiRoute ? [] : await getNavVisibility();
-  const homeContent = isAdminRoute || isApiRoute
-    ? null
-    : await Promise.all([getHomeContent("en"), getHomeContent("ka")])
-        .then(([en, ka]) => ({ contentEn: en, contentKa: ka }))
-        .catch(() => null);
 
   // Show offline maintenance page to unauthenticated visitors when site is offline.
   // Admin routes are excluded — admins always access the panel normally.
@@ -121,11 +114,7 @@ export default async function RootLayout({
       >
         <LanguageProvider>
           <NavVisibilityProvider hiddenNavIds={hiddenNavIds}>
-            {homeContent ? (
-              <HomeContentProvider value={homeContent}>
-                {children}
-              </HomeContentProvider>
-            ) : children}
+            {children}
           </NavVisibilityProvider>
         </LanguageProvider>
       </body>
