@@ -93,7 +93,6 @@ export default function HomeForm({
   const [seoState, seoFormAction, seoPending] = useActionState(seoAction, INITIAL);
   const lang = useAdminLang();
   const L = lang === "en" ? "En" : "ქარ";
-  const formKey = `${lang}-${saveKey}`;
 
   const heroFormRef = useRef<HTMLFormElement>(null);
   const aboutFormRef = useRef<HTMLFormElement>(null);
@@ -107,6 +106,7 @@ export default function HomeForm({
 
   const [isDirty, setIsDirty] = useState(false);
   const [saveKey, setSaveKey] = useState(0);
+  const formKey = `${lang}-${saveKey}`;
   const anySaving = heroPending || aboutPending || headingsPending || ctaPending;
   const wasSavingRef = useRef(false);
   const saveQueueRef = useRef<Array<() => void>>([]);

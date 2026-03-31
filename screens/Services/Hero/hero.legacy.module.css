@@ -16,7 +16,7 @@
 }
 
 .accent {
-  color: var(--ag-blue-800);
+  color: inherit;
 }
 
 .services {

@@ -3,7 +3,7 @@ import { teamMembers, teamMemberSocials } from "@/lib/db/schema";
 import { eq, asc, and } from "drizzle-orm";
 import { pick, type Locale } from "@/lib/db/locale";
 import type { TeamMember } from "./types/team";
-import { getSocialIcon, SUPPORTED_PLATFORMS } from "./utils/socialIcons";
+import { SUPPORTED_PLATFORMS } from "./utils/socialIcons";
 
 export type { TeamMember } from "./types/team";
 
@@ -121,7 +121,6 @@ function mapRow(
       .map((s) => ({
         id: s.id,
         name: s.platform,
-        icon: getSocialIcon(s.platform),
         link: s.link,
       })),
   };

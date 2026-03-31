@@ -17,7 +17,7 @@ const TeamPage = async () => {
 
   return (
     <Layout>
-      <Hero members={members} title={title} description={description} />
+      <Hero members={members} title={title} description={description} showHeader={pageContent.showHeader} />
       <CTA />
     </Layout>
   );

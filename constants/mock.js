@@ -598,9 +598,7 @@ const faqs = [
 
 const footer_nav_links = [
   { id: 1, title: "Solutions", url: "/services" },
-  { id: 2, title: "Approach", url: "/about" },
   { id: 3, title: "Team", url: "/team" },
-  { id: 4, title: "FAQ", url: "/about#faq" },
   { id: 5, title: "Contact", url: "/contact" },
 ];
 

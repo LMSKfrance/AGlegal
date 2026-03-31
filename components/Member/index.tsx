@@ -1,7 +1,10 @@
+"use client";
+
 import cn from "classnames";
 import styles from "./member.module.css";
 import Image from "next/image";
 import Link from "next/link";
+import { getSocialIcon } from "@/lib/utils/socialIcons";
 
 import type { TeamMember } from "@/lib/types/team";
 
@@ -55,7 +58,7 @@ const Member = ({ member }: MemberProps) => {
                 window.open(social.link, "_blank", "noopener,noreferrer");
               }}
             >
-              {social.icon}
+              {social.icon ?? getSocialIcon(social.name)}
             </span>
           ))}
         </div>

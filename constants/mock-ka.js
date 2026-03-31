@@ -440,9 +440,7 @@ const faqs = [
 
 const footer_nav_links = [
   { id: 1, title: "მომსახურება", url: "/services" },
-  { id: 2, title: "მიდგომა", url: "/about" },
   { id: 3, title: "გუნდი", url: "/team" },
-  { id: 4, title: "ხშირი კითხვები", url: "/about#faq" },
   { id: 5, title: "კონტაქტი", url: "/contact" },
 ];
 

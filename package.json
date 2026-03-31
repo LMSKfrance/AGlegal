@@ -13,6 +13,7 @@
     "db:seed": "tsx scripts/seed.ts",
     "db:seed-pages": "tsx scripts/seed-pages.ts",
     "db:seed-turso": "node --env-file=.env.local --import=tsx scripts/seed-turso.ts",
+    "db:seed-content": "node --env-file=.env.local --import=tsx scripts/seed-real-content.ts",
     "db:seed-admin": "node --env-file=.env.local --import=tsx scripts/seed-admin.ts"
   },
   "dependencies": {

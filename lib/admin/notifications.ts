@@ -28,14 +28,25 @@ function empty(v: string | null | undefined): boolean {
 export async function getNotificationTasks(): Promise<NotificationTask[]> {
   const tasks: NotificationTask[] = [];
 
-  const [allArticles, allTeam, allServices, allPages, contact] =
-    await Promise.all([
-      db.select().from(articles),
-      db.select().from(teamMembers),
-      db.select().from(services),
-      db.select().from(pages),
-      db.select().from(contactSettings).limit(1),
-    ]);
+  let allArticles: (typeof articles.$inferSelect)[] = [];
+  let allTeam: (typeof teamMembers.$inferSelect)[] = [];
+  let allServices: (typeof services.$inferSelect)[] = [];
+  let allPages: (typeof pages.$inferSelect)[] = [];
+  let contact: (typeof contactSettings.$inferSelect)[] = [];
+
+  try {
+    [allArticles, allTeam, allServices, allPages, contact] =
+      await Promise.all([
+        db.select().from(articles),
+        db.select().from(teamMembers),
+        db.select().from(services),
+        db.select().from(pages),
+        db.select().from(contactSettings).limit(1),
+      ]);
+  } catch (err) {
+    console.error("[getNotificationTasks] DB error:", err);
+    return [];
+  }
 
   // ── News: missing KA translation ────────────────────────────────────────────
   const newsNoKa = allArticles.filter(

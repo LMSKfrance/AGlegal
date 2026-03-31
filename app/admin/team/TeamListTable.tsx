@@ -83,7 +83,7 @@ export function TeamListTable({ initialMembers }: { initialMembers: Member[] }) 
             <th>Name</th>
             <th>Position</th>
             <th className="hidden sm:table-cell text-center w-24">Homepage</th>
-            <th className="text-center w-28">Published</th>
+            <th className="text-center w-28">Visible</th>
             <th className="text-right w-20">Actions</th>
           </tr>
         </thead>
@@ -143,7 +143,7 @@ export function TeamListTable({ initialMembers }: { initialMembers: Member[] }) 
               <td className="text-center">
                 <button
                   type="button"
-                  title={member.published ? "Unpublish" : "Publish"}
+                  title={member.published ? "Hide member" : "Show member"}
                   onClick={() => {
                     const next = !member.published;
                     setMembers((prev) => prev.map((m) => m.id === member.id ? { ...m, published: next ? 1 : 0 } : m));
@@ -155,8 +155,8 @@ export function TeamListTable({ initialMembers }: { initialMembers: Member[] }) 
                       : "bg-brand-100 text-brand-400 hover:bg-brand-200"
                   }`}
                 >
-                  <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${member.published ? "bg-green-500" : "bg-brand-300"}`} />
-                  {member.published ? "Live" : "Draft"}
+                  <i className={`ph ${member.published ? "ph-eye" : "ph-eye-slash"} text-[13px]`} />
+                  {member.published ? "Visible" : "Hidden"}
                 </button>
               </td>
               <td className="text-right">

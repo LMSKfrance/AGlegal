@@ -1,5 +1,5 @@
 [build]
-  command = "(npx drizzle-kit push || echo 'DB push skipped, continuing build...') && (node --import=tsx scripts/seed-admin.ts || echo 'Seed skipped, continuing build...') && npm run build"
+  command = "(npx drizzle-kit push || echo 'DB push skipped, continuing build...') && (node --import=tsx scripts/seed-admin.ts || echo 'Seed skipped, continuing build...') && (node --import=tsx scripts/seed-turso.ts || echo 'Initial seed skipped, continuing build...') && (node --import=tsx scripts/seed-real-content.ts || echo 'Content seed skipped, continuing build...') && npm run build"
   publish = ".next"
 
 [build.environment]

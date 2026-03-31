@@ -26,20 +26,25 @@ type SiteSettingRecord = {
 
 async function getSettings(keys: string[]): Promise<Record<string, SiteSettingRecord>> {
   if (!keys.length) return {};
-  const rows = await db
-    .select({
-      key: siteSettings.key,
-      valueEn: siteSettings.valueEn,
-      valueKa: siteSettings.valueKa,
-    })
-    .from(siteSettings)
-    .where(inArray(siteSettings.key, keys));
+  try {
+    const rows = await db
+      .select({
+        key: siteSettings.key,
+        valueEn: siteSettings.valueEn,
+        valueKa: siteSettings.valueKa,
+      })
+      .from(siteSettings)
+      .where(inArray(siteSettings.key, keys));
 
-  const map: Record<string, SiteSettingRecord> = {};
-  for (const row of rows) {
-    map[row.key] = row;
+    const map: Record<string, SiteSettingRecord> = {};
+    for (const row of rows) {
+      map[row.key] = row;
+    }
+    return map;
+  } catch (err) {
+    console.error("[getSettings] DB error:", err);
+    return {};
   }
-  return map;
 }
 
 async function upsertSetting(key: string, group: string, valueEn: string | null, valueKa: string | null) {

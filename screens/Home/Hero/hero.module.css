@@ -4,7 +4,7 @@
 }
 
 .blue {
-    color: #0043B1;
+    color: inherit;
 }
 
 .container {
@@ -48,8 +48,8 @@
 
 @media (max-width: 1280px) {
     .title {
-        font-size: 64px;
-        line-height: 72px;
+        font-size: 54px;
+        line-height: 62px;
         letter-spacing: -0.96px;
     }
 
@@ -80,8 +80,8 @@
     }
 
     .title {
-        font-size: 56px;
-        line-height: 64px;
+        font-size: 48px;
+        line-height: 56px;
         letter-spacing: -0.8px;
     }
 }
@@ -92,8 +92,8 @@
     }
 
     .title {
-        font-size: 48px;
-        line-height: 56px;
+        font-size: 41px;
+        line-height: 50px;
         letter-spacing: -0.64px;
     }
 

@@ -99,18 +99,21 @@ export type EmailSettingsState = { success?: boolean; error?: string };
 export async function getTeamPageContent(): Promise<{
   titleEn: string; titleKa: string;
   descriptionEn: string; descriptionKa: string;
+  showHeader: boolean;
 }> {
-  const [titleEn, titleKa, descriptionEn, descriptionKa] = await Promise.all([
+  const [titleEn, titleKa, descriptionEn, descriptionKa, showHeader] = await Promise.all([
     getSetting("team.page_title"),
     getSetting("team.page_title_ka"),
     getSetting("team.page_description"),
     getSetting("team.page_description_ka"),
+    getSetting("team.show_header"),
   ]);
   return {
     titleEn: titleEn ?? "Our team.",
     titleKa: titleKa ?? "",
     descriptionEn: descriptionEn ?? "",
     descriptionKa: descriptionKa ?? "",
+    showHeader: showHeader !== "0",
   };
 }
 
@@ -125,11 +128,13 @@ export async function saveTeamPageContent(
     const titleKa = (formData.get("teamPageTitleKa") as string)?.trim() || "";
     const descriptionEn = (formData.get("teamPageDescriptionEn") as string)?.trim() || "";
     const descriptionKa = (formData.get("teamPageDescriptionKa") as string)?.trim() || "";
+    const showHeader = formData.get("teamShowHeader") === "1" ? "1" : "0";
     await Promise.all([
       upsertSetting("team.page_title", titleEn),
       upsertSetting("team.page_title_ka", titleKa),
       upsertSetting("team.page_description", descriptionEn),
       upsertSetting("team.page_description_ka", descriptionKa),
+      upsertSetting("team.show_header", showHeader),
     ]);
     revalidatePath("/team", "layout");
     revalidatePath("/admin/team");

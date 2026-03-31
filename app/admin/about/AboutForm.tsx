@@ -91,6 +91,16 @@ type FaqRow = {
   sortOrder: number | null;
 };
 
+type TeamRow = {
+  id: number;
+  titleEn: string;
+  titleKa: string | null;
+  positionEn: string | null;
+  image: string | null;
+  showOnAbout: number | null;
+  published: number | null;
+};
+
 type Props = {
   settings: AboutSectionSettings;
   saveSettingsAction: (_prev: FormState, formData: FormData) => Promise<FormState>;
@@ -100,6 +110,8 @@ type Props = {
   saveMissionSectionAction: (_prev: FormState, formData: FormData) => Promise<FormState>;
   savePhilosophySectionAction: (_prev: FormState, formData: FormData) => Promise<FormState>;
   faqs: FaqRow[];
+  teamMembers: TeamRow[];
+  toggleAboutMemberAction: (id: number, show: boolean) => Promise<void>;
 };
 
 const INITIAL: FormState = {};
@@ -146,7 +158,7 @@ function SaveBtn({ pending }: { pending: boolean }) {
   );
 }
 
-export default function AboutForm({ settings, saveSettingsAction, visibilityAction, page, saveHeroAction, saveMissionSectionAction, savePhilosophySectionAction, faqs }: Props) {
+export default function AboutForm({ settings, saveSettingsAction, visibilityAction, page, saveHeroAction, saveMissionSectionAction, savePhilosophySectionAction, faqs, teamMembers, toggleAboutMemberAction }: Props) {
   const [heroState, heroFormAction, heroPending] = useActionState(saveHeroAction, INITIAL);
   const [seoState, seoFormAction, seoPending] = useActionState(saveHeroAction, INITIAL);
   const [missionState, missionFormAction, missionPending] = useActionState(saveMissionSectionAction, INITIAL);
@@ -155,6 +167,7 @@ export default function AboutForm({ settings, saveSettingsAction, visibilityActi
   const [settingsSaved, setSettingsSaved] = useState(false);
   const [saveKey, setSaveKey] = useState(0);
   const lang = useAdminLang();
+  const [aboutMembers, setAboutMembers] = useState(teamMembers);
 
   const anyPending = heroPending || missionPending || philosophyPending || settingsPending || seoPending;
   const prevAnyPendingRef = useRef(false);
@@ -297,6 +310,63 @@ export default function AboutForm({ settings, saveSettingsAction, visibilityActi
 
           </div>
         </form>
+
+        {/* ── Team Section ─────────────────────────────────────────── */}
+        <div className="card overflow-hidden">
+          <div className="card-header">
+            <h2 className="font-semibold text-brand-900 flex items-center gap-2 text-[15px]">
+              <i className="ph ph-users text-primary-600" /> Team Section
+            </h2>
+            <SectionToggle on={settings.sectionVisibility.team} name="team" visibilityAction={visibilityAction} />
+          </div>
+          <div className="card-body space-y-3">
+            <p className="text-[12px] text-brand-400">
+              Toggle which members appear on the About page. Members shown here must also be <span className="font-semibold">Visible</span> in the Team directory.
+            </p>
+            {aboutMembers.length === 0 ? (
+              <p className="text-[13px] text-brand-400 py-2">No team members found.</p>
+            ) : (
+              <div className="divide-y divide-brand-50">
+                {aboutMembers.map((m) => (
+                  <div key={m.id} className="flex items-center gap-3 py-2.5">
+                    {m.image ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={m.image} alt={m.titleEn} className="w-8 h-8 rounded-[4px] object-cover shrink-0" />
+                    ) : (
+                      <div className="w-8 h-8 rounded-[4px] bg-brand-100 flex items-center justify-center shrink-0">
+                        <i className="ph ph-user text-brand-400 text-[14px]" />
+                      </div>
+                    )}
+                    <div className="flex-1 min-w-0">
+                      <div className="text-[13px] font-medium text-brand-900 truncate">{m.titleEn}</div>
+                      {m.positionEn && <div className="text-[11px] text-brand-400 truncate">{m.positionEn}</div>}
+                    </div>
+                    {!m.published && (
+                      <span className="text-[10px] text-brand-300 font-medium shrink-0">hidden</span>
+                    )}
+                    <button
+                      type="button"
+                      title={m.showOnAbout ? "Remove from About page" : "Show on About page"}
+                      onClick={() => {
+                        const next = !m.showOnAbout;
+                        setAboutMembers((prev) => prev.map((x) => x.id === m.id ? { ...x, showOnAbout: next ? 1 : 0 } : x));
+                        toggleAboutMemberAction(m.id, next);
+                      }}
+                      className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-[11px] font-semibold transition-colors shrink-0 ${
+                        m.showOnAbout
+                          ? "bg-green-50 text-green-700 hover:bg-green-100"
+                          : "bg-brand-100 text-brand-400 hover:bg-brand-200"
+                      }`}
+                    >
+                      <i className={`ph ${m.showOnAbout ? "ph-eye" : "ph-eye-slash"} text-[12px]`} />
+                      {m.showOnAbout ? "Shown" : "Hidden"}
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
 
         {/* ── Our Mission (text + images combined) ─────────────────── */}
         <form action={missionFormAction}>
