@@ -26,8 +26,6 @@
 }
 
 .description {
-  font-size: 18px;
-  line-height: 1.65;
   color: var(--slate-600);
   max-width: 640px;
 }

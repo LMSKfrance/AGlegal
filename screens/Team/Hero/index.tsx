@@ -71,7 +71,7 @@ const Hero = ({ members, title = "Our team.", description, showHeader = true }: 
               {title}
             </h1>
             {description && (
-              <p ref={descRef} className={styles.description}>
+              <p ref={descRef} className={cn("paragraph-large", styles.description)}>
                 {description}
               </p>
             )}
