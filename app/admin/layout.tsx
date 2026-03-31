@@ -33,7 +33,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   }
 
   const [notificationCount, siteOnline] = await Promise.all([
-    getNotificationCount(),
+    getNotificationCount().catch(() => 0),
     getSiteOnlineStatus(),
   ]);
 
