@@ -43,10 +43,6 @@ const Member = ({ member }: MemberProps) => {
           {member.position}
         </p>
 
-        <p className={cn("paragraph-small", styles.member_description)}>
-          {member.description}
-        </p>
-
         <div className={styles.member_socials}>
           {member.socials.map((social) => (
             <span
