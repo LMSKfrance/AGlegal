@@ -21,10 +21,15 @@ import HomeForm from "./HomeForm";
 export const dynamic = "force-dynamic";
 
 async function getPresentationsMeta() {
-  const rows = await db
-    .select()
-    .from(siteSettings)
-    .where(inArray(siteSettings.key, ["presentations.en", "presentations.ka"]));
+  let rows: (typeof siteSettings.$inferSelect)[] = [];
+  try {
+    rows = await db
+      .select()
+      .from(siteSettings)
+      .where(inArray(siteSettings.key, ["presentations.en", "presentations.ka"]));
+  } catch (err) {
+    console.error("[getPresentationsMeta] DB error:", err);
+  }
 
   let en: { filename: string; sizeLabel: string } | null = null;
   let ka: { filename: string; sizeLabel: string } | null = null;
