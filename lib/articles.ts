@@ -26,20 +26,25 @@ export const getSortedArticles = async (locale: Locale = "en"): Promise<Article[
 };
 
 export const getArticleData = async (id: string, locale: Locale = "en") => {
-  const rows = await db.select().from(articles).where(eq(articles.slug, id));
-  const row = rows[0];
-  if (!row) throw new Error(`Article not found: ${id}`);
+  try {
+    const rows = await db.select().from(articles).where(eq(articles.slug, id));
+    const row = rows[0];
+    if (!row) throw new Error(`Article not found: ${id}`);
 
-  return {
-    id: row.slug,
-    contentHtml: pick(locale, row.contentEn, row.contentKa) ?? "",
-    image: row.image,
-    ogImage: row.ogImage,
-    title: pick(locale, row.titleEn, row.titleKa),
-    description: pick(locale, row.descriptionEn, row.descriptionKa) ?? "",
-    date: moment(row.date, "YYYY-MM-DD").format("MMM D, YYYY"),
-    time: row.time,
-  };
+    return {
+      id: row.slug,
+      contentHtml: pick(locale, row.contentEn, row.contentKa) ?? "",
+      image: row.image,
+      ogImage: row.ogImage,
+      title: pick(locale, row.titleEn, row.titleKa),
+      description: pick(locale, row.descriptionEn, row.descriptionKa) ?? "",
+      date: moment(row.date, "YYYY-MM-DD").format("MMM D, YYYY"),
+      time: row.time,
+    };
+  } catch (err) {
+    console.error("[getArticleData]", err);
+    throw err;
+  }
 };
 
 function mapRow(

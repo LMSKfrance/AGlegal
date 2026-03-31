@@ -8,25 +8,34 @@ import { SUPPORTED_PLATFORMS } from "./utils/socialIcons";
 export type { TeamMember } from "./types/team";
 
 async function getSocialsForMember(memberId: number) {
-  return db
-    .select()
-    .from(teamMemberSocials)
-    .where(eq(teamMemberSocials.teamMemberId, memberId));
+  try {
+    return await db
+      .select()
+      .from(teamMemberSocials)
+      .where(eq(teamMemberSocials.teamMemberId, memberId));
+  } catch {
+    return [];
+  }
 }
 
 export async function getTeamMemberBySlug(
   slug: string,
   locale: Locale = "en"
 ): Promise<TeamMember | null> {
-  const rows = await db
-    .select()
-    .from(teamMembers)
-    .where(and(eq(teamMembers.slug, slug), eq(teamMembers.published, 1)));
-  const row = rows[0];
-  if (!row) return null;
+  try {
+    const rows = await db
+      .select()
+      .from(teamMembers)
+      .where(and(eq(teamMembers.slug, slug), eq(teamMembers.published, 1)));
+    const row = rows[0];
+    if (!row) return null;
 
-  const socials = await getSocialsForMember(row.id);
-  return mapRow(row, socials, locale);
+    const socials = await getSocialsForMember(row.id);
+    return mapRow(row, socials, locale);
+  } catch (err) {
+    console.error("[getTeamMemberBySlug]", err);
+    return null;
+  }
 }
 
 export async function getTeamMembers(

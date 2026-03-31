@@ -14,19 +14,23 @@ const CONTACT_EMAIL_KEY = "notifications.contact_email";
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
 async function upsertSetting(key: string, value: string) {
-  const [existing] = await db
-    .select()
-    .from(siteSettings)
-    .where(eq(siteSettings.key, key))
-    .limit(1);
+  try {
+    const [existing] = await db
+      .select()
+      .from(siteSettings)
+      .where(eq(siteSettings.key, key))
+      .limit(1);
 
-  if (existing) {
-    await db
-      .update(siteSettings)
-      .set({ valueEn: value, updatedAt: new Date().toISOString() })
-      .where(eq(siteSettings.key, key));
-  } else {
-    await db.insert(siteSettings).values({ key, valueEn: value, group: "site" });
+    if (existing) {
+      await db
+        .update(siteSettings)
+        .set({ valueEn: value, updatedAt: new Date().toISOString() })
+        .where(eq(siteSettings.key, key));
+    } else {
+      await db.insert(siteSettings).values({ key, valueEn: value, group: "site" });
+    }
+  } catch (err) {
+    console.error("[upsertSetting]", err);
   }
 }
 

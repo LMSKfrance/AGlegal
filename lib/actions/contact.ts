@@ -71,8 +71,13 @@ export type ContactFormState = {
 };
 
 export async function getContactSettings() {
-  const rows = await db.select().from(contactSettings).limit(1);
-  return rows[0] ?? null;
+  try {
+    const rows = await db.select().from(contactSettings).limit(1);
+    return rows[0] ?? null;
+  } catch (err) {
+    console.error("[getContactSettings]", err);
+    return null;
+  }
 }
 
 export async function upsertContactSettings(
