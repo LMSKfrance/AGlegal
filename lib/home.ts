@@ -55,7 +55,7 @@ type ProcessTab = {
   };
 };
 
-type CTAContent = {
+export type CTAContent = {
   subtitle: string;
   title: string;
   button: string;
