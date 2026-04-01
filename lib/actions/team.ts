@@ -120,11 +120,11 @@ export async function createTeamMember(prev: TeamFormState, formData: FormData):
 
 export async function updateTeamMember(id: number, prev: TeamFormState, formData: FormData): Promise<TeamFormState> {
   try {
-    const titleEn = (formData.get("titleEn") as string)?.trim();
-    if (!titleEn) return { error: "Name (EN) is required", fieldErrors: { titleEn: "Required" } };
-
     const existing = await getTeamMemberById(id);
     if (!existing) return { error: "Team member not found." };
+
+    const titleEn = (formData.get("titleEn") as string)?.trim() || existing.titleEn;
+    if (!titleEn) return { error: "Name (EN) is required", fieldErrors: { titleEn: "Required" } };
 
     const newSlug = slugify(titleEn) || existing.slug;
     if (newSlug !== existing.slug) {

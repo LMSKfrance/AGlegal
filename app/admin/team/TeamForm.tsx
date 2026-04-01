@@ -166,7 +166,10 @@ export default function TeamForm({ action, member }: Props) {
                 {lang === "en" ? (
                   <input type="text" name="titleEn" className="input-base" placeholder="Full name" defaultValue={member?.titleEn ?? ""} required />
                 ) : (
-                  <input type="text" name="titleKa" className="input-base" placeholder="Full name (Georgian)" defaultValue={member?.titleKa ?? ""} />
+                  <>
+                    <input type="hidden" name="titleEn" value={member?.titleEn ?? ""} />
+                    <input type="text" name="titleKa" className="input-base" placeholder="Full name (Georgian)" defaultValue={member?.titleKa ?? ""} />
+                  </>
                 )}
               </div>
               <div>
