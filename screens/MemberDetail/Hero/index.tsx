@@ -8,15 +8,21 @@ import Member from "@/components/Member";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { getSocialIcon } from "@/lib/utils/socialIcons";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 import type { TeamMember } from "@/lib/types/team";
 
 type HeroProps = {
-  member: TeamMember;
-  otherMembers: TeamMember[];
+  memberEn: TeamMember;
+  memberKa: TeamMember | null;
+  otherMembersEn: TeamMember[];
+  otherMembersKa: TeamMember[];
 };
 
-const Hero = ({ member, otherMembers }: HeroProps) => {
+const Hero = ({ memberEn, memberKa, otherMembersEn, otherMembersKa }: HeroProps) => {
+  const { locale, t } = useLanguage();
+  const member = locale === "ka" && memberKa ? memberKa : memberEn;
+  const otherMembers = locale === "ka" && otherMembersKa.length > 0 ? otherMembersKa : otherMembersEn;
   const container = React.useRef<HTMLDivElement>(null);
   const cardRef = React.useRef<HTMLDivElement>(null);
   const bioRef = React.useRef<HTMLDivElement>(null);
@@ -121,11 +127,10 @@ const Hero = ({ member, otherMembers }: HeroProps) => {
         <div className={cn("container", styles.team_container)}>
           <div className={styles.team_header}>
             <h2 className={cn(styles.team_title)}>
-              Explore Our team<span className={styles.accent}>.</span>
+              {t.ui.team.title}<span className={styles.accent}>.</span>
             </h2>
             <p className={cn("paragraph-medium", styles.team_subtitle)}>
-              Our team of skilled attorneys and legal professionals is dedicated
-              to providing you with top-tier legal support.
+              {t.ui.team.description}
             </p>
           </div>
 

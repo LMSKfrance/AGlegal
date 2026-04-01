@@ -26,15 +26,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 const TeamMemberPage = async ({ params }: Props) => {
   const { slug } = await params;
-  const member = await getTeamMemberBySlug(slug);
+  const [memberEn, memberKa, otherMembersEn, otherMembersKa] = await Promise.all([
+    getTeamMemberBySlug(slug, "en"),
+    getTeamMemberBySlug(slug, "ka"),
+    getOtherTeamMembers(slug, "en"),
+    getOtherTeamMembers(slug, "ka"),
+  ]);
 
-  if (!member) {
+  if (!memberEn) {
     notFound();
   }
 
-  const otherMembers = await getOtherTeamMembers(slug);
-
-  return <MemberDetailPage member={member} otherMembers={otherMembers} />;
+  return <MemberDetailPage memberEn={memberEn} memberKa={memberKa} otherMembersEn={otherMembersEn} otherMembersKa={otherMembersKa} />;
 };
 
 export default TeamMemberPage;

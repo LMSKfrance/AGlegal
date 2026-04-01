@@ -7,15 +7,23 @@ import Member from "@/components/Member";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import type { TeamMember } from "@/lib/types/team";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 type HeroProps = {
-  members: TeamMember[];
-  title?: string;
-  description?: string;
+  membersEn: TeamMember[];
+  membersKa: TeamMember[];
+  titleEn?: string;
+  titleKa?: string;
+  descriptionEn?: string;
+  descriptionKa?: string;
   showHeader?: boolean;
 };
 
-const Hero = ({ members, title = "Our team.", description, showHeader = true }: HeroProps) => {
+const Hero = ({ membersEn, membersKa, titleEn = "Our team.", titleKa, descriptionEn, descriptionKa, showHeader = true }: HeroProps) => {
+  const { locale } = useLanguage();
+  const members = locale === "ka" && membersKa.length > 0 ? membersKa : membersEn;
+  const title = (locale === "ka" && titleKa) ? titleKa : titleEn;
+  const description = (locale === "ka" && descriptionKa) ? descriptionKa : descriptionEn;
 
   const container = React.useRef<HTMLDivElement>(null);
   const titleRef = React.useRef<HTMLHeadingElement>(null);
