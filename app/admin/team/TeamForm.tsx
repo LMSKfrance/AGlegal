@@ -224,6 +224,28 @@ export default function TeamForm({ action, member }: Props) {
           <input type="hidden" name="quoteKa" value={member?.quoteKa ?? ""} />
           <input type="hidden" name="text2En" value={member?.text2En ?? ""} />
           <input type="hidden" name="text2Ka" value={member?.text2Ka ?? ""} />
+          {/* Preserve inactive-language values so they aren't overwritten on save */}
+          {lang === "en" ? (
+            <>
+              <input type="hidden" name="titleKa" value={member?.titleKa ?? ""} />
+              <input type="hidden" name="positionKa" value={member?.positionKa ?? ""} />
+              <input type="hidden" name="text1Ka" value={member?.text1Ka ?? ""} />
+              <input type="hidden" name="seoTitleKa" value={member?.seoTitleKa ?? ""} />
+              <input type="hidden" name="ogTitleKa" value={member?.ogTitleKa ?? ""} />
+              <input type="hidden" name="metaDescriptionKa" value={member?.metaDescriptionKa ?? ""} />
+              <input type="hidden" name="ogDescriptionKa" value={member?.ogDescriptionKa ?? ""} />
+            </>
+          ) : (
+            <>
+              {/* titleEn is already preserved near the name input above */}
+              <input type="hidden" name="positionEn" value={member?.positionEn ?? ""} />
+              <input type="hidden" name="text1En" value={member?.text1En ?? ""} />
+              <input type="hidden" name="seoTitleEn" value={member?.seoTitleEn ?? ""} />
+              <input type="hidden" name="ogTitleEn" value={member?.ogTitleEn ?? ""} />
+              <input type="hidden" name="metaDescriptionEn" value={member?.metaDescriptionEn ?? ""} />
+              <input type="hidden" name="ogDescriptionEn" value={member?.ogDescriptionEn ?? ""} />
+            </>
+          )}
         </div>
 
         <div className="space-y-5 border-t border-brand-200 pt-8 bg-brand-50 -mx-8 px-8 py-8 rounded-b-xl">
