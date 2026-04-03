@@ -7,12 +7,14 @@ import Link from "next/link";
 import { getSocialIcon } from "@/lib/utils/socialIcons";
 
 import type { TeamMember } from "@/lib/types/team";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 type MemberProps = {
   member: Pick<TeamMember, "slug" | "title" | "position" | "description" | "image" | "imagePosition" | "socials">;
 };
 
 const Member = ({ member }: MemberProps) => {
+  const { locale } = useLanguage();
   const content = (
     <>
       <div className={styles.member_image}>
@@ -64,7 +66,7 @@ const Member = ({ member }: MemberProps) => {
 
   if (member.slug) {
     return (
-      <Link href={`/team/${member.slug}`} className={styles.member}>
+      <Link href={locale === "ka" ? `/ka/team/${member.slug}` : `/team/${member.slug}`} className={styles.member}>
         {content}
       </Link>
     );

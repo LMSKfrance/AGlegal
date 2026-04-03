@@ -102,8 +102,10 @@ export default async function RootLayout({
     }
   }
 
+  const locale = (!isAdminRoute && !isApiRoute && pathname.startsWith("/ka")) ? "ka" : "en";
+
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang={locale} suppressHydrationWarning>
       <body
         className={cn(
           inter.variable,

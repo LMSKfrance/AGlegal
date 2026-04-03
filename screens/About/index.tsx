@@ -9,9 +9,10 @@ import Philosophy from "./Philosophy";
 import CTA from "../Universal/CTA";
 import { getAboutContent } from "@/lib/about";
 import { AboutContentProvider } from "./AboutContentContext";
+import type { Locale } from "@/lib/db/locale";
 
-const AboutPage = async () => {
-  const { page, sections, teamMembers } = await getAboutContent("en");
+const AboutPage = async ({ locale = "en" }: { locale?: Locale }) => {
+  const { page, sections, teamMembers } = await getAboutContent(locale);
   const v = sections.sectionVisibility;
 
   return (

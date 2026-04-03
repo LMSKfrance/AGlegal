@@ -85,6 +85,10 @@ export default function AdminShell({
 
   useEffect(() => {
     if (window.innerWidth >= 768) setCollapsed(false);
+    try {
+      const stored = localStorage.getItem("admin-lang") as "en" | "ka" | null;
+      if (stored === "en" || stored === "ka") setLang(stored);
+    } catch {}
   }, []);
 
   // Close mobile drawer on navigation
@@ -194,8 +198,8 @@ export default function AdminShell({
         {/* Lang switcher — mobile drawer only */}
         <div className="sidebar-lang px-4 py-3 border-t border-brand-100">
           <div className="lang-switcher w-full justify-center">
-            <div className={`lang-tab flex-1 text-center${lang === "en" ? " active" : ""}`} onClick={() => setLang("en")}>ENG</div>
-            <div className={`lang-tab lang-tab-ka flex-1 text-center${lang === "ka" ? " active" : ""}`} onClick={() => setLang("ka")}>ქარ</div>
+            <div className={`lang-tab flex-1 text-center${lang === "en" ? " active" : ""}`} onClick={() => { setLang("en"); try { localStorage.setItem("admin-lang", "en"); } catch {} }}>ENG</div>
+            <div className={`lang-tab lang-tab-ka flex-1 text-center${lang === "ka" ? " active" : ""}`} onClick={() => { setLang("ka"); try { localStorage.setItem("admin-lang", "ka"); } catch {} }}>ქარ</div>
           </div>
         </div>
 
@@ -295,8 +299,8 @@ export default function AdminShell({
             </Link>
             <div className="hidden md:block w-px h-5 bg-brand-200" />
             <div className="hidden md:flex lang-switcher">
-              <div className={`lang-tab${lang === "en" ? " active" : ""}`} onClick={() => setLang("en")}>ENG</div>
-              <div className={`lang-tab lang-tab-ka${lang === "ka" ? " active" : ""}`} onClick={() => setLang("ka")}>ქარ</div>
+              <div className={`lang-tab${lang === "en" ? " active" : ""}`} onClick={() => { setLang("en"); try { localStorage.setItem("admin-lang", "en"); } catch {} }}>ENG</div>
+              <div className={`lang-tab lang-tab-ka${lang === "ka" ? " active" : ""}`} onClick={() => { setLang("ka"); try { localStorage.setItem("admin-lang", "ka"); } catch {} }}>ქარ</div>
             </div>
           </div>
         </header>

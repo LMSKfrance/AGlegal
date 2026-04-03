@@ -1,6 +1,7 @@
 "use client";
 
-import React, { createContext, useContext, useState, useCallback, useEffect } from "react";
+import React, { createContext, useContext, useCallback } from "react";
+import { useRouter, usePathname } from "next/navigation";
 import mockEn from "@/constants/mock";
 import mockKa from "@/constants/mock-ka";
 
@@ -15,39 +16,30 @@ type LanguageContextType = {
 
 const LanguageContext = createContext<LanguageContextType | null>(null);
 
-const STORAGE_KEY = "ag-legal-locale";
-
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [locale, setLocaleState] = useState<Locale>("en");
-  const [mounted, setMounted] = useState(false);
+  const pathname = usePathname();
+  const router = useRouter();
 
-  useEffect(() => {
-    try {
-      const stored = localStorage.getItem(STORAGE_KEY) as Locale | null;
-      if (stored === "en" || stored === "ka") {
-        setLocaleState(stored);
+  // Locale is derived purely from the URL — no localStorage, no useState
+  const locale: Locale = pathname.startsWith("/ka") ? "ka" : "en";
+
+  const setLocale = useCallback(
+    (newLocale: Locale) => {
+      if (newLocale === locale) return;
+      if (newLocale === "ka") {
+        router.push("/ka" + (pathname === "/" ? "" : pathname));
+      } else {
+        // Strip /ka prefix
+        const path = pathname.startsWith("/ka/")
+          ? pathname.slice(3)
+          : pathname === "/ka"
+          ? "/"
+          : pathname;
+        router.push(path || "/");
       }
-    } catch {}
-    setMounted(true);
-  }, []);
-
-  const setLocale = useCallback((newLocale: Locale) => {
-    setLocaleState(newLocale);
-    if (typeof window !== "undefined") {
-      try {
-        localStorage.setItem(STORAGE_KEY, newLocale);
-      } catch {}
-      document.documentElement.lang = newLocale === "ka" ? "ka" : "en";
-      document.documentElement.classList.toggle("locale-ka", newLocale === "ka");
-    }
-  }, []);
-
-  useEffect(() => {
-    if (mounted) {
-      document.documentElement.lang = locale === "ka" ? "ka" : "en";
-      document.documentElement.classList.toggle("locale-ka", locale === "ka");
-    }
-  }, [locale, mounted]);
+    },
+    [locale, router, pathname]
+  );
 
   const t = locale === "ka" ? mockKa : mockEn;
   const isGeorgian = locale === "ka";
@@ -61,8 +53,6 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 
 export function useLanguage() {
   const ctx = useContext(LanguageContext);
-  if (!ctx) {
-    throw new Error("useLanguage must be used within LanguageProvider");
-  }
+  if (!ctx) throw new Error("useLanguage must be used within LanguageProvider");
   return ctx;
 }

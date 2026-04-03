@@ -5,8 +5,7 @@ import { getServices, type Service } from "@/lib/services";
 import { getPageBySlug } from "@/lib/actions/pages";
 import type { Locale } from "@/lib/db/locale";
 
-const ServicesPage = async () => {
-  const locale: Locale = "en";
+const ServicesPage = async ({ locale = "en" }: { locale?: Locale }) => {
   let services: Service[] = [];
   let page = null;
   try {

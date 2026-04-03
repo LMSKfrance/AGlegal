@@ -13,7 +13,11 @@ const Header = () => {
   const [menuOpen, setMenuOpen] = React.useState(false);
   const { locale, setLocale, t } = useLanguage();
   const { hiddenNavIds } = useNavVisibility();
-  const visibleNavLinks = t.nav_links.filter((l) => !hiddenNavIds.includes(l.id));
+  const lp = (path: string) =>
+    locale === "ka" ? `/ka${path === "/" ? "" : path}` : path;
+  const visibleNavLinks = t.nav_links
+    .filter((l) => !hiddenNavIds.includes(l.id))
+    .map((l) => ({ ...l, url: lp(l.url) }));
 
   const handleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -41,7 +45,7 @@ const Header = () => {
           >
             {locale === "en" ? "ქარ" : "EN"}
           </button>
-          <Link href="/contact" className={cn(styles.button_secondary)}>
+          <Link href={lp("/contact")} className={cn(styles.button_secondary)}>
             {t.ui.header.contact}
           </Link>
 
