@@ -5,9 +5,11 @@ import cn from "classnames";
 import styles from "./mission.module.css";
 import Image from "next/image";
 import icons from "@/constants/icons";
-import mock from "@/constants/mock";
+import mockEn from "@/constants/mock";
+import mockKa from "@/constants/mock-ka";
 import gsap from "gsap";
 import { AboutContentContext } from "../AboutContentContext";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 
@@ -21,19 +23,33 @@ const DEFAULT_MISSION_DESCRIPTION =
   "AG Legal Consulting -  Your Trusted Legal Advisors in Georgia";
 
 const Mission = () => {
+  const { locale } = useLanguage();
   const aboutCtx = useContext(AboutContentContext);
-  const missionTitle =
-    aboutCtx?.sections?.missionTitleEn?.trim() || DEFAULT_MISSION_TITLE;
-  const missionDescription =
-    aboutCtx?.sections?.missionDescriptionEn?.trim() || DEFAULT_MISSION_DESCRIPTION;
-  const { content: mockContent } = mock;
-  const content = mockContent.map((item, i) => ({
+  const s = aboutCtx?.sections;
+
+  const missionTitle = locale === "ka"
+    ? s?.missionTitleKa?.trim() || s?.missionTitleEn?.trim() || DEFAULT_MISSION_TITLE
+    : s?.missionTitleEn?.trim() || DEFAULT_MISSION_TITLE;
+  const missionDescription = locale === "ka"
+    ? s?.missionDescriptionKa?.trim() || s?.missionDescriptionEn?.trim() || DEFAULT_MISSION_DESCRIPTION
+    : s?.missionDescriptionEn?.trim() || DEFAULT_MISSION_DESCRIPTION;
+
+  const baseMock = locale === "ka" ? mockKa.content : mockEn.content;
+  const tabTitles = [
+    locale === "ka" ? s?.missionTab1TitleKa?.trim() || s?.missionTab1TitleEn?.trim() : s?.missionTab1TitleEn?.trim(),
+    locale === "ka" ? s?.missionTab2TitleKa?.trim() || s?.missionTab2TitleEn?.trim() : s?.missionTab2TitleEn?.trim(),
+    locale === "ka" ? s?.missionTab3TitleKa?.trim() || s?.missionTab3TitleEn?.trim() : s?.missionTab3TitleEn?.trim(),
+  ];
+  const tabDescs = [
+    locale === "ka" ? s?.missionTab1DescKa?.trim() || s?.missionTab1DescEn?.trim() : s?.missionTab1DescEn?.trim(),
+    locale === "ka" ? s?.missionTab2DescKa?.trim() || s?.missionTab2DescEn?.trim() : s?.missionTab2DescEn?.trim(),
+    locale === "ka" ? s?.missionTab3DescKa?.trim() || s?.missionTab3DescEn?.trim() : s?.missionTab3DescEn?.trim(),
+  ];
+  const content = baseMock.map((item, i) => ({
     ...item,
-    image: [
-      aboutCtx?.sections?.missionTab1Image,
-      aboutCtx?.sections?.missionTab2Image,
-      aboutCtx?.sections?.missionTab3Image,
-    ][i]?.trim() || item.image,
+    title: tabTitles[i] || item.title,
+    description: tabDescs[i] || item.description,
+    image: [s?.missionTab1Image, s?.missionTab2Image, s?.missionTab3Image][i]?.trim() || item.image,
   }));
 
   const [activeTab, setActiveTab] = React.useState(content[0].id);

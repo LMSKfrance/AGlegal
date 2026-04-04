@@ -53,11 +53,25 @@ export async function upsertAboutSectionSettings(
   formData: FormData
 ): Promise<{ success?: boolean; error?: string }> {
   try {
-    // Only numbers and features — mission/philosophy have their own combined actions
     const pairs: [string, string, string][] = [
       ["about.numbers.title", "numbersTitleEn", "numbersTitleKa"],
       ["about.numbers.description", "numbersDescriptionEn", "numbersDescriptionKa"],
+      // Stat cards (value is language-neutral, stored in valueEn; label is bilingual)
+      ["about.numbers.stat1.value", "stat1Value", "stat1Value"],
+      ["about.numbers.stat1.label", "stat1LabelEn", "stat1LabelKa"],
+      ["about.numbers.stat2.value", "stat2Value", "stat2Value"],
+      ["about.numbers.stat2.label", "stat2LabelEn", "stat2LabelKa"],
+      ["about.numbers.stat3.value", "stat3Value", "stat3Value"],
+      ["about.numbers.stat3.label", "stat3LabelEn", "stat3LabelKa"],
       ["about.features.title", "featuresTitleEn", "featuresTitleKa"],
+      ["about.features.item1.title", "featuresItem1TitleEn", "featuresItem1TitleKa"],
+      ["about.features.item1.desc", "featuresItem1DescEn", "featuresItem1DescKa"],
+      ["about.features.item2.title", "featuresItem2TitleEn", "featuresItem2TitleKa"],
+      ["about.features.item2.desc", "featuresItem2DescEn", "featuresItem2DescKa"],
+      ["about.features.item3.title", "featuresItem3TitleEn", "featuresItem3TitleKa"],
+      ["about.features.item3.desc", "featuresItem3DescEn", "featuresItem3DescKa"],
+      ["about.features.item4.title", "featuresItem4TitleEn", "featuresItem4TitleKa"],
+      ["about.features.item4.desc", "featuresItem4DescEn", "featuresItem4DescKa"],
     ];
     for (const [key, en, ka] of pairs) {
       await upsertSetting(
@@ -89,6 +103,22 @@ export async function upsertAboutMissionSection(
       (formData.get("missionDescriptionEn") as string)?.trim() || null,
       (formData.get("missionDescriptionKa") as string)?.trim() || null
     );
+    // Tab text content
+    const tabPairs: [string, string, string][] = [
+      ["about.mission.tab1.title", "missionTab1TitleEn", "missionTab1TitleKa"],
+      ["about.mission.tab1.desc", "missionTab1DescEn", "missionTab1DescKa"],
+      ["about.mission.tab2.title", "missionTab2TitleEn", "missionTab2TitleKa"],
+      ["about.mission.tab2.desc", "missionTab2DescEn", "missionTab2DescKa"],
+      ["about.mission.tab3.title", "missionTab3TitleEn", "missionTab3TitleKa"],
+      ["about.mission.tab3.desc", "missionTab3DescEn", "missionTab3DescKa"],
+    ];
+    for (const [key, en, ka] of tabPairs) {
+      await upsertSetting(
+        key,
+        (formData.get(en) as string)?.trim() || null,
+        (formData.get(ka) as string)?.trim() || null
+      );
+    }
     const { uploadImage } = await import("@/lib/actions/upload");
     const tabs = [
       { formKey: "tab1Image", settingKey: "about.mission.tab1.image" },

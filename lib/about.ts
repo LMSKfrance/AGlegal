@@ -24,6 +24,16 @@ export type AboutSectionSettings = {
   numbersTitleKa: string;
   numbersDescriptionEn: string;
   numbersDescriptionKa: string;
+  // Stat cards
+  stat1Value: string;
+  stat1LabelEn: string;
+  stat1LabelKa: string;
+  stat2Value: string;
+  stat2LabelEn: string;
+  stat2LabelKa: string;
+  stat3Value: string;
+  stat3LabelEn: string;
+  stat3LabelKa: string;
   missionTitleEn: string;
   missionTitleKa: string;
   missionDescriptionEn: string;
@@ -31,8 +41,38 @@ export type AboutSectionSettings = {
   missionTab1Image: string;
   missionTab2Image: string;
   missionTab3Image: string;
+  // Mission tab text
+  missionTab1TitleEn: string;
+  missionTab1TitleKa: string;
+  missionTab1DescEn: string;
+  missionTab1DescKa: string;
+  missionTab2TitleEn: string;
+  missionTab2TitleKa: string;
+  missionTab2DescEn: string;
+  missionTab2DescKa: string;
+  missionTab3TitleEn: string;
+  missionTab3TitleKa: string;
+  missionTab3DescEn: string;
+  missionTab3DescKa: string;
   featuresTitleEn: string;
   featuresTitleKa: string;
+  // Features items
+  featuresItem1TitleEn: string;
+  featuresItem1TitleKa: string;
+  featuresItem1DescEn: string;
+  featuresItem1DescKa: string;
+  featuresItem2TitleEn: string;
+  featuresItem2TitleKa: string;
+  featuresItem2DescEn: string;
+  featuresItem2DescKa: string;
+  featuresItem3TitleEn: string;
+  featuresItem3TitleKa: string;
+  featuresItem3DescEn: string;
+  featuresItem3DescKa: string;
+  featuresItem4TitleEn: string;
+  featuresItem4TitleKa: string;
+  featuresItem4DescEn: string;
+  featuresItem4DescKa: string;
   philosophyTitleEn: string;
   philosophyTitleKa: string;
   philosophyDescriptionEn: string;
@@ -47,12 +87,32 @@ export type AboutTeamMemberEntry = { id: number; showOnAbout: boolean; aboutOrde
 const ABOUT_KEYS = [
   "about.numbers.title",
   "about.numbers.description",
+  "about.numbers.stat1.value",
+  "about.numbers.stat1.label",
+  "about.numbers.stat2.value",
+  "about.numbers.stat2.label",
+  "about.numbers.stat3.value",
+  "about.numbers.stat3.label",
   "about.mission.title",
   "about.mission.description",
   "about.mission.tab1.image",
   "about.mission.tab2.image",
   "about.mission.tab3.image",
+  "about.mission.tab1.title",
+  "about.mission.tab1.desc",
+  "about.mission.tab2.title",
+  "about.mission.tab2.desc",
+  "about.mission.tab3.title",
+  "about.mission.tab3.desc",
   "about.features.title",
+  "about.features.item1.title",
+  "about.features.item1.desc",
+  "about.features.item2.title",
+  "about.features.item2.desc",
+  "about.features.item3.title",
+  "about.features.item3.desc",
+  "about.features.item4.title",
+  "about.features.item4.desc",
   "about.philosophy.title",
   "about.philosophy.description",
   "about.philosophy.card1.image",
@@ -86,6 +146,15 @@ const DEFAULT_ABOUT_SECTION_SETTINGS: AboutSectionSettings = {
   numbersTitleKa: "",
   numbersDescriptionEn: "",
   numbersDescriptionKa: "",
+  stat1Value: "",
+  stat1LabelEn: "",
+  stat1LabelKa: "",
+  stat2Value: "",
+  stat2LabelEn: "",
+  stat2LabelKa: "",
+  stat3Value: "",
+  stat3LabelEn: "",
+  stat3LabelKa: "",
   missionTitleEn: "",
   missionTitleKa: "",
   missionDescriptionEn: "",
@@ -93,8 +162,36 @@ const DEFAULT_ABOUT_SECTION_SETTINGS: AboutSectionSettings = {
   missionTab1Image: "",
   missionTab2Image: "",
   missionTab3Image: "",
+  missionTab1TitleEn: "",
+  missionTab1TitleKa: "",
+  missionTab1DescEn: "",
+  missionTab1DescKa: "",
+  missionTab2TitleEn: "",
+  missionTab2TitleKa: "",
+  missionTab2DescEn: "",
+  missionTab2DescKa: "",
+  missionTab3TitleEn: "",
+  missionTab3TitleKa: "",
+  missionTab3DescEn: "",
+  missionTab3DescKa: "",
   featuresTitleEn: "",
   featuresTitleKa: "",
+  featuresItem1TitleEn: "",
+  featuresItem1TitleKa: "",
+  featuresItem1DescEn: "",
+  featuresItem1DescKa: "",
+  featuresItem2TitleEn: "",
+  featuresItem2TitleKa: "",
+  featuresItem2DescEn: "",
+  featuresItem2DescKa: "",
+  featuresItem3TitleEn: "",
+  featuresItem3TitleKa: "",
+  featuresItem3DescEn: "",
+  featuresItem3DescKa: "",
+  featuresItem4TitleEn: "",
+  featuresItem4TitleKa: "",
+  featuresItem4DescEn: "",
+  featuresItem4DescKa: "",
   philosophyTitleEn: "",
   philosophyTitleKa: "",
   philosophyDescriptionEn: "",
@@ -116,7 +213,8 @@ export async function getAboutSectionSettings(): Promise<AboutSectionSettings> {
   try {
     const allKeys = [...(ABOUT_KEYS as unknown as string[]), ...ABOUT_VISIBILITY_KEYS];
     const rows = await getSettingsMap(allKeys);
-    const get = (key: string, which: "valueEn" | "valueKa") => rows[key]?.[which] ?? "";
+    const getEn = (key: string) => rows[key]?.valueEn ?? "";
+    const getKa = (key: string) => rows[key]?.valueKa ?? "";
     const sectionVisibility: AboutSectionVisibility = {
       hero: parseVisibility(rows["about.section.hero.visible"]?.valueEn ?? "1"),
       numbers: parseVisibility(rows["about.section.numbers.visible"]?.valueEn ?? "1"),
@@ -127,25 +225,62 @@ export async function getAboutSectionSettings(): Promise<AboutSectionSettings> {
       faq: parseVisibility(rows["about.section.faq.visible"]?.valueEn ?? "1"),
     };
     return {
-      numbersTitleEn: get("about.numbers.title", "valueEn"),
-      numbersTitleKa: get("about.numbers.title", "valueKa"),
-      numbersDescriptionEn: get("about.numbers.description", "valueEn"),
-      numbersDescriptionKa: get("about.numbers.description", "valueKa"),
-      missionTitleEn: get("about.mission.title", "valueEn"),
-      missionTitleKa: get("about.mission.title", "valueKa"),
-      missionDescriptionEn: get("about.mission.description", "valueEn"),
-      missionDescriptionKa: get("about.mission.description", "valueKa"),
-      missionTab1Image: get("about.mission.tab1.image", "valueEn"),
-      missionTab2Image: get("about.mission.tab2.image", "valueEn"),
-      missionTab3Image: get("about.mission.tab3.image", "valueEn"),
-      featuresTitleEn: get("about.features.title", "valueEn"),
-      featuresTitleKa: get("about.features.title", "valueKa"),
-      philosophyTitleEn: get("about.philosophy.title", "valueEn"),
-      philosophyTitleKa: get("about.philosophy.title", "valueKa"),
-      philosophyDescriptionEn: get("about.philosophy.description", "valueEn"),
-      philosophyDescriptionKa: get("about.philosophy.description", "valueKa"),
-      philosophyCard1Image: get("about.philosophy.card1.image", "valueEn"),
-      philosophyCard2Image: get("about.philosophy.card2.image", "valueEn"),
+      numbersTitleEn: getEn("about.numbers.title"),
+      numbersTitleKa: getKa("about.numbers.title"),
+      numbersDescriptionEn: getEn("about.numbers.description"),
+      numbersDescriptionKa: getKa("about.numbers.description"),
+      stat1Value: getEn("about.numbers.stat1.value"),
+      stat1LabelEn: getEn("about.numbers.stat1.label"),
+      stat1LabelKa: getKa("about.numbers.stat1.label"),
+      stat2Value: getEn("about.numbers.stat2.value"),
+      stat2LabelEn: getEn("about.numbers.stat2.label"),
+      stat2LabelKa: getKa("about.numbers.stat2.label"),
+      stat3Value: getEn("about.numbers.stat3.value"),
+      stat3LabelEn: getEn("about.numbers.stat3.label"),
+      stat3LabelKa: getKa("about.numbers.stat3.label"),
+      missionTitleEn: getEn("about.mission.title"),
+      missionTitleKa: getKa("about.mission.title"),
+      missionDescriptionEn: getEn("about.mission.description"),
+      missionDescriptionKa: getKa("about.mission.description"),
+      missionTab1Image: getEn("about.mission.tab1.image"),
+      missionTab2Image: getEn("about.mission.tab2.image"),
+      missionTab3Image: getEn("about.mission.tab3.image"),
+      missionTab1TitleEn: getEn("about.mission.tab1.title"),
+      missionTab1TitleKa: getKa("about.mission.tab1.title"),
+      missionTab1DescEn: getEn("about.mission.tab1.desc"),
+      missionTab1DescKa: getKa("about.mission.tab1.desc"),
+      missionTab2TitleEn: getEn("about.mission.tab2.title"),
+      missionTab2TitleKa: getKa("about.mission.tab2.title"),
+      missionTab2DescEn: getEn("about.mission.tab2.desc"),
+      missionTab2DescKa: getKa("about.mission.tab2.desc"),
+      missionTab3TitleEn: getEn("about.mission.tab3.title"),
+      missionTab3TitleKa: getKa("about.mission.tab3.title"),
+      missionTab3DescEn: getEn("about.mission.tab3.desc"),
+      missionTab3DescKa: getKa("about.mission.tab3.desc"),
+      featuresTitleEn: getEn("about.features.title"),
+      featuresTitleKa: getKa("about.features.title"),
+      featuresItem1TitleEn: getEn("about.features.item1.title"),
+      featuresItem1TitleKa: getKa("about.features.item1.title"),
+      featuresItem1DescEn: getEn("about.features.item1.desc"),
+      featuresItem1DescKa: getKa("about.features.item1.desc"),
+      featuresItem2TitleEn: getEn("about.features.item2.title"),
+      featuresItem2TitleKa: getKa("about.features.item2.title"),
+      featuresItem2DescEn: getEn("about.features.item2.desc"),
+      featuresItem2DescKa: getKa("about.features.item2.desc"),
+      featuresItem3TitleEn: getEn("about.features.item3.title"),
+      featuresItem3TitleKa: getKa("about.features.item3.title"),
+      featuresItem3DescEn: getEn("about.features.item3.desc"),
+      featuresItem3DescKa: getKa("about.features.item3.desc"),
+      featuresItem4TitleEn: getEn("about.features.item4.title"),
+      featuresItem4TitleKa: getKa("about.features.item4.title"),
+      featuresItem4DescEn: getEn("about.features.item4.desc"),
+      featuresItem4DescKa: getKa("about.features.item4.desc"),
+      philosophyTitleEn: getEn("about.philosophy.title"),
+      philosophyTitleKa: getKa("about.philosophy.title"),
+      philosophyDescriptionEn: getEn("about.philosophy.description"),
+      philosophyDescriptionKa: getKa("about.philosophy.description"),
+      philosophyCard1Image: getEn("about.philosophy.card1.image"),
+      philosophyCard2Image: getEn("about.philosophy.card2.image"),
       sectionVisibility,
     };
   } catch (err) {

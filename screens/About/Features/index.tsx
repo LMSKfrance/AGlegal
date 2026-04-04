@@ -4,21 +4,46 @@ import React, { useContext } from "react";
 import cn from "classnames";
 import styles from "./features.module.css";
 import icons from "@/constants/icons";
-import mock from "@/constants/mock";
+import mockEn from "@/constants/mock";
+import mockKa from "@/constants/mock-ka";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { AboutContentContext } from "../AboutContentContext";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const DEFAULT_TITLE = "What set us apart.";
+const DEFAULT_TITLE_KA = "რა გვასხვავებს.";
 
 const Features = () => {
+  const { locale } = useLanguage();
   const aboutCtx = useContext(AboutContentContext);
-  const titleText =
-    aboutCtx?.sections?.featuresTitleEn?.trim() || DEFAULT_TITLE;
-  const { features } = mock;
+  const s = aboutCtx?.sections;
+
+  const titleText = locale === "ka"
+    ? s?.featuresTitleKa?.trim() || s?.featuresTitleEn?.trim() || DEFAULT_TITLE_KA
+    : s?.featuresTitleEn?.trim() || DEFAULT_TITLE;
+
+  const baseMock = locale === "ka" ? mockKa.features : mockEn.features;
+  const itemTitles = [
+    locale === "ka" ? s?.featuresItem1TitleKa?.trim() || s?.featuresItem1TitleEn?.trim() : s?.featuresItem1TitleEn?.trim(),
+    locale === "ka" ? s?.featuresItem2TitleKa?.trim() || s?.featuresItem2TitleEn?.trim() : s?.featuresItem2TitleEn?.trim(),
+    locale === "ka" ? s?.featuresItem3TitleKa?.trim() || s?.featuresItem3TitleEn?.trim() : s?.featuresItem3TitleEn?.trim(),
+    locale === "ka" ? s?.featuresItem4TitleKa?.trim() || s?.featuresItem4TitleEn?.trim() : s?.featuresItem4TitleEn?.trim(),
+  ];
+  const itemDescs = [
+    locale === "ka" ? s?.featuresItem1DescKa?.trim() || s?.featuresItem1DescEn?.trim() : s?.featuresItem1DescEn?.trim(),
+    locale === "ka" ? s?.featuresItem2DescKa?.trim() || s?.featuresItem2DescEn?.trim() : s?.featuresItem2DescEn?.trim(),
+    locale === "ka" ? s?.featuresItem3DescKa?.trim() || s?.featuresItem3DescEn?.trim() : s?.featuresItem3DescEn?.trim(),
+    locale === "ka" ? s?.featuresItem4DescKa?.trim() || s?.featuresItem4DescEn?.trim() : s?.featuresItem4DescEn?.trim(),
+  ];
+  const features = baseMock.map((item, i) => ({
+    ...item,
+    title: itemTitles[i] || item.title,
+    description: itemDescs[i] || item.description,
+  }));
 
   const [activeIndex, setActiveIndex] = React.useState(0);
 

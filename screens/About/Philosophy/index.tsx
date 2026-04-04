@@ -8,19 +8,28 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { AboutContentContext } from "../AboutContentContext";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const DEFAULT_TITLE = "A philosophy of integrity and dedication.";
 const DEFAULT_DESCRIPTION =
   "At the heart of our legal practice lies an unwavering commitment to justice, transparency, and exceptional client service.";
+const DEFAULT_TITLE_KA = "პატიოსნებისა და ერთგულების ფილოსოფია.";
+const DEFAULT_DESCRIPTION_KA =
+  "ჩვენი სამართლებრივი პრაქტიკის ფუძეა სამართლიანობის, გამჭვირვალობისა და განსაკუთრებული სერვისის მიმართ ურყევი ერთგულება.";
 
 const Philosophy = () => {
+  const { locale } = useLanguage();
   const aboutCtx = useContext(AboutContentContext);
-  const titleText =
-    aboutCtx?.sections?.philosophyTitleEn?.trim() || DEFAULT_TITLE;
-  const descriptionText =
-    aboutCtx?.sections?.philosophyDescriptionEn?.trim() || DEFAULT_DESCRIPTION;
+  const s = aboutCtx?.sections;
+
+  const titleText = locale === "ka"
+    ? s?.philosophyTitleKa?.trim() || s?.philosophyTitleEn?.trim() || DEFAULT_TITLE_KA
+    : s?.philosophyTitleEn?.trim() || DEFAULT_TITLE;
+  const descriptionText = locale === "ka"
+    ? s?.philosophyDescriptionKa?.trim() || s?.philosophyDescriptionEn?.trim() || DEFAULT_DESCRIPTION_KA
+    : s?.philosophyDescriptionEn?.trim() || DEFAULT_DESCRIPTION;
   const container = React.useRef<HTMLDivElement>(null);
   const title = React.useRef<HTMLHeadingElement>(null);
   const description = React.useRef<HTMLParagraphElement>(null);
@@ -114,18 +123,22 @@ const Philosophy = () => {
         <div className={styles.values}>
           <div ref={addToRef(0)}>
             <Value
-              image={aboutCtx?.sections?.philosophyCard1Image?.trim() || "/images/values/integrity-2.jpg"}
-              value="Integrity"
-              title="Justice and fairness"
-              description="We are dedicated to upholding justice and ensuring every client’s rights are protected. Our approach is rooted in fairness, advocacy, and delivering equitable solutions."
+              image={s?.philosophyCard1Image?.trim() || "/images/values/integrity-2.jpg"}
+              value={locale === "ka" ? "პატიოსნება" : "Integrity"}
+              title={locale === "ka" ? "სამართლიანობა" : "Justice and fairness"}
+              description={locale === "ka"
+                ? "ჩვენ ვართ ერთგული სამართლიანობის დამკვიდრებისა და ყველა კლიენტის უფლებების დაცვისა. ჩვენი მიდგომა ემყარება სამართლიანობას, ადვოკატობასა და სათანადო გადაწყვეტილებებს."
+                : "We are dedicated to upholding justice and ensuring every client’s rights are protected. Our approach is rooted in fairness, advocacy, and delivering equitable solutions."}
             />
           </div>
           <div ref={addToRef(1)}>
             <Value
-              image={aboutCtx?.sections?.philosophyCard2Image?.trim() || "/images/values/dedication.jpg"}
-              value="Dedication"
-              title="Transparency and trust"
-              description="Open communication and honesty are pillars of our philosophy. We keep our clients informed at every stage, fostering trust and confidence in our legal process."
+              image={s?.philosophyCard2Image?.trim() || "/images/values/dedication.jpg"}
+              value={locale === "ka" ? "ერთგულება" : "Dedication"}
+              title={locale === "ka" ? "გამჭვირვალობა და ნდობა" : "Transparency and trust"}
+              description={locale === "ka"
+                ? "ღია კომუნიკაცია და პატიოსნება ჩვენი ფილოსოფიის საფუძველია. ჩვენ ვაცნობებთ კლიენტებს ყოველ ეტაპზე, ვხელმძღვანელობთ ნდობასა და ნდობას სამართლებრივ პროცესში."
+                : "Open communication and honesty are pillars of our philosophy. We keep our clients informed at every stage, fostering trust and confidence in our legal process."}
             />
           </div>
         </div>

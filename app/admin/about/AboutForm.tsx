@@ -287,6 +287,32 @@ export default function AboutForm({ settings, saveSettingsAction, visibilityActi
                     defaultValue={field(settings, "numbersDescriptionEn", "numbersDescriptionKa")} />
                   {hidden(settings, "numbersDescriptionEn", "numbersDescriptionKa", "numbersDescriptionEn", "numbersDescriptionKa")}
                 </div>
+                <div>
+                  <label className="label-base text-brand-500">Stat Cards</label>
+                  <div className="space-y-3 mt-2">
+                    {([
+                      { vName: "stat1Value", lEnName: "stat1LabelEn", lKaName: "stat1LabelKa", vKey: "stat1Value" as const, lEnKey: "stat1LabelEn" as const, lKaKey: "stat1LabelKa" as const, vph: "10,000+", lph: "Successful cases" },
+                      { vName: "stat2Value", lEnName: "stat2LabelEn", lKaName: "stat2LabelKa", vKey: "stat2Value" as const, lEnKey: "stat2LabelEn" as const, lKaKey: "stat2LabelKa" as const, vph: "20+", lph: "Years of experience" },
+                      { vName: "stat3Value", lEnName: "stat3LabelEn", lKaName: "stat3LabelKa", vKey: "stat3Value" as const, lEnKey: "stat3LabelEn" as const, lKaKey: "stat3LabelKa" as const, vph: "5,000+", lph: "Satisfied clients" },
+                    ] as const).map((s, i) => (
+                      <div key={i} className="grid grid-cols-2 gap-3 p-3 bg-brand-50 rounded-lg">
+                        <div>
+                          <label className="label-base text-[11px]">Value (stat #{i + 1})</label>
+                          <input type="text" name={s.vName} className="input-base" placeholder={s.vph}
+                            defaultValue={settings[s.vKey]} />
+                        </div>
+                        <div>
+                          <label className="label-base text-[11px]">Label {L}</label>
+                          <input type="text" name={lang === "en" ? s.lEnName : s.lKaName} className="input-base"
+                            placeholder={s.lph} defaultValue={lang === "en" ? settings[s.lEnKey] : settings[s.lKaKey]} />
+                          {lang === "en"
+                            ? <input type="hidden" name={s.lKaName} value={settings[s.lKaKey]} />
+                            : <input type="hidden" name={s.lEnName} value={settings[s.lEnKey]} />}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -298,12 +324,39 @@ export default function AboutForm({ settings, saveSettingsAction, visibilityActi
                 </h2>
                 <SectionToggle on={settings.sectionVisibility.features} name="features" visibilityAction={visibilityAction} />
               </div>
-              <div className="card-body">
+              <div key={formKey} className="card-body space-y-5">
                 <div>
                   <label className="label-base">Title {L}</label>
                   <input type="text" name={lang === "en" ? "featuresTitleEn" : "featuresTitleKa"} className="input-base"
                     placeholder="What Sets Us Apart" defaultValue={field(settings, "featuresTitleEn", "featuresTitleKa")} />
                   {hidden(settings, "featuresTitleEn", "featuresTitleKa", "featuresTitleEn", "featuresTitleKa")}
+                </div>
+                <div>
+                  <label className="label-base text-brand-500">Feature Items</label>
+                  <div className="space-y-3 mt-2">
+                    {([
+                      { tEnN: "featuresItem1TitleEn", tKaN: "featuresItem1TitleKa", dEnN: "featuresItem1DescEn", dKaN: "featuresItem1DescKa", tEnK: "featuresItem1TitleEn" as const, tKaK: "featuresItem1TitleKa" as const, dEnK: "featuresItem1DescEn" as const, dKaK: "featuresItem1DescKa" as const, ph: "Client-centered approach" },
+                      { tEnN: "featuresItem2TitleEn", tKaN: "featuresItem2TitleKa", dEnN: "featuresItem2DescEn", dKaN: "featuresItem2DescKa", tEnK: "featuresItem2TitleEn" as const, tKaK: "featuresItem2TitleKa" as const, dEnK: "featuresItem2DescEn" as const, dKaK: "featuresItem2DescKa" as const, ph: "Proven track record" },
+                      { tEnN: "featuresItem3TitleEn", tKaN: "featuresItem3TitleKa", dEnN: "featuresItem3DescEn", dKaN: "featuresItem3DescKa", tEnK: "featuresItem3TitleEn" as const, tKaK: "featuresItem3TitleKa" as const, dEnK: "featuresItem3DescEn" as const, dKaK: "featuresItem3DescKa" as const, ph: "Experienced legal team" },
+                      { tEnN: "featuresItem4TitleEn", tKaN: "featuresItem4TitleKa", dEnN: "featuresItem4DescEn", dKaN: "featuresItem4DescKa", tEnK: "featuresItem4TitleEn" as const, tKaK: "featuresItem4TitleKa" as const, dEnK: "featuresItem4DescEn" as const, dKaK: "featuresItem4DescKa" as const, ph: "Commitment to ethical practice" },
+                    ] as const).map((item, i) => (
+                      <div key={i} className="p-3 bg-brand-50 rounded-lg space-y-2">
+                        <div className="text-[11px] font-semibold text-brand-500">Item {i + 1} {L}</div>
+                        <input type="text" name={lang === "en" ? item.tEnN : item.tKaN} className="input-base"
+                          placeholder={item.ph}
+                          defaultValue={lang === "en" ? settings[item.tEnK] : settings[item.tKaK]} />
+                        {lang === "en"
+                          ? <input type="hidden" name={item.tKaN} value={settings[item.tKaK]} />
+                          : <input type="hidden" name={item.tEnN} value={settings[item.tEnK]} />}
+                        <textarea name={lang === "en" ? item.dEnN : item.dKaN} className="input-base" rows={2}
+                          placeholder="Description..."
+                          defaultValue={lang === "en" ? settings[item.dEnK] : settings[item.dKaK]} />
+                        {lang === "en"
+                          ? <input type="hidden" name={item.dKaN} value={settings[item.dKaK]} />
+                          : <input type="hidden" name={item.dEnN} value={settings[item.dEnK]} />}
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
@@ -394,6 +447,33 @@ export default function AboutForm({ settings, saveSettingsAction, visibilityActi
                 <textarea name={lang === "en" ? "missionDescriptionEn" : "missionDescriptionKa"} className="input-base" rows={2}
                   defaultValue={field(settings, "missionDescriptionEn", "missionDescriptionKa")} />
                 {hidden(settings, "missionDescriptionEn", "missionDescriptionKa", "missionDescriptionEn", "missionDescriptionKa")}
+              </div>
+              <div>
+                <label className="label-base text-brand-500">Tab Content</label>
+                <p className="text-[12px] text-brand-400 mb-3">Title and description for each tab.</p>
+                <div className="space-y-3">
+                  {([
+                    { titleEnName: "missionTab1TitleEn", titleKaName: "missionTab1TitleKa", descEnName: "missionTab1DescEn", descKaName: "missionTab1DescKa", titleEnKey: "missionTab1TitleEn" as const, titleKaKey: "missionTab1TitleKa" as const, descEnKey: "missionTab1DescEn" as const, descKaKey: "missionTab1DescKa" as const, label: "Tab 1" },
+                    { titleEnName: "missionTab2TitleEn", titleKaName: "missionTab2TitleKa", descEnName: "missionTab2DescEn", descKaName: "missionTab2DescKa", titleEnKey: "missionTab2TitleEn" as const, titleKaKey: "missionTab2TitleKa" as const, descEnKey: "missionTab2DescEn" as const, descKaKey: "missionTab2DescKa" as const, label: "Tab 2" },
+                    { titleEnName: "missionTab3TitleEn", titleKaName: "missionTab3TitleKa", descEnName: "missionTab3DescEn", descKaName: "missionTab3DescKa", titleEnKey: "missionTab3TitleEn" as const, titleKaKey: "missionTab3TitleKa" as const, descEnKey: "missionTab3DescEn" as const, descKaKey: "missionTab3DescKa" as const, label: "Tab 3" },
+                  ] as const).map((tab, i) => (
+                    <div key={i} className="p-3 bg-brand-50 rounded-lg space-y-2">
+                      <div className="text-[11px] font-semibold text-brand-500">{tab.label} {L}</div>
+                      <input type="text" name={lang === "en" ? tab.titleEnName : tab.titleKaName} className="input-base"
+                        placeholder={["Integrity", "Compassion", "Expertise"][i]}
+                        defaultValue={lang === "en" ? settings[tab.titleEnKey] : settings[tab.titleKaKey]} />
+                      {lang === "en"
+                        ? <input type="hidden" name={tab.titleKaName} value={settings[tab.titleKaKey]} />
+                        : <input type="hidden" name={tab.titleEnName} value={settings[tab.titleEnKey]} />}
+                      <textarea name={lang === "en" ? tab.descEnName : tab.descKaName} className="input-base" rows={2}
+                        placeholder="Description..."
+                        defaultValue={lang === "en" ? settings[tab.descEnKey] : settings[tab.descKaKey]} />
+                      {lang === "en"
+                        ? <input type="hidden" name={tab.descKaName} value={settings[tab.descKaKey]} />
+                        : <input type="hidden" name={tab.descEnName} value={settings[tab.descEnKey]} />}
+                    </div>
+                  ))}
+                </div>
               </div>
               <div>
                 <label className="label-base">Tab Images</label>
