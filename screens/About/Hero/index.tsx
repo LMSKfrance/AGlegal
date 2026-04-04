@@ -7,6 +7,7 @@ import Image from "next/image";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useAboutContent } from "../AboutContentContext";
 
 gsap.registerPlugin(useGSAP);
 
@@ -23,6 +24,7 @@ type HeroProps = {
 
 const Hero = ({ page }: HeroProps) => {
   const { locale } = useLanguage();
+  const { sections } = useAboutContent();
   const container = React.useRef<HTMLDivElement>(null);
   const title = React.useRef<HTMLHeadingElement>(null);
   const image = React.useRef<HTMLDivElement>(null);
@@ -106,6 +108,9 @@ const Hero = ({ page }: HeroProps) => {
   const descriptionText = locale === "ka"
     ? page?.contentKa?.trim() || page?.contentEn?.trim()
     : page?.contentEn?.trim();
+  const ctaText = locale === "ka"
+    ? sections.heroCTAKa?.trim() || sections.heroCTAEn?.trim() || "გაიგე მეტი"
+    : sections.heroCTAEn?.trim() || "LEARN MORE";
 
   return (
     <div ref={container} className={cn("section", styles.section)}>
@@ -135,7 +140,7 @@ const Hero = ({ page }: HeroProps) => {
               className={cn("button", styles.button)}
               onClick={scrollToSection}
             >
-              LEARN MORE
+              {ctaText}
             </button>
           </div>
         </div>

@@ -253,6 +253,17 @@ export default function AboutForm({ settings, saveSettingsAction, visibilityActi
                 />
                 {hidden(p, "contentEn", "contentKa", "contentEn", "contentKa")}
               </div>
+              <div>
+                <label className="label-base">CTA Button Text {L}</label>
+                <input
+                  type="text"
+                  name={lang === "en" ? "heroCTAEn" : "heroCTAKa"}
+                  className="input-base"
+                  placeholder={lang === "en" ? "LEARN MORE" : "გაიგე მეტი"}
+                  defaultValue={field(settings, "heroCTAEn", "heroCTAKa")}
+                />
+                {hidden(settings, "heroCTAEn", "heroCTAKa", "heroCTAEn", "heroCTAKa")}
+              </div>
             </div>
           </div>
         </form>

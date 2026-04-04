@@ -427,6 +427,13 @@ export async function upsertAboutHeroContent(
       await db.insert(pages).values(payload);
     }
 
+    // Save CTA button text to siteSettings
+    await upsertSetting(
+      "about.hero.cta",
+      trim("heroCTAEn"),
+      trim("heroCTAKa")
+    );
+
     revalidatePath("/about");
     revalidatePath("/admin/about");
     await logSave("About", "Hero & SEO content", "updated");
