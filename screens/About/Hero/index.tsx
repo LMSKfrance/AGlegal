@@ -6,12 +6,15 @@ import styles from "./hero.module.css";
 import Image from "next/image";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 gsap.registerPlugin(useGSAP);
 
 type AboutPageRecord = {
   titleEn?: string | null;
+  titleKa?: string | null;
   contentEn?: string | null;
+  contentKa?: string | null;
 };
 
 type HeroProps = {
@@ -19,6 +22,7 @@ type HeroProps = {
 };
 
 const Hero = ({ page }: HeroProps) => {
+  const { locale } = useLanguage();
   const container = React.useRef<HTMLDivElement>(null);
   const title = React.useRef<HTMLHeadingElement>(null);
   const image = React.useRef<HTMLDivElement>(null);
@@ -96,8 +100,12 @@ const Hero = ({ page }: HeroProps) => {
     }
   };
 
-  const headingText = page?.titleEn?.trim();
-  const descriptionText = page?.contentEn?.trim();
+  const headingText = locale === "ka"
+    ? page?.titleKa?.trim() || page?.titleEn?.trim()
+    : page?.titleEn?.trim();
+  const descriptionText = locale === "ka"
+    ? page?.contentKa?.trim() || page?.contentEn?.trim()
+    : page?.contentEn?.trim();
 
   return (
     <div ref={container} className={cn("section", styles.section)}>
