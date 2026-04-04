@@ -7,11 +7,15 @@ import Image from "next/image";
 import ContactForm from "@/components/ContactForm";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 type ContactSettingsRecord = {
   titleEn?: string | null;
+  titleKa?: string | null;
   subtitleEn?: string | null;
+  subtitleKa?: string | null;
   addressEn?: string | null;
+  addressKa?: string | null;
   email?: string | null;
   phone?: string | null;
   secondaryPhone?: string | null;
@@ -20,7 +24,9 @@ type ContactSettingsRecord = {
 
 type PageRecord = {
   titleEn?: string | null;
+  titleKa?: string | null;
   contentEn?: string | null;
+  contentKa?: string | null;
 } | null;
 
 type HeroProps = {
@@ -29,6 +35,7 @@ type HeroProps = {
 };
 
 const Hero = ({ contact, page }: HeroProps) => {
+  const { locale } = useLanguage();
   const container = React.useRef<HTMLDivElement>(null);
   const title = React.useRef<HTMLHeadingElement>(null);
   const image = React.useRef<HTMLDivElement>(null);
@@ -171,13 +178,15 @@ const Hero = ({ contact, page }: HeroProps) => {
     { scope: container },
   );
 
-  const titleText =
-    page?.titleEn?.trim() || contact?.titleEn?.trim() || "Get in Touch";
-  const subtitleText =
-    page?.contentEn?.trim() ||
-    contact?.subtitleEn?.trim() ||
-    "We're here to provide the legal support you need. Reach out today to discuss your case or ask any questions.";
-  const addressText = contact?.addressEn?.trim() || "123 Justice Avenue, Suite 101\nSpringfield, IL 62704";
+  const titleText = locale === "ka"
+    ? page?.titleKa?.trim() || page?.titleEn?.trim() || contact?.titleKa?.trim() || contact?.titleEn?.trim() || "კონტაქტი"
+    : page?.titleEn?.trim() || contact?.titleEn?.trim() || "Get in Touch";
+  const subtitleText = locale === "ka"
+    ? page?.contentKa?.trim() || page?.contentEn?.trim() || contact?.subtitleKa?.trim() || contact?.subtitleEn?.trim() || "ჩვენ აქ ვართ თქვენი დასახმარებლად."
+    : page?.contentEn?.trim() || contact?.subtitleEn?.trim() || "We're here to provide the legal support you need. Reach out today to discuss your case or ask any questions.";
+  const addressText = locale === "ka"
+    ? contact?.addressKa?.trim() || contact?.addressEn?.trim() || "123 Justice Avenue, Suite 101\nSpringfield, IL 62704"
+    : contact?.addressEn?.trim() || "123 Justice Avenue, Suite 101\nSpringfield, IL 62704";
   const emailText = contact?.email?.trim() || "info@lawfirm.com";
   const primaryPhone = contact?.phone?.trim() || "(555) 123-4567";
   const secondaryPhone = contact?.secondaryPhone?.trim() || "";
@@ -216,7 +225,7 @@ const Hero = ({ contact, page }: HeroProps) => {
                 }}
                 className={cn("paragraph-x-large", styles.details_title)}
               >
-                Headquarters
+                {locale === "ka" ? "სათაო ოფისი" : "Headquarters"}
               </div>
               <p
                 ref={(el) => {
@@ -243,7 +252,7 @@ const Hero = ({ contact, page }: HeroProps) => {
                 }}
                 className={cn("paragraph-x-large", styles.details_title)}
               >
-                Contacts
+                {locale === "ka" ? "საკონტაქტო" : "Contacts"}
               </div>
               <p
                 ref={(el) => {
@@ -292,7 +301,7 @@ const Hero = ({ contact, page }: HeroProps) => {
         </div>
 
         <div ref={formTitle} className={cn("heading-3", styles.form_title)}>
-          {"We're here to help you."}
+          {locale === "ka" ? "ჩვენ მზად ვართ დაგეხმაროთ." : "We're here to help you."}
         </div>
 
         <div ref={formContainer}>
