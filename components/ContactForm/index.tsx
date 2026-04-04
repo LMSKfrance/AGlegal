@@ -49,7 +49,9 @@ const i18n = {
   },
 } as const;
 
-function validate(v: Values, t: typeof i18n.en): Errors {
+type I18n = { errFirstName: string; errLastName: string; errEmailRequired: string; errEmailInvalid: string; errPhone: string; errMessage: string };
+
+function validate(v: Values, t: I18n): Errors {
   const e: Errors = {};
   if (!v.firstName.trim()) e.firstName = t.errFirstName;
   if (!v.lastName.trim()) e.lastName = t.errLastName;
