@@ -32,9 +32,10 @@ type PageRecord = {
 type HeroProps = {
   contact: ContactSettingsRecord | null;
   page?: PageRecord;
+  showForm?: boolean;
 };
 
-const Hero = ({ contact, page }: HeroProps) => {
+const Hero = ({ contact, page, showForm = true }: HeroProps) => {
   const { locale } = useLanguage();
   const container = React.useRef<HTMLDivElement>(null);
   const title = React.useRef<HTMLHeadingElement>(null);
@@ -300,13 +301,16 @@ const Hero = ({ contact, page }: HeroProps) => {
           )}
         </div>
 
-        <div ref={formTitle} className={cn("heading-3", styles.form_title)}>
-          {locale === "ka" ? "ჩვენ მზად ვართ დაგეხმაროთ." : "We're here to help you."}
-        </div>
-
-        <div ref={formContainer}>
-          <ContactForm className={styles.contact_form} />
-        </div>
+        {showForm && (
+          <>
+            <div ref={formTitle} className={cn("heading-3", styles.form_title)}>
+              {locale === "ka" ? "ჩვენ მზად ვართ დაგეხმაროთ." : "We're here to help you."}
+            </div>
+            <div ref={formContainer}>
+              <ContactForm className={styles.contact_form} />
+            </div>
+          </>
+        )}
       </div>
     </section>
   );

@@ -6,6 +6,7 @@ import styles from "./contact-form.module.css";
 import TextField from "../TextField";
 import TextArea from "../TextArea";
 import { submitContactForm, type FormState } from "@/lib/actions/forms";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 type ContactFormProps = {
   className?: string;
@@ -21,19 +22,46 @@ type Values = {
 
 type Errors = Partial<Record<keyof Values, string>>;
 
-function validate(v: Values): Errors {
+const i18n = {
+  en: {
+    firstName: "First name", lastName: "Last name", email: "Email address",
+    phone: "Phone number", message: "Message", submit: "SUBMIT", sending: "SENDING…",
+    successTitle: "Message sent!",
+    successText: "Thank you for reaching out. We'll get back to you as soon as possible.",
+    errFirstName: "First name is required.",
+    errLastName: "Last name is required.",
+    errEmailRequired: "Email address is required.",
+    errEmailInvalid: "Please enter a valid email address.",
+    errPhone: "Please enter a valid phone number.",
+    errMessage: "Message is required.",
+  },
+  ka: {
+    firstName: "სახელი", lastName: "გვარი", email: "ელ.ფოსტა",
+    phone: "ტელეფონის ნომერი", message: "შეტყობინება", submit: "გაგზავნა", sending: "იგზავნება…",
+    successTitle: "შეტყობინება გაიგზავნა!",
+    successText: "გმადლობთ მოგვმართვისთვის. ჩვენ მალე დაგიკავშირდებით.",
+    errFirstName: "სახელი სავალდებულოა.",
+    errLastName: "გვარი სავალდებულოა.",
+    errEmailRequired: "ელ.ფოსტა სავალდებულოა.",
+    errEmailInvalid: "გთხოვთ შეიყვანოთ სწორი ელ.ფოსტის მისამართი.",
+    errPhone: "გთხოვთ შეიყვანოთ სწორი ტელეფონის ნომერი.",
+    errMessage: "შეტყობინება სავალდებულოა.",
+  },
+} as const;
+
+function validate(v: Values, t: typeof i18n.en): Errors {
   const e: Errors = {};
-  if (!v.firstName.trim()) e.firstName = "First name is required.";
-  if (!v.lastName.trim()) e.lastName = "Last name is required.";
+  if (!v.firstName.trim()) e.firstName = t.errFirstName;
+  if (!v.lastName.trim()) e.lastName = t.errLastName;
   if (!v.email.trim()) {
-    e.email = "Email address is required.";
+    e.email = t.errEmailRequired;
   } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.email)) {
-    e.email = "Please enter a valid email address.";
+    e.email = t.errEmailInvalid;
   }
   if (v.phone && !/^[+\d\s\-().]{7,}$/.test(v.phone)) {
-    e.phone = "Please enter a valid phone number.";
+    e.phone = t.errPhone;
   }
-  if (!v.message.trim()) e.message = "Message is required.";
+  if (!v.message.trim()) e.message = t.errMessage;
   return e;
 }
 
@@ -41,12 +69,14 @@ const INITIAL_STATE: FormState = {};
 const INITIAL_VALUES: Values = { firstName: "", lastName: "", email: "", phone: "", message: "" };
 
 const ContactForm = ({ className }: ContactFormProps) => {
+  const { locale } = useLanguage();
+  const t = i18n[locale] ?? i18n.en;
   const [state, formAction, pending] = useActionState(submitContactForm, INITIAL_STATE);
   const [values, setValues] = useState<Values>(INITIAL_VALUES);
   const [touched, setTouched] = useState<Set<keyof Values>>(new Set());
   const [submitAttempted, setSubmitAttempted] = useState(false);
 
-  const errors = validate(values);
+  const errors = validate(values, t);
   const hasErrors = Object.keys(errors).length > 0;
 
   const showError = useCallback(
@@ -80,10 +110,8 @@ const ContactForm = ({ className }: ContactFormProps) => {
             <path d="M10 16.5l4.5 4.5 7.5-9" stroke="#fff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </div>
-        <h3 className={cn("heading-6", styles.success_title)}>Message sent!</h3>
-        <p className={cn("paragraph-medium", styles.success_text)}>
-          Thank you for reaching out. We&apos;ll get back to you as soon as possible.
-        </p>
+        <h3 className={cn("heading-6", styles.success_title)}>{t.successTitle}</h3>
+        <p className={cn("paragraph-medium", styles.success_text)}>{t.successText}</p>
       </div>
     );
   }
@@ -101,8 +129,8 @@ const ContactForm = ({ className }: ContactFormProps) => {
       )}
       <div className={styles.form_group_fields}>
         <TextField
-          label="First name"
-          placeholder="First name"
+          label={t.firstName}
+          placeholder={t.firstName}
           name="firstName"
           size="medium"
           value={values.firstName}
@@ -111,8 +139,8 @@ const ContactForm = ({ className }: ContactFormProps) => {
           error={showError("firstName")}
         />
         <TextField
-          label="Last name"
-          placeholder="Last name"
+          label={t.lastName}
+          placeholder={t.lastName}
           name="lastName"
           size="medium"
           value={values.lastName}
@@ -123,8 +151,8 @@ const ContactForm = ({ className }: ContactFormProps) => {
       </div>
       <div className={styles.form_group_fields}>
         <TextField
-          label="Email address"
-          placeholder="Email address"
+          label={t.email}
+          placeholder={t.email}
           name="email"
           type="email"
           size="medium"
@@ -134,8 +162,8 @@ const ContactForm = ({ className }: ContactFormProps) => {
           error={showError("email")}
         />
         <TextField
-          label="Phone number"
-          placeholder="Phone number"
+          label={t.phone}
+          placeholder={t.phone}
           name="phone"
           type="tel"
           size="medium"
@@ -146,8 +174,8 @@ const ContactForm = ({ className }: ContactFormProps) => {
         />
       </div>
       <TextArea
-        label="Message"
-        placeholder="Message"
+        label={t.message}
+        placeholder={t.message}
         name="message"
         value={values.message}
         onChange={handleChange("message")}
@@ -155,7 +183,7 @@ const ContactForm = ({ className }: ContactFormProps) => {
         error={showError("message")}
       />
       <button className={cn("button", styles.form_button)} type="submit" disabled={pending}>
-        {pending ? "SENDING…" : "SUBMIT"}
+        {pending ? t.sending : t.submit}
       </button>
     </form>
   );

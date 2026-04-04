@@ -1,10 +1,36 @@
 "use server";
 
 import { db } from "@/lib/db";
-import { contactSettings, pages } from "@/lib/db/schema";
+import { contactSettings, pages, siteSettings } from "@/lib/db/schema";
 import { revalidatePath } from "next/cache";
 import { eq } from "drizzle-orm";
 import { logSave } from "./history";
+
+export async function getContactFormVisible(): Promise<boolean> {
+  try {
+    const rows = await db.select({ valueEn: siteSettings.valueEn })
+      .from(siteSettings).where(eq(siteSettings.key, "contact.form.visible")).limit(1);
+    if (!rows.length) return true; // visible by default
+    return rows[0].valueEn !== "0";
+  } catch {
+    return true;
+  }
+}
+
+export async function setContactFormVisible(visible: boolean): Promise<void> {
+  try {
+    const existing = await db.select({ id: siteSettings.id })
+      .from(siteSettings).where(eq(siteSettings.key, "contact.form.visible")).limit(1);
+    const payload = { key: "contact.form.visible", valueEn: visible ? "1" : "0", valueKa: null, group: "contact", updatedAt: new Date().toISOString() };
+    if (!existing.length) await db.insert(siteSettings).values(payload);
+    else await db.update(siteSettings).set(payload).where(eq(siteSettings.id, existing[0].id));
+    revalidatePath("/contact");
+    revalidatePath("/ka/contact");
+    revalidatePath("/admin/contact");
+  } catch (err) {
+    console.error("[setContactFormVisible]", err);
+  }
+}
 
 export type ContactSeoFormState = { success?: boolean; error?: string };
 

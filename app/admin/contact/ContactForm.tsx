@@ -44,12 +44,16 @@ type Props = {
   saveAction: (prev: ContactFormState, formData: FormData) => Promise<ContactFormState>;
   seoPage: SeoPage;
   saveSeoAction: (prev: ContactSeoFormState, formData: FormData) => Promise<ContactSeoFormState>;
+  formVisible: boolean;
+  setFormVisibleAction: (visible: boolean) => Promise<void>;
 };
 
 const INITIAL_CONTACT: ContactFormState = {};
 const INITIAL_SEO: ContactSeoFormState = {};
 
-export default function ContactForm({ contact, saveAction, seoPage, saveSeoAction }: Props) {
+export default function ContactForm({ contact, saveAction, seoPage, saveSeoAction, formVisible, setFormVisibleAction }: Props) {
+  const [showForm, setShowForm] = useState(formVisible);
+  const [formTogglePending, setFormTogglePending] = useState(false);
   const [state, formAction, pending] = useActionState(saveAction, INITIAL_CONTACT);
   const [seoState, seoFormAction, seoPending] = useActionState(saveSeoAction, INITIAL_SEO);
   const [hasSaved, setHasSaved] = useState(false);
@@ -197,6 +201,37 @@ export default function ContactForm({ contact, saveAction, seoPage, saveSeoActio
             </div>
           </div>
         </form>
+
+        {/* ── Feedback Form Visibility ─────────────────────────────── */}
+        <div className="card">
+          <div className="card-header">
+            <div>
+              <h2 className="font-semibold text-brand-900 flex items-center gap-2 text-[15px]">
+                <i className="ph ph-paper-plane-tilt text-primary-600" /> Feedback Form
+              </h2>
+              <p className="text-[12px] text-brand-400 mt-0.5">Show or hide the contact form on the page.</p>
+            </div>
+            <div className="flex items-center gap-2 shrink-0">
+              <i className={`ph ph-eye text-[18px] transition-colors ${showForm ? "text-primary-600" : "text-brand-300"}`} />
+              <label className={`toggle-switch${formTogglePending ? " opacity-50" : ""}`}>
+                <input
+                  type="checkbox"
+                  checked={showForm}
+                  disabled={formTogglePending}
+                  onChange={async () => {
+                    const next = !showForm;
+                    setShowForm(next);
+                    setFormTogglePending(true);
+                    await setFormVisibleAction(next);
+                    setFormTogglePending(false);
+                  }}
+                />
+                <span className="toggle-slider" />
+              </label>
+              <span className="text-[12px] text-brand-500 font-medium">{showForm ? "Visible" : "Hidden"}</span>
+            </div>
+          </div>
+        </div>
 
         {/* ── SEO & Open Graph ─────────────────────────────────────── */}
         <form action={seoFormAction}>
