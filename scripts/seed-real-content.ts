@@ -19,12 +19,12 @@ const now = new Date().toISOString();
 
 async function upsertSetting(key: string, valueEn: string | null, valueKa: string | null, group: string) {
   const existing = await db.select({ id: schema.siteSettings.id }).from(schema.siteSettings).where(eq(schema.siteSettings.key, key));
-  if (existing.length) {
-    await db.update(schema.siteSettings).set({ valueEn, valueKa, updatedAt: now }).where(eq(schema.siteSettings.key, key));
-  } else {
+  if (!existing.length) {
     await db.insert(schema.siteSettings).values({ key, valueEn, valueKa, group, updatedAt: now });
+    console.log("  ✓ setting:", key);
+  } else {
+    console.log("  ~ setting already exists:", key);
   }
-  console.log("  ✓ setting:", key);
 }
 
 async function updateMember(slug: string, fields: Partial<typeof schema.teamMembers.$inferInsert>) {
