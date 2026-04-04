@@ -180,10 +180,10 @@ const Hero = ({ contact, page, showForm = true }: HeroProps) => {
   );
 
   const titleText = locale === "ka"
-    ? page?.titleKa?.trim() || page?.titleEn?.trim() || contact?.titleKa?.trim() || contact?.titleEn?.trim() || "კონტაქტი"
+    ? (page?.titleKa?.trim() || contact?.titleKa?.trim()) || (page?.titleEn?.trim() || contact?.titleEn?.trim()) || "კონტაქტი"
     : page?.titleEn?.trim() || contact?.titleEn?.trim() || "Get in Touch";
   const subtitleText = locale === "ka"
-    ? page?.contentKa?.trim() || page?.contentEn?.trim() || contact?.subtitleKa?.trim() || contact?.subtitleEn?.trim() || "ჩვენ აქ ვართ თქვენი დასახმარებლად."
+    ? (page?.contentKa?.trim() || contact?.subtitleKa?.trim()) || (page?.contentEn?.trim() || contact?.subtitleEn?.trim()) || "ჩვენ აქ ვართ თქვენი დასახმარებლად."
     : page?.contentEn?.trim() || contact?.subtitleEn?.trim() || "We're here to provide the legal support you need. Reach out today to discuss your case or ask any questions.";
   const addressText = locale === "ka"
     ? contact?.addressKa?.trim() || contact?.addressEn?.trim() || "123 Justice Avenue, Suite 101\nSpringfield, IL 62704"
