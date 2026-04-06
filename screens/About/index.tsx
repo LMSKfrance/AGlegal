@@ -1,6 +1,7 @@
 import Layout from "@/components/Layout";
 import Hero from "./Hero";
 import Numbers from "./Numbers";
+import Body from "./Body";
 import Mission from "./Mission";
 import Team from "../Universal/Team";
 import Features from "./Features";
@@ -20,6 +21,7 @@ const AboutPage = async ({ locale = "en" }: { locale?: Locale }) => {
       <AboutContentProvider value={{ page, sections, teamMembers }}>
         {v.hero && <Hero page={page} />}
         {v.numbers && <Numbers />}
+        <Body />
         {v.mission && <Mission />}
         {v.team && <Team members={teamMembers} />}
         {v.features && <Features />}

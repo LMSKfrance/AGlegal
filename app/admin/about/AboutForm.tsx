@@ -5,6 +5,7 @@ import type { AboutSectionSettings } from "@/lib/about";
 import { useAdminLang } from "../AdminLangContext";
 import OgImageUpload from "../OgImageUpload";
 import FaqEditor from "./FaqEditor";
+import RichTextEditor from "../components/RichTextEditor";
 
 function TabImageUpload({ label, fieldName, existing }: { label: string; fieldName: string; existing: string }) {
   const fileRef = useRef<HTMLInputElement>(null);
@@ -276,6 +277,43 @@ export default function AboutForm({ settings, saveSettingsAction, visibilityActi
             {settingsState.error && (
               <div className="p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700">{settingsState.error}</div>
             )}
+
+            {/* Body Text */}
+            <div className="card">
+              <div className="card-header">
+                <h2 className="font-semibold text-brand-900 flex items-center gap-2 text-[15px]">
+                  <i className="ph ph-text-align-left text-primary-600" /> Body Text
+                </h2>
+                <div className="flex items-center gap-2">
+                  {settingsState.success && <span className="text-[11px] text-green-600 font-medium">Saved!</span>}
+                  <SaveBtn pending={settingsPending} />
+                </div>
+              </div>
+              <div key={formKey} className="card-body space-y-3">
+                <p className="text-[11px] text-brand-400">Shown below the Key Numbers section. Supports bold, italic, links, bullets.</p>
+                {lang === "en" ? (
+                  <>
+                    <RichTextEditor
+                      key={`body-en-${saveKey}`}
+                      name="bodyEn"
+                      defaultValue={settings.bodyEn}
+                      placeholder="Write about page body text…"
+                    />
+                    <input type="hidden" name="bodyKa" value={settings.bodyKa} />
+                  </>
+                ) : (
+                  <>
+                    <RichTextEditor
+                      key={`body-ka-${saveKey}`}
+                      name="bodyKa"
+                      defaultValue={settings.bodyKa}
+                      placeholder="ტექსტი (ქართული)…"
+                    />
+                    <input type="hidden" name="bodyEn" value={settings.bodyEn} />
+                  </>
+                )}
+              </div>
+            </div>
 
             {/* Key Numbers */}
             <div className="card">
