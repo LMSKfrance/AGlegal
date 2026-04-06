@@ -128,6 +128,31 @@ export default function RichTextEditor({ name, defaultValue, placeholder }: Prop
           </button>
         )}
         <div className="rte-divider" />
+        <button
+          type="button"
+          onMouseDown={(e) => { e.preventDefault(); editor.chain().focus().toggleBulletList().run(); }}
+          className={`rte-btn${active("bulletList") ? " rte-btn--active" : ""}`}
+          title="Bullet list"
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="9" y1="6" x2="20" y2="6" /><line x1="9" y1="12" x2="20" y2="12" /><line x1="9" y1="18" x2="20" y2="18" />
+            <circle cx="4" cy="6" r="1.5" fill="currentColor" stroke="none" /><circle cx="4" cy="12" r="1.5" fill="currentColor" stroke="none" /><circle cx="4" cy="18" r="1.5" fill="currentColor" stroke="none" />
+          </svg>
+        </button>
+        <button
+          type="button"
+          onMouseDown={(e) => { e.preventDefault(); editor.chain().focus().toggleOrderedList().run(); }}
+          className={`rte-btn${active("orderedList") ? " rte-btn--active" : ""}`}
+          title="Numbered list"
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="10" y1="6" x2="21" y2="6" /><line x1="10" y1="12" x2="21" y2="12" /><line x1="10" y1="18" x2="21" y2="18" />
+            <text x="1" y="8" fontSize="8" fontWeight="700" fill="currentColor" stroke="none">1</text>
+            <text x="1" y="14" fontSize="8" fontWeight="700" fill="currentColor" stroke="none">2</text>
+            <text x="1" y="20" fontSize="8" fontWeight="700" fill="currentColor" stroke="none">3</text>
+          </svg>
+        </button>
+        <div className="rte-divider" />
         <span className="rte-hint">↵ new paragraph &nbsp;·&nbsp; Shift+↵ line break</span>
       </div>
 

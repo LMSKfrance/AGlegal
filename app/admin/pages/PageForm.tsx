@@ -5,6 +5,7 @@ import { useActionState, useState, useEffect, useRef } from "react";
 import { useAdminLang } from "../AdminLangContext";
 import type { PageFormState } from "@/lib/actions/pages";
 import OgImageUpload from "../OgImageUpload";
+import RichTextEditor from "../components/RichTextEditor";
 
 type Page = {
   id: number;
@@ -70,9 +71,15 @@ export default function PageForm({ action, page }: Props) {
           <div>
             <label className="label-base required">Page Title {lang === "en" ? "(En)" : "(ქარ)"}</label>
             {lang === "en" ? (
-              <input type="text" name="titleEn" className="input-base" placeholder="e.g. Privacy Policy" defaultValue={page?.titleEn ?? ""} required />
+              <>
+                <input type="text" name="titleEn" className="input-base" placeholder="e.g. Privacy Policy" defaultValue={page?.titleEn ?? ""} required />
+                <input type="hidden" name="titleKa" value={page?.titleKa ?? ""} />
+              </>
             ) : (
-              <input type="text" name="titleKa" className="input-base" placeholder="Page title (Georgian)" defaultValue={page?.titleKa ?? ""} />
+              <>
+                <input type="text" name="titleKa" className="input-base" placeholder="Page title (Georgian)" defaultValue={page?.titleKa ?? ""} />
+                <input type="hidden" name="titleEn" value={page?.titleEn ?? ""} />
+              </>
             )}
           </div>
           <div>
@@ -91,28 +98,29 @@ export default function PageForm({ action, page }: Props) {
           </div>
         </div>
 
-        <div className="md-editor-wrap">
-          <div className="md-toolbar">
-            <span className="text-[11px] font-bold text-brand-400 uppercase tracking-wider px-2">
-              Page Content (Markdown) {lang === "en" ? "— En" : "— ქარ"}
-            </span>
-          </div>
+        <div>
+          <label className="label-base">Page Content {lang === "en" ? "(En)" : "(ქარ)"}</label>
+          <p className="text-[11px] text-brand-400 mb-2">Paragraphs, <strong>bold</strong>, <em>italic</em>, links, bullet &amp; numbered lists are supported.</p>
           {lang === "en" ? (
-            <textarea
-              name="contentEn"
-              className="input-base w-full p-6 font-mono text-[14px] leading-relaxed min-h-[300px] bg-[#fbfcfd]"
-              rows={12}
-              placeholder={"# Page Title\n\nContent goes here..."}
-              defaultValue={page?.contentEn ?? ""}
-            />
+            <>
+              <RichTextEditor
+                key={`content-en-${page?.id ?? "new"}`}
+                name="contentEn"
+                defaultValue={page?.contentEn ?? ""}
+                placeholder="Start writing page content…"
+              />
+              <input type="hidden" name="contentKa" value={page?.contentKa ?? ""} />
+            </>
           ) : (
-            <textarea
-              name="contentKa"
-              className="input-base w-full p-6 font-mono text-[14px] leading-relaxed min-h-[300px] bg-[#fbfcfd]"
-              rows={12}
-              placeholder={"# გვერდის სათაური\n\nშინაარსი..."}
-              defaultValue={page?.contentKa ?? ""}
-            />
+            <>
+              <RichTextEditor
+                key={`content-ka-${page?.id ?? "new"}`}
+                name="contentKa"
+                defaultValue={page?.contentKa ?? ""}
+                placeholder="გვერდის შინაარსი…"
+              />
+              <input type="hidden" name="contentEn" value={page?.contentEn ?? ""} />
+            </>
           )}
         </div>
 
