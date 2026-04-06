@@ -756,6 +756,9 @@ select.input-base {
 .rte-content em { font-style: italic; }
 .rte-content a { color: #2563eb; text-decoration: underline; }
 .rte-content a:hover { color: #1d4ed8; }
+.rte-content ul { list-style-type: disc; padding-left: 1.4em; margin: 0.4em 0 0.6em; }
+.rte-content ol { list-style-type: decimal; padding-left: 1.4em; margin: 0.4em 0 0.6em; }
+.rte-content li { margin-bottom: 3px; }
 
 /* Placeholder */
 .rte-content p.is-editor-empty:first-child::before {

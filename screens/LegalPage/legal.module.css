@@ -133,6 +133,8 @@
   margin: 0 0 16px;
   padding-left: 24px;
 }
+.content ul { list-style-type: disc; }
+.content ol { list-style-type: decimal; }
 
 .content li {
   margin-bottom: 6px;
