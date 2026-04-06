@@ -18,6 +18,7 @@ type HeroContent = {
   brand: string;
   title: string;
   cta: string;
+  ctaUrl: string;
   description: string;
   image: string;
 };
@@ -95,10 +96,11 @@ async function getSettingValue(key: string, locale: Locale): Promise<string> {
 }
 
 export async function getHeroContent(locale: Locale): Promise<HeroContent> {
-  const [brand, title, cta, description, image] = await Promise.all([
+  const [brand, title, cta, ctaUrl, description, image] = await Promise.all([
     getSettingValue("home_hero_brand", locale),
     getSettingValue("home_hero_title", locale),
     getSettingValue("home_hero_cta", locale),
+    getSettingValue("home_hero_cta_url", "en"),
     getSettingValue("home_hero_description", locale),
     getSettingValue("home_hero_image", locale),
   ]);
@@ -110,6 +112,7 @@ export async function getHeroContent(locale: Locale): Promise<HeroContent> {
       80,
     ),
     cta: truncateChars(cta || "CONSULT WITH US", 24),
+    ctaUrl: ctaUrl || "",
     description:
       description ||
       "Join our mission to create a better tomorrow through legal and social support.",

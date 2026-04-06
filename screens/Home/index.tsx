@@ -12,7 +12,7 @@ import { getHomeContent, getHomeSectionVisibility, HOME_SECTION_IDS, type HomeCo
 import { HomeContentProvider } from "./HomeContentContext";
 
 const EMPTY_HOME_CONTENT: HomeContent = {
-  hero: { brand: "", title: "", cta: "", description: "", image: "" },
+  hero: { brand: "", title: "", cta: "", ctaUrl: "", description: "", image: "" },
   about: { title: "", description: "", image: "" },
   servicesHeading: { title: "", description: "" },
   benefitsHeading: { title: "" },

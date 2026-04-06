@@ -4,6 +4,7 @@ import React from "react";
 import cn from "classnames";
 import styles from "./hero.module.css";
 import Image from "next/image";
+import Link from "next/link";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -12,12 +13,12 @@ import { useHomeContent } from "../HomeContentContext";
 const Hero = () => {
   const { locale } = useLanguage();
   const { hero } = useHomeContent();
-  const { brand, title: heroTitle, cta, description: heroDescription, image: heroImage } = hero;
+  const { brand, title: heroTitle, cta, ctaUrl, description: heroDescription, image: heroImage } = hero;
   const container = React.useRef<HTMLDivElement>(null);
   const title = React.useRef<HTMLHeadingElement>(null);
   const image = React.useRef<HTMLDivElement>(null);
   const divider = React.useRef<HTMLDivElement>(null);
-  const button = React.useRef<HTMLButtonElement>(null);
+  const button = React.useRef<HTMLButtonElement | HTMLAnchorElement>(null);
   const description = React.useRef<HTMLParagraphElement>(null);
 
   useGSAP(
@@ -141,13 +142,23 @@ const Hero = () => {
           <div ref={divider} className={styles.divider} />
 
           <div className={styles.btn_wrapper}>
-            <button
-              ref={button}
-              className={cn("button")}
-              onClick={scrollToSection}
-            >
-              {cta}
-            </button>
+            {ctaUrl ? (
+              <Link
+                ref={button as React.RefObject<HTMLAnchorElement>}
+                href={ctaUrl}
+                className={cn("button")}
+              >
+                {cta}
+              </Link>
+            ) : (
+              <button
+                ref={button as React.RefObject<HTMLButtonElement>}
+                className={cn("button")}
+                onClick={scrollToSection}
+              >
+                {cta}
+              </button>
+            )}
 
             <p
               ref={description}

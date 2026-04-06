@@ -35,6 +35,10 @@ export default async function SlugPage({ params }: Props) {
       titleKa={page.titleKa ?? null}
       contentEn={page.contentEn ?? ""}
       contentKa={page.contentKa ?? null}
+      heroImage={page.heroImage ?? null}
+      ctaTextEn={page.ctaTextEn ?? null}
+      ctaTextKa={page.ctaTextKa ?? null}
+      ctaUrl={page.ctaUrl ?? null}
     />
   );
 }

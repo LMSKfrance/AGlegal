@@ -218,6 +218,10 @@ export default function HomeForm({
                 </div>
               </div>
               <div>
+                <label className="label-base">CTA Button Link <span className="text-[10px] text-brand-400 font-normal ml-2">(URL — leave blank to scroll down)</span></label>
+                <input type="text" name="ctaUrl" className="input-base" placeholder="/appointment" defaultValue={hero.ctaUrl} />
+              </div>
+              <div>
                 <label className="label-base required">Main Title <span className="text-[10px] text-brand-400 font-normal ml-2">({L}, Max 80)</span></label>
                 <textarea name={lang === "en" ? "titleEn" : "titleKa"} className="input-base" rows={2} maxLength={80} placeholder="Leading Corporate Law Firm in Georgia" defaultValue={lang === "en" ? hero.titleEn : hero.titleKa} />
                 {lang === "ka" && <input type="hidden" name="titleEn" value={hero.titleEn} />}

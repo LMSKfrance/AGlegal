@@ -74,6 +74,7 @@ const HERO_KEYS = [
   "home_hero_brand",
   "home_hero_title",
   "home_hero_cta",
+  "home_hero_cta_url",
   "home_hero_description",
   "home_hero_image",
 ] as const;
@@ -85,6 +86,7 @@ export type HomeHeroSettings = {
   titleKa: string;
   ctaEn: string;
   ctaKa: string;
+  ctaUrl: string;
   descriptionEn: string;
   descriptionKa: string;
   image: string;
@@ -103,6 +105,7 @@ export async function getHomeHeroSettings(): Promise<HomeHeroSettings> {
     titleKa: get("home_hero_title", "valueKa"),
     ctaEn: get("home_hero_cta", "valueEn"),
     ctaKa: get("home_hero_cta", "valueKa"),
+    ctaUrl: get("home_hero_cta_url", "valueEn"),
     descriptionEn: get("home_hero_description", "valueEn"),
     descriptionKa: get("home_hero_description", "valueKa"),
     image: get("home_hero_image", "valueEn"),
@@ -120,6 +123,7 @@ export async function upsertHomeHeroSettings(
     const rawTitleKa = (formData.get("titleKa") as string | null) ?? "";
     const rawCtaEn = (formData.get("ctaEn") as string | null) ?? "";
     const rawCtaKa = (formData.get("ctaKa") as string | null) ?? "";
+    const ctaUrl = ((formData.get("ctaUrl") as string | null) ?? "").trim();
     const rawDescEn = (formData.get("descriptionEn") as string | null) ?? "";
     const rawDescKa = (formData.get("descriptionKa") as string | null) ?? "";
 
@@ -152,6 +156,7 @@ export async function upsertHomeHeroSettings(
     await upsertSetting("home_hero_brand", "home_hero", brandEn, brandKa);
     await upsertSetting("home_hero_title", "home_hero", titleEn, titleKa);
     await upsertSetting("home_hero_cta", "home_hero", ctaEn, ctaKa);
+    await upsertSetting("home_hero_cta_url", "home_hero", ctaUrl || null, ctaUrl || null);
     await upsertSetting("home_hero_description", "home_hero", descriptionEn, descriptionKa);
 
     if (imagePath) {

@@ -106,14 +106,24 @@ export async function createPage(prev: PageFormState, formData: FormData): Promi
     const existing = await db.select({ id: pages.id }).from(pages).where(eq(pages.slug, slug));
     if (existing.length) return { error: "A page with this slug already exists." };
 
+    const { uploadImage } = await import("@/lib/actions/upload");
+
     const ogImageFile = formData.get("ogImage");
     let ogImagePath: string | null = null;
     if (ogImageFile && ogImageFile instanceof File && ogImageFile.size > 0) {
-      const { uploadImage } = await import("@/lib/actions/upload");
       const fd = new FormData();
       fd.append("image", ogImageFile);
       const result = await uploadImage(fd);
       if (result.success) ogImagePath = result.path;
+    }
+
+    const heroImageFile = formData.get("heroImage");
+    let heroImagePath: string | null = null;
+    if (heroImageFile && heroImageFile instanceof File && heroImageFile.size > 0) {
+      const fd = new FormData();
+      fd.append("image", heroImageFile);
+      const result = await uploadImage(fd);
+      if (result.success) heroImagePath = result.path;
     }
 
     const trim = (key: string) => (formData.get(key) as string)?.trim() || null;
@@ -132,6 +142,10 @@ export async function createPage(prev: PageFormState, formData: FormData): Promi
       ogDescriptionEn: trim("ogDescriptionEn"),
       ogDescriptionKa: trim("ogDescriptionKa"),
       ogImage: ogImagePath,
+      heroImage: heroImagePath,
+      ctaTextEn: trim("ctaTextEn"),
+      ctaTextKa: trim("ctaTextKa"),
+      ctaUrl: trim("ctaUrl"),
       updatedAt: new Date().toISOString(),
     });
 
@@ -163,14 +177,28 @@ export async function updatePage(id: number, prev: PageFormState, formData: Form
       if (conflict.length) return { error: "Another page already uses this slug." };
     }
 
+    const { uploadImage } = await import("@/lib/actions/upload");
+
     const ogImageFile = formData.get("ogImage");
     let ogImagePath: string | null = existing.ogImage;
-    if (ogImageFile && ogImageFile instanceof File && ogImageFile.size > 0) {
-      const { uploadImage } = await import("@/lib/actions/upload");
+    if (formData.get("removeOgImage") === "1") {
+      ogImagePath = null;
+    } else if (ogImageFile && ogImageFile instanceof File && ogImageFile.size > 0) {
       const fd = new FormData();
       fd.append("image", ogImageFile);
       const result = await uploadImage(fd);
       if (result.success) ogImagePath = result.path;
+    }
+
+    const heroImageFile = formData.get("heroImage");
+    let heroImagePath: string | null = existing.heroImage ?? null;
+    if (formData.get("removeHeroImage") === "1") {
+      heroImagePath = null;
+    } else if (heroImageFile && heroImageFile instanceof File && heroImageFile.size > 0) {
+      const fd = new FormData();
+      fd.append("image", heroImageFile);
+      const result = await uploadImage(fd);
+      if (result.success) heroImagePath = result.path;
     }
 
     const trim = (key: string) => (formData.get(key) as string)?.trim() || null;
@@ -191,6 +219,10 @@ export async function updatePage(id: number, prev: PageFormState, formData: Form
         ogDescriptionEn: trim("ogDescriptionEn"),
         ogDescriptionKa: trim("ogDescriptionKa"),
         ogImage: ogImagePath,
+        heroImage: heroImagePath,
+        ctaTextEn: trim("ctaTextEn"),
+        ctaTextKa: trim("ctaTextKa"),
+        ctaUrl: trim("ctaUrl"),
         updatedAt: new Date().toISOString(),
       })
       .where(eq(pages.id, id));

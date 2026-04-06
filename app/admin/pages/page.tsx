@@ -19,7 +19,7 @@ export default async function PagesListPage({ searchParams }: { searchParams: Pr
   const { page } = await searchParams;
   const pagesList = await getPagesList();
 
-  const MANAGED_SLUGS = new Set(["about", "services", "contact"]);
+  const MANAGED_SLUGS = new Set(["about", "contact"]);
   const filteredPages = pagesList.filter((p) => !MANAGED_SLUGS.has(p.slug));
   const currentPage = Math.max(1, parseInt(page ?? "1") || 1);
   const totalPages = Math.ceil(filteredPages.length / PER_PAGE);
