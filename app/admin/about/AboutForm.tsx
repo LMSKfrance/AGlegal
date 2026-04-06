@@ -289,29 +289,29 @@ export default function AboutForm({ settings, saveSettingsAction, visibilityActi
                   <SaveBtn pending={settingsPending} />
                 </div>
               </div>
-              <div key={formKey} className="card-body space-y-3">
-                <p className="text-[11px] text-brand-400">Shown below the Key Numbers section. Supports bold, italic, links, bullets.</p>
-                {lang === "en" ? (
-                  <>
-                    <RichTextEditor
-                      key={`body-en-${saveKey}`}
-                      name="bodyEn"
-                      defaultValue={settings.bodyEn}
-                      placeholder="Write about page body text…"
-                    />
-                    <input type="hidden" name="bodyKa" value={settings.bodyKa} />
-                  </>
-                ) : (
-                  <>
-                    <RichTextEditor
-                      key={`body-ka-${saveKey}`}
-                      name="bodyKa"
-                      defaultValue={settings.bodyKa}
-                      placeholder="ტექსტი (ქართული)…"
-                    />
-                    <input type="hidden" name="bodyEn" value={settings.bodyEn} />
-                  </>
-                )}
+              <div key={formKey} className="card-body space-y-4">
+                <div>
+                  <label className="label-base">Section Title {L}</label>
+                  <input type="text" name={lang === "en" ? "bodyTitleEn" : "bodyTitleKa"} className="input-base"
+                    placeholder={lang === "en" ? "About our firm" : "ჩვენს შესახებ"}
+                    defaultValue={field(settings, "bodyTitleEn", "bodyTitleKa")} />
+                  {hidden(settings, "bodyTitleEn", "bodyTitleKa", "bodyTitleEn", "bodyTitleKa")}
+                </div>
+                <div>
+                  <label className="label-base">Body Text {L}</label>
+                  <p className="text-[11px] text-brand-400 mb-2">Supports bold, italic, links, bullets.</p>
+                  {lang === "en" ? (
+                    <>
+                      <RichTextEditor key={`body-en-${saveKey}`} name="bodyEn" defaultValue={settings.bodyEn} placeholder="Write about page body text…" />
+                      <input type="hidden" name="bodyKa" value={settings.bodyKa} />
+                    </>
+                  ) : (
+                    <>
+                      <RichTextEditor key={`body-ka-${saveKey}`} name="bodyKa" defaultValue={settings.bodyKa} placeholder="ტექსტი (ქართული)…" />
+                      <input type="hidden" name="bodyEn" value={settings.bodyEn} />
+                    </>
+                  )}
+                </div>
               </div>
             </div>
 

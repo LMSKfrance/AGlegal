@@ -72,6 +72,7 @@ export async function upsertAboutSectionSettings(
       ["about.features.item3.desc", "featuresItem3DescEn", "featuresItem3DescKa"],
       ["about.features.item4.title", "featuresItem4TitleEn", "featuresItem4TitleKa"],
       ["about.features.item4.desc", "featuresItem4DescEn", "featuresItem4DescKa"],
+      ["about.body.title", "bodyTitleEn", "bodyTitleKa"],
       ["about.body", "bodyEn", "bodyKa"],
     ];
     for (const [key, en, ka] of pairs) {

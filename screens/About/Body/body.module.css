@@ -8,6 +8,11 @@
   margin: 0 auto;
 }
 
+.title {
+  color: var(--black);
+  margin-bottom: 24px;
+}
+
 .body {
   color: var(--gray-600);
 }

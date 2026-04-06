@@ -81,6 +81,8 @@ export type AboutSectionSettings = {
   philosophyCard2Image: string;
   heroCTAEn: string;
   heroCTAKa: string;
+  bodyTitleEn: string;
+  bodyTitleKa: string;
   bodyEn: string;
   bodyKa: string;
   sectionVisibility: AboutSectionVisibility;
@@ -122,6 +124,7 @@ const ABOUT_KEYS = [
   "about.philosophy.card1.image",
   "about.philosophy.card2.image",
   "about.hero.cta",
+  "about.body.title",
   "about.body",
 ] as const;
 
@@ -206,6 +209,8 @@ const DEFAULT_ABOUT_SECTION_SETTINGS: AboutSectionSettings = {
   philosophyCard2Image: "",
   heroCTAEn: "",
   heroCTAKa: "",
+  bodyTitleEn: "",
+  bodyTitleKa: "",
   bodyEn: "",
   bodyKa: "",
   sectionVisibility: {
@@ -293,6 +298,8 @@ export async function getAboutSectionSettings(): Promise<AboutSectionSettings> {
       philosophyCard2Image: getEn("about.philosophy.card2.image"),
       heroCTAEn: getEn("about.hero.cta"),
       heroCTAKa: getKa("about.hero.cta"),
+      bodyTitleEn: getEn("about.body.title"),
+      bodyTitleKa: getKa("about.body.title"),
       bodyEn: getEn("about.body"),
       bodyKa: getKa("about.body"),
       sectionVisibility,
