@@ -20,7 +20,7 @@
     "@gsap/react": "^2.1.1",
     "@libsql/client": "^0.17.0",
     "@netlify/blobs": "^10.7.1",
-    "@tiptap/extension-link": "^3.20.5",
+    "@tiptap/extension-link": "^3.22.2",
     "@tiptap/react": "^3.20.5",
     "@tiptap/starter-kit": "^3.20.5",
     "@types/bcryptjs": "^2.4.6",
@@ -37,7 +37,7 @@
     "react-fast-marquee": "^1.6.5",
     "remark": "^15.0.1",
     "remark-html": "^16.0.1",
-    "resend": "^6.9.4"
+    "resend": "^6.10.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

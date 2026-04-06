@@ -91,9 +91,11 @@ export async function getServiceById(id: number) {
 export async function createService(prev: ServiceFormState, formData: FormData): Promise<ServiceFormState> {
   try {
     const titleEn = (formData.get("titleEn") as string)?.trim();
-    if (!titleEn) return { error: "Title (EN) is required", fieldErrors: { titleEn: "Required" } };
+    const titleKa = (formData.get("titleKa") as string)?.trim();
+    const effectiveTitleEn = titleEn || titleKa || "";
+    if (!effectiveTitleEn) return { error: "Title is required", fieldErrors: { titleEn: "Required" } };
 
-    const slug = slugify(titleEn) || `service-${Date.now()}`;
+    const slug = slugify(effectiveTitleEn) || `service-${Date.now()}`;
     const existing = await db.select({ id: services.id }).from(services).where(eq(services.slug, slug));
     if (existing.length) return { error: "A service with this title already exists (slug conflict)." };
 
@@ -145,8 +147,8 @@ export async function createService(prev: ServiceFormState, formData: FormData):
     const trim = (key: string) => (formData.get(key) as string)?.trim() || null;
     await db.insert(services).values({
       slug,
-      titleEn,
-      titleKa: trim("titleKa"),
+      titleEn: effectiveTitleEn,
+      titleKa: titleKa || null,
       descriptionEn: trim("descriptionEn"),
       descriptionKa: trim("descriptionKa"),
       text1En: trim("text1En"),
@@ -191,12 +193,15 @@ export async function createService(prev: ServiceFormState, formData: FormData):
 export async function updateService(id: number, prev: ServiceFormState, formData: FormData): Promise<ServiceFormState> {
   try {
     const titleEn = (formData.get("titleEn") as string)?.trim();
-    if (!titleEn) return { error: "Title (EN) is required", fieldErrors: { titleEn: "Required" } };
+    const titleKa = (formData.get("titleKa") as string)?.trim();
 
     const existing = await getServiceById(id);
     if (!existing) return { error: "Service not found." };
 
-    const newSlug = slugify(titleEn) || existing.slug;
+    const effectiveTitleEn = titleEn || existing.titleEn;
+    if (!effectiveTitleEn) return { error: "Title is required", fieldErrors: { titleEn: "Required" } };
+
+    const newSlug = slugify(effectiveTitleEn) || existing.slug;
     if (newSlug !== existing.slug) {
       const conflict = await db.select().from(services).where(eq(services.slug, newSlug));
       if (conflict.length) return { error: "Another service already uses this title (slug conflict)." };
@@ -252,8 +257,8 @@ export async function updateService(id: number, prev: ServiceFormState, formData
       .update(services)
       .set({
         slug: newSlug,
-        titleEn,
-        titleKa: trim("titleKa"),
+        titleEn: effectiveTitleEn,
+        titleKa: titleKa || null,
         descriptionEn: trim("descriptionEn"),
         descriptionKa: trim("descriptionKa"),
         text1En: trim("text1En"),

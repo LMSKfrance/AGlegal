@@ -112,24 +112,21 @@ export default function ServiceForm({ action, service }: Props) {
 
         <div>
           <label className="label-base required">Service Title {lang === "en" ? "(En)" : "(ქარ)"}</label>
-          {lang === "en" ? (
-            <input
-              type="text"
-              name="titleEn"
-              className="input-base !text-3xl !font-bold !h-14 !border-0 !border-b-2 !border-brand-200 !rounded-none focus:!border-primary-600 focus:!ring-0 !px-0 bg-transparent"
-              placeholder="Service title..."
-              defaultValue={service?.titleEn ?? ""}
-              required
-            />
-          ) : (
-            <input
-              type="text"
-              name="titleKa"
-              className="input-base !text-3xl !font-bold !h-14 !border-0 !border-b-2 !border-brand-200 !rounded-none focus:!border-primary-600 focus:!ring-0 !px-0 bg-transparent"
-              placeholder="Service title (Georgian)..."
-              defaultValue={service?.titleKa ?? ""}
-            />
-          )}
+          <input
+            type="text"
+            name="titleEn"
+            className={`input-base !text-3xl !font-bold !h-14 !border-0 !border-b-2 !border-brand-200 !rounded-none focus:!border-primary-600 focus:!ring-0 !px-0 bg-transparent${lang !== "en" ? " hidden" : ""}`}
+            placeholder="Service title..."
+            defaultValue={service?.titleEn ?? ""}
+            required={lang === "en"}
+          />
+          <input
+            type="text"
+            name="titleKa"
+            className={`input-base !text-3xl !font-bold !h-14 !border-0 !border-b-2 !border-brand-200 !rounded-none focus:!border-primary-600 focus:!ring-0 !px-0 bg-transparent${lang !== "ka" ? " hidden" : ""}`}
+            placeholder="Service title (Georgian)..."
+            defaultValue={service?.titleKa ?? ""}
+          />
         </div>
 
         {/* Images */}
@@ -218,45 +215,30 @@ export default function ServiceForm({ action, service }: Props) {
 
         <div>
           <label className="label-base">Homepage Short Description {lang === "en" ? "(En)" : "(ქარ)"}</label>
-          {lang === "en" ? (
-            <textarea name="homeShortDescriptionEn" className="input-base" rows={2} placeholder="Brief summary for homepage card..." defaultValue={service?.homeShortDescriptionEn ?? ""} />
-          ) : (
-            <textarea name="homeShortDescriptionKa" className="input-base" rows={2} placeholder="Brief summary (Georgian)..." defaultValue={service?.homeShortDescriptionKa ?? ""} />
-          )}
+          <textarea name="homeShortDescriptionEn" className={`input-base${lang !== "en" ? " hidden" : ""}`} rows={2} placeholder="Brief summary for homepage card..." defaultValue={service?.homeShortDescriptionEn ?? ""} />
+          <textarea name="homeShortDescriptionKa" className={`input-base${lang !== "ka" ? " hidden" : ""}`} rows={2} placeholder="Brief summary (Georgian)..." defaultValue={service?.homeShortDescriptionKa ?? ""} />
         </div>
 
         <div className="border-t border-brand-200 pt-8 space-y-6">
           <div>
             <label className="label-base">Full Description {lang === "en" ? "(En)" : "(ქარ)"}</label>
-            {lang === "en" ? (
-              <textarea name="descriptionEn" className="input-base" rows={3} defaultValue={service?.descriptionEn ?? ""} />
-            ) : (
-              <textarea name="descriptionKa" className="input-base" rows={3} defaultValue={service?.descriptionKa ?? ""} />
-            )}
+            <textarea name="descriptionEn" className={`input-base${lang !== "en" ? " hidden" : ""}`} rows={3} defaultValue={service?.descriptionEn ?? ""} />
+            <textarea name="descriptionKa" className={`input-base${lang !== "ka" ? " hidden" : ""}`} rows={3} defaultValue={service?.descriptionKa ?? ""} />
           </div>
           <div>
             <label className="label-base">Text Section 1 {lang === "en" ? "(En)" : "(ქარ)"}</label>
-            {lang === "en" ? (
-              <textarea name="text1En" className="input-base" rows={3} defaultValue={service?.text1En ?? ""} />
-            ) : (
-              <textarea name="text1Ka" className="input-base" rows={3} defaultValue={service?.text1Ka ?? ""} />
-            )}
+            <textarea name="text1En" className={`input-base${lang !== "en" ? " hidden" : ""}`} rows={3} defaultValue={service?.text1En ?? ""} />
+            <textarea name="text1Ka" className={`input-base${lang !== "ka" ? " hidden" : ""}`} rows={3} defaultValue={service?.text1Ka ?? ""} />
           </div>
           <div>
             <label className="label-base">Text Section 2 {lang === "en" ? "(En)" : "(ქარ)"}</label>
-            {lang === "en" ? (
-              <textarea name="text2En" className="input-base" rows={3} defaultValue={service?.text2En ?? ""} />
-            ) : (
-              <textarea name="text2Ka" className="input-base" rows={3} defaultValue={service?.text2Ka ?? ""} />
-            )}
+            <textarea name="text2En" className={`input-base${lang !== "en" ? " hidden" : ""}`} rows={3} defaultValue={service?.text2En ?? ""} />
+            <textarea name="text2Ka" className={`input-base${lang !== "ka" ? " hidden" : ""}`} rows={3} defaultValue={service?.text2Ka ?? ""} />
           </div>
           <div>
             <label className="label-base">Highlight Quote {lang === "en" ? "(En)" : "(ქარ)"}</label>
-            {lang === "en" ? (
-              <textarea name="quoteEn" className="input-base italic" rows={2} defaultValue={service?.quoteEn ?? ""} />
-            ) : (
-              <textarea name="quoteKa" className="input-base italic" rows={2} defaultValue={service?.quoteKa ?? ""} />
-            )}
+            <textarea name="quoteEn" className={`input-base italic${lang !== "en" ? " hidden" : ""}`} rows={2} defaultValue={service?.quoteEn ?? ""} />
+            <textarea name="quoteKa" className={`input-base italic${lang !== "ka" ? " hidden" : ""}`} rows={2} defaultValue={service?.quoteKa ?? ""} />
           </div>
         </div>
 
@@ -271,29 +253,25 @@ export default function ServiceForm({ action, service }: Props) {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div>
                 <label className="label-base">SEO Title</label>
-                {lang === "en"
-                  ? <input type="text" name="seoTitleEn" className="input-base" defaultValue={service?.seoTitleEn ?? ""} />
-                  : <input type="text" name="seoTitleKa" className="input-base" defaultValue={service?.seoTitleKa ?? ""} />}
+                <input type="text" name="seoTitleEn" className={`input-base${lang !== "en" ? " hidden" : ""}`} defaultValue={service?.seoTitleEn ?? ""} />
+                <input type="text" name="seoTitleKa" className={`input-base${lang !== "ka" ? " hidden" : ""}`} defaultValue={service?.seoTitleKa ?? ""} />
               </div>
               <div>
                 <label className="label-base">OG Title</label>
-                {lang === "en"
-                  ? <input type="text" name="ogTitleEn" className="input-base" defaultValue={service?.ogTitleEn ?? ""} />
-                  : <input type="text" name="ogTitleKa" className="input-base" defaultValue={service?.ogTitleKa ?? ""} />}
+                <input type="text" name="ogTitleEn" className={`input-base${lang !== "en" ? " hidden" : ""}`} defaultValue={service?.ogTitleEn ?? ""} />
+                <input type="text" name="ogTitleKa" className={`input-base${lang !== "ka" ? " hidden" : ""}`} defaultValue={service?.ogTitleKa ?? ""} />
               </div>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div>
                 <label className="label-base">Meta Description</label>
-                {lang === "en"
-                  ? <textarea name="metaDescriptionEn" className="input-base" rows={2} defaultValue={service?.metaDescriptionEn ?? ""} />
-                  : <textarea name="metaDescriptionKa" className="input-base" rows={2} defaultValue={service?.metaDescriptionKa ?? ""} />}
+                <textarea name="metaDescriptionEn" className={`input-base${lang !== "en" ? " hidden" : ""}`} rows={2} defaultValue={service?.metaDescriptionEn ?? ""} />
+                <textarea name="metaDescriptionKa" className={`input-base${lang !== "ka" ? " hidden" : ""}`} rows={2} defaultValue={service?.metaDescriptionKa ?? ""} />
               </div>
               <div>
                 <label className="label-base">OG Description</label>
-                {lang === "en"
-                  ? <textarea name="ogDescriptionEn" className="input-base" rows={2} defaultValue={service?.ogDescriptionEn ?? ""} />
-                  : <textarea name="ogDescriptionKa" className="input-base" rows={2} defaultValue={service?.ogDescriptionKa ?? ""} />}
+                <textarea name="ogDescriptionEn" className={`input-base${lang !== "en" ? " hidden" : ""}`} rows={2} defaultValue={service?.ogDescriptionEn ?? ""} />
+                <textarea name="ogDescriptionKa" className={`input-base${lang !== "ka" ? " hidden" : ""}`} rows={2} defaultValue={service?.ogDescriptionKa ?? ""} />
               </div>
             </div>
             <div>

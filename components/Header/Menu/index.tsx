@@ -16,7 +16,7 @@ type MenuProps = {
 };
 
 const Menu = ({ menuOpen, handleMenu, visibleNavLinks }: MenuProps) => {
-  const { t } = useLanguage();
+  const { t, locale, setLocale } = useLanguage();
   const closeButtonRef = useRef<HTMLButtonElement>(null);
 
   /* Body scroll lock when menu open (Figma 8329-3603) */
@@ -61,6 +61,26 @@ const Menu = ({ menuOpen, handleMenu, visibleNavLinks }: MenuProps) => {
           </Link>
         ))}
       </nav>
+
+      <div className={styles.lang_switcher}>
+        <button
+          type="button"
+          className={cn(styles.lang_btn, { [styles.lang_btn_active]: locale === "en" })}
+          onClick={() => setLocale("en")}
+          aria-pressed={locale === "en"}
+        >
+          EN
+        </button>
+        <span className={styles.lang_divider} aria-hidden="true" />
+        <button
+          type="button"
+          className={cn(styles.lang_btn, { [styles.lang_btn_active]: locale === "ka" })}
+          onClick={() => setLocale("ka")}
+          aria-pressed={locale === "ka"}
+        >
+          ქარ
+        </button>
+      </div>
 
       <p className={styles.footer_title}>{t.ui.header.followUs}</p>
 
