@@ -175,9 +175,9 @@ export default function TeamForm({ action, member }: Props) {
               <div>
                 <label className="label-base">Position {lang === "en" ? "(En)" : "(ქარ)"}</label>
                 {lang === "en" ? (
-                  <input type="text" name="positionEn" className="input-base" placeholder="e.g. Managing Partner" defaultValue={member?.positionEn ?? ""} />
+                  <input key="pos-en" type="text" name="positionEn" className="input-base" placeholder="e.g. Managing Partner" defaultValue={member?.positionEn ?? ""} />
                 ) : (
-                  <input type="text" name="positionKa" className="input-base" placeholder="Position (Georgian)" defaultValue={member?.positionKa ?? ""} />
+                  <input key="pos-ka" type="text" name="positionKa" className="input-base" placeholder="Position (Georgian)" defaultValue={member?.positionKa ?? ""} />
                 )}
               </div>
             </div>
