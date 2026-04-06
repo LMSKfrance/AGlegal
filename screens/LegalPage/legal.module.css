@@ -12,28 +12,22 @@
 .hero_image_wrap {
   width: 100%;
   position: relative;
-  height: 460px;
+  height: 220px;
   overflow: hidden;
   border-radius: 12px;
   margin-bottom: 56px;
 }
 
-@media (max-width: 1024px) {
-  .hero_image_wrap {
-    height: 380px;
-  }
-}
-
 @media (max-width: 768px) {
   .hero_image_wrap {
-    height: 280px;
+    height: 160px;
     margin-bottom: 40px;
   }
 }
 
 @media (max-width: 480px) {
   .hero_image_wrap {
-    height: 200px;
+    height: 130px;
     margin-bottom: 32px;
   }
 }
