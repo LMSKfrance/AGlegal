@@ -101,38 +101,28 @@
 
 .lang_switcher {
   margin-top: auto;
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 12px;
-}
-
-.lang_btn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
+  justify-content: center;
+  height: var(--header-btn-height);
+  padding: 0 var(--header-btn-padding-x);
   font-family: var(--font-inter);
-  font-size: 15px;
   font-weight: 500;
-  letter-spacing: 0.4px;
-  color: var(--gray-400);
-  transition: color 0.2s;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: -0.08px;
+  text-transform: uppercase;
+  color: var(--ag-blue-800);
+  background: transparent;
+  border: 1px solid var(--ag-blue-800);
+  border-radius: 56px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
 }
 
-.lang_btn:hover {
-  color: var(--gray-900);
-}
-
-.lang_btn_active {
-  color: var(--gray-900);
-  font-weight: 700;
-}
-
-.lang_divider {
-  width: 1px;
-  height: 16px;
-  background-color: var(--gray-200);
-  display: block;
+.lang_switcher:hover {
+  background: var(--ag-blue-800);
+  color: var(--white);
 }
 
 .footer_title {

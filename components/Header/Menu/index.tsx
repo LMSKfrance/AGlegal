@@ -62,25 +62,14 @@ const Menu = ({ menuOpen, handleMenu, visibleNavLinks }: MenuProps) => {
         ))}
       </nav>
 
-      <div className={styles.lang_switcher}>
-        <button
-          type="button"
-          className={cn(styles.lang_btn, { [styles.lang_btn_active]: locale === "en" })}
-          onClick={() => setLocale("en")}
-          aria-pressed={locale === "en"}
-        >
-          EN
-        </button>
-        <span className={styles.lang_divider} aria-hidden="true" />
-        <button
-          type="button"
-          className={cn(styles.lang_btn, { [styles.lang_btn_active]: locale === "ka" })}
-          onClick={() => setLocale("ka")}
-          aria-pressed={locale === "ka"}
-        >
-          ქარ
-        </button>
-      </div>
+      <button
+        type="button"
+        className={styles.lang_switcher}
+        onClick={() => setLocale(locale === "en" ? "ka" : "en")}
+        aria-label={locale === "en" ? "Switch to Georgian" : "Switch to English"}
+      >
+        {locale === "en" ? "ქარ" : "EN"}
+      </button>
 
       <p className={styles.footer_title}>{t.ui.header.followUs}</p>
 
