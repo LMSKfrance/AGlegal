@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState, useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import type { AboutSectionSettings } from "@/lib/about";
 import { useAdminLang } from "../AdminLangContext";
 import OgImageUpload from "../OgImageUpload";
@@ -169,13 +170,17 @@ export default function AboutForm({ settings, saveSettingsAction, visibilityActi
   const [saveKey, setSaveKey] = useState(0);
   const lang = useAdminLang();
   const [aboutMembers, setAboutMembers] = useState(teamMembers);
+  const router = useRouter();
 
   const anyPending = heroPending || missionPending || philosophyPending || settingsPending || seoPending;
   const prevAnyPendingRef = useRef(false);
   useEffect(() => {
-    if (!anyPending && prevAnyPendingRef.current) setSaveKey((k) => k + 1);
+    if (!anyPending && prevAnyPendingRef.current) {
+      setSaveKey((k) => k + 1);
+      router.refresh();
+    }
     prevAnyPendingRef.current = anyPending;
-  }, [anyPending]);
+  }, [anyPending, router]);
 
   const formKey = `${lang}-${saveKey}`;
 
