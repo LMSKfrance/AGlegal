@@ -21,7 +21,7 @@ function toEditorHtml(val: string | null | undefined): string {
   if (/<[a-z][\s\S]*>/i.test(str)) return str; // already HTML
   return str
     .split(/\n{2,}/)
-    .map((para) => `<p>${para.replace(/\n/g, " ").trim()}</p>`)
+    .map((para) => `<p>${para.replace(/\n/g, "<br>").trim()}</p>`)
     .join("");
 }
 
