@@ -16,31 +16,32 @@ type Props = {
   ctaTextEn?: string | null;
   ctaTextKa?: string | null;
   ctaUrl?: string | null;
+  hideBreadcrumb?: boolean;
 };
 
-const LegalPage = ({ titleEn, titleKa, contentEn, contentKa, heroImage, ctaTextEn, ctaTextKa, ctaUrl }: Props) => {
+export function LegalPageInner({ titleEn, titleKa, contentEn, contentKa, heroImage, ctaTextEn, ctaTextKa, ctaUrl, hideBreadcrumb }: Props) {
   const { locale } = useLanguage();
   const title = locale === "ka" && titleKa ? titleKa : titleEn;
   const content = locale === "ka" && contentKa ? contentKa : contentEn;
   const ctaText = locale === "ka" && ctaTextKa ? ctaTextKa : (ctaTextEn ?? null);
 
   return (
-    <Layout>
-      <section className={cn("section", styles.page)}>
-        <div className={cn("container", styles.container)}>
-          {heroImage && (
-            <div className={styles.hero_image_wrap}>
-              <Image
-                src={heroImage}
-                alt={title}
-                fill
-                sizes="(max-width: 1440px) 100vw, 860px"
-                style={{ objectFit: "cover" }}
-                priority
-              />
-            </div>
-          )}
+    <section className={cn("section", styles.page)}>
+      <div className={cn("container", styles.container)}>
+        {heroImage && (
+          <div className={styles.hero_image_wrap}>
+            <Image
+              src={heroImage}
+              alt={title}
+              fill
+              sizes="(max-width: 860px) 100vw, 860px"
+              style={{ objectFit: "cover" }}
+              priority
+            />
+          </div>
+        )}
 
+        {!hideBreadcrumb && (
           <div className={styles.header}>
             <nav className={styles.breadcrumb}>
               <Link href="/" className={styles.breadcrumbLink}>Home</Link>
@@ -49,25 +50,33 @@ const LegalPage = ({ titleEn, titleKa, contentEn, contentKa, heroImage, ctaTextE
             </nav>
             <h1 className={styles.title}>{title}</h1>
           </div>
+        )}
 
-          {content && (
-            <article
-              className={styles.content}
-              dangerouslySetInnerHTML={{ __html: content }}
-            />
-          )}
+        {hideBreadcrumb && <h1 className={cn(styles.title, styles.title_no_breadcrumb)}>{title}</h1>}
 
-          {ctaUrl && ctaText && (
-            <div className={styles.cta_wrap}>
-              <Link href={ctaUrl} className="button">
-                {ctaText}
-              </Link>
-            </div>
-          )}
-        </div>
-      </section>
-    </Layout>
+        {content && (
+          <article
+            className={styles.content}
+            dangerouslySetInnerHTML={{ __html: content }}
+          />
+        )}
+
+        {ctaUrl && ctaText && (
+          <div className={styles.cta_wrap}>
+            <Link href={ctaUrl} className="button">
+              {ctaText}
+            </Link>
+          </div>
+        )}
+      </div>
+    </section>
   );
-};
+}
+
+const LegalPage = (props: Props) => (
+  <Layout>
+    <LegalPageInner {...props} />
+  </Layout>
+);
 
 export default LegalPage;

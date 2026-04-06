@@ -1,6 +1,8 @@
 import { getPageBySlug } from "@/lib/actions/pages";
 import { notFound } from "next/navigation";
-import LegalPage from "@/screens/LegalPage";
+import Layout from "@/components/Layout";
+import { LegalPageInner } from "@/screens/LegalPage";
+import CTA from "@/screens/Universal/CTA";
 
 export const dynamic = "force-dynamic";
 
@@ -9,15 +11,16 @@ export default async function ServicesPage() {
   if (!page) notFound();
 
   return (
-    <LegalPage
-      titleEn={page.titleEn}
-      titleKa={page.titleKa ?? null}
-      contentEn={page.contentEn ?? ""}
-      contentKa={page.contentKa ?? null}
-      heroImage={page.heroImage ?? null}
-      ctaTextEn={page.ctaTextEn ?? null}
-      ctaTextKa={page.ctaTextKa ?? null}
-      ctaUrl={page.ctaUrl ?? null}
-    />
+    <Layout>
+      <LegalPageInner
+        titleEn={page.titleEn}
+        titleKa={page.titleKa ?? null}
+        contentEn={page.contentEn ?? ""}
+        contentKa={page.contentKa ?? null}
+        heroImage={page.heroImage ?? null}
+        hideBreadcrumb
+      />
+      <CTA />
+    </Layout>
   );
 }

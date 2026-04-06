@@ -85,6 +85,12 @@
   border-bottom: 1px solid var(--gray-100);
 }
 
+.title_no_breadcrumb {
+  margin-bottom: 48px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid var(--gray-100);
+}
+
 .title {
   font-family: var(--font-plus-jakarta-sans);
   font-size: 52px;
