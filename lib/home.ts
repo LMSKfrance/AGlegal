@@ -110,11 +110,9 @@ export async function getHeroContent(locale: Locale): Promise<HeroContent> {
       80,
     ),
     cta: truncateChars(cta || "CONSULT WITH US", 24),
-    description: truncateChars(
+    description:
       description ||
-        "Join our mission to create a better tomorrow through legal and social support.",
-      180,
-    ),
+      "Join our mission to create a better tomorrow through legal and social support.",
     image: image || "/images/ag-legal.jpg",
   };
 }

@@ -133,8 +133,8 @@ export async function upsertHomeHeroSettings(
     const titleKa = truncateChars(rawTitleKa, 80);
     const ctaEn = truncateChars(rawCtaEn, 24);
     const ctaKa = truncateChars(rawCtaKa, 24);
-    const descriptionEn = truncateChars(rawDescEn, 180);
-    const descriptionKa = truncateChars(rawDescKa, 180);
+    const descriptionEn = rawDescEn?.trim() || null;
+    const descriptionKa = rawDescKa?.trim() || null;
 
     let imagePath: string | null = null;
     const file = formData.get("heroImage");

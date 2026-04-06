@@ -224,8 +224,8 @@ export default function HomeForm({
                 {lang === "en" && <input type="hidden" name="titleKa" value={hero.titleKa} />}
               </div>
               <div>
-                <label className="label-base">Description <span className="text-[10px] text-brand-400 font-normal ml-2">({L}, Max 180)</span></label>
-                <textarea name={lang === "en" ? "descriptionEn" : "descriptionKa"} className="input-base" rows={3} maxLength={180} defaultValue={lang === "en" ? hero.descriptionEn : hero.descriptionKa} />
+                <label className="label-base">Description <span className="text-[10px] text-brand-400 font-normal ml-2">({L})</span></label>
+                <textarea name={lang === "en" ? "descriptionEn" : "descriptionKa"} className="input-base" rows={3} defaultValue={lang === "en" ? hero.descriptionEn : hero.descriptionKa} />
                 {lang === "ka" && <input type="hidden" name="descriptionEn" value={hero.descriptionEn} />}
                 {lang === "en" && <input type="hidden" name="descriptionKa" value={hero.descriptionKa} />}
               </div>
