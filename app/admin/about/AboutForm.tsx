@@ -118,6 +118,61 @@ type Props = {
 
 const INITIAL: FormState = {};
 
+function HeroCardBody({ p, settings, lang, L }: {
+  p: NonNullable<PageRecord>;
+  settings: AboutSectionSettings;
+  lang: string;
+  L: string;
+}) {
+  const [title, setTitle] = useState(lang === "en" ? p.titleEn ?? "" : p.titleKa ?? "");
+  const [content, setContent] = useState(lang === "en" ? p.contentEn ?? "" : p.contentKa ?? "");
+
+  return (
+    <div className="card-body space-y-5">
+      <div>
+        <label className="label-base">Page Title {L} <span className="text-red-400">*</span></label>
+        <input
+          type="text"
+          name={lang === "en" ? "titleEn" : "titleKa"}
+          className="input-base"
+          placeholder="About the Firm"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
+        {lang === "en"
+          ? <input type="hidden" name="titleKa" value={p.titleKa ?? ""} />
+          : <input type="hidden" name="titleEn" value={p.titleEn ?? ""} />}
+      </div>
+      <div>
+        <label className="label-base">Intro Text / Content {L}</label>
+        <textarea
+          name={lang === "en" ? "contentEn" : "contentKa"}
+          className="input-base"
+          rows={4}
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+        />
+        {lang === "en"
+          ? <input type="hidden" name="contentKa" value={p.contentKa ?? ""} />
+          : <input type="hidden" name="contentEn" value={p.contentEn ?? ""} />}
+      </div>
+      <div>
+        <label className="label-base">CTA Button Text {L}</label>
+        <input
+          type="text"
+          name={lang === "en" ? "heroCTAEn" : "heroCTAKa"}
+          className="input-base"
+          placeholder={lang === "en" ? "LEARN MORE" : "გაიგე მეტი"}
+          defaultValue={lang === "en" ? settings.heroCTAEn : settings.heroCTAKa}
+        />
+        {lang === "en"
+          ? <input type="hidden" name="heroCTAKa" value={settings.heroCTAKa} />
+          : <input type="hidden" name="heroCTAEn" value={settings.heroCTAEn} />}
+      </div>
+    </div>
+  );
+}
+
 function SectionToggle({
   on,
   name,
@@ -237,40 +292,7 @@ export default function AboutForm({ settings, saveSettingsAction, visibilityActi
                 <SaveBtn pending={heroPending} />
               </div>
             </div>
-            <div key={formKey} className="card-body space-y-5">
-              <div>
-                <label className="label-base">Page Title {L} <span className="text-red-400">*</span></label>
-                <input
-                  type="text"
-                  name={lang === "en" ? "titleEn" : "titleKa"}
-                  className="input-base"
-                  placeholder="About the Firm"
-                  defaultValue={field(p, "titleEn", "titleKa")}
-                />
-                {hidden(p, "titleEn", "titleKa", "titleEn", "titleKa")}
-              </div>
-              <div>
-                <label className="label-base">Intro Text / Content {L}</label>
-                <textarea
-                  name={lang === "en" ? "contentEn" : "contentKa"}
-                  className="input-base"
-                  rows={4}
-                  defaultValue={field(p, "contentEn", "contentKa")}
-                />
-                {hidden(p, "contentEn", "contentKa", "contentEn", "contentKa")}
-              </div>
-              <div>
-                <label className="label-base">CTA Button Text {L}</label>
-                <input
-                  type="text"
-                  name={lang === "en" ? "heroCTAEn" : "heroCTAKa"}
-                  className="input-base"
-                  placeholder={lang === "en" ? "LEARN MORE" : "გაიგე მეტი"}
-                  defaultValue={field(settings, "heroCTAEn", "heroCTAKa")}
-                />
-                {hidden(settings, "heroCTAEn", "heroCTAKa", "heroCTAEn", "heroCTAKa")}
-              </div>
-            </div>
+            <HeroCardBody key={lang} p={p} settings={settings} lang={lang} L={L} />
           </div>
         </form>
 

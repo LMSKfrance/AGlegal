@@ -83,6 +83,7 @@ export async function upsertAboutSectionSettings(
       );
     }
     revalidatePath("/about");
+    revalidatePath("/admin/about");
     return { success: true };
   } catch (err) {
     console.error("[upsertAboutSectionSettings]", err);
