@@ -6,6 +6,7 @@
 
 .section {
   overflow: hidden;
+  background: var(--white);
 }
 
 .title_wrapper {
@@ -73,6 +74,10 @@
     line-height: 52px;
     letter-spacing: -0.54px;
   }
+
+  .media_block {
+    aspect-ratio: 16 / 9;
+  }
 }
 
 /* Small screen – Figma 8278-795 */
@@ -95,6 +100,7 @@
 
   .media_block {
     margin-top: 24px;
+    aspect-ratio: 4 / 3;
   }
 }
 

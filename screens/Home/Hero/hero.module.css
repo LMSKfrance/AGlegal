@@ -1,6 +1,7 @@
 .section {
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
+    background: var(--white);
 }
 
 .blue {
@@ -87,10 +88,6 @@
 }
 
 @media (max-width: 768px) {
-    .section {
-        height: auto;
-    }
-
     .title {
         font-size: 41px;
         line-height: 50px;
@@ -99,5 +96,23 @@
 
     .image_wrapper {
         height: 400px;
+    }
+}
+
+@media (max-width: 480px) {
+    .image_wrapper {
+        height: 300px;
+    }
+}
+
+@media (max-width: 390px) {
+    .title {
+        font-size: 36px;
+        line-height: 46px;
+        letter-spacing: -0.56px;
+    }
+
+    .image_wrapper {
+        height: 260px;
     }
 }
