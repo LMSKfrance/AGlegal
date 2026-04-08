@@ -293,6 +293,13 @@ export default function AboutForm({ settings, saveSettingsAction, visibilityActi
               </div>
             </div>
             <HeroCardBody key={lang} p={p} settings={settings} lang={lang} L={L} />
+            <div className="card-body border-t border-brand-100 pt-5">
+              <TabImageUpload
+                label="Hero Photo"
+                fieldName="heroImage"
+                existing={settings.heroImage}
+              />
+            </div>
           </div>
         </form>
 

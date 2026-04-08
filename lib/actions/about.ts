@@ -391,6 +391,20 @@ export async function upsertAboutHeroContent(
 
     const trim = (key: string) => (formData.get(key) as string)?.trim() || null;
 
+    const { uploadImage } = await import("@/lib/actions/upload");
+
+    // Handle hero image upload
+    const heroImageFile = formData.get("heroImage");
+    const removeHeroImage = formData.get("remove_heroImage") === "1";
+    if (removeHeroImage) {
+      await upsertSetting("about.hero.image", null, null);
+    } else if (heroImageFile && heroImageFile instanceof File && heroImageFile.size > 0) {
+      const fd = new FormData();
+      fd.append("image", heroImageFile);
+      const result = await uploadImage(fd);
+      if (result.success) await upsertSetting("about.hero.image", result.path, null);
+    }
+
     // Handle OG image upload
     const ogImageFile = formData.get("ogImage");
     const existing = await db.select().from(pages).where(eq(pages.slug, "about"));
@@ -399,7 +413,6 @@ export async function upsertAboutHeroContent(
     if (removeOg) {
       ogImagePath = null;
     } else if (ogImageFile && ogImageFile instanceof File && ogImageFile.size > 0) {
-      const { uploadImage } = await import("@/lib/actions/upload");
       const fd = new FormData();
       fd.append("image", ogImageFile);
       const result = await uploadImage(fd);

@@ -79,6 +79,7 @@ export type AboutSectionSettings = {
   philosophyDescriptionKa: string;
   philosophyCard1Image: string;
   philosophyCard2Image: string;
+  heroImage: string;
   heroCTAEn: string;
   heroCTAKa: string;
   bodyTitleEn: string;
@@ -124,6 +125,7 @@ const ABOUT_KEYS = [
   "about.philosophy.card1.image",
   "about.philosophy.card2.image",
   "about.hero.cta",
+  "about.hero.image",
   "about.body.title",
   "about.body",
 ] as const;
@@ -207,6 +209,7 @@ const DEFAULT_ABOUT_SECTION_SETTINGS: AboutSectionSettings = {
   philosophyDescriptionKa: "",
   philosophyCard1Image: "",
   philosophyCard2Image: "",
+  heroImage: "",
   heroCTAEn: "",
   heroCTAKa: "",
   bodyTitleEn: "",
@@ -296,6 +299,7 @@ export async function getAboutSectionSettings(): Promise<AboutSectionSettings> {
       philosophyDescriptionKa: getKa("about.philosophy.description"),
       philosophyCard1Image: getEn("about.philosophy.card1.image"),
       philosophyCard2Image: getEn("about.philosophy.card2.image"),
+      heroImage: getEn("about.hero.image"),
       heroCTAEn: getEn("about.hero.cta"),
       heroCTAKa: getKa("about.hero.cta"),
       bodyTitleEn: getEn("about.body.title"),

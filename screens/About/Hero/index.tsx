@@ -147,7 +147,7 @@ const Hero = ({ page }: HeroProps) => {
 
         <div ref={image} className={styles.image_wrapper}>
           <Image
-            src="/images/ag-legal-about.jpg"
+            src={sections.heroImage || "/images/ag-legal-about.jpg"}
             alt="AG Legal Consulting"
             fill
             sizes="(max-width: 1440px) 100vw, 1280px"
